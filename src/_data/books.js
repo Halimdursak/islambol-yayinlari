@@ -12,7 +12,7 @@ function kitapyurduSlug(url) {
  * Kitapçı sitelerinden gelen tanıtım metinlerinde kampanya satırları olabilir ("2000 TL", "Kargo ücretsiz", "sipariş hattı").
  * ADR-001: site fiyat/kampanya göstermez. Bu satırlar ve yalnızca bunlardan oluşan paragraflar ayıklanır; ham metin description_ham'da kalır.
  */
-const KAMPANYA = /(\b\d[\d.,]*\s*tl\b|\bkargo\b|\bhediye\b|sipariş hattı|whatsap|kampanya|indirim|ön sipariş|türkiye dışına)/i;
+const KAMPANYA = /(\b\d[\d.,]*\s*(tl|₺)\b|\bkargo\b|\d+\s*(kitap|adet)\s*hediye|sürpriz kitap|sipariş hattı|whatsap|kampanya|indirim|ön sipariş)/i;
 function aciklamaTemizle(metin) {
   if (!metin) return metin;
   const paragraflar = String(metin).split(/\n{2,}/).map((p) =>
@@ -49,6 +49,9 @@ function katkidaBulunanlar(c) {
   if (typeof c === "object") return Object.entries(c).map(([rol, ad]) => (Array.isArray(ad) ? `${rol}: ${ad.join(", ")}` : `${rol}: ${ad}`));
   return [];
 }
+
+// WhatsApp tabanı tek kaynaktan (data/site/site.json); şablonlar kitap.whatsapp_url kullanır (Q3 M)
+const WHATSAPP = (jsonOkuVeyaBos("data/site/site.json", {}).whatsapp_url || "https://wa.me/905059808735").replace(/\?.*$/, "");
 
 function onsozHaritasi() {
   // B4 üretirse: data/catalog/onsoz-opt.json → { "<kitapyurdu_slug>": { "<index>": { "webp": [{w,url}], "jpg": [{w,url}] } } }
@@ -113,7 +116,7 @@ export default function () {
       kategori_sluglari: (k.categories ?? []).map(slugla),
       yil,
       onizleme,
-      whatsapp_url: `https://wa.me/905059808735?text=${encodeURIComponent(`Merhaba, "${k.title}" kitabını sipariş etmek istiyorum.`)}`,
+      whatsapp_url: `${WHATSAPP}?text=${encodeURIComponent(`Merhaba, "${k.title}" kitabını sipariş etmek istiyorum.`)}`,
     };
   });
   // En yeniden eskiye; tarihi olmayanlar sona

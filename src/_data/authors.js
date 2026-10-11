@@ -8,7 +8,7 @@ export default function () {
   const kitaplar = books();
   const yazarlar = ham.map((y) => {
     const slug = y.slug ?? slugla(y.name);
-    const kendiKitaplari = kitaplar.filter((k) => (k.book_ids ?? y.book_ids ?? []).includes?.(k.id) || k.yazar_sluglari.includes(slug));
+    const kendiKitaplari = kitaplar.filter((k) => (Array.isArray(y.book_ids) && y.book_ids.includes(k.id)) || k.yazar_sluglari.includes(slug));
     return {
       ...y,
       slug,

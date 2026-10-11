@@ -153,5 +153,5 @@ export function aciklamaParagraflari(aciklama) {
   return String(aciklama)
     .split(/\n\s*\n/)
     .map((p) => p.trim())
-    .filter((p) => p && !KAMPANYA.test(p));
+    .filter((p) => p); // kampanya temizliği veri katmanında (src/_data/books.js aciklamaTemizle); çift filtre açıklama kaybına yol açıyordu (Q3 H2)
 }

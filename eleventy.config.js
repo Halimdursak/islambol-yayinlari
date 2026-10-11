@@ -31,6 +31,8 @@ export default function (eleventyConfig) {
     const son = kesik.lastIndexOf(" ");
     return `${(son > n * 0.6 ? kesik.slice(0, son) : kesik).replace(/[\s,.;:!?-]+$/, "")}…`;
   });
+  // JSON-LD için: "<" karakterini \u003c yapar; </script> enjeksiyonunu kapatır (Q3 bulgusu H3)
+  eleventyConfig.addFilter("guvenliJson", (metin) => String(metin ?? "").replace(/</g, "\\u003c"));
   eleventyConfig.setServerOptions({ port: 8080, showAllHosts: false });
   return {
     dir: { input: "src", output: "dist", includes: "_includes", data: "_data" },

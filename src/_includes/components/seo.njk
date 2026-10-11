@@ -117,4 +117,4 @@
   {%- set _grafJson = _grafJson.slice(0, -1) + "," + _seri + "]" -%}
 {%- endif -%}
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":{{ _grafJson | replace("</", "<\/") | safe }}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":{{ _grafJson | guvenliJson | safe }}}</script>

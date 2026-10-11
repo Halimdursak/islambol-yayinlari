@@ -11,8 +11,7 @@ son_guncelleme: 2026-10-11
 
 Bu site çerez kullanmaz ve ziyaretçilerin davranışını izleyen bir analitik ya da reklam aracı içermez. Bu nedenle çerez onay penceresi gösterilmez.
 
-> Koşullu paragraf: Siteye ileride bir analitik aracı eklenirse bu bölüm değiştirilir. Kullanılacak aracın adı, topladığı veri, saklama süresi ve çerezsiz çalışan bir yapılandırma olup olmadığı yazılır; çerez kullanan bir araç eklenirse onay penceresi de eklenir. [[SORU: Siteye analitik aracı (ör. çerezsiz istatistik) eklenecek mi?]]
-
+[[SORU: Siteye analitik aracı (ör. çerezsiz istatistik) eklenecek mi?]]
 ## Toplanan kişisel veriler
 
 Sitede form, üyelik, yorum ya da bülten kaydı yoktur; site sizden ad, telefon veya e-posta istemez.

@@ -38,6 +38,8 @@ function kur(dlg) {
   document.addEventListener("click", (e) => {
     const t = e.target instanceof Element ? e.target.closest("[data-onizleme]") : null;
     if (!t) return;
+    // Önizleme şablonu yoksa (vitrin değişmiş olabilir) bağlantı doğal davranışına bırakılır (Q3 M)
+    if (!document.querySelector(`template[data-onizleme-kitap="${CSS.escape(t.dataset.onizleme || "")}"]`)) return;
     e.preventDefault();
     ac(t);
   });

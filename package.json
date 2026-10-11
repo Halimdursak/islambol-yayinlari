@@ -9,7 +9,6 @@
     "build": "eleventy",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",
     "gorsel": "node scripts/gorsel/optimize.mjs",
-    "dogrula": "node scripts/qa/dogrula.mjs",
     "test:e2e": "playwright test",
     "serve": "node scripts/qa/sunucu.mjs --dir dist --port 8090",
     "dogrula:seo": "node scripts/seo/dogrula.mjs",

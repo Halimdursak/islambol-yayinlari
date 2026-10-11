@@ -26,8 +26,8 @@ for (const f of readdirSync(DIR)) {
   const hedef = join(DIR, basename(f, ext) + ".jpg");
   const buf = await sharp(src).rotate().resize({ width: MAX, height: MAX, fit: "inside", withoutEnlargement: true })
     .flatten({ background: "#ffffff" }).jpeg({ quality: 85, progressive: true, mozjpeg: true }).toBuffer();
-  if (hedef !== src) unlinkSync(src);
   writeFileSync(hedef, buf);
+  if (hedef !== src) unlinkSync(src); // önce yaz, sonra kaynağı kaldır (Q3 M8)
   utimesSync(hedef, st.atime, st.mtime);
   sonra += buf.length; degisen++;
   if (hedef !== src) yeniden.set(`public/kapaklar/${f}`, `public/kapaklar/${basename(hedef)}`);
