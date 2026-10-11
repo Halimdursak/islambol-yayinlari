@@ -101,8 +101,13 @@ function baslikSigdir(sablon, degerler, kisaltilacak) {
 export function kitapMeta(kitap, sablonlar) {
   const s = sablonlar.kitap;
   const yazar = kitap.yazar_gosterim ?? "";
-  const sablonBaslik = yazar ? s.title : s.title.replace(" — {{yazar}}", "");
-  const title = baslikSigdir(sablonBaslik, { baslik: kitap.title, yazar }, "baslik");
+  const sablonYazarsiz = s.title.replace(" — {{yazar}}", "");
+  const sablonBaslik = yazar ? s.title : sablonYazarsiz;
+  // Önce tam başlık + yazar; sığmazsa yazar ekini düşür; o da sığmazsa başlığı kısalt (Q1 bulgusu: kelime ortası kesme)
+  const tam = doldur(sablonBaslik, { baslik: kitap.title, yazar });
+  const title = tam.length <= MAKS_BASLIK ? tam
+    : (doldur(sablonYazarsiz, { baslik: kitap.title, yazar }).length <= MAKS_BASLIK ? doldur(sablonYazarsiz, { baslik: kitap.title, yazar })
+    : baslikSigdir(sablonYazarsiz, { baslik: kitap.title, yazar }, "baslik"));
 
   const ozet = ilkCumle(kitap.description) || (yazar ? `${MARKA}'ndan ${yazar} kitabı.` : `${MARKA} kitabı.`);
   let sablon = s.description;

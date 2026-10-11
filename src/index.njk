@@ -54,7 +54,7 @@
 <section class="bolum" aria-labelledby="b-onizleme">
   <div class="kap">
     {{ bolumBasligi(etiket=mt.onizle, baslik="Önizlemeli kitaplar", id="b-onizleme", giris=mt.bolum_giris.onizlemeli) }}
-    <div class="serit" role="region" aria-labelledby="b-onizleme" tabindex="0">
+    <div class="serit" role="region" aria-label="Önizlemeli kitaplar şeridi (yatay kaydırılabilir)" tabindex="0">
       {% for k in vitrin.onizlemeli %}
       <div class="serit__oge">{% set kitap = k %}{% include "components/kitap/kitap-karti.njk" %}</div>
       {% endfor %}

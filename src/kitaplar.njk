@@ -18,7 +18,7 @@ ekstra_css:
 
   <div class="kartlar" id="kitap-listesi" data-liste>
     {%- for kitap in katalog %}
-    {% include "components/kitap/kitap-karti.njk" %}
+    {% set kart_baslik = "h2" %}{% include "components/kitap/kitap-karti.njk" %}
     {%- endfor %}
   </div>
 

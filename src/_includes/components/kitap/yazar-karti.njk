@@ -7,7 +7,7 @@
   <div class="yazar-karti__portre" aria-hidden="true">{% for w in yazar.name.split(" ") %}{% if loop.index0 < 2 %}{{ w | first }}{% endif %}{% endfor %}</div>
   <div class="yazar-karti__metin">
     <span class="etiket">Yazar</span>
-    <h3 class="yazar-karti__ad"><a href="{{ yazar.url }}">{{ yazar.display }}</a></h3>
+    <{{ kart_baslik or "h3" }} class="yazar-karti__ad"><a href="{{ yazar.url }}">{{ yazar.display }}</a></{{ kart_baslik or "h3" }}>
     <p class="yazar-karti__ek">{{ site.mikrometin.kayit_sayisi | replace("{n}", yazar.kitap_sayisi) }}</p>
     {%- if yazar.kitaplar.length %}
     <div class="yazar-karti__kapaklar" aria-hidden="true">

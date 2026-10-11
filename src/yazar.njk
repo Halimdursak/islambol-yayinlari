@@ -33,7 +33,7 @@ ekstra_css:
   {%- if yazar.kitaplar.length %}
   <div class="kartlar">
     {%- for kitap in yazar.kitaplar %}
-    {% include "components/kitap/kitap-karti.njk" %}
+    {% set kart_baslik = "h2" %}{% include "components/kitap/kitap-karti.njk" %}
     {%- endfor %}
   </div>
   {%- else %}

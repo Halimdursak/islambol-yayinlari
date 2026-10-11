@@ -15,7 +15,7 @@ ekstra_css:
   </header>
   <div class="yazar-izgara">
     {%- for yazar in authors %}
-    {% include "components/kitap/yazar-karti.njk" %}
+    {% set kart_baslik = "h2" %}{% include "components/kitap/yazar-karti.njk" %}
     {%- endfor %}
   </div>
 </div>

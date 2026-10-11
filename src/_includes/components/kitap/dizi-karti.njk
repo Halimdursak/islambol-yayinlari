@@ -7,7 +7,7 @@
   </div>
   <div class="dizi-karti__govde">
     <span class="etiket">Set / Seri</span>
-    <h3 class="dizi-karti__ad"><a href="{{ dizi.url }}">{{ dizi.ad }}</a></h3>
+    <{{ kart_baslik or "h3" }} class="dizi-karti__ad"><a href="{{ dizi.url }}">{{ dizi.ad }}</a></{{ kart_baslik or "h3" }}>
     <p class="dizi-karti__ek">{{ site.mikrometin.kayit_sayisi | replace("{n}", dizi.kitap_sayisi) }}</p>
     {%- if dizi.aciklama %}<p class="dizi-karti__aciklama">{{ dizi.aciklama }}</p>{% endif %}
   </div>

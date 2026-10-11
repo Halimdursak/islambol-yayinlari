@@ -15,7 +15,7 @@ ekstra_css:
   </header>
   <div class="dizi-izgara">
     {%- for dizi in diziler %}
-    {% include "components/kitap/dizi-karti.njk" %}
+    {% set kart_baslik = "h2" %}{% include "components/kitap/dizi-karti.njk" %}
     {%- endfor %}
   </div>
 </div>
