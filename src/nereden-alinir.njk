@@ -1,0 +1,35 @@
+---js
+{
+  layout: "layouts/base.njk",
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/nereden-alinir/"].title,
+    description: (d) => d.site.meta.sayfalar["/nereden-alinir/"].description,
+  },
+}
+---
+{#
+  Gövde sayfalar['nereden-alinir'].html'den gelir; "Kitabevi siteleri" bölümünün md listesi ("bağlantısı sitede verilir")
+  gerçek bağlantılı kanal listesiyle değiştirilir. Gövde <h2> sınırlarından bölünür: [0]=giriş, [1]=Kitabevi siteleri,
+  [2..]=kalan bölümler. Bölme beklenmedik biçimde bozulursa gövde olduğu gibi basılır.
+#}
+{% set s = sayfalar['nereden-alinir'] %}
+{% set parcalar = s.html.split('<h2>') %}
+<article class="sayfa kap">
+  <header class="sayfa__baslik">
+    <p class="etiket">{{ site.ad }}</p>
+    <h1>{{ s.title }}</h1>
+  </header>
+  <div class="sayfa__govde okuma">
+    {% if parcalar.length > 2 and 'Kitabevi' in parcalar[1] %}
+      {{ parcalar[0] | safe }}
+      <h2>{{ parcalar[1].split('</h2>')[0] | safe }}</h2>
+      {% include "components/satis-kanallari.njk" %}
+      {{ parcalar[1].split('</ul>')[1] | safe }}
+      {% for p in parcalar %}{% if loop.index0 >= 2 %}<h2>{{ p | safe }}{% endif %}{% endfor %}
+    {% else %}
+      {{ s.html | safe }}
+    {% endif %}
+    {% set hat_metin = site.mikrometin.bolum_giris.nereden_alinir %}
+    {% include "components/hat-kutusu.njk" %}
+  </div>
+</article>

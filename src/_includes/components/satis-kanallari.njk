@@ -1,0 +1,9 @@
+{# Satış kanalları listesi — B1. Veri: site.satis_kanallari. URL'si olmayan kanal gizlenir (SITE-HARITASI). Mağaza yok (ADR-001): yalnız dış bağlantı. #}
+<ul class="kanallar">
+  {%- for k in site.satis_kanallari %}{% if k.url %}
+  <li class="kanal">
+    <a class="kanal__ad" href="{{ k.url }}" rel="noopener noreferrer">{{ k.ad }}<span aria-hidden="true"> ↗</span></a>
+    {% if k.not %}<span class="kanal__not">{{ k.not }}</span>{% endif %}
+  </li>
+  {%- endif %}{% endfor %}
+</ul>

@@ -1,0 +1,14 @@
+---js
+{
+  layout: "layouts/base.njk",
+  permalink: "/404.html",
+  eleventyExcludeFromCollections: true,
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/404.html"].title,
+    description: (d) => d.site.meta.sayfalar["/404.html"].description,
+  },
+}
+---
+{% set s = sayfalar['404'] %}
+{% set sayfa_baslik = site.mikrometin['404_baslik'] %}
+{% include "components/statik-sayfa.njk" %}

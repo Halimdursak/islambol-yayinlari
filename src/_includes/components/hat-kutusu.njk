@@ -1,0 +1,11 @@
+{#
+  WhatsApp sipariş hattı kutusu (DESIGN §4.10, genel sürüm; kitaba özgü mesajlı sürümü B2 yazar).
+  Girdi (isteğe bağlı): hat_metin — kutudaki cümle.
+#}
+{%- from "components/dugme.njk" import dugme -%}
+<aside class="hat">
+  <p class="hat__etiket etiket">WhatsApp</p>
+  {% if hat_metin %}<p class="hat__metin">{{ hat_metin }}</p>{% endif %}
+  {{ dugme(site.mikrometin.whatsapp_cta, site.whatsapp_url, "birincil", true) }}
+  <p class="hat__no"><a class="rakam" href="tel:{{ site.telefon | replace(' ', '') }}">{{ site.telefon_gosterim }}</a></p>
+</aside>

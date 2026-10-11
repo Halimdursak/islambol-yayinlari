@@ -1,0 +1,105 @@
+---js
+{
+  layout: "layouts/base.njk",
+  ekstra_css: ["/assets/css/katalog.css"],
+  // B3 sözleşmesi: kitap-onizleme.njk bu anahtarla vitrin.onizlemeli'yi kullanır.
+  onizleme_kaynak: "vitrin",
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/"].title,
+    description: (d) => d.site.meta.sayfalar["/"].description,
+  },
+}
+---
+{#
+  Ana sayfa — blok sırası docs/SITE-HARITASI.md §2 "/" ile aynı, görev sırasıyla:
+  hero → önizlemeli → yeni çıkanlar → yazarlar → yayın çizgisi → nereden alınır.
+  Kartlar B2'nin include'larıdır (kitap-karti, yazar-karti); henüz yoksa boş render eder.
+#}
+{% from "components/dugme.njk" import dugme %}
+{% from "components/bolum-basligi.njk" import bolumBasligi %}
+{% set mt = site.mikrometin %}
+{% set hero = vitrin.one_cikan %}
+{% set kapak_kaydi = kapaklar[hero.id] %}
+{% set cizgi_html = sayfalar['yayin-cizgisi'].html %}
+{% set cizgi_ozet = sayfalar['yayin-cizgisi'].ozet %}
+
+<section class="hero kap" aria-labelledby="hero-baslik">
+  <figure class="hero__kapak">
+    <a class="hero__kapak-baglanti" href="{{ hero.url }}"{% if hero.onizleme %} data-onizleme="{{ hero.id }}"{% endif %}>
+      {% if hero.onizleme %}<span class="hero__sekme">{{ mt.onizle }}</span>{% endif %}
+      {% if kapak_kaydi and kapak_kaydi.kaynaklar %}
+      <picture>
+        <source type="image/webp" sizes="(min-width: 64rem) 40vw, 80vw" srcset="{% for s in kapak_kaydi.kaynaklar.webp %}{{ s.url }} {{ s.w }}w{% if not loop.last %}, {% endif %}{% endfor %}">
+        <img src="{{ hero.kapak_url }}" sizes="(min-width: 64rem) 40vw, 80vw" srcset="{% for s in kapak_kaydi.kaynaklar.jpg %}{{ s.url }} {{ s.w }}w{% if not loop.last %}, {% endif %}{% endfor %}"
+          width="{{ kapak_kaydi.genislik }}" height="{{ kapak_kaydi.yukseklik }}" alt="{{ hero.title }}" loading="eager" fetchpriority="high" decoding="async">
+      </picture>
+      {% else %}
+      <img src="{{ hero.kapak_url }}" width="{{ kapak_kaydi.genislik or 800 }}" height="{{ kapak_kaydi.yukseklik or 1200 }}" alt="{{ hero.title }}" loading="eager" fetchpriority="high" decoding="async">
+      {% endif %}
+    </a>
+    <figcaption class="hero__kunye etiket">{{ hero.yazar_gosterim }} · <cite>{{ hero.title }}</cite></figcaption>
+  </figure>
+  <div class="hero__metin">
+    <p class="hero__slogan etiket">{{ site.slogan }}</p>
+    <h1 class="hero__baslik" id="hero-baslik">{{ mt.hero_basliklar[0] }}</h1>
+    <p class="hero__alt metin-giris">{{ mt.hero_alt_baslik }}</p>
+    <div class="hero__eylem">
+      {{ dugme(mt.hero_cta_birincil, "/kitaplar/", "birincil") }}
+      {{ dugme(mt.hero_cta_ikincil, "/nereden-alinir/", "ikincil") }}
+    </div>
+  </div>
+</section>
+
+{% if vitrin.onizlemeli.length %}
+<section class="bolum" aria-labelledby="b-onizleme">
+  <div class="kap">
+    {{ bolumBasligi(etiket=mt.onizle, baslik="Önizlemeli kitaplar", id="b-onizleme", giris=mt.bolum_giris.onizlemeli) }}
+    <div class="serit" role="region" aria-labelledby="b-onizleme" tabindex="0">
+      {% for k in vitrin.onizlemeli %}
+      <div class="serit__oge">{% set kitap = k %}{% include "components/kitap/kitap-karti.njk" %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<section class="bolum" aria-labelledby="b-yeni">
+  <div class="kap">
+    {{ bolumBasligi(etiket=mt.yeni, baslik="Yeni çıkanlar", id="b-yeni", giris=mt.bolum_giris.yeni_cikanlar, url="/kitaplar/", baglanti=mt.tum_kitaplar) }}
+    <div class="kart-izgara">
+      {% for k in vitrin.yeni_cikanlar %}
+      <div class="kart-izgara__oge">{% set kitap = k %}{% include "components/kitap/kitap-karti.njk" %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="bolum" aria-labelledby="b-yazarlar">
+  <div class="kap">
+    {{ bolumBasligi(etiket=mt.kunye_yazar, baslik="Yazarlar", id="b-yazarlar", giris=mt.bolum_giris.yazarlar, url="/yazarlar/", baglanti=mt.tum_yazarlar) }}
+    <div class="yazar-izgara">
+      {% for y in vitrin.yazarlar %}
+      <div class="yazar-izgara__oge">{% set yazar = y %}{% include "components/kitap/yazar-karti.njk" %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="bolum" aria-labelledby="b-cizgi">
+  <div class="kap">
+    {{ bolumBasligi(etiket="Yayın", baslik="Yayın çizgisi", id="b-cizgi", url="/yayin-cizgisi/", baglanti=mt.devami) }}
+    <div class="cizgi">
+      <p class="cizgi__metin metin-giris">{{ cizgi_ozet or (cizgi_html.split('</p>')[0] | striptags | truncate(280)) }}</p>
+    </div>
+  </div>
+</section>
+
+<section class="bolum bolum--son" aria-labelledby="b-alinir">
+  <div class="kap">
+    {{ bolumBasligi(etiket="Sipariş", baslik=mt.nereden_alinir, id="b-alinir", giris=mt.bolum_giris.nereden_alinir) }}
+    <div class="alinir">
+      <div class="alinir__kanallar">{% include "components/satis-kanallari.njk" %}</div>
+      <div class="alinir__hat">{% include "components/hat-kutusu.njk" %}</div>
+    </div>
+  </div>
+</section>

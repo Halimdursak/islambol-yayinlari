@@ -1,0 +1,26 @@
+---js
+{
+  layout: "layouts/base.njk",
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/iletisim/"].title,
+    description: (d) => d.site.meta.sayfalar["/iletisim/"].description,
+  },
+}
+---
+{% from "components/dugme.njk" import dugme %}
+{% set s = sayfalar['iletisim'] %}
+<article class="sayfa kap">
+  <header class="sayfa__baslik">
+    <p class="etiket">{{ site.ad }}</p>
+    <h1>{{ s.title }}</h1>
+    <p class="sayfa__giris">{{ site.mikrometin.bolum_giris.iletisim }}</p>
+  </header>
+  <div class="sayfa__govde okuma">
+    <div class="eylemler">
+      {{ dugme(site.mikrometin.whatsapp_cta, site.whatsapp_url, "birincil", true) }}
+      <a class="dugme dugme--ikincil" href="tel:{{ site.telefon | replace(' ', '') }}"><span class="rakam">{{ site.telefon_gosterim }}</span></a>
+      <a class="dugme dugme--ikincil" href="mailto:{{ site.eposta }}">{{ site.eposta }}</a>
+    </div>
+    {{ s.html | safe }}
+  </div>
+</article>

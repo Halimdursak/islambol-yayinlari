@@ -1,0 +1,10 @@
+{#
+  Düğme makrosu (DESIGN §4.3). Kullanım:
+  {% from "components/dugme.njk" import dugme %}
+  {{ dugme("Kitapları incele", "/kitaplar/", "birincil") }}
+  tur: birincil | ikincil | ucuncul · dis=true → rel="noopener" (harici bağlantı) · kucuk=true → sıkı yükseklik
+  İkon yok (ADR: yalnız metin). Ekran başına tek birincil düğme kuralı çağıranın sorumluluğudur.
+#}
+{% macro dugme(metin, url, tur="birincil", dis=false, kucuk=false) -%}
+<a class="dugme dugme--{{ tur }}{% if kucuk %} dugme--kucuk{% endif %}" href="{{ url }}"{% if dis %} rel="noopener noreferrer"{% endif %}>{{ metin }}</a>
+{%- endmacro %}

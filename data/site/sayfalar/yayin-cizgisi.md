@@ -3,6 +3,7 @@ title: Yayın Çizgisi
 slug: yayin-cizgisi
 description: İslambol Yayınları'nın yayın alanları: yakın tarih, hatırat, İslam düşüncesi, arşiv belgeleri, Osmanlıca tıpkıbasım ve Latinize metinler.
 son_guncelleme: 2026-10-11
+ozet: "Osmanlı'nın son dönemi, Milli Mücadele ve Cumhuriyet'in ilk yıllarına odaklanan hatırat, araştırma ve arşiv belgesi yayınları; yanında İslam düşüncesi eserleri ve Osmanlıca tıpkıbasımlar."
 ---
 
 # Yayın Çizgisi

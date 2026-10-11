@@ -1,0 +1,26 @@
+{#
+  Üst bar — B1. Veri: site.ad, site.menu, site.whatsapp_url, site.mikrometin.
+  Logo: şeffaf PNG (B4); koyu sistem temasında koyu zemin sürümü <picture> ile. 800×800 dosyadaki içerik kutusu (x 99–696, y 305–503)
+  CSS ile kırpılır (.ust__logo).
+  Mobil menü: <button aria-expanded aria-controls="ana-menu"> + site.js; JS yoksa <noscript> stili menüyü açar.
+#}
+<header class="ust">
+  <div class="kap ust__ic">
+    <a class="ust__logo" href="/">
+      <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="/logo/islambol-logo-koyu-zemin.png">
+        <img src="/logo/islambol-logo.png" width="800" height="800" alt="{{ site.ad }}" decoding="async">
+      </picture>
+    </a>
+    <button class="ust__menu-dugme dugme dugme--ikincil dugme--kucuk" type="button" aria-expanded="false" aria-controls="ana-menu"
+      data-ac="{{ site.mikrometin.menu_ac }}" data-kapat="{{ site.mikrometin.menu_kapat }}">{{ site.mikrometin.menu_ac }}</button>
+    <nav class="ust__nav" id="ana-menu" aria-label="{{ site.ad }}">
+      <ul class="ust__liste">
+        {%- for m in site.menu %}
+        <li><a href="{{ m.url }}"{% if page.url == m.url %} aria-current="page"{% endif %}>{{ m.etiket }}</a></li>
+        {%- endfor %}
+      </ul>
+      <a class="ust__siparis dugme dugme--ikincil dugme--kucuk" href="{{ site.whatsapp_url }}" rel="noopener noreferrer">{{ site.mikrometin.whatsapp_cta }}</a>
+    </nav>
+  </div>
+</header>

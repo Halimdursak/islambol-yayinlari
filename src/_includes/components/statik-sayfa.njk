@@ -1,0 +1,14 @@
+{#
+  Statik sayfa gövdesi — B1. Girdi: `s` (= sayfalar['<slug>']), isteğe bağlı `sayfa_baslik` (H1'i geçersiz kılar).
+  Düzen: sol sütunda H1, sağda dar okuma sütunu (.okuma, ~68ch). Gövde `s.html` (markdown → html, [[SORU]] ayıklanmış).
+  Özel gövdeli sayfalar (nereden-alinir, iletisim) aynı sınıfları kendileri basar.
+#}
+<article class="sayfa kap">
+  <header class="sayfa__baslik">
+    <p class="etiket">{{ site.ad }}</p>
+    <h1>{{ sayfa_baslik or s.title }}</h1>
+  </header>
+  <div class="sayfa__govde okuma">
+    {{ s.html | safe }}
+  </div>
+</article>

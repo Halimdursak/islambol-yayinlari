@@ -1,0 +1,11 @@
+---js
+{
+  layout: "layouts/base.njk",
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/yayin-cizgisi/"].title,
+    description: (d) => d.site.meta.sayfalar["/yayin-cizgisi/"].description,
+  },
+}
+---
+{% set s = sayfalar['yayin-cizgisi'] %}
+{% include "components/statik-sayfa.njk" %}

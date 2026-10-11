@@ -1,0 +1,11 @@
+---js
+{
+  layout: "layouts/base.njk",
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/onizleme-hakkinda/"].title,
+    description: (d) => d.site.meta.sayfalar["/onizleme-hakkinda/"].description,
+  },
+}
+---
+{% set s = sayfalar['onizleme-hakkinda'] %}
+{% include "components/statik-sayfa.njk" %}

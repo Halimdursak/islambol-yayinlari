@@ -1,0 +1,11 @@
+---js
+{
+  layout: "layouts/base.njk",
+  eleventyComputed: {
+    title: (d) => d.site.meta.sayfalar["/kvkk-ve-cerezler/"].title,
+    description: (d) => d.site.meta.sayfalar["/kvkk-ve-cerezler/"].description,
+  },
+}
+---
+{% set s = sayfalar['kvkk-ve-cerezler'] %}
+{% include "components/statik-sayfa.njk" %}

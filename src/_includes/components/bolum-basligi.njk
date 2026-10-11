@@ -1,0 +1,14 @@
+{#
+  Bölüm başlığı makrosu (DESIGN §4.7): üstte 1px mürekkep çizgi · sol arşiv etiketi · serif başlık (h2) · sağ bağlantı.
+  {% from "components/bolum-basligi.njk" import bolumBasligi %}
+  {{ bolumBasligi(etiket="Yeni", baslik="Yeni çıkanlar", id="b-yeni", giris="…", url="/kitaplar/", baglanti="Tüm kitapları gör") }}
+  Numara (01/02) KULLANILMAZ. id: bölümün aria-labelledby hedefi.
+#}
+{% macro bolumBasligi(etiket, baslik, id, giris="", url="", baglanti="") -%}
+<header class="bolum-basligi">
+  <p class="bolum-basligi__etiket etiket">{{ etiket }}</p>
+  <h2 class="bolum-basligi__baslik" id="{{ id }}">{{ baslik }}</h2>
+  {% if url %}<a class="bolum-basligi__ek" href="{{ url }}">{{ baglanti }}<span aria-hidden="true"> →</span></a>{% endif %}
+  {% if giris %}<p class="bolum-basligi__giris">{{ giris }}</p>{% endif %}
+</header>
+{%- endmacro %}

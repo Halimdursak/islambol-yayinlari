@@ -1,0 +1,84 @@
+{#
+  Kitap önizleme (sayfa çevirme) — sahibi B3.
+  Girdi (öncelik sırası; hiçbiri yoksa HİÇBİR ŞEY basılmaz):
+   1) `onizleme_kitaplar` (kitap[]) — veri katmanından (front matter/eleventyComputed/JS veri) geliyorsa.
+   2) `kitap` (tek kitap sayfası: pagination alias'ı) → [kitap].
+   3) front matter `onizleme_kaynak: vitrin` → vitrin.onizlemeli (ana sayfa).
+  UYARI: sayfa GÖVDESİNDE `{% set onizleme_kitaplar = … %}` Eleventy'de layout'a GEÇMEZ (içerik önce ayrı render edilir).
+  Tetikleyici: [data-onizleme="<kitap.id>"] (flipbook.js dinler). Metinler: site.mikrometin.
+  Not: mikrometin'de olmayan 4 anahtar için varsayılan metin kullanılır (onizleme_yukleniyor,
+  onizleme_hata, onizleme_ipucu, onizleme_ilk_sayfa) — Direktör mikrometin.json'a ekleyebilir.
+#}
+{% if onizleme_kitaplar and onizleme_kitaplar.length %}{% set _liste = onizleme_kitaplar %}
+{% elif kitap and kitap.onizleme %}{% set _liste = [kitap] %}
+{% elif onizleme_kaynak == 'vitrin' %}{% set _liste = vitrin.onizlemeli %}
+{% endif %}
+{% if _liste and _liste.length %}
+{% set mm = site.mikrometin %}
+{% set turAd = {
+  kapak: "Kapak", kapak_ici: "Kapak içi", icindekiler: "İçindekiler", takdim: "Takdim",
+  onsoz: "Önsöz", giris: "Giriş", metin: "Metin"
+} %}
+<link rel="stylesheet" href="/assets/css/flipbook.css">
+
+<dialog class="onizleme" id="onizleme" aria-labelledby="onizleme-baslik"
+        data-sayac="{{ mm.sayfa_sayaci }}"
+        data-yukleniyor="{{ mm.onizleme_yukleniyor | default('Sayfalar yükleniyor…') }}"
+        data-hata="{{ mm.onizleme_hata | default('Sayfa çevirme açılamadı; sayfalar liste olarak gösteriliyor.') }}" data-prefix="{{ '/' | url }}">
+  <div class="onizleme__kutu">
+    <header class="onizleme__ust">
+      <div class="onizleme__kimlik">
+        <p class="onizleme__etiket">{{ mm.onizleme_baslik }}</p>
+        <h2 class="onizleme__baslik" id="onizleme-baslik" data-onizleme-baslik></h2>
+        <p class="onizleme__yazar" data-onizleme-yazar></p>
+      </div>
+      <button type="button" class="onizleme__kapat" data-onizleme-kapat aria-label="{{ mm.kapat }}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+    </header>
+
+    <div class="onizleme__sahne" data-onizleme-sahne>
+      <div class="onizleme__alan" data-onizleme-alan>
+        <div class="onizleme__kitap" data-onizleme-kitap-kutu></div>
+        <ol class="onizleme__galeri" data-onizleme-galeri hidden></ol>
+      </div>
+      <p class="onizleme__yukleniyor" data-onizleme-yukleniyor role="status"></p>
+    </div>
+
+    <footer class="onizleme__alt">
+      <button type="button" class="onizleme__dugme" data-onizleme-onceki aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M15 5l-7 7 7 7"/></svg>
+        <span>{{ mm.onceki }}</span>
+      </button>
+      <div class="onizleme__orta">
+        <p class="onizleme__sayac" data-onizleme-sayac aria-live="polite"></p>
+        <p class="onizleme__ipucu">{{ mm.onizleme_ipucu | default('Klavye: ← → · Esc') }}</p>
+      </div>
+      <button type="button" class="onizleme__dugme" data-onizleme-sonraki aria-disabled="true">
+        <span>{{ mm.sonraki }}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" focusable="false"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </footer>
+    <p class="onizleme__not">{{ mm.onizleme_notu }}</p>
+  </div>
+</dialog>
+
+{% for kt in _liste %}{% if kt.onizleme and kt.onizleme.sayfalar.length %}
+<template data-onizleme-kitap="{{ kt.id }}" data-baslik="{{ kt.title }}" data-yazar="{{ kt.yazar_gosterim }}">
+  <ol>
+  {%- for s in kt.onizleme.sayfalar %}
+    <li data-src="{{ s.url }}" data-w="{{ s.genislik }}" data-h="{{ s.yukseklik }}" data-tur="{{ s.tur or '' }}"{% if s.kaynaklar %} data-kaynaklar="{{ s.kaynaklar | dump }}"{% endif %} data-alt="Sayfa {{ s.sira }}{% if s.tur %} — {{ turAd[s.tur] or 'Metin' }}{% endif %}"></li>
+  {%- endfor %}
+  </ol>
+</template>
+{% endif %}{% endfor %}
+
+<noscript>
+  <nav class="onizleme-noscript" aria-label="{{ mm.onizleme_baslik }}">
+    {% for kt in _liste %}{% if kt.onizleme and kt.onizleme.sayfalar.length %}
+    <a href="{{ kt.onizleme.sayfalar[0].url | url }}">{{ mm.onizleme_ilk_sayfa | default('İlk sayfa') }}: {{ kt.title }}</a>
+    {% endif %}{% endfor %}
+  </nav>
+</noscript>
+<script type="module" src="/assets/js/flipbook.js"></script>
+{% endif %}
