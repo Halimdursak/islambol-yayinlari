@@ -54,9 +54,9 @@ Not: Ketebe (T-Soft), Erkam (Ticimax), Semerkand (IdeaSoft) "hazır e-ticaret" y
 
 ## c. Site kartları
 
-İz Yayıncılık: https://izyayincilik.com HTTP 200 döndü ama gövde 0 bayt; .com.tr alan adı DNS çözülemedi; ekran görüntüsü boş beyaz (`docs/research/screenshots/iz.png`). **Alınamadı**.
+İz Yayıncılık: https://izyayincilik.com HTTP 200 döndü ama gövde 0 bayt; .com.tr alan adı DNS çözülemedi; ekran görüntüsü boş beyaz (`docs/research/screenshots/iz.jpg`). **Alınamadı**.
 
-Mobil ekran görüntüleri (incelenmedi): `docs/research/screenshots/ketebe-mobile.png`, `otuken-mobile.png`, `kronik-mobile.png`, `fitzcarraldo-mobile.png`, `dergah-mobile.png`.
+Mobil ekran görüntüleri (incelenmedi): `docs/research/screenshots/ketebe-mobile.jpg`, `otuken-mobile.png`, `kronik-mobile.png`, `fitzcarraldo-mobile.png`, `dergah-mobile.png`.
 
 Yazar ve kitap detay sayfaları incelenenler: Ketebe (/pratik-gecmis-hayden-white, /hayden-white), Ötüken (/kitap/toprak-ana-104, /yazar/ziya-gokalp-1343), Semerkand (/urun/bostanul-arifin), Dergâh (/kitaplar/bahtimin-yildizi), YKY (Dokun Hisset kitabı), Fitzcarraldo (/books/cafes/), Sternberg (/product/a-rage-in-harlem/, /preview/), Suhrkamp (Kosmische Verbindungen), Penguin (Elif Şafak kitabı). Diğerlerinde kitap/yazar detayına bakılmadı (doğrulanmadı).
 
@@ -64,55 +64,55 @@ Yazar ve kitap detay sayfaları incelenenler: Ketebe (/pratik-gecmis-hayden-whit
 - URL: https://www.ketebe.com/
 - Güçlü: Kampanya şeritli slider (aylık "Ketebe Ekim"), kitaplık banner blokları (renkli çerçeveli koleksiyon afişleri), vitrin/çok satan/yeni sekmeleri
 - Zayıf: Şablon e-ticaret hissi, indirim rozetleri ve kırmızı şeritler kaos yaratıyor, tipografik karakter yok, tarih/hatırat ayrımı yok
-- Ekran görüntüsü: docs/research/screenshots/ketebe.png, docs/research/screenshots/ketebe-mobile.png
+- Ekran görüntüsü: docs/research/screenshots/ketebe.jpg, docs/research/screenshots/ketebe-mobile.jpg
 
 ### Timaş
 - URL: https://timas.com.tr/
 - Güçlü: 20+ yayınevini tek çatıda toplayan mega menü, yaş filtresi, SSS ve dosya değerlendirme başvuru formu
 - Zayıf: 1.3 MB HTML, çok ağır; çocuk ağırlıklı, tarih okuruna uygun değil
-- Ekran görüntüsü: docs/research/screenshots/timas.png
+- Ekran görüntüsü: docs/research/screenshots/timas.jpg
 
 ### Erkam
 - URL: https://www.erkamyayinlari.com/
 - Güçlü: Marka/imprint yapısı (Pırıltı, Ser Kitap, Akademi), yazar adına kitaplık modeli
 - Zayıf: Yoğun mega menü, e-ticaret şablonu, görsel kimlik zayıf
-- Ekran görüntüsü: docs/research/screenshots/erkam.png
+- Ekran görüntüsü: docs/research/screenshots/erkam.jpg
 
 ### Semerkand Kitap
 - URL: https://www.semerkandkitap.com/
 - Güçlü: Dergi aboneliği, set kitaplar, hediyelik, 50+ yayınevi kataloğu (Ketebe, Dergah, Timaş burada da satılıyor)
 - Zayıf: Pazaryeri görüntüsü, marka kimliği yok
-- Ekran görüntüsü: docs/research/screenshots/semerkand.png
+- Ekran görüntüsü: docs/research/screenshots/semerkand.jpg
 
 ### Ötüken
 - URL: https://otuken.com.tr/
 - Güçlü: Tematik "modül" koleksiyonları (tarih serileri: en yakın rakip yaklaşım), alt imprint kartları, Cumhuriyetin 100. Yılı vitrini
 - Zayıf: Bootstrap varsayılanı, belge/arşiv duygusu yok, indirim etiketli kart kalabalığı
-- Ekran görüntüsü: docs/research/screenshots/otuken.png, docs/research/screenshots/otuken-mobile.png
+- Ekran görüntüsü: docs/research/screenshots/otuken.jpg, docs/research/screenshots/otuken-mobile.jpg
 
 ### Kronik Kitap
 - URL: https://www.kronikkitap.com/
 - Güçlü: Kapak rengini kart zeminine taşıyan renkli kart ızgarası, serif başlık, yazar portre şeridi; TR içindeki en tutarlı kimlik
 - Zayıf: Kart altlarında bilgi kısıtlı, popup bülten rahatsız edici
-- Ekran görüntüsü: docs/research/screenshots/kronik.png, docs/research/screenshots/kronik-mobile.png
+- Ekran görüntüsü: docs/research/screenshots/kronik.jpg, docs/research/screenshots/kronik-mobile.jpg
 
 ### Yapı Kredi Yayınları
 - URL: https://www.yapikrediyayinlari.com.tr/
 - Güçlü: Dizi isimleri (Cogito, Delta) markaya dönüşmüş; tadımlık PDF
 - Zayıf: Eski ASP altyapısı, 14px gri metin
-- Ekran görüntüsü: docs/research/screenshots/yky.png
+- Ekran görüntüsü: docs/research/screenshots/yky.jpg
 
 ### İletişim Yayınları
 - URL: https://iletisim.com.tr/
 - Güçlü: Güçlü marka sesi (başlıkta "Okumak İptiladır Müptelalara Selam!"), /katalog sayfası
 - Zayıf: Bootstrap varsayılanı
-- Ekran görüntüsü: docs/research/screenshots/iletisim.png
+- Ekran görüntüsü: docs/research/screenshots/iletisim.jpg
 
 ### Dergâh
 - URL: https://www.dergah.com.tr/ (verilen dergahyayinlari.com adresi çözülemedi)
 - Güçlü: En yakın tür: "yeni çıkanlar / tekrar baskılar / yazarlar / blog" omurgası, ortalanmış logolu menü
 - Zayıf: Boş video bölümü, gri slider, sosyal embedler yarım yüklü, PDF önizleme çirkin
-- Ekran görüntüsü: docs/research/screenshots/dergah.png, docs/research/screenshots/dergah-mobile.png
+- Ekran görüntüsü: docs/research/screenshots/dergah.jpg, docs/research/screenshots/dergah-mobile.jpg
 
 ### İz Yayıncılık
 - URL: https://izyayincilik.com
@@ -124,61 +124,61 @@ Yazar ve kitap detay sayfaları incelenenler: Ketebe (/pratik-gecmis-hayden-whit
 - URL: https://fitzcarraldoeditions.com/
 - Güçlü: Kapak ürün fotoğrafı tam genişlik hero, tek renk kimlik (kitap mavisi), koleksiyon fotoğrafları, minimum menü (Shop/Authors/Prizes)
 - Zayıf: Vitrinde fiyat yok, keşif zayıf
-- Ekran görüntüsü: docs/research/screenshots/fitzcarraldo.png, docs/research/screenshots/fitzcarraldo-mobile.png
+- Ekran görüntüsü: docs/research/screenshots/fitzcarraldo.jpg, docs/research/screenshots/fitzcarraldo-mobile.jpg
 
 ### Verso Books
 - URL: https://www.versobooks.com/
 - Güçlü: Siyasi duruşu görsele döküyor: ince kırmızı çizgili bölüm başlıkları, manşet gibi duyuru kutuları, üyelik (Book Club)
 - Zayıf: Sıkışık, çok bölüm
-- Ekran görüntüsü: docs/research/screenshots/verso.png
+- Ekran görüntüsü: docs/research/screenshots/verso.jpg
 
 ### New York Review Books
 - URL: https://www.nyrb.com/
 - Güçlü: Seri kimliği güçlü (Classics koleksiyonları), haber
 - Zayıf: Genel Shopify teması
-- Ekran görüntüsü: docs/research/screenshots/nyrb.png
+- Ekran görüntüsü: docs/research/screenshots/nyrb.jpg
 
 ### Penguin Books UK
 - URL: https://www.penguin.co.uk/
 - Güçlü: Marka rengi tutarlı kullanım, ölçeklenebilir kitap/yazar/dizi şablonu
 - Zayıf: Kurumsal ölçek, kişisel ton yok
-- Ekran görüntüsü: docs/research/screenshots/penguin.png
+- Ekran görüntüsü: docs/research/screenshots/penguin.jpg
 
 ### Gallimard
 - URL: https://www.gallimard.fr/
 - Güçlü: Drupal 10; ekran görüntüsü alındı, HTML botlara kapalı
 - Zayıf: Analiz kısıtlı
-- Ekran görüntüsü: docs/research/screenshots/gallimard.png
+- Ekran görüntüsü: docs/research/screenshots/gallimard.jpg
 
 ### Suhrkamp
 - URL: https://www.suhrkamp.de/
 - Güçlü: Her kitapta indirilebilir PDF okuma örneği, Next.js+Cloudinary
 - Zayıf: Sade sans, tipografi karakteri zayıf
-- Ekran görüntüsü: docs/research/screenshots/suhrkamp.png
+- Ekran görüntüsü: docs/research/screenshots/suhrkamp.jpg
 
 ### Sternberg Press (siteinspire)
 - URL: https://www.sternberg-press.com/
 - Güçlü: Yazar / seri / ürün üç ayrı arşiv sayfası
 - Zayıf: -
-- Ekran görüntüsü: docs/research/screenshots/sternberg.png
+- Ekran görüntüsü: docs/research/screenshots/sternberg.jpg
 
 ### Loose Joints (siteinspire)
 - URL: https://loosejoints.biz/
 - Güçlü: Out-of-print / signed / special-rare koleksiyonları (tükenmiş kitap rafı fikri)
 - Zayıf: -
-- Ekran görüntüsü: docs/research/screenshots/loose-joints.png
+- Ekran görüntüsü: docs/research/screenshots/loose-joints.jpg
 
 ### Place Press (siteinspire)
 - URL: https://placepress.com/
 - Güçlü: -
 - Zayıf: -
-- Ekran görüntüsü: docs/research/screenshots/place-press.png
+- Ekran görüntüsü: docs/research/screenshots/place-press.jpg
 
 ### Blackbook Publications (siteinspire)
 - URL: https://blackbookpublications.com/
 - Güçlü: -
 - Zayıf: -
-- Ekran görüntüsü: docs/research/screenshots/blackbook.png
+- Ekran görüntüsü: docs/research/screenshots/blackbook.jpg
 
 ## d. "Olmazsa olmaz" 10 madde (sektör standardı)
 

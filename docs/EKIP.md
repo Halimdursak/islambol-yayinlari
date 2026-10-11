@@ -146,6 +146,7 @@ Her kartta: Girdi → Çıktı → Kabul kriteri → Model → Yazma hakkı (dos
 
 ### Site Direktörü — Fable 5.1 (bu oturum)
 - Plan, kararlar, ekip puanlama, her fazın kapı kontrolü, entegrasyon çakışması çözümü, kullanıcıya rapor.
+- Entegrasyon katmanının sahibi (B1–B5 paralel çalışabilsin diye Direktör yazdı): `src/_data/**` (books/authors/diziler/vitrin/sayfalar/site/kapaklar yükleyicileri, ajv doğrulama, [[SORU]] ayıklama), `data/catalog/books.schema.json` (B2 genişletebilir), `data/site/vitrin.json` (ana sayfa vitrin kararı; 3 kitap editoryal olarak vitrin dışı), `src/_includes/layouts/base.njk` iskeleti ve sözleşmeleri (B1 geliştirir).
 - Son kapı kontrol listesi: (1) Aşama-1 "bitmiş hali" cümlesiyle karşılaştır, (2) Q1-Q4 raporları yeşil, (3) kendi gözüyle 4 kırılma noktasında ekran görüntüsü okur, (4) flipbook'u tarayıcıda kendisi çevirir, (5) temiz klon build.
 
 ## 4. Bağımlılık grafiği (DAG)
