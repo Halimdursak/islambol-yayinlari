@@ -69,14 +69,14 @@ Her kartta: Girdi → Çıktı → Kabul kriteri → Model → Yazma hakkı (dos
 - Girdi: `books.json`; Direktörün bulduğu kitapyurdu "İç Sayfalara Gözat" mekanizması; Google Books; yayınevinin X/Instagram/Facebook gönderileri.
 - Çıktı: `data/catalog/onsoz/<slug>.json` → `{book_id, source_url, source_type: "kitapyurdu-preview|google-books|social|manual", pages: [{index, image_url|text}], rights_note}`; en az 4 vitrin kitabı için ilk 6-10 sayfa.
 - Kabul: her sayfa için kaynak URL; metin OCR ise `ocr: true` ve düzeltilmemiş/düzeltilmiş ikisi de saklı; kaynak bulunamayan kitap listesi raporda.
-- Yazma hakkı: `data/catalog/onsoz/**`, `public/onsoz/**`.
+- Yazma hakkı: `data/catalog/onsoz/**`, `public/onsoz/**`, `scripts/onsoz/**`.
 - Plan B: metin bulunamazsa sayfa görselleri doğrudan flipbook'ta kullanılır (görsel = kabul edilebilir); o da yoksa kitap "önizleme yok" olarak işaretlenir, asla uydurma metin konmaz.
 
 ### D1 Marka & Tasarım Sistemi — Opus (Direktör gözetiminde)
 - Girdi: rakip-analizi.md'deki 3 yön; `open-design/design-systems/warm-editorial/DESIGN.md` (yapısal temel; diğer adaylar jenerik çıktı); logo (`public/logo/`: antrasit wordmark + kırmızı fes/yayınları); yayınevi karakteri (yakın tarih, arşiv belgesi, hatırat, Osmanlıca kapaklar).
 - Çıktı: `DESIGN.md` (palet hex + OKLCH, tipografi çifti + yükleme stratejisi, spacing ölçeği, bileşen envanteri, hareket ilkeleri, karanlık mod kararı), `src/assets/css/tokens.css`.
 - Kabul: kontrast oranları AA; 2 font ailesi ile sınırlı; "anti-template" kontrol listesi (ECC design-quality) 10 maddeden en az 6'sı işaretli; tokens.css tek başına derlenebilir.
-- Yazma hakkı: `DESIGN.md`, `src/assets/css/tokens.css`, `src/assets/css/typography.css`.
+- Yazma hakkı: `DESIGN.md`, `src/assets/css/tokens.css`, `src/assets/css/typography.css`, `src/assets/fonts/**`, `docs/design/**`, `scripts/design/**`.
 
 ### D2 Bilgi Mimarı & İçerik Yazarı — Sonnet
 - Girdi: books.json, authors.json, rakip-analizi.md, yayınevinin sosyal medya tonu.
@@ -88,7 +88,7 @@ Her kartta: Girdi → Çıktı → Kabul kriteri → Model → Yazma hakkı (dos
 - Girdi: DESIGN.md, tokens.css, SITE-HARITASI.md.
 - Çıktı: Eleventy iskeleti (`eleventy.config.js`, `package.json` — Direktör kurdu, B1 geliştirir), `src/_includes/layouts/base.njk`, `src/_includes/components/{header,footer,nav,button,section}.njk`, ana sayfa `src/index.njk` (hero, vitrin, yazarlar, yayın çizgisi, nereden alınır, bülten yerine WhatsApp CTA), statik sayfalar `src/{hakkimizda,iletisim,nereden-alinir}.njk`.
 - Kabul: `npm run build` sıfır hata (Eleventy, bu makinede çalıştığı doğrulandı); 320–1920 arası yatay kaydırma yok; header mobilde erişilebilir menü; reduced-motion saygı.
-- Yazma hakkı: kök yapılandırma, `src/_includes/layouts/**`, `src/_includes/components/**` (B2'nin `kitap/`, B3'ün `onizleme/`, B4'ün `kapak-gorseli.njk`, B5'in `seo.njk` hariç), `src/index.njk`, `src/{hakkimizda,iletisim,nereden-alinir}.njk`, `src/assets/css/global.css`, `src/assets/js/site.js`.
+- Yazma hakkı (Q3 düzeltmesiyle tamamlandı): statik sayfalar `src/{hakkimizda,yayin-cizgisi,nereden-alinir,iletisim,onizleme-hakkinda,kvkk-ve-cerezler,404}.njk`, kök yapılandırma, `src/_includes/layouts/**`, `src/_includes/components/**` (B2'nin `kitap/`, B3'ün `onizleme/`, B4'ün `kapak-gorseli.njk`, B5'in `seo.njk` hariç), `src/index.njk`, `src/{hakkimizda,iletisim,nereden-alinir}.njk`, `src/assets/css/global.css`, `src/assets/js/site.js`.
 
 ### B2 Katalog & Kitap Detay — Sonnet
 - Girdi: books.json, authors.json, B1 bileşenleri.
@@ -104,7 +104,7 @@ Her kartta: Girdi → Çıktı → Kabul kriteri → Model → Yazma hakkı (dos
 
 ### B4 Görsel & Performans — Sonnet
 - Girdi: `public/kapaklar/*`, build çıktısı.
-- Çıktı: `scripts/gorsel/optimize.mjs` (sharp: webp+avif, 3 boyut, srcset), `src/_includes/components/kapak-gorseli.njk`, OG görseli üretimi (`public/og/*.png`), favicon seti, `docs/PERFORMANS.md` (Lighthouse önce/sonra).
+- Çıktı: `scripts/gorsel/optimize.mjs` (sharp: webp+avif, 3 boyut, srcset), (kapak bileşeni B2'nin `components/kitap/kapak.njk` makrosudur; B4 yalnızca manifest üretir: `data/catalog/{kapaklar-opt,onsoz-opt,og}.json`), favicon seti ve `site.webmanifest`, OG görseli üretimi (`public/og/*.png`), favicon seti, `docs/PERFORMANS.md` (Lighthouse önce/sonra).
 - Kabul: LCP < 2.5s (yerel Lighthouse, mobil), CLS < 0.1, her görselde width/height, toplam ana sayfa JS < 50 KB gz.
 - Yazma hakkı: `scripts/gorsel/**`, `public/kapaklar-opt/**`, `public/og/**`, `src/_includes/components/kapak-gorseli.njk`, `docs/PERFORMANS.md`.
 
@@ -112,13 +112,13 @@ Her kartta: Girdi → Çıktı → Kabul kriteri → Model → Yazma hakkı (dos
 - Girdi: SITE-HARITASI.md, books.json.
 - Çıktı: `src/_includes/components/seo.njk` (title/meta/canonical/OG/Twitter), JSON-LD: Organization, WebSite, Book (ISBN, author, publisher), Person, BreadcrumbList; `src/sitemap.njk` (tüm sayfalar), `public/robots.txt`; `docs/SEO.md`.
 - Kabul: Google Rich Results testi geçer (schema doğrulayıcı betikle); her sayfada benzersiz title; sitemap kayıt sayısı = sayfa sayısı.
-- Yazma hakkı: `src/_includes/components/seo.njk`, `src/sitemap.njk`, `public/robots.txt`, `docs/SEO.md`.
+- Yazma hakkı: `src/_includes/components/seo.njk`, `src/sitemap.njk`, `public/robots.txt`, `docs/SEO.md`, `scripts/seo/**`.
 
 ### Q1 Erişilebilirlik Denetçisi — Sonnet (a11y-architect agent)
 - Girdi: build çıktısı, yerel sunucu.
 - Çıktı: `docs/qa/A11Y.md` (axe + klavye + ekran okuyucu senaryoları, kontrast tablosu), düzeltme listesi (B1-B3'e yönlendirilir; kendisi kod yazmaz).
 - Kabul: axe kritik/ciddi 0; tüm etkileşimler klavyeyle; flipbook modalında odak tuzağı doğrulanmış.
-- Yazma hakkı: `docs/qa/A11Y.md` yalnızca.
+- Yazma hakkı: `docs/qa/A11Y.md`, `docs/qa/a11y/**`, `scripts/qa/a11y/**`.
 
 ### Q2 QA & Görsel Regresyon — Sonnet (e2e-runner agent)
 - Girdi: build çıktısı. Playwright bu makinede `channel: 'msedge'` ile çalışır (bundled Chromium engelli, ADR-008).
@@ -146,6 +146,7 @@ Her kartta: Girdi → Çıktı → Kabul kriteri → Model → Yazma hakkı (dos
 
 ### Site Direktörü — Fable 5.1 (bu oturum)
 - Plan, kararlar, ekip puanlama, her fazın kapı kontrolü, entegrasyon çakışması çözümü, kullanıcıya rapor.
+- `scripts/qa/sunucu.mjs`, `scripts/arastirma/**`, `scripts/gorsel/orijinal-kucult.mjs` (bakım betikleri) Direktör'e aittir.
 - Entegrasyon katmanının sahibi (B1–B5 paralel çalışabilsin diye Direktör yazdı): `src/_data/**` (books/authors/diziler/vitrin/sayfalar/site/kapaklar yükleyicileri, ajv doğrulama, [[SORU]] ayıklama), `data/catalog/books.schema.json` (B2 genişletebilir), `data/site/vitrin.json` (ana sayfa vitrin kararı; 3 kitap editoryal olarak vitrin dışı), `src/_includes/layouts/base.njk` iskeleti ve sözleşmeleri (B1 geliştirir).
 - Son kapı kontrol listesi: (1) Aşama-1 "bitmiş hali" cümlesiyle karşılaştır, (2) Q1-Q4 raporları yeşil, (3) kendi gözüyle 4 kırılma noktasında ekran görüntüsü okur, (4) flipbook'u tarayıcıda kendisi çevirir, (5) temiz klon build.
 
