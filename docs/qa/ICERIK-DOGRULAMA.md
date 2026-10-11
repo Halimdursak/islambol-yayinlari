@@ -8,7 +8,7 @@
 
 ## Özet
 
-- Kontrol grubu: 27; tekil denetim: 11713; **kalan (KALDI): 8**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
+- Kontrol grubu: 27; tekil denetim: 11713; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
 - Hata sayılmayan sonuçlar: DOĞRULANAMADI (403/Cloudflare/ağ) ve UYARI. Çıkış kodu yalnızca KALDI için 1 olur.
 
 ## Kontrol tablosu
@@ -17,7 +17,7 @@
 |---|---|---|---|---|---|---|---|---|
 | 1.1 | Kitap sayfası üretildi (dist/kitap/<id>/index.html) | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
 | 1.2 | Sayfa h1 = title | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
-| 1.3 | Yazar adlarının her biri sayfada | KALDI | 76 | 1 | 0 | 0 | 2 | R1 (katalog verisi) |
+| 1.3 | Yazar adlarının her biri sayfada | GEÇTİ | 76 | 0 | 0 | 0 | 2 | — |
 | 1.4 | ISBN (null değilse) sayfada | GEÇTİ | 73 | 0 | 0 | 0 | 5 | — |
 | 1.5 | Sayfa sayısı (null değilse) sayfada | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
 | 1.6 | Kapak img/source yolları dist'te var | GEÇTİ | 1875 | 0 | 0 | 0 | 0 | — |
@@ -45,18 +45,17 @@
 
 ## Uyumsuzluklar (tam liste)
 
-Toplam 8 kayıt, 8 tekil uyumsuzluk (aynı değerli kayıtlar gruplandı).
+Toplam 7 kayıt, 7 tekil uyumsuzluk (aynı değerli kayıtlar gruplandı).
 
 | # | Kimlik | Varlık (adet, örnek) | Alan | Beklenen | Bulunan | SAHİP | Not |
 |---|---|---|---|---|---|---|---|
-| 1 | 1.3 | 1 × kitap:allaha-dogru-yuruyenlerin-derecesine-nasil-yukseliriz | yazar | Halid el-Huseynan | sayfada farklı büyük/küçük harfle | R1 (katalog verisi) | books.json authors ile authors.json display yazımı farklı |
-| 2 | 2.2 | 1 × yazar:ali-seyyar | h1 | Ali Seyyar | Prof. Dr. Ali Seyyar | B2 (yazar şablonu) | display alanı ayrı: Prof. Dr. Ali Seyyar |
-| 3 | 2.2 | 1 × yazar:iyad-kunaybi | h1 | İyad Kunaybi | Dr. İyad Kunaybi | B2 (yazar şablonu) | display alanı ayrı: Dr. İyad Kunaybi |
-| 4 | 2.2 | 1 × yazar:m-hudai-senturk | h1 | M. Hüdai Şentürk | Dr. M. Hüdai Şentürk | B2 (yazar şablonu) | display alanı ayrı: Dr. M. Hüdai Şentürk |
-| 5 | 2.2 | 1 × yazar:muferrih-b-suleyman-el-kusi | h1 | Müferrih b. Süleyman el-Kûsî | Prof. Dr. Müferrih B. Süleyman El-Kûsî | B2 (yazar şablonu) | display alanı ayrı: Prof. Dr. Müferrih B. Süleyman El-Kûsî |
-| 6 | 2.2 | 1 × yazar:mustafa-sabri-efendi | h1 | Mustafa Sabri Efendi | Şeyhülislam Mustafa Sabri Efendi | B2 (yazar şablonu) | display alanı ayrı: Şeyhülislam Mustafa Sabri Efendi |
-| 7 | 2.2 | 1 × yazar:riza-nur | h1 | Rıza Nur | Dr. Rıza Nur | B2 (yazar şablonu) | display alanı ayrı: Dr. Rıza Nur |
-| 8 | 2.2 | 1 × yazar:seyfi-say | h1 | Seyfi Say | Dr. Seyfi Say | B2 (yazar şablonu) | display alanı ayrı: Dr. Seyfi Say |
+| 1 | 2.2 | 1 × yazar:ali-seyyar | h1 | Ali Seyyar | Prof. Dr. Ali Seyyar | B2 (yazar şablonu) | display alanı ayrı: Prof. Dr. Ali Seyyar |
+| 2 | 2.2 | 1 × yazar:iyad-kunaybi | h1 | İyad Kunaybi | Dr. İyad Kunaybi | B2 (yazar şablonu) | display alanı ayrı: Dr. İyad Kunaybi |
+| 3 | 2.2 | 1 × yazar:m-hudai-senturk | h1 | M. Hüdai Şentürk | Dr. M. Hüdai Şentürk | B2 (yazar şablonu) | display alanı ayrı: Dr. M. Hüdai Şentürk |
+| 4 | 2.2 | 1 × yazar:muferrih-b-suleyman-el-kusi | h1 | Müferrih b. Süleyman el-Kûsî | Prof. Dr. Müferrih B. Süleyman El-Kûsî | B2 (yazar şablonu) | display alanı ayrı: Prof. Dr. Müferrih B. Süleyman El-Kûsî |
+| 5 | 2.2 | 1 × yazar:mustafa-sabri-efendi | h1 | Mustafa Sabri Efendi | Şeyhülislam Mustafa Sabri Efendi | B2 (yazar şablonu) | display alanı ayrı: Şeyhülislam Mustafa Sabri Efendi |
+| 6 | 2.2 | 1 × yazar:riza-nur | h1 | Rıza Nur | Dr. Rıza Nur | B2 (yazar şablonu) | display alanı ayrı: Dr. Rıza Nur |
+| 7 | 2.2 | 1 × yazar:seyfi-say | h1 | Seyfi Say | Dr. Seyfi Say | B2 (yazar şablonu) | display alanı ayrı: Dr. Seyfi Say |
 
 ## Doğrulanamayan ve uyarı kayıtları
 
