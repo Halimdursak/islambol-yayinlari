@@ -9,3 +9,7 @@ playwright-report/
 .env
 .playwright-mcp/
 data/raw/
+
+# Python önbelleği
+__pycache__/
+*.pyc

@@ -1,0 +1,34 @@
+# Doğrulama hattı: PR ve push'ta derleme + SEO denetimi. Yayın yapmaz (yayın: deploy.yml).
+#
+# Playwright e2e (npm run test:e2e) BİLEREK burada çalıştırılmıyor: Q2'nin testleri
+# `channel: 'msedge'` (sistemdeki Edge) kanalına bağlı; Linux runner'da Edge yok. E2E'yi CI'a almak için
+# yapılandırmayı `npx playwright install --with-deps chromium` ile çalışacak şekilde ayrıca uyarlamak gerekir.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: ["**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://adursak63.github.io/islambol-yayinlari
+      PATH_PREFIX: /islambol-yayinlari/
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: node scripts/seo/dogrula.mjs

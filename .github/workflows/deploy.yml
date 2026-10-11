@@ -1,0 +1,52 @@
+# GitHub Pages yayını (ADR-006). main'e her push'ta ya da elle (Actions > Run workflow) çalışır.
+# Ön koşul (bir kez): Depo > Settings > Pages > Build and deployment > Source = "GitHub Actions".
+name: Pages'e yayınla
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Aynı anda tek yayın; yarım kalan yayını iptal etme (Pages belgesindeki öneri).
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Proje sayfası: https://adursak63.github.io/islambol-yayinlari/
+      # ÖZEL ALAN ADI kullanılacaksa (ör. https://www.ornek.com):
+      #   SITE_URL: https://www.ornek.com
+      #   PATH_PREFIX: /
+      # ve public/CNAME dosyasına yalnızca alan adını (www.ornek.com) yazın. Ayrıntı: README "Özel alan adı".
+      SITE_URL: https://adursak63.github.io/islambol-yayinlari
+      PATH_PREFIX: /islambol-yayinlari/
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

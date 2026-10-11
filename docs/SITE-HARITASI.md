@@ -23,7 +23,7 @@ Veri kaynakları: `books.json` (kitap), `authors.json` (yazar), `data/site/site.
 └─ /404.html
 ```
 
-Toplam: 11 sabit sayfa (`/`, `/kitaplar/`, `/yazarlar/`, `/diziler/`, `/yayin-cizgisi/`, `/hakkimizda/`, `/nereden-alinir/`, `/iletisim/`, `/onizleme-hakkinda/`, `/kvkk-ve-cerezler/`, `/404.html`) + üç şablon ailesi (`/kitap/<id>/` ≈ 66, `/yazar/<slug>/` ≈ 33, `/dizi/<slug>/` = 5; sayılar 2026-10-11 tarihli `books.json`/`authors.json`/`sozluk.json`'dan). Yaklaşık 115 çıktı sayfası.
+Toplam: 11 sabit sayfa (`/`, `/kitaplar/`, `/yazarlar/`, `/diziler/`, `/yayin-cizgisi/`, `/hakkimizda/`, `/nereden-alinir/`, `/iletisim/`, `/onizleme-hakkinda/`, `/kvkk-ve-cerezler/`, `/404.html`) + üç şablon ailesi (`/kitap/<id>/` = 78, `/yazar/<slug>/` = 36, `/dizi/<slug>/` = 7; sayılar 2026-10-11 tarihli `books.json`/`authors.json`/`sozluk.json`'dan). Yaklaşık 133 çıktı sayfası.
 
 Kategori için ayrı URL kurulmaz; `/kitaplar/?kategori=<slug>&yazar=<slug>&yil=<yyyy>` sorgu parametreleriyle süzülür (URL paylaşılabilir; JS yoksa tüm liste görünür). Kategori başına indekslenebilir sayfa istenirse §4'teki öneri 3 uygulanır.
 
@@ -51,7 +51,7 @@ Menü (üst): Kitaplar · Yazarlar · Set ve Seriler · Yayın Çizgisi · Nered
 - **Amaç:** Tüm kitapları bulunur kılmak (rakip analizi §d-1,2,6).
 - **Hedef kullanıcı:** Belirli bir konuyu/yazarı arayan okur.
 - **Birincil CTA:** Kitap kartına tıkla → `/kitap/<id>/`.
-- **Bloklar:** Başlık + kayıt sayısı ("66 kayıt"); süzgeç çubuğu (kategori, yazar, yıl, serbest arama); ızgara (kapak 2:3, başlık, yazar, varsa "Yeni baskı"/"Ön sipariş" etiketi); boş durum; sayfalama yok (≈66 kayıt tek sayfada).
+- **Bloklar:** Başlık + kayıt sayısı ("78 kayıt"); süzgeç çubuğu (kategori, yazar, yıl, serbest arama); ızgara (kapak 2:3, başlık, yazar, varsa "Yeni baskı"/"Ön sipariş" etiketi); boş durum; sayfalama yok (78 kayıt tek sayfada).
 - **Veri:** `books.json`, `sozluk.json` (kategori adları), `mikrometin.json` (`filtre_*`, `bos_durum_*`).
 - **SEO:** Sorgu parametreli adresler `canonical` = `/kitaplar/`. ItemList JSON-LD önerilir.
 
@@ -180,7 +180,7 @@ Menü (üst): Kitaplar · Yazarlar · Set ve Seriler · Yayın Çizgisi · Nered
 
 ## Varsayımlar
 
-- Kitap sayısı (66) yalnızca 2026-10-11 tarihli `books.json` sayımıdır; sitede sabit sayı yazılmaz, listeden hesaplanır. Yayınevinin toplam kitap sayısı bilinmiyor (`[[SORU]]`).
+- Kitap sayısı (78) yalnızca 2026-10-11 tarihli `books.json` sayımıdır; sitede sabit sayı yazılmaz, listeden hesaplanır. Yayınevinin toplam kitap sayısı bilinmiyor (`[[SORU]]`).
 - GARGAT ciltleri henüz `books.json`'da yok (yayınevinin X gönderilerinden: 1. cilt 448 sayfa, 2. cilt 460 sayfa, birlikte 908). `sozluk.json`'daki dizi üyeleri bu gönderilerden alındı; R1 kitabı eklediğinde `uye_basliklari` kitap başlığıyla eşlenir.
 - "Yayın çizgisi" sayfasındaki yazar ve eser adları Direktör bilgisi ile `books.json`/X gönderilerine dayanır; İskilipli Atıf Efendi, İyad Kunaybi ve Fevzi Çakmak adları için `books.json` kaydı henüz doğrulanmadı (Q4 denetler).
 - Site çerez ve analitik kullanmaz (EKIP.md ortak kural 5, ADR-001); KVKK metni buna göre yazıldı, analitik eklenirse koşullu paragraf devreye girer.
