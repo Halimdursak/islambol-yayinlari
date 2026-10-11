@@ -76,7 +76,7 @@
 <noscript>
   <nav class="onizleme-noscript" aria-label="{{ mm.onizleme_baslik }}">
     {% for kt in _liste %}{% if kt.onizleme and kt.onizleme.sayfalar.length %}
-    <a href="{{ kt.onizleme.sayfalar[0].url | url }}">{{ mm.onizleme_ilk_sayfa | default('İlk sayfa') }}: {{ kt.title }}</a>
+    <a href="{{ kt.onizleme.sayfalar[0].url }}">{{ mm.onizleme_ilk_sayfa | default('İlk sayfa') }}: {{ kt.title }}</a>
     {% endif %}{% endfor %}
   </nav>
 </noscript>
