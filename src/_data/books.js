@@ -8,6 +8,39 @@ function kitapyurduSlug(url) {
   return m ? m[1] : null;
 }
 
+/**
+ * Kitapçı sitelerinden gelen tanıtım metinlerinde kampanya satırları olabilir ("2000 TL", "Kargo ücretsiz", "sipariş hattı").
+ * ADR-001: site fiyat/kampanya göstermez. Bu satırlar ve yalnızca bunlardan oluşan paragraflar ayıklanır; ham metin description_ham'da kalır.
+ */
+const KAMPANYA = /(\b\d[\d.,]*\s*tl\b|\bkargo\b|\bhediye\b|sipariş hattı|whatsap|kampanya|indirim|ön sipariş|türkiye dışına)/i;
+function aciklamaTemizle(metin) {
+  if (!metin) return metin;
+  const paragraflar = String(metin).split(/\n{2,}/).map((p) =>
+    p.split(/\n/).filter((satir) => !KAMPANYA.test(satir)).join("\n").trim()
+  ).filter(Boolean);
+  return paragraflar.join("\n\n");
+}
+
+/** Kitapçı kategori adlarını site kategorilerine (data/site/sozluk.json) eşler: tam ad, sonra üst yol ("Siyaset > Diğer" → "Siyaset"). */
+function kategoriEsleyici() {
+  const sozluk = jsonOkuVeyaBos("data/site/sozluk.json", { kategoriler: [] });
+  const harita = new Map();
+  for (const k of sozluk.kategoriler ?? []) {
+    for (const ad of [k.ad, ...(k.kaynak_adlari ?? [])]) harita.set(String(ad).trim().toLowerCase(), { ad: k.ad, slug: k.slug });
+  }
+  return (hamKategoriler) => {
+    const sonuc = [];
+    for (const ham of hamKategoriler ?? []) {
+      const parcalar = String(ham).split(">").map((x) => x.trim()).filter((x) => x && x.toLowerCase() !== "kitap");
+      let bulunan = null;
+      for (let i = parcalar.length; i > 0 && !bulunan; i--) bulunan = harita.get(parcalar.slice(0, i).join(" > ").toLowerCase()) ?? null;
+      if (!bulunan) for (let i = parcalar.length - 1; i >= 0 && !bulunan; i--) bulunan = harita.get(parcalar[i].toLowerCase()) ?? null;
+      if (bulunan && !sonuc.some((x) => x.slug === bulunan.slug)) sonuc.push(bulunan);
+    }
+    return sonuc;
+  };
+}
+
 /** contributors alanı kaynağa göre dizi, nesne ya da metin olabilir; hepsini "Rol: Ad" listesine çevirir. */
 function katkidaBulunanlar(c) {
   if (!c) return [];
@@ -56,6 +89,7 @@ export default function () {
     throw new Error(`books.json şemaya uymuyor (${dogrula.errors.length} hata):\n  ${ilk}`);
   }
   const onsoz = onsozHaritasi();
+  const kategoriEsle = kategoriEsleyici();
   const gorulen = new Set();
   const kitaplar = ham.map((k) => {
     if (gorulen.has(k.id)) throw new Error(`Tekrarlanan kitap id: ${k.id}`);
@@ -64,8 +98,13 @@ export default function () {
     const onizleme = kySlug ? onsoz.get(kySlug) ?? null : null;
     const yil = k.publish_date ? Number(String(k.publish_date).slice(0, 4)) : null;
     const katkida = katkidaBulunanlar(k.contributors);
+    const siteKategorileri = kategoriEsle(k.categories);
     return {
       ...k,
+      description_ham: k.description ?? null,
+      description: aciklamaTemizle(k.description),
+      site_kategorileri: siteKategorileri,                 // [{ad, slug}] — sözlükle eşlenmiş site kategorileri
+      site_kategori_sluglari: siteKategorileri.map((x) => x.slug),
       url: `/kitap/${k.id}/`,
       // Yazarsız kayıtlarda (derleme, set ilanı) gösterim: katkıda bulunan ya da null → şablon "Yazar belirtilmemiş" basar
       yazar_gosterim: k.author_display ?? (katkida.length ? katkida.join(", ") : null),

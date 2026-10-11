@@ -1,0 +1,24 @@
+{#
+  Biçimlendirme makroları — B2.
+    {% from "components/kitap/bicim.njk" import tarih, yazarlar %}
+  tarih("2026-07-01") → "Temmuz 2026"; yalnızca yıl verilmişse yıl; boşsa hiçbir şey basmaz.
+  yazarlar(kitap, bag, yoksa) → yazarlar bağlantılı, virgülle; bağ=false ise düz metin; yazar yoksa yazar_gosterim, o da yoksa `yoksa`.
+#}
+{% macro tarih(deger) %}
+{%- set aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"] -%}
+{%- if deger -%}
+  {%- set p = deger.split("-") -%}
+  {%- if p.length >= 2 -%}{{ aylar[(p[1] | int) - 1] }} {{ p[0] }}{%- else -%}{{ p[0] }}{%- endif -%}
+{%- endif -%}
+{% endmacro %}
+
+{% macro yazarlar(kitap, bag, yoksa) %}
+{%- if kitap.authors and kitap.authors.length -%}
+  {%- for ad0 in kitap.authors -%}
+    {%- set ad = kitap.yazar_gosterim if (kitap.authors.length == 1 and kitap.yazar_gosterim) else ad0 -%}
+    {%- if bag and kitap.yazar_sluglari[loop.index0] -%}<a href="/yazar/{{ kitap.yazar_sluglari[loop.index0] }}/">{{ ad }}</a>{%- else -%}{{ ad }}{%- endif -%}
+    {%- if not loop.last %}, {% endif -%}
+  {%- endfor -%}
+{%- elif kitap.yazar_gosterim -%}{{ kitap.yazar_gosterim }}
+{%- else -%}{{ yoksa }}{%- endif -%}
+{% endmacro %}

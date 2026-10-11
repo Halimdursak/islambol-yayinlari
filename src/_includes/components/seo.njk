@@ -1,0 +1,120 @@
+{#
+  SEO bileşeni — sahibi B5. Girdi: title, description, page.url, site, kitap | yazar | dizi (varsa).
+  Kurallar: fiyat/offers YOK (ADR-001); canonical = site.url + page.url (alt dizin, ADR-006).
+  OG görselleri B4'ün ürettiği /og/<id>.png ve /og/site.png dosyalarına dayanır.
+#}
+{%- set _meta = site.meta.sayfalar[page.url] -%}
+{%- set _baslik = title or (_meta and _meta.title) or site.ad -%}
+{%- set _aciklama = description or (_meta and _meta.description) or site.slogan -%}
+{%- set _canonical = site.url + page.url -%}
+{%- set _noindex = (page.url == "/404.html") or (page.url.indexOf("/_test/") == 0) -%}
+{%- set _kitapSayfasi = kitap and kitap.id -%}
+{%- set _ogGorsel = site.url + ("/og/" + kitap.id + ".png" if _kitapSayfasi else "/og/site.png") -%}
+{%- set _logo = site.url + "/logo/islambol-logo.png" -%}
+{%- set _kisaBaslik = _baslik | replace(" | " + site.ad, "") -%}
+
+<title>{{ _baslik }}</title>
+<meta name="description" content="{{ _aciklama }}">
+<link rel="canonical" href="{{ _canonical }}">
+<meta name="robots" content="{{ 'noindex,follow' if _noindex else 'index,follow' }}">
+<meta name="theme-color" content="#A51C22">
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+
+<meta property="og:type" content="{{ 'book' if _kitapSayfasi else 'website' }}">
+<meta property="og:site_name" content="{{ site.ad }}">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:title" content="{{ _baslik }}">
+<meta property="og:description" content="{{ _aciklama }}">
+<meta property="og:url" content="{{ _canonical }}">
+<meta property="og:image" content="{{ _ogGorsel }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{ kitap.title + ' kapağı' if _kitapSayfasi else site.ad }}">
+{%- if _kitapSayfasi and kitap.isbn %}
+<meta property="book:isbn" content="{{ kitap.isbn }}">
+{%- endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ _baslik }}">
+<meta name="twitter:description" content="{{ _aciklama }}">
+<meta name="twitter:image" content="{{ _ogGorsel }}">
+
+{#- ---- JSON-LD ---- #}
+{%- set _sameAs = [] -%}
+{%- for _k, _v in site.sosyal %}{% if _v %}{% set _ = _sameAs.push(_v) %}{% endif %}{% endfor -%}
+
+{%- set _org = {
+  "@type": "Organization",
+  "@id": site.url + "/#organization",
+  "name": site.ad,
+  "url": site.url + "/",
+  "logo": _logo,
+  "telephone": site.telefon,
+  "email": site.eposta,
+  "address": { "@type": "PostalAddress", "addressLocality": "Fatih", "addressRegion": "İstanbul", "addressCountry": "TR" },
+  "sameAs": _sameAs
+} -%}
+{%- set _web = {
+  "@type": "WebSite",
+  "@id": site.url + "/#website",
+  "name": site.ad,
+  "url": site.url + "/",
+  "inLanguage": "tr",
+  "publisher": { "@id": site.url + "/#organization" }
+} -%}
+
+{#- Breadcrumb: Ana sayfa › bölüm › sayfa -#}
+{%- set _bc = [ { "@type": "ListItem", "position": 1, "name": "Ana sayfa", "item": site.url + "/" } ] -%}
+{%- if page.url != "/" -%}
+  {%- if kitap and kitap.id -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 2, "name": "Kitaplar", "item": site.url + "/kitaplar/" }) -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 3, "name": kitap.title, "item": _canonical }) -%}
+  {%- elif yazar and yazar.slug -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 2, "name": "Yazarlar", "item": site.url + "/yazarlar/" }) -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 3, "name": yazar.name, "item": _canonical }) -%}
+  {%- elif dizi and dizi.slug -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 2, "name": "Set ve Seriler", "item": site.url + "/diziler/" }) -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 3, "name": dizi.ad, "item": _canonical }) -%}
+  {%- else -%}
+    {%- set _ = _bc.push({ "@type": "ListItem", "position": 2, "name": _kisaBaslik, "item": _canonical }) -%}
+  {%- endif -%}
+{%- endif -%}
+{%- set _bcSema = { "@type": "BreadcrumbList", "itemListElement": _bc } -%}
+
+{#- Not: Nunjucks'ta sözlüğe sonradan anahtar eklenemez; isteğe bağlı alanlar JSON dizgesine eklenir. -#}
+{%- set _grafJson = [_org, _web, _bcSema] | dump -%}
+
+{%- if _kitapSayfasi -%}
+  {%- set _yazarlar = [] -%}
+  {%- for _a in kitap.authors %}{% set _ = _yazarlar.push({ "@type": "Person", "name": _a }) %}{% endfor -%}
+  {%- set _kitapTemel = {
+    "@type": "Book",
+    "@id": _canonical + "#kitap",
+    "name": kitap.title,
+    "author": _yazarlar,
+    "inLanguage": "tr",
+    "publisher": { "@type": "Organization", "name": site.ad },
+    "image": (site.url + kitap.kapak_url) if kitap.kapak_url else _ogGorsel,
+    "url": _canonical
+  } | dump -%}
+  {%- set _ek = "" -%}
+  {%- if kitap.subtitle %}{% set _ek = _ek + ',"alternateName":' + (kitap.subtitle | dump) %}{% endif -%}
+  {%- if kitap.isbn %}{% set _ek = _ek + ',"isbn":' + (kitap.isbn | string | dump) %}{% endif -%}
+  {%- if kitap.pages %}{% set _ek = _ek + ',"numberOfPages":' + (kitap.pages | dump) %}{% endif -%}
+  {%- if kitap.publish_date %}{% set _ek = _ek + ',"datePublished":' + (kitap.publish_date | dump) %}{% endif -%}
+  {%- if kitap.description %}{% set _ek = _ek + ',"description":' + (kitap.description | striptags | truncate(300, false, "…") | dump) %}{% endif -%}
+  {%- set _grafJson = _grafJson.slice(0, -1) + "," + _kitapTemel.slice(0, -1) + _ek + "}]" -%}
+{%- elif yazar and yazar.slug -%}
+  {%- set _kisiTemel = { "@type": "Person", "@id": _canonical + "#yazar", "name": yazar.name, "url": _canonical } | dump -%}
+  {%- set _ek = "" -%}
+  {%- if yazar.bio %}{% set _ek = ',"description":' + (yazar.bio | striptags | truncate(300, false, "…") | dump) %}{% endif -%}
+  {%- set _grafJson = _grafJson.slice(0, -1) + "," + _kisiTemel.slice(0, -1) + _ek + "}]" -%}
+{%- elif dizi and dizi.slug -%}
+  {%- set _seri = { "@type": "CreativeWorkSeries", "@id": _canonical + "#dizi", "name": dizi.ad, "url": _canonical, "inLanguage": "tr" } | dump -%}
+  {%- set _grafJson = _grafJson.slice(0, -1) + "," + _seri + "]" -%}
+{%- endif -%}
+
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":{{ _grafJson | replace("</", "<\/") | safe }}}</script>

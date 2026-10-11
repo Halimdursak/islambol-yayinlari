@@ -1,0 +1,14 @@
+{# Set / seri kartı — B2. `dizi` değişkeniyle include edilir. #}
+{%- from "components/kitap/kapak.njk" import kapak -%}
+{%- set _kk = dizi.set_kaydi or dizi.kitaplar[0] -%}
+<article class="dizi-karti">
+  <div class="dizi-karti__kapak">
+    {{ kapak(_kk, kapaklar[_kk.id], { sizes: "(min-width: 40em) 22vw, 40vw", yukle: "lazy", alt: "" }) }}
+  </div>
+  <div class="dizi-karti__govde">
+    <span class="etiket">Set / Seri</span>
+    <h3 class="dizi-karti__ad"><a href="{{ dizi.url }}">{{ dizi.ad }}</a></h3>
+    <p class="dizi-karti__ek">{{ site.mikrometin.kayit_sayisi | replace("{n}", dizi.kitap_sayisi) }}</p>
+    {%- if dizi.aciklama %}<p class="dizi-karti__aciklama">{{ dizi.aciklama }}</p>{% endif %}
+  </div>
+</article>

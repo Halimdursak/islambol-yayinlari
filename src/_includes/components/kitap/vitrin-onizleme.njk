@@ -1,0 +1,6 @@
+{# Ana sayfa şeridi: önizlemeli kitaplar — B2. Veri: vitrin.onizlemeli (yalnız önizlemesi olanlar; kartta "Önizle" sekmesi görünür). #}
+<div class="kartlar kartlar--vitrin">
+  {%- for kitap in vitrin.onizlemeli %}
+  {% include "components/kitap/kitap-karti.njk" %}
+  {%- endfor %}
+</div>

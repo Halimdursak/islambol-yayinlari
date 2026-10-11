@@ -1,0 +1,34 @@
+{#
+  Künye tablosu — B2. `kitap` ile include edilir. Boş (null) alanın satırı hiç basılmaz.
+  İsteğe bağlı: `kunye_kategoriler` ([{ad, slug}]), `kunye_diziler` ([dizi]).
+#}
+{%- from "components/kitap/bicim.njk" import tarih, yazarlar -%}
+{%- set m = site.mikrometin -%}
+{%- set _katki = kitap.contributors.split(": ") if kitap.contributors else [] -%}
+<table class="kunye">
+  <caption class="etiket">{{ m.kunye }}</caption>
+  <tbody>
+    {%- if kitap.authors.length or kitap.yazar_gosterim %}
+    <tr><th scope="row">{{ m.kunye_yazar }}</th><td>{{ yazarlar(kitap, true, "") }}</td></tr>
+    {%- endif %}
+    {%- if _katki.length > 1 %}
+    <tr><th scope="row">{{ _katki[0] }}</th><td>{{ _katki.slice(1).join(": ") }}</td></tr>
+    {%- elif _katki.length == 1 %}
+    <tr><th scope="row">Katkıda bulunanlar</th><td>{{ _katki[0] }}</td></tr>
+    {%- endif %}
+    {%- if kitap.isbn %}<tr><th scope="row">{{ m.kunye_isbn }}</th><td class="rakam">{{ kitap.isbn }}</td></tr>{% endif %}
+    {%- if kitap.pages %}<tr><th scope="row">{{ m.kunye_sayfa }}</th><td class="rakam">{{ kitap.pages }}</td></tr>{% endif %}
+    {%- if kitap.dimensions %}<tr><th scope="row">{{ m.kunye_boyut }}</th><td class="rakam">{{ kitap.dimensions | replace(".", ",") | replace(" x ", " × ") }}</td></tr>{% endif %}
+    {%- if kitap.binding %}<tr><th scope="row">{{ m.kunye_cilt }}</th><td>{{ kitap.binding }}</td></tr>{% endif %}
+    {%- if kitap.paper %}<tr><th scope="row">Kâğıt</th><td>{{ kitap.paper }}</td></tr>{% endif %}
+    {%- if kitap.publish_date %}<tr><th scope="row">Yayın tarihi</th><td class="rakam">{{ tarih(kitap.publish_date) }}</td></tr>{% endif %}
+    {%- if kitap.language %}<tr><th scope="row">{{ m.kunye_dil }}</th><td>{{ "Türkçe" if kitap.language == "tr" else kitap.language }}</td></tr>{% endif %}
+    {%- if kunye_kategoriler and kunye_kategoriler.length %}
+    <tr><th scope="row">Kategori</th><td>{% for k in kunye_kategoriler %}<a href="/kitaplar/?kategori={{ k.slug }}">{{ k.ad }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+    {%- endif %}
+    {%- if kitap.edition %}<tr><th scope="row">{{ m.kunye_baski }}</th><td>{{ kitap.edition }}</td></tr>{% endif %}
+    {%- if kunye_diziler and kunye_diziler.length %}
+    <tr><th scope="row">Dizi</th><td>{% for z in kunye_diziler %}<a href="{{ z.url }}">{{ z.ad }}</a>{% if not loop.last %}, {% endif %}{% endfor %}</td></tr>
+    {%- endif %}
+  </tbody>
+</table>

@@ -1,0 +1,6 @@
+{# Ana sayfa şeridi: yazarlar — B2. Veri: vitrin.yazarlar (kitap sayısına göre sıralı). #}
+<div class="yazar-seridi">
+  {%- for yazar in vitrin.yazarlar %}
+  {% include "components/kitap/yazar-karti.njk" %}
+  {%- endfor %}
+</div>

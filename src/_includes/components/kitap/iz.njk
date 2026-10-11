@@ -1,0 +1,8 @@
+{# Breadcrumb — B2. `iz_ogeler` = [{ad, url}] ; son öğe bağlantısız (aria-current). #}
+<nav class="iz" aria-label="Konum">
+  <ol>
+    {%- for o in iz_ogeler %}
+    <li>{% if loop.last %}<span aria-current="page">{{ o.ad }}</span>{% else %}<a href="{{ o.url }}">{{ o.ad }}</a>{% endif %}</li>
+    {%- endfor %}
+  </ol>
+</nav>

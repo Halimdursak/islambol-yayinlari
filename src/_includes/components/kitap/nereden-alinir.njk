@@ -1,0 +1,21 @@
+{#
+  "Nereden alınır" kutusu — B2. Girdi: `na_kaynaklar` (sources nesnesi ya da null), `na_wa` (WhatsApp URL).
+  Fiyat ASLA basılmaz (ADR-001).
+#}
+{%- set m = site.mikrometin -%}
+{%- set _adlar = { kitapyurdu: "Kitapyurdu", nobelkitap: "Nobel Kitap", kureselkitap: "Küresel Kitap" } -%}
+<section class="siparis" aria-labelledby="nereden-alinir-baslik">
+  <h2 class="etiket" id="nereden-alinir-baslik">{{ m.nereden_alinir }}</h2>
+  <a class="dugme dugme--birincil" href="{{ na_wa }}" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.4-1.8-1.2-2.2-2.2l.8-1-1-2z" fill="currentColor" stroke="none"/></svg>{{ m.whatsapp_cta }}</a>
+  <p class="siparis__not">{{ m.whatsapp_not }}{% if site.telefon_gosterim %} <span class="siparis__no">{{ site.telefon_gosterim }}</span>{% endif %}</p>
+  {%- set _var = false -%}
+  {%- for anahtar, ad in _adlar %}{% if na_kaynaklar and na_kaynaklar[anahtar] %}{% set _var = true %}{% endif %}{% endfor %}
+  {%- if _var %}
+  <ul class="siparis__liste">
+    {%- for anahtar, ad in _adlar %}{% if na_kaynaklar[anahtar] %}
+    <li><a class="dugme dugme--ucuncul" href="{{ na_kaynaklar[anahtar] }}" rel="noopener noreferrer">{{ m.satis_sayfasina_git | replace("{ad}", ad) }}</a></li>
+    {%- endif %}{% endfor %}
+  </ul>
+  {%- endif %}
+  <p class="siparis__not">{{ m.nereden_alinir_not }}</p>
+</section>

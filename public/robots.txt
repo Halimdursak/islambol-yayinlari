@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_test/
+
+Sitemap: https://adursak63.github.io/islambol-yayinlari/sitemap.xml

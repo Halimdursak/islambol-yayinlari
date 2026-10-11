@@ -1,0 +1,56 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: diziler
+  size: 1
+  alias: dizi
+permalink: /dizi/{{ dizi.slug }}/
+ekstra_css:
+  - /assets/css/katalog.css
+---
+{%- from "components/kitap/kapak.njk" import kapak -%}
+{%- from "components/bolum-basligi.njk" import bolumBasligi -%}
+{%- set m = site.mikrometin -%}
+{%- set iz_ogeler = [{ ad: "Ana sayfa", url: "/" }, { ad: "Set ve Seriler", url: "/diziler/" }, { ad: dizi.ad, url: dizi.url }] -%}
+{%- set kapak_kitap = dizi.set_kaydi or dizi.kitaplar[0] -%}
+{%- set na_kaynaklar = dizi.set_kaydi.sources if dizi.set_kaydi else null -%}
+{%- set na_wa = dizi_whatsapp -%}
+<article class="kap kitap-detay dizi-sayfasi">
+  {% include "components/kitap/iz.njk" %}
+
+  <div class="kitap-detay__izgara">
+    <div class="kitap-detay__sol">
+      <figure class="kitap-detay__kapak">
+        {{ kapak(kapak_kitap, kapaklar[kapak_kitap.id], { sizes: "(min-width: 64em) 36vw, 80vw", yukle: "eager", alt: dizi.ad ~ " kapağı" }) }}
+      </figure>
+    </div>
+
+    <div class="kitap-detay__sag">
+      <ul class="etiketler"><li><span class="cip cip--durum">Set / Seri</span></li></ul>
+      <h1 class="kitap-detay__baslik">{{ dizi.ad }}</h1>
+      {%- if dizi.aciklama %}<p class="kitap-detay__alt-baslik">{{ dizi.aciklama }}</p>{% endif %}
+
+      {%- if dizi.set_kaydi %}
+      {%- set kitap = dizi.set_kaydi -%}
+      {%- set kunye_kategoriler = set_kategorileri -%}
+      {% include "components/kitap/kunye-tablosu.njk" %}
+      <p><a class="dugme dugme--ucuncul" href="{{ dizi.set_kaydi.url }}">Kitap sayfası</a></p>
+      {%- endif %}
+
+      {% include "components/kitap/nereden-alinir.njk" %}
+    </div>
+  </div>
+
+  <section class="kitap-detay__bolum" aria-labelledby="dizi-ciltler">
+    {{ bolumBasligi(etiket=m.kayit, baslik="Ciltler", id="dizi-ciltler", giris=m.dizi_giris) }}
+    {%- if dizi.uyeler.length %}
+    <div class="kartlar">
+      {%- for kitap in dizi.uyeler %}
+      {% include "components/kitap/kitap-karti.njk" %}
+      {%- endfor %}
+    </div>
+    {%- else %}
+    <p class="bos-metin">{{ m.bos_durum_dizi }}</p>
+    {%- endif %}
+  </section>
+</article>

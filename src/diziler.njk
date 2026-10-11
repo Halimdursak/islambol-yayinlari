@@ -1,0 +1,21 @@
+---
+layout: layouts/base.njk
+permalink: /diziler/
+ekstra_css:
+  - /assets/css/katalog.css
+---
+{%- set m = site.mikrometin -%}
+{%- set iz_ogeler = [{ ad: "Ana sayfa", url: "/" }, { ad: "Set ve Seriler", url: "/diziler/" }] -%}
+<div class="kap katalog">
+  {% include "components/kitap/iz.njk" %}
+  <header class="katalog__ust">
+    <span class="etiket">{{ m.kayit }}</span>
+    <h1 class="katalog__baslik">Set ve Seriler</h1>
+    <p class="katalog__sayi">{{ m.bolum_giris.setler }} · {{ m.kayit_sayisi | replace("{n}", diziler.length) }}</p>
+  </header>
+  <div class="dizi-izgara">
+    {%- for dizi in diziler %}
+    {% include "components/kitap/dizi-karti.njk" %}
+    {%- endfor %}
+  </div>
+</div>

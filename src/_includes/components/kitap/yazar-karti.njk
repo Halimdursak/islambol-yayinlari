@@ -1,0 +1,18 @@
+{#
+  Yazar kartı — B2. SÖZLEŞME: `yazar` değişkeniyle include edilir. Portre verisi yok → baş harf mührü.
+  İlk 3 kitabın küçük kapakları gösterilir.
+#}
+{%- from "components/kitap/kapak.njk" import kapak -%}
+<article class="yazar-karti">
+  <div class="yazar-karti__portre" aria-hidden="true">{% for w in yazar.name.split(" ") %}{% if loop.index0 < 2 %}{{ w | first }}{% endif %}{% endfor %}</div>
+  <div class="yazar-karti__metin">
+    <span class="etiket">Yazar</span>
+    <h3 class="yazar-karti__ad"><a href="{{ yazar.url }}">{{ yazar.display }}</a></h3>
+    <p class="yazar-karti__ek">{{ site.mikrometin.kayit_sayisi | replace("{n}", yazar.kitap_sayisi) }}</p>
+    {%- if yazar.kitaplar.length %}
+    <div class="yazar-karti__kapaklar" aria-hidden="true">
+      {%- for k in yazar.kitaplar %}{% if loop.index0 < 3 %}<span class="yazar-karti__mini">{{ kapak(k, kapaklar[k.id], { sizes: "64px", yukle: "lazy", alt: "" }) }}</span>{% endif %}{% endfor %}
+    </div>
+    {%- endif %}
+  </div>
+</article>

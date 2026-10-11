@@ -1,0 +1,28 @@
+{#
+  Kapak makrosu — B2. Kullanım:
+    {% from "components/kitap/kapak.njk" import kapak %}
+    {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 64em) 22vw, 45vw", yukle: "lazy", alt: "" }) }}
+  - `kayit` (kapaklar[id]) varsa <picture> + webp/jpg srcset; yoksa kitap.kapak_url ile düz <img>.
+  - width/height her zaman basılır (CLS). `alt` boşsa dekoratif sayılır (kart içinde başlık bağlantısı zaten var).
+  - yukle: "lazy" (varsayılan) | "eager" (sayfanın ana kapağı; fetchpriority=high eklenir).
+#}
+{% macro kapak(kitap, kayit, secenek) %}
+{%- set opt = secenek or {} -%}
+{%- set en = (kayit.genislik if kayit and kayit.genislik else kitap.cover.width) or 600 -%}
+{%- set boy = (kayit.yukseklik if kayit and kayit.yukseklik else kitap.cover.height) or 900 -%}
+{%- set yukle = opt.yukle or "lazy" -%}
+{%- set alt = opt.alt if opt.alt is defined else "" -%}
+{%- if kayit and kayit.kaynaklar and (kayit.kaynaklar.webp or kayit.kaynaklar.jpg) -%}
+<picture>
+  {%- if kayit.kaynaklar.webp and kayit.kaynaklar.webp.length %}
+  <source type="image/webp" srcset="{% for s in kayit.kaynaklar.webp %}{{ s.url }} {{ s.w }}w{% if not loop.last %}, {% endif %}{% endfor %}"{% if opt.sizes %} sizes="{{ opt.sizes }}"{% endif %}>
+  {%- endif %}
+  {%- set jpgler = kayit.kaynaklar.jpg or [] %}
+  <img src="{{ jpgler[jpgler.length - 1].url if jpgler.length else (kayit.orijinal or kitap.kapak_url) }}"
+    {%- if jpgler.length %} srcset="{% for s in jpgler %}{{ s.url }} {{ s.w }}w{% if not loop.last %}, {% endif %}{% endfor %}"{% if opt.sizes %} sizes="{{ opt.sizes }}"{% endif %}{% endif %}
+    width="{{ en }}" height="{{ boy }}" alt="{{ alt }}" loading="{{ yukle }}" decoding="async"{% if yukle == "eager" %} fetchpriority="high"{% endif %}>
+</picture>
+{%- elif kitap.kapak_url -%}
+<img src="{{ kitap.kapak_url }}" width="{{ en }}" height="{{ boy }}" alt="{{ alt }}" loading="{{ yukle }}" decoding="async"{% if yukle == "eager" %} fetchpriority="high"{% endif %}>
+{%- endif -%}
+{% endmacro %}

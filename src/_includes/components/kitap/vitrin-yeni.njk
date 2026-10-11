@@ -1,0 +1,6 @@
+{# Ana sayfa şeridi: yeni çıkanlar — B2. Bölüm başlığını B1 basar; burada yalnızca kart ızgarası. Veri: vitrin.yeni_cikanlar #}
+<div class="kartlar kartlar--vitrin">
+  {%- for kitap in vitrin.yeni_cikanlar %}
+  {% include "components/kitap/kitap-karti.njk" %}
+  {%- endfor %}
+</div>

@@ -1,0 +1,15 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for sayfa in collections.all %}
+{%- if sayfa.url and sayfa.url != "/404.html" and sayfa.url.indexOf("/_test/") != 0 and sayfa.url.indexOf("/sitemap.xml") != 0 %}
+  <url>
+    <loc>{{ site.url }}{{ sayfa.url }}</loc>
+    <lastmod>{{ page.date.toISOString().slice(0, 10) }}</lastmod>
+  </url>
+{%- endif %}
+{%- endfor %}
+</urlset>

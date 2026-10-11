@@ -1,5 +1,5 @@
 {
-  "not": "Kategori adları kitapçı sitelerindeki ad kalıplarından kurulmuştur ('Kitap > ' öneki atılmıştır); books.json 'categories' alanıyla Direktör uzlaştıracak. Bir kitap birden çok kategoriye girebilir.",
+  "not": "Kategori adları kitapçı sitelerindeki ad kalıplarından kurulmuştur ('Kitap > ' öneki atılmıştır); books.json 'categories' alanıyla Direktör uzlaştıracak. Bir kitap birden çok kategoriye girebilir. | Direktör 11.10.2026: B2 raporundaki eşleşmeyen kitapçı kategorileri kaynak_adlari'na eklendi ('Diğer' ve 'Sağlık-Tıp' bilinçli eşlenmedi).",
   "kategoriler": [
     {
       "ad": "Tarih",
@@ -23,7 +23,11 @@
         "Tarih > Kişiler",
         "Tarih > Hatıralar",
         "Edebiyat > Biyografi-Otobiyografi",
-        "Önemli Olaylar ve Biyografi - Otobiyografi"
+        "Önemli Olaylar ve Biyografi - Otobiyografi",
+        "Biyografi - Otobiyografi",
+        "Biyografi-Otobiyografi",
+        "Siyaset > Biyografi-Otobiyografi",
+        "Hatıralar"
       ]
     },
     {
@@ -35,7 +39,10 @@
         "Siyaset > Araştırma-İnceleme",
         "Siyaset > Biyografi",
         "Siyaset > Mustafa Kemal Atatürk",
-        "Siyaset > Aktüel Siyaset"
+        "Siyaset > Aktüel Siyaset",
+        "Mustafa Kemal Atatürk",
+        "Türkiye Siyaseti ve Politikası",
+        "Siyaset > Diğer"
       ]
     },
     {
@@ -49,7 +56,9 @@
         "İslam > Tefsir-Meal",
         "İslam > Tarih",
         "İslam > Diğer",
-        "Din > İslamiyet"
+        "Din > İslamiyet",
+        "Din > Diğer",
+        "İslam Eğitimi"
       ]
     },
     {
@@ -69,7 +78,9 @@
       "aciklama": "Belirli bir konu veya dönem üzerine kaynaklara dayanan genel araştırma ve inceleme kitapları.",
       "kaynak_adlari": [
         "Araştırma-İnceleme",
-        "Araştırma - İnceleme"
+        "Araştırma - İnceleme",
+        "İnsan ve Toplum",
+        "Araştırma-İnceleme (Genel)"
       ]
     },
     {
