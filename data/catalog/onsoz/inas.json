@@ -1,0 +1,93 @@
+{
+  "kitapyurdu_slug": "inas",
+  "kitapyurdu_id": 714274,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/inas/714274.html",
+  "title": "İnas",
+  "author_display": "Dr. İyad Kunaybi",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 10,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252969/mh:1000/wh:4ba4949e1",
+      "local_path": "public/onsoz/inas/01.jpg",
+      "width": 604,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252970/mh:1000/wh:1c41e1d53",
+      "local_path": "public/onsoz/inas/02.jpg",
+      "width": 610,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252971/mh:1000/wh:3c0d97d17",
+      "local_path": "public/onsoz/inas/03.jpg",
+      "width": 604,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252972/mh:1000/wh:604b3d8ba",
+      "local_path": "public/onsoz/inas/04.jpg",
+      "width": 590,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252974/mh:1000/wh:2f59cd9de",
+      "local_path": "public/onsoz/inas/05.jpg",
+      "width": 605,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252975/mh:1000/wh:355f9fb86",
+      "local_path": "public/onsoz/inas/06.jpg",
+      "width": 589,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252976/mh:1000/wh:7cc0ab9c2",
+      "local_path": "public/onsoz/inas/07.jpg",
+      "width": 592,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252977/mh:1000/wh:363131226",
+      "local_path": "public/onsoz/inas/08.jpg",
+      "width": 587,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 9,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252978/mh:1000/wh:6a8ce6917",
+      "local_path": "public/onsoz/inas/09.jpg",
+      "width": 596,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 10,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12252979/mh:1000/wh:bd58fa832",
+      "local_path": "public/onsoz/inas/10.jpg",
+      "width": 580,
+      "height": 1000,
+      "kind": "metin"
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

@@ -1,0 +1,128 @@
+{
+  "not": "Kategori adları kitapçı sitelerindeki ad kalıplarından kurulmuştur ('Kitap > ' öneki atılmıştır); books.json 'categories' alanıyla Direktör uzlaştıracak. Bir kitap birden çok kategoriye girebilir.",
+  "kategoriler": [
+    {
+      "ad": "Tarih",
+      "slug": "tarih",
+      "aciklama": "Osmanlı'nın son dönemi, Milli Mücadele ve Cumhuriyet'in ilk yıllarına dair araştırma, inceleme ve belge çalışmaları.",
+      "kaynak_adlari": [
+        "Tarih",
+        "Tarih > Türk-Osmanlı",
+        "Tarih > Türkiye",
+        "Tarih > Araştırma-İnceleme",
+        "Osmanlı Tarihi",
+        "Türkiye ve Cumhuriyet Tarihi",
+        "Yakın Tarih"
+      ]
+    },
+    {
+      "ad": "Hatıralar ve Biyografi",
+      "slug": "hatiralar-biyografi",
+      "aciklama": "Dönemin tanıklarının hatıratı ile kişi hayatlarına odaklanan biyografik çalışmalar.",
+      "kaynak_adlari": [
+        "Tarih > Kişiler",
+        "Tarih > Hatıralar",
+        "Edebiyat > Biyografi-Otobiyografi",
+        "Önemli Olaylar ve Biyografi - Otobiyografi"
+      ]
+    },
+    {
+      "ad": "Siyaset",
+      "slug": "siyaset",
+      "aciklama": "Siyasi tarih, Cumhuriyet rejiminin kuruluşu ve güncel siyaset üzerine araştırma ve incelemeler.",
+      "kaynak_adlari": [
+        "Siyaset",
+        "Siyaset > Araştırma-İnceleme",
+        "Siyaset > Biyografi",
+        "Siyaset > Mustafa Kemal Atatürk",
+        "Siyaset > Aktüel Siyaset"
+      ]
+    },
+    {
+      "ad": "İslam Düşüncesi",
+      "slug": "islam-dusuncesi",
+      "aciklama": "Son dönem İslam düşüncesi, ilmî tartışmalar ve günümüz İslam düşüncesine dair eserler.",
+      "kaynak_adlari": [
+        "İslam",
+        "İslam > Araştırma-İnceleme",
+        "İslam > Günümüz İslam Düşüncesi",
+        "İslam > Tefsir-Meal",
+        "İslam > Tarih",
+        "İslam > Diğer",
+        "Din > İslamiyet"
+      ]
+    },
+    {
+      "ad": "Edebiyat",
+      "slug": "edebiyat",
+      "aciklama": "Yerli ve çeviri roman ile deneme türündeki yayınlar.",
+      "kaynak_adlari": [
+        "Edebiyat > Roman (Yerli)",
+        "Edebiyat > Roman (Çeviri)",
+        "Edebiyat > Deneme (Yerli)",
+        "Roman"
+      ]
+    },
+    {
+      "ad": "Araştırma ve İnceleme",
+      "slug": "arastirma-inceleme",
+      "aciklama": "Belirli bir konu veya dönem üzerine kaynaklara dayanan genel araştırma ve inceleme kitapları.",
+      "kaynak_adlari": [
+        "Araştırma-İnceleme",
+        "Araştırma - İnceleme"
+      ]
+    },
+    {
+      "ad": "Arşiv ve Belge Yayınları",
+      "slug": "arsiv-belge",
+      "aciklama": "Meclis zabıtları gibi birincil kaynak yayınları ile Osmanlıca tıpkıbasım ve Latinize edilmiş metinler.",
+      "kaynak_adlari": [
+        "Diğer Dillerde > Osmanlıca",
+        "Osmanlıca"
+      ]
+    }
+  ],
+  "diziler": [
+    {
+      "ad": "Hayat ve Hatıratım (4 cilt)",
+      "slug": "hayat-ve-hatiratim",
+      "aciklama": "Rıza Nur'un dört ciltlik hatıratı.",
+      "uye_basliklari": [
+        "Hayat ve Hatıratım"
+      ]
+    },
+    {
+      "ad": "Enver ve Mustafa Kemal'in Kitabı (3 cilt)",
+      "slug": "enver-ve-mustafa-kemalin-kitabi",
+      "aciklama": "1908-1938 dönemini konu alan üç ciltlik takım.",
+      "uye_basliklari": [
+        "Enver ve Mustafa Kemal'in Kitabı 1908 - 1938"
+      ]
+    },
+    {
+      "ad": "Bilinmeyen Yönleriyle Mustafa Kemal ve Kurtuluş Savaşı Gerçekleri (5 kitap)",
+      "slug": "bilinmeyen-yonleriyle-mustafa-kemal",
+      "aciklama": "Seyfi Say'ın beş kitaplık serisi.",
+      "uye_basliklari": [
+        "Bilinmeyen Yönleriyle Mustafa Kemal ve Kurtuluş Savaşı Gerçekleri Serisi"
+      ]
+    },
+    {
+      "ad": "GARGAT",
+      "slug": "gargat",
+      "aciklama": "Ali Akbaş'ın iki ciltten oluşan GARGAT çalışması (toplam 908 sayfa).",
+      "uye_basliklari": [
+        "GARGAT 1. Cilt: Kemalist Esaretin Gerçek Sahipleri",
+        "GARGAT 2. Cilt: Misak-ı Milli ve Cumhuriyet Projesi"
+      ]
+    },
+    {
+      "ad": "Mevkıfu'l Akl (4 cilt)",
+      "slug": "mevkiful-akl",
+      "aciklama": "Şeyhülislam Mustafa Sabri Efendi'nin akıl, ilim ve âlemin Rabbi karşısındaki konumunu ele alan dört ciltlik eseri.",
+      "uye_basliklari": [
+        "Mevkıfu'l Akl Akıl, İlim ve Âlemin Âlemlerin Rabbi ve Rasûlleri Karşısındaki Konumu"
+      ]
+    }
+  ]
+}

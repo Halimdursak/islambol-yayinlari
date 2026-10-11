@@ -1,0 +1,93 @@
+{
+  "kitapyurdu_slug": "igneli-fici",
+  "kitapyurdu_id": 746013,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/igneli-fici/746013.html",
+  "title": "İğneli Fıçı",
+  "author_display": "Cevat Rıfat Atilhan",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 10,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238369/mh:1000/wh:ea7fcfd4c",
+      "local_path": "public/onsoz/igneli-fici/01.jpg",
+      "width": 662,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238370/mh:1000/wh:3df797473",
+      "local_path": "public/onsoz/igneli-fici/02.jpg",
+      "width": 654,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238371/mh:1000/wh:3e0f503cd",
+      "local_path": "public/onsoz/igneli-fici/03.jpg",
+      "width": 654,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238372/mh:1000/wh:462d2a9ac",
+      "local_path": "public/onsoz/igneli-fici/04.jpg",
+      "width": 659,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238373/mh:1000/wh:8af3ea4c0",
+      "local_path": "public/onsoz/igneli-fici/05.jpg",
+      "width": 629,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238374/mh:1000/wh:35176624d",
+      "local_path": "public/onsoz/igneli-fici/06.jpg",
+      "width": 658,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238375/mh:1000/wh:95d09bd5f",
+      "local_path": "public/onsoz/igneli-fici/07.jpg",
+      "width": 634,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238376/mh:1000/wh:9c9ec2242",
+      "local_path": "public/onsoz/igneli-fici/08.jpg",
+      "width": 641,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 9,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238377/mh:1000/wh:003fd6dbc",
+      "local_path": "public/onsoz/igneli-fici/09.jpg",
+      "width": 620,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 10,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12238378/mh:1000/wh:db9fd9440",
+      "local_path": "public/onsoz/igneli-fici/10.jpg",
+      "width": 628,
+      "height": 1000,
+      "kind": "metin"
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

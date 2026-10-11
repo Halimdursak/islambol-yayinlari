@@ -1,0 +1,191 @@
+/* ==========================================================================
+   İslambol Yayınları — Tasarım token'ları (D1)
+   Yön: "Arşiv Dosyası" — kâğıt · mürekkep · mühür kırmızısı
+   Kaynak doküman: /DESIGN.md. Bu dosyada YALNIZCA değişken tanımı vardır;
+   bileşen seçicisi yazmayın (B1–B5 kendi CSS dosyalarında tüketir).
+   Renkler hex olarak verilir; OKLCH karşılıkları yorum satırında ve DESIGN.md §1'de.
+   Kontrast: `node scripts/design/kontrast.mjs`
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Renk: zeminler (kâğıt) ---- */
+  --c-paper:        #F4EFE4; /* oklch(95.3% 0.016 86)  sayfa zemini, sıcak kırık beyaz */
+  --c-paper-raised: #FAF7F0; /* oklch(97.7% 0.010 87)  kart, modal, künye tablosu */
+  --c-paper-sunk:   #EAE3D4; /* oklch(91.7% 0.021 86)  footer, filtre çubuğu, kapak yuvası */
+
+  /* ---- Renk: mürekkep ---- */
+  --c-ink:          #1E1C1A; /* oklch(22.8% 0.005 68)  başlık ve gövde metni (logo antrasiti #202020 ısıtıldı) */
+  --c-ink-soft:     #3A3632; /* oklch(33.6% 0.009 68)  ikincil metin, alt başlık (logo #303030 ısıtıldı) */
+  --c-bone:         #6A6257; /* oklch(50.0% 0.020 76)  künye, metadata, yardımcı metin */
+
+  /* ---- Renk: çizgiler ---- */
+  --c-rule:         #CFC6B4; /* oklch(82.9% 0.027 85)  1px dekoratif ayırıcı (metin değil) */
+  --c-rule-strong:  #8C8272; /* oklch(61.1% 0.026 80)  form/çip/düğme kenarı (≥3:1 bileşen sınırı) */
+
+  /* ---- Renk: vurgu (mühür kırmızısı — logodaki kırmızının koyu, mühür mumu tonu) ---- */
+  --c-seal:         #A51C22; /* oklch(46.8% 0.171 25)  bağlantı, odak halkası, etiket vurgusu */
+  --c-seal-fill:    #A51C22; /* birincil düğme zemini */
+  --c-seal-hover:   #8C1C13; /* oklch(41.9% 0.149 29)  bağlantı üzerinde (metin) */
+  --c-seal-fill-hover: #8C1C13; /* birincil düğme üzerinde/basılı zemini */
+  --c-on-seal:      #FAF7F0; /* kırmızı zemin üstündeki metin */
+
+  /* ---- Renk: işlevsel ---- */
+  --c-focus:        var(--c-seal);
+  --c-scrim:        rgb(30 28 26 / 0.78);  /* modal arka örtüsü */
+  --c-selection:    #E9D3CC;               /* ::selection zemini (metin --c-ink) */
+  --c-flip-mat:     var(--c-paper-sunk);   /* sayfa çevirme sahnesinin "masa" zemini */
+
+  /* ---- Doku: ≤ %3 opak kâğıt gürültüsü (SVG feTurbulence, ağır görsel yok) ---- */
+  --texture-paper: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.11 0 0 0 0 0.10 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+
+  /* ---- Yazı aileleri (tam 2 aile) ---- */
+  --font-serif: "EB Garamond", "EB Garamond Yedek", Garamond, "Times New Roman", serif;
+  --font-sans:  "IBM Plex Sans", "IBM Plex Sans Yedek", "Segoe UI", Arial, sans-serif;
+
+  /* ---- Yazı ağırlıkları (değişken font aralıkları: Garamond 400–700, Plex 400–600) ---- */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold: 600;
+
+  /* ---- Tip ölçeği: 7 kademe, 360px → 1440px akışkan ---- */
+  --text-xs:   clamp(0.75rem,   0.729rem + 0.093vw, 0.8125rem); /* 12 → 13  etiket, künye başlığı */
+  --text-sm:   clamp(0.875rem,  0.854rem + 0.093vw, 0.9375rem); /* 14 → 15  arayüz, menü, düğme */
+  --text-base: clamp(1.0625rem, 1.021rem + 0.185vw, 1.1875rem); /* 17 → 19  gövde (serif) */
+  --text-lg:   clamp(1.25rem,   1.167rem + 0.370vw, 1.5rem);    /* 20 → 24  kart başlığı, giriş paragrafı */
+  --text-xl:   clamp(1.625rem,  1.417rem + 0.926vw, 2.25rem);   /* 26 → 36  bölüm başlığı (h3) */
+  --text-2xl:  clamp(2.125rem,  1.667rem + 2.037vw, 3.5rem);    /* 34 → 56  sayfa başlığı (h2/h1) */
+  --text-3xl:  clamp(2.75rem,   1.833rem + 4.074vw, 5.5rem);    /* 44 → 88  hero kitap adı */
+
+  /* ---- Satır yüksekliği ---- */
+  --leading-tight:  1.08;  /* 3xl/2xl başlık */
+  --leading-snug:   1.22;  /* xl/lg başlık, kart başlığı */
+  --leading-normal: 1.45;  /* arayüz (Plex) */
+  --leading-loose:  1.62;  /* uzun serif metin */
+
+  /* ---- Harf aralığı ---- */
+  --tracking-tight: -0.012em; /* büyük serif başlık */
+  --tracking-none:  0;
+  --tracking-label: 0.12em;   /* Plex BÜYÜK HARF arşiv etiketi */
+  --tracking-wide:  0.06em;   /* yazar adı (Plex büyük harf, kart) */
+
+  /* ---- Boşluk ölçeği (4px tabanlı) ---- */
+  --space-1:  0.25rem; /*  4 */
+  --space-2:  0.5rem;  /*  8 */
+  --space-3:  0.75rem; /* 12 */
+  --space-4:  1rem;    /* 16 */
+  --space-5:  1.5rem;  /* 24  = ızgara oluğu */
+  --space-6:  2rem;    /* 32 */
+  --space-7:  3rem;    /* 48 */
+  --space-8:  4rem;    /* 64 */
+  --space-9:  6rem;    /* 96 */
+  --space-10: 8rem;    /* 128 */
+  --space-section: clamp(3.5rem, 2.333rem + 5.185vw, 7rem); /* bölüm ritmi: 56 → 112 */
+  --space-gutter:  1.5rem;                                   /* 24px oluk */
+  --space-page-x:  clamp(1rem, 0.333rem + 2.963vw, 3rem);    /* sayfa yan boşluğu: 16 → 48 */
+
+  /* ---- Izgara ve genişlikler ---- */
+  --grid-columns: 12;
+  --max-w-page:  80rem;  /* 1280px */
+  --max-w-wide:  75rem;  /* 1200px, içerik ızgarası */
+  --max-w-prose: 38rem;  /* ~68 karakter serif satır */
+  --max-w-modal: 72rem;  /* sayfa çevirme modalı */
+  --hero-min-h:  min(80vh, 56rem);
+  --cover-ratio: 2 / 3;
+
+  /* ---- Köşe yarıçapı (arşiv = keskin kenar) ---- */
+  --radius-0: 0;
+  --radius-1: 2px;  /* düğme, çip */
+  --radius-2: 4px;  /* modal, dosya sekmesi üst köşeleri — üst sınır */
+
+  /* ---- Çizgiler ---- */
+  --rule-width: 1px;
+  --rule-hair:   1px solid var(--c-rule);
+  --rule-ink:    1px solid var(--c-ink);
+  --rule-strong: 1px solid var(--c-rule-strong);
+  --rule-seal:   2px solid var(--c-seal);
+  --focus-ring-width:  2px;
+  --focus-ring-offset: 2px;
+
+  /* ---- Gölgeler (yalnızca kapak ve modal; kart kutusu gölgesiz) ---- */
+  --shadow-cover:      0 1px 0 rgb(30 28 26 / 0.10), 0 14px 22px -14px rgb(30 28 26 / 0.45);
+  --shadow-cover-lift: 0 1px 0 rgb(30 28 26 / 0.10), 0 22px 30px -16px rgb(30 28 26 / 0.50);
+  --shadow-page:       0 0 0 1px rgb(30 28 26 / 0.08), 0 18px 40px -20px rgb(30 28 26 / 0.45);
+  --shadow-modal:      0 30px 60px -30px rgb(0 0 0 / 0.55);
+
+  /* ---- Hareket ---- */
+  --duration-fast: 150ms;  /* renk, alt çizgi */
+  --duration-base: 220ms;  /* kart yükselmesi, menü */
+  --duration-slow: 300ms;  /* modal açılışı */
+  --ease-out:    cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --lift-card: -4px;       /* kitap kartı hover yükselmesi */
+
+  /* ---- Katman sırası ---- */
+  --z-header: 50;
+  --z-menu:   60;
+  --z-modal:  100;
+  --z-skip:   200;
+}
+
+/* ---- Hareket azaltma: süreler sıfırlanır, yükselme kapanır ---- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+    --lift-card: 0px;
+  }
+}
+
+/* ---- Karanlık tema: "gece arşivi" (ikincil öncelik) ----
+   Sistem tercihi karanlıksa ve kullanıcı açık temayı zorlamadıysa uygulanır;
+   [data-theme="dark"] ile elle de seçilebilir. Kırmızı korunur, açıklığı artırılır. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --c-paper:        #171513; /* oklch(19.7% 0.005 68) */
+    --c-paper-raised: #201D1A; /* oklch(23.3% 0.007 67) */
+    --c-paper-sunk:   #110F0E; /* oklch(17.0% 0.004 48) */
+    --c-ink:          #ECE5D6; /* oklch(92.3% 0.021 86) */
+    --c-ink-soft:     #CFC7B7; /* oklch(83.2% 0.024 85) */
+    --c-bone:         #A39886; /* oklch(68.4% 0.029 80) */
+    --c-rule:         #3A352F; /* oklch(33.2% 0.012 72) */
+    --c-rule-strong:  #7A705F; /* oklch(54.9% 0.028 81) */
+    --c-seal:         #E0675C; /* oklch(65.9% 0.153 27)  metin/çizgi vurgusu */
+    --c-seal-fill:    #B3262B; /* oklch(50.3% 0.177 25)  düğme zemini */
+    --c-seal-hover:   #EE8B81; /* oklch(74.0% 0.122 27) bağlantı üzerinde (metin), açılır */
+    --c-seal-fill-hover: #8F1D22; /* oklch(42.7% 0.149 24) düğme üzerinde, koyulur */
+    --c-on-seal:      #FAF7F0;
+    --c-scrim:        rgb(8 7 6 / 0.82);
+    --c-selection:    #5A2A25;
+    --shadow-cover:      0 1px 0 rgb(0 0 0 / 0.4), 0 14px 22px -14px rgb(0 0 0 / 0.8);
+    --shadow-cover-lift: 0 1px 0 rgb(0 0 0 / 0.4), 0 22px 30px -16px rgb(0 0 0 / 0.85);
+    --shadow-page:       0 0 0 1px rgb(255 255 255 / 0.06), 0 18px 40px -20px rgb(0 0 0 / 0.8);
+    --texture-paper: none;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --c-paper:        #171513;
+  --c-paper-raised: #201D1A;
+  --c-paper-sunk:   #110F0E;
+  --c-ink:          #ECE5D6;
+  --c-ink-soft:     #CFC7B7;
+  --c-bone:         #A39886;
+  --c-rule:         #3A352F;
+  --c-rule-strong:  #7A705F;
+  --c-seal:         #E0675C;
+  --c-seal-fill:    #B3262B;
+  --c-seal-hover:   #EE8B81;
+  --c-seal-fill-hover: #8F1D22;
+  --c-on-seal:      #FAF7F0;
+  --c-scrim:        rgb(8 7 6 / 0.82);
+  --c-selection:    #5A2A25;
+  --shadow-cover:      0 1px 0 rgb(0 0 0 / 0.4), 0 14px 22px -14px rgb(0 0 0 / 0.8);
+  --shadow-cover-lift: 0 1px 0 rgb(0 0 0 / 0.4), 0 22px 30px -16px rgb(0 0 0 / 0.85);
+  --shadow-page:       0 0 0 1px rgb(255 255 255 / 0.06), 0 18px 40px -20px rgb(0 0 0 / 0.8);
+  --texture-paper: none;
+}

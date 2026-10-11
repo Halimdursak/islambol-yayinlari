@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stil Karosu — İslambol Yayınları</title>
+<meta name="description" content="D1 tasarım sistemi stil karosu: Arşiv Dosyası yönü, palet, tipografi, bileşenler.">
+<link rel="stylesheet" href="../../src/assets/css/tokens.css">
+<link rel="stylesheet" href="../../src/assets/css/typography.css">
+<style>
+/* ---- YALNIZCA STİL KAROSU İÇİN: file:// altında kök-göreli font URL'leri çalışmadığından
+   @font-face'ler göreli yollarla yeniden tanımlanır. Sitede typography.css yeterlidir. ---- */
+@font-face{font-family:"EB Garamond";font-style:normal;font-weight:400 700;font-display:swap;src:url("../../src/assets/fonts/eb-garamond-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"EB Garamond";font-style:normal;font-weight:400 700;font-display:swap;src:url("../../src/assets/fonts/eb-garamond-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"EB Garamond";font-style:italic;font-weight:400 700;font-display:swap;src:url("../../src/assets/fonts/eb-garamond-italic-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"EB Garamond";font-style:italic;font-weight:400 700;font-display:swap;src:url("../../src/assets/fonts/eb-garamond-italic-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 600;font-display:swap;src:url("../../src/assets/fonts/ibm-plex-sans-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 600;font-display:swap;src:url("../../src/assets/fonts/ibm-plex-sans-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ==========================================================================
+   Bileşen PROTOTİPLERİ (B1–B5 için referans; sitede kendi dosyalarına taşınır)
+   ========================================================================== */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background-color:var(--c-paper);background-image:var(--texture-paper);}
+img{display:block;max-width:100%;height:auto}
+code{font-family:var(--font-sans);font-size:.95em}
+a{color:var(--c-seal);text-decoration-thickness:1px;text-underline-offset:.18em}
+a:hover{color:var(--c-seal-hover)}
+:focus-visible{outline:var(--focus-ring-width) solid var(--c-focus);outline-offset:var(--focus-ring-offset)}
+
+.sarmal{max-width:var(--max-w-page);margin-inline:auto;padding-inline:var(--space-page-x)}
+.izgara{display:grid;grid-template-columns:repeat(var(--grid-columns),minmax(0,1fr));column-gap:var(--space-gutter)}
+
+/* skip-link */
+.atla{position:absolute;left:var(--space-4);top:-100px;z-index:var(--z-skip);background:var(--c-ink);color:var(--c-paper);
+  font:var(--weight-medium) var(--text-sm)/1 var(--font-sans);padding:var(--space-3) var(--space-4);border-radius:var(--radius-1);text-decoration:none}
+.atla:focus{top:var(--space-4)}
+.atla--goster{position:static;display:inline-block}
+
+/* header */
+.ust{border-bottom:var(--rule-hair);background:var(--c-paper)}
+.ust__ic{display:flex;align-items:center;gap:var(--space-6);min-height:76px}
+.ust__logo{display:block;width:150px;flex:none}
+.ust__logo img{mix-blend-mode:multiply;margin:-42px 0 -50px} /* JPG'nin beyaz boşluğu kırpılır */
+.nav{display:flex;gap:var(--space-5);margin-left:auto;font-family:var(--font-sans);font-size:var(--text-sm)}
+.nav a{color:var(--c-ink);text-decoration:none;padding:var(--space-2) 0;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;
+  transition:background-size var(--duration-fast) var(--ease-out)}
+.nav a:hover,.nav a[aria-current="page"]{background-size:100% 1px}
+.nav a[aria-current="page"]{color:var(--c-ink);font-weight:var(--weight-semibold)}
+.ust__siparis{font-family:var(--font-sans);font-size:var(--text-sm);color:var(--c-ink);text-decoration:none;border-left:var(--rule-hair);padding-left:var(--space-5)}
+.ust .menu-dugme{display:none}
+
+/* düğmeler */
+.dugme{--_bg:transparent;--_fg:var(--c-ink);--_bd:var(--c-ink);
+  display:inline-flex;align-items:center;gap:var(--space-2);min-height:44px;padding:0 var(--space-5);white-space:nowrap;
+  font:var(--weight-medium) var(--text-sm)/1 var(--font-sans);letter-spacing:.01em;text-decoration:none;cursor:pointer;
+  background:var(--_bg);color:var(--_fg);border:1px solid var(--_bd);border-radius:var(--radius-1);
+  transition:background-color var(--duration-fast) var(--ease-out),color var(--duration-fast) var(--ease-out),border-color var(--duration-fast) var(--ease-out)}
+.dugme--birincil{--_bg:var(--c-seal-fill);--_fg:var(--c-on-seal);--_bd:var(--c-seal-fill)}
+.dugme--birincil:hover,.dugme--birincil.is-hover{--_bg:var(--c-seal-fill-hover);--_bd:var(--c-seal-fill-hover);color:var(--c-on-seal)}
+.dugme--ikincil:hover,.dugme--ikincil.is-hover{--_bg:var(--c-ink);--_fg:var(--c-paper)}
+.dugme--ucuncul{--_bd:transparent;padding-inline:0;min-height:44px;text-decoration:underline;text-underline-offset:.3em;text-decoration-color:var(--c-rule-strong)}
+.dugme--ucuncul:hover,.dugme--ucuncul.is-hover{text-decoration-color:currentColor;color:var(--c-ink)}
+.dugme.is-focus{outline:var(--focus-ring-width) solid var(--c-focus);outline-offset:var(--focus-ring-offset)}
+.dugme:active,.dugme.is-active{transform:translateY(1px)}
+.dugme:disabled,.dugme[aria-disabled="true"]{--_bg:transparent;--_fg:var(--c-bone);--_bd:var(--c-rule);cursor:not-allowed;transform:none}
+.dugme--birincil:disabled{--_bg:var(--c-paper-sunk);--_bd:var(--c-rule)}
+.dugme svg{width:18px;height:18px;flex:none}
+
+/* bölüm başlığı + çizgi */
+.bolum{padding-block:var(--space-section) 0}
+.bolum-basligi{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:var(--space-4);border-top:var(--rule-ink);padding-top:var(--space-3);margin-bottom:var(--space-7)}
+.bolum-basligi__no{font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--c-bone);font-variant-numeric:tabular-nums}
+.bolum-basligi h2{font-size:var(--text-xl)}
+.bolum-basligi__ek{font-family:var(--font-sans);font-size:var(--text-sm);color:var(--c-ink);}
+
+/* hero */
+.hero{min-height:var(--hero-min-h);padding-block:var(--space-7) var(--space-8);align-items:center}
+.hero__kapak{grid-column:1 / span 6;background:var(--c-paper-sunk);display:grid;place-items:center;padding:var(--space-7) var(--space-6);min-height:min(72vh,46rem);position:relative}
+.hero__kapak img{max-height:min(62vh,40rem);width:auto;mix-blend-mode:multiply}
+.hero__metin{grid-column:8 / span 5}
+.hero__metin .metin-hero{margin:var(--space-4) 0 var(--space-4)}
+.hero__yazar{font:var(--weight-medium) var(--text-sm)/1.3 var(--font-sans);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--c-ink-soft);margin-bottom:var(--space-6)}
+.hero__alinti{border-left:var(--rule-hair);padding-left:var(--space-4);color:var(--c-ink-soft);margin-bottom:var(--space-6)}
+.hero__eylem{display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center}
+.kayit{display:flex;gap:var(--space-4);flex-wrap:wrap}
+.kayit span b{color:var(--c-ink);font-weight:var(--weight-medium);font-variant-numeric:tabular-nums}
+
+/* dosya sekmesi (Önizle göstergesi) */
+.sekme{position:absolute;left:var(--space-4);top:0;transform:translateY(-100%);background:var(--c-paper-raised);border:var(--rule-hair);border-bottom:0;
+  border-radius:var(--radius-2) var(--radius-2) 0 0;padding:var(--space-1) var(--space-3);font:var(--weight-medium) var(--text-xs)/1.6 var(--font-sans);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--c-ink);
+  display:inline-flex;gap:var(--space-2);align-items:center}
+.sekme svg{width:14px;height:14px}
+
+/* palet */
+.palet{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--space-4)}
+.renk{border:var(--rule-hair);background:var(--c-paper-raised)}
+.renk__ornek{height:96px;border-bottom:var(--rule-hair);display:flex;align-items:flex-end;padding:var(--space-2) var(--space-3);font:var(--text-lg)/1 var(--font-serif)}
+.renk__bilgi{padding:var(--space-3);font-family:var(--font-sans);font-size:var(--text-xs);line-height:1.5;color:var(--c-ink-soft)}
+.renk__bilgi strong{display:block;font-size:var(--text-sm);color:var(--c-ink);font-weight:var(--weight-semibold)}
+.renk__bilgi code{font-family:var(--font-sans);font-variant-numeric:tabular-nums}
+
+/* tip ölçeği */
+.olcek{display:grid;gap:var(--space-4)}
+.olcek__satir{display:grid;grid-template-columns:150px 1fr;gap:var(--space-5);align-items:baseline;border-bottom:var(--rule-hair);padding-bottom:var(--space-4)}
+.olcek__satir > span:first-child{font-family:var(--font-sans);font-size:var(--text-xs);color:var(--c-bone);line-height:1.5}
+.olcek__satir > span:last-child{overflow-wrap:anywhere}
+
+/* kitap kartı */
+.kartlar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--space-7) var(--space-5)}
+.kitap-karti{position:relative}
+.kitap-karti__kapak{display:block;position:relative;aspect-ratio:var(--cover-ratio);background:var(--c-paper-sunk);padding:var(--space-5);margin-top:26px;
+  transition:transform var(--duration-base) var(--ease-out)}
+.kitap-karti__kapak img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.kitap-karti__govde{padding-top:var(--space-4);border-top:var(--rule-hair);margin-top:var(--space-4)}
+.kitap-karti__yazar{font:var(--weight-medium) var(--text-xs)/1.4 var(--font-sans);letter-spacing:var(--tracking-wide);text-transform:uppercase;color:var(--c-ink-soft);margin:0 0 var(--space-2)}
+.kitap-karti__baslik{font-size:var(--text-lg);line-height:var(--leading-snug);margin:0 0 var(--space-2)}
+.kitap-karti__baslik a{color:var(--c-ink);text-decoration:none;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size var(--duration-base) var(--ease-out)}
+.kitap-karti__baslik a::after{content:"";position:absolute;inset:0} /* tüm kart tıklanabilir */
+.kitap-karti__kunye{font-family:var(--font-sans);font-size:var(--text-xs);color:var(--c-bone);font-variant-numeric:tabular-nums;margin:0}
+.kitap-karti:hover .kitap-karti__kapak,.kitap-karti.is-hover .kitap-karti__kapak{transform:translateY(var(--lift-card))}
+.kitap-karti:hover .kitap-karti__baslik a,.kitap-karti.is-hover .kitap-karti__baslik a{background-size:100% 1px}
+.kitap-karti:focus-within{outline:var(--focus-ring-width) solid var(--c-focus);outline-offset:6px}
+.kitap-karti__baslik a:focus-visible{outline:none}
+
+/* çip / etiket */
+.cipler{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.cip{display:inline-flex;align-items:center;min-height:32px;padding:0 var(--space-3);font:var(--weight-medium) var(--text-xs)/1 var(--font-sans);letter-spacing:.04em;
+  color:var(--c-ink);background:transparent;border:var(--rule-strong);border-radius:var(--radius-1);text-decoration:none;cursor:pointer;transition:background-color var(--duration-fast) var(--ease-out)}
+.cip:hover,.cip.is-hover{background:var(--c-paper-sunk);color:var(--c-ink)}
+.cip[aria-pressed="true"]{background:var(--c-ink);color:var(--c-paper);border-color:var(--c-ink)}
+.cip__sayi{margin-left:var(--space-2);color:inherit;opacity:.7;font-variant-numeric:tabular-nums}
+
+/* filtre çubuğu */
+.filtre{display:flex;flex-wrap:wrap;gap:var(--space-4);align-items:center;justify-content:space-between;background:var(--c-paper-sunk);border-block:var(--rule-hair);padding:var(--space-4) var(--space-5);margin-bottom:var(--space-7)}
+.filtre__ara{display:flex;align-items:center;gap:var(--space-2);font-family:var(--font-sans);font-size:var(--text-sm)}
+.filtre__ara input{min-height:40px;width:min(260px,60vw);border:var(--rule-strong);border-radius:var(--radius-1);background:var(--c-paper-raised);color:var(--c-ink);font:inherit;padding:0 var(--space-3)}
+.filtre__ara input::placeholder{color:var(--c-bone)}
+.filtre__ara input:focus-visible{outline:var(--focus-ring-width) solid var(--c-focus);outline-offset:1px}
+
+/* breadcrumb */
+.iz{font-family:var(--font-sans);font-size:var(--text-xs);color:var(--c-bone);margin-bottom:var(--space-5)}
+.iz ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.iz li+li::before{content:"/";margin-right:var(--space-2);color:var(--c-rule-strong)}
+.iz a{color:var(--c-ink-soft)}
+.iz [aria-current]{color:var(--c-ink)}
+
+/* sayfalama */
+.sayfalama{display:flex;flex-wrap:wrap;gap:var(--space-1);align-items:center;font-family:var(--font-sans);font-size:var(--text-sm);margin-top:var(--space-7);border-top:var(--rule-hair);padding-top:var(--space-4)}
+.sayfalama a,.sayfalama span{display:inline-grid;place-items:center;min-width:44px;min-height:44px;color:var(--c-ink);text-decoration:none;font-variant-numeric:tabular-nums;border:1px solid transparent;border-radius:var(--radius-1)}
+.sayfalama a:hover{border-color:var(--c-rule-strong)}
+.sayfalama [aria-current="page"]{border-color:var(--c-ink);font-weight:var(--weight-semibold)}
+.sayfalama .sayfalama__yon{padding-inline:var(--space-3);white-space:nowrap}
+.sayfalama [aria-disabled="true"]{color:var(--c-bone)}
+
+/* detay: künye + yazar + whatsapp */
+.detay{row-gap:var(--space-7)}
+.detay__kunye{grid-column:1 / span 7}
+.detay__yan{grid-column:9 / span 4;display:grid;gap:var(--space-6);align-content:start}
+.kunye{width:100%;border-collapse:collapse;background:var(--c-paper-raised);border-top:var(--rule-ink)}
+.kunye caption{text-align:left;padding:0 0 var(--space-3)}
+.kunye th,.kunye td{text-align:left;vertical-align:baseline;padding:var(--space-3) var(--space-4);border-bottom:var(--rule-hair)}
+.kunye th{width:36%;font:var(--weight-medium) var(--text-xs)/1.5 var(--font-sans);letter-spacing:var(--tracking-label);text-transform:uppercase;color:var(--c-bone)}
+.kunye td{font-family:var(--font-sans);font-size:var(--text-sm);color:var(--c-ink)}
+.kunye td.rakam{font-variant-numeric:tabular-nums}
+
+.yazar-karti{display:grid;grid-template-columns:72px 1fr;gap:var(--space-4);align-items:center;border-top:var(--rule-hair);padding-top:var(--space-4);position:relative}
+.yazar-karti__portre{width:72px;height:96px;background:var(--c-paper-sunk);border:var(--rule-hair);display:grid;place-items:center;
+  font:var(--text-xl)/1 var(--font-serif);color:var(--c-ink-soft);filter:grayscale(1)}
+.yazar-karti__ad{font-size:var(--text-lg);margin:var(--space-1) 0}
+.yazar-karti__ad a{color:var(--c-ink);text-decoration:none}
+.yazar-karti__ad a::after{content:"";position:absolute;inset:0}
+.yazar-karti:hover .yazar-karti__ad a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.2em}
+.yazar-karti__ek{font-family:var(--font-sans);font-size:var(--text-xs);color:var(--c-bone);margin:0}
+
+.siparis{border:var(--rule-ink);background:var(--c-paper-raised);padding:var(--space-5);display:grid;gap:var(--space-3)}
+.siparis p{margin:0;font-size:var(--text-base)}
+.siparis__no{font-family:var(--font-sans);font-size:var(--text-sm);color:var(--c-ink-soft);font-variant-numeric:tabular-nums}
+.siparis .dugme{justify-content:center}
+
+/* flipbook modal çerçevesi (statik mockup) */
+.sahne-arka{background:var(--c-scrim);padding:var(--space-7) var(--space-5)}
+.flip{max-width:var(--max-w-modal);margin-inline:auto;background:var(--c-paper-raised);border-radius:var(--radius-2);box-shadow:var(--shadow-modal);overflow:hidden}
+.flip__ust{display:flex;align-items:center;gap:var(--space-4);padding:var(--space-3) var(--space-3) var(--space-3) var(--space-5);border-bottom:var(--rule-hair)}
+.flip__baslik{font:var(--weight-medium) var(--text-lg)/1.2 var(--font-serif);margin:0}
+.flip__kapat{margin-left:auto;width:44px;height:44px;display:grid;place-items:center;background:var(--c-ink);color:var(--c-paper);border:0;border-radius:var(--radius-1);cursor:pointer}
+.flip__kapat svg{width:18px;height:18px}
+.flip__sahne{background:var(--c-flip-mat);padding:var(--space-7) var(--space-5);display:flex;justify-content:center}
+.flip__yayilim{display:grid;grid-template-columns:1fr 1fr;width:min(100%,760px);box-shadow:var(--shadow-page);position:relative}
+.flip__yayilim img{width:100%;aspect-ratio:607 / 1000;object-fit:cover;background:#fff}
+.flip__yayilim::after{content:"";position:absolute;inset:0 auto 0 50%;width:48px;transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgb(30 28 26 / .10) 45%,rgb(30 28 26 / .18) 50%,rgb(30 28 26 / .10) 55%,transparent)}
+.flip__alt{display:flex;align-items:center;justify-content:space-between;gap:var(--space-4);padding:var(--space-3) var(--space-5);border-top:var(--rule-hair);font-family:var(--font-sans);font-size:var(--text-sm)}
+.flip__sayac{font-variant-numeric:tabular-nums;color:var(--c-ink);white-space:nowrap}
+.flip__ipucu{color:var(--c-bone);font-size:var(--text-xs)}
+
+/* karanlık örnek kutusu: yalnız karoda; token'lar tokens.css'teki karanlık değerlerin kopyası */
+.karanlik{--c-paper:#171513;--c-paper-raised:#201D1A;--c-paper-sunk:#110F0E;--c-ink:#ECE5D6;--c-ink-soft:#CFC7B7;--c-bone:#A39886;--c-rule:#3A352F;--c-rule-strong:#7A705F;
+  --c-seal:#E0675C;--c-seal-fill:#B3262B;--c-seal-hover:#EE8B81;--c-seal-fill-hover:#8F1D22;--c-on-seal:#FAF7F0;--c-focus:#E0675C;--c-flip-mat:#110F0E;
+  background:var(--c-paper);color:var(--c-ink);padding:var(--space-7) var(--space-6);border-radius:var(--radius-2);color-scheme:dark}
+.karanlik h3,.karanlik h2{color:var(--c-ink)}
+.karanlik .kapak-yuvasi-acik{background:#EAE3D4}
+.karanlik-izgara{display:grid;grid-template-columns:200px 1fr;gap:var(--space-7);align-items:start}
+
+/* footer */
+.alt{margin-top:var(--space-section);background:var(--c-paper-sunk);border-top:var(--rule-ink);padding-block:var(--space-8) var(--space-6);font-family:var(--font-sans);font-size:var(--text-sm)}
+.alt__izgara{row-gap:var(--space-6)}
+.alt__slogan{grid-column:1 / span 5;font:italic var(--text-xl)/1.25 var(--font-serif);color:var(--c-ink);margin:0}
+.alt__kolon{grid-column:span 2}
+.alt__kolon ul{list-style:none;margin:var(--space-3) 0 0;padding:0;display:grid;gap:var(--space-2)}
+.alt__kolon a{color:var(--c-ink);text-decoration:none}
+.alt__kolon a:hover{text-decoration:underline}
+.alt__dip{grid-column:1 / -1;border-top:var(--rule-hair);padding-top:var(--space-4);color:var(--c-bone);font-size:var(--text-xs);display:flex;justify-content:space-between;flex-wrap:wrap;gap:var(--space-3)}
+
+.not{font-family:var(--font-sans);font-size:var(--text-xs);color:var(--c-bone);margin-top:var(--space-3)}
+.durumlar{display:grid;grid-template-columns:repeat(5,auto);gap:var(--space-4) var(--space-5);align-items:center;justify-content:start}
+.durumlar .etiket{margin:0}
+
+/* ---- duyarlı ---- */
+@media (max-width: 1024px){
+  .hero__kapak{grid-column:1 / span 6}
+  .hero__metin{grid-column:7 / span 6}
+  .detay__kunye{grid-column:1 / -1}.detay__yan{grid-column:1 / -1;grid-template-columns:1fr 1fr}
+}
+@media (max-width: 767px){
+  .nav,.ust__siparis{display:none}
+  .ust .menu-dugme{display:inline-flex;margin-left:auto}
+  .ust__logo{width:120px}
+  .hero{min-height:auto;padding-block:var(--space-5) var(--space-7)}
+  .hero__kapak,.hero__metin{grid-column:1 / -1}
+  .hero__kapak{min-height:auto;padding:var(--space-6) var(--space-5)}
+  .hero__kapak img{max-height:52vh}
+  .hero__metin{margin-top:var(--space-6)}
+  .kartlar{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--space-4)}
+  .kartlar .kitap-karti:nth-child(3){display:none}
+  .kitap-karti__kapak{padding:var(--space-3)}
+  .olcek__satir{grid-template-columns:1fr;gap:var(--space-1)}
+  .detay__yan{grid-template-columns:1fr}
+  .durumlar{grid-template-columns:repeat(2,auto)}
+  .flip__yayilim{grid-template-columns:1fr;width:min(100%,340px)}
+  .flip__yayilim img:last-child{display:none}
+  .flip__yayilim::after{display:none}
+  .flip__ipucu{display:none}
+  .sahne-arka{padding:var(--space-4) 0}
+  .karanlik-izgara{grid-template-columns:1fr}
+  .karanlik .kitap-karti{max-width:200px}
+  .flip__alt{padding-inline:var(--space-3)}
+  .flip__alt .dugme{padding-inline:var(--space-3)}
+  .alt__slogan,.alt__kolon{grid-column:1 / -1}
+  .bolum-basligi{grid-template-columns:auto 1fr}
+  .bolum-basligi__ek{grid-column:1 / -1}
+}
+</style>
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+
+<!-- ===== HEADER ===== -->
+<header class="ust">
+  <div class="sarmal ust__ic">
+    <a class="ust__logo" href="#" aria-label="İslambol Yayınları ana sayfa"><img src="../../public/logo/islambol-x-profil.jpg" width="400" height="400" alt="İslambol Yayınları"></a>
+    <nav class="nav" aria-label="Ana menü">
+      <a href="#" aria-current="page">Kitaplar</a><a href="#">Yazarlar</a><a href="#">Diziler</a><a href="#">Yayın Çizgisi</a><a href="#">Nereden Alınır</a><a href="#">İletişim</a>
+    </nav>
+    <a class="ust__siparis" href="#">WhatsApp sipariş</a>
+    <button class="dugme dugme--ikincil menu-dugme" type="button" aria-expanded="false" aria-controls="mobil-menu">Menü</button>
+  </div>
+</header>
+
+<main id="icerik">
+<!-- ===== HERO ===== -->
+<section class="sarmal izgara hero" aria-labelledby="hero-baslik">
+  <div class="hero__kapak">
+    <img src="ornek-kapaklar/sen-neden-kor-edildin.jpg" width="800" height="1153" alt="Sen Neden Kör Edildin? kitabının kapağı" fetchpriority="high">
+  </div>
+  <div class="hero__metin">
+    <div class="kayit etiket"><span>Yeni çıkan</span><span>Kayıt no <b>978-625-5529-37-4</b></span></div>
+    <h1 id="hero-baslik" class="metin-hero">Sen Neden Kör Edildin?</h1>
+    <p class="hero__yazar">Mustafa Armağan</p>
+    <p class="hero__alinti">“Ezberleri sorgulamak ise yazarın vazgeçemediği tutkusu.” <small>(yayınevi tanıtım metninden)</small></p>
+    <div class="hero__eylem">
+      <a class="dugme dugme--birincil" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/></svg>İlk sayfaları çevir</a>
+      <a class="dugme dugme--ucuncul" href="#">Künyeyi gör</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 01 PALET ===== -->
+<section class="sarmal bolum" aria-labelledby="b1">
+  <header class="bolum-basligi"><span class="bolum-basligi__no">Renk</span><h2 id="b1">Palet: kâğıt, mürekkep, mühür</h2><span class="bolum-basligi__ek">Oranlar <code>kontrast.mjs</code> ile ölçüldü</span></header>
+  <div class="palet">
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-paper);color:var(--c-ink)">Aa</div><div class="renk__bilgi"><strong>Kâğıt</strong><code>#F4EFE4</code> · zemin<br>mürekkep 14.81:1</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-paper-raised);color:var(--c-ink)">Aa</div><div class="renk__bilgi"><strong>Kâğıt, kabarık</strong><code>#FAF7F0</code> · kart, modal<br>mürekkep 15.88:1</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-paper-sunk);color:var(--c-ink)">Aa</div><div class="renk__bilgi"><strong>Kâğıt, çökük</strong><code>#EAE3D4</code> · footer, yuva<br>mürekkep 13.30:1</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-ink);color:var(--c-paper)">Aa</div><div class="renk__bilgi"><strong>Mürekkep</strong><code>#1E1C1A</code> · metin<br>AAA</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-ink-soft);color:var(--c-paper)">Aa</div><div class="renk__bilgi"><strong>Mürekkep, yumuşak</strong><code>#3A3632</code> · ikincil<br>10.44:1</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-bone);color:var(--c-paper)">Aa</div><div class="renk__bilgi"><strong>Kemik gri</strong><code>#6A6257</code> · künye<br>5.24:1 (AA)</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-rule);color:var(--c-ink)">—</div><div class="renk__bilgi"><strong>Çizgi</strong><code>#CFC6B4</code> · 1px ayırıcı<br>metin için değil</div></div>
+    <div class="renk"><div class="renk__ornek" style="background:var(--c-seal);color:var(--c-on-seal)">Aa</div><div class="renk__bilgi"><strong>Mühür kırmızısı</strong><code>#A51C22</code> · tek vurgu<br>kâğıtta 6.57:1</div></div>
+  </div>
+</section>
+
+<!-- ===== 02 TİPOGRAFİ ===== -->
+<section class="sarmal bolum" aria-labelledby="b2">
+  <header class="bolum-basligi"><span class="bolum-basligi__no">Harf</span><h2 id="b2">Tipografi: EB Garamond + IBM Plex Sans</h2><span class="bolum-basligi__ek">7 kademe, akışkan</span></header>
+  <div class="olcek">
+    <div class="olcek__satir"><span>3xl · 44→88 · serif 400</span><span class="metin-hero">İğneli Fıçı</span></div>
+    <div class="olcek__satir"><span>2xl · 34→56 · serif 500</span><span style="font:var(--weight-medium) var(--text-2xl)/var(--leading-tight) var(--font-serif);letter-spacing:var(--tracking-tight)">Şeyhülislam Mustafa Sabri Efendi</span></div>
+    <div class="olcek__satir"><span>xl · 26→36 · serif 500</span><span style="font:var(--weight-medium) var(--text-xl)/var(--leading-snug) var(--font-serif)">1918 Mütârekesi'nden Beri Olan Vak'alar</span></div>
+    <div class="olcek__satir"><span>lg · 20→24 · serif 400</span><span style="font:var(--text-lg)/var(--leading-snug) var(--font-serif)">İğneli Fıçı — Şeyhülislam Mustafa Sabri Efendi, 1918 Mütârekesi'nden Beri Olan Vak'alar</span></div>
+    <div class="olcek__satir"><span>base · 17→19 · serif 400 / 1.62</span><span style="max-width:var(--max-w-prose)">Gövde metni: <i>İğneli Fıçı</i> — Şeyhülislam Mustafa Sabri Efendi, 1918 Mütârekesi'nden Beri Olan Vak'alar. ÇĞİÖŞÜ çğıöşü âîû Âİ “tırnak” ‘kesme’ 0123456789.</span></div>
+    <div class="olcek__satir"><span>sm · 14→15 · Plex 400–500</span><span class="sans" style="font-size:var(--text-sm)">Arayüz: Kitaplar · Yazarlar · Nereden Alınır · Sipariş ver · İletişim · ğüşıöç İĞÜŞÖÇ</span></div>
+    <div class="olcek__satir"><span>xs · 12→13 · Plex 500, büyük harf, +0.12em</span><span class="etiket">Kayıt no · Belge · Künye · Şubat 2026 · İlk sayfalar</span></div>
+    <div class="olcek__satir"><span>rakam · Plex tabular</span><span class="rakam" style="font-size:var(--text-sm)">ISBN 978-625-5529-43-5 · 208 sayfa · 13,5 × 19,5 cm</span></div>
+  </div>
+  <p class="not">Tip örneği metni Direktörün verdiği dizgi cümlesidir; katalog verisi değildir.</p>
+</section>
+
+<!-- ===== 03 DÜĞMELER ===== -->
+<section class="sarmal bolum" aria-labelledby="b3">
+  <header class="bolum-basligi"><span class="bolum-basligi__no">Düğme</span><h2 id="b3">Düğmeler ve durumlar</h2><span class="bolum-basligi__ek">yükseklik 44px · yarıçap 2px</span></header>
+  <div class="durumlar">
+    <p class="etiket">Varsayılan</p><p class="etiket">Üzerinde</p><p class="etiket">Odak (klavye)</p><p class="etiket">Basılı</p><p class="etiket">Pasif</p>
+    <a class="dugme dugme--birincil" href="#">Sipariş ver</a><a class="dugme dugme--birincil is-hover" href="#">Sipariş ver</a><a class="dugme dugme--birincil is-focus" href="#">Sipariş ver</a><a class="dugme dugme--birincil is-hover is-active" href="#">Sipariş ver</a><button class="dugme dugme--birincil" disabled>Sipariş ver</button>
+    <a class="dugme dugme--ikincil" href="#">Tüm kitaplar</a><a class="dugme dugme--ikincil is-hover" href="#">Tüm kitaplar</a><a class="dugme dugme--ikincil is-focus" href="#">Tüm kitaplar</a><a class="dugme dugme--ikincil is-hover is-active" href="#">Tüm kitaplar</a><button class="dugme dugme--ikincil" disabled>Tüm kitaplar</button>
+    <a class="dugme dugme--ucuncul" href="#">Künyeyi gör</a><a class="dugme dugme--ucuncul is-hover" href="#">Künyeyi gör</a><a class="dugme dugme--ucuncul is-focus" href="#">Künyeyi gör</a><a class="dugme dugme--ucuncul is-active" href="#">Künyeyi gör</a><button class="dugme dugme--ucuncul" disabled>Künyeyi gör</button>
+  </div>
+  <p class="not">Ekran başına tek birincil (kırmızı) düğme. Odak halkası: 2px mühür kırmızısı, 2px boşluk.</p>
+  <p style="margin-top:var(--space-5)"><a class="atla atla--goster" href="#">İçeriğe geç</a> <span class="not">← skip-link, odaklanınca sol üstte belirir</span></p>
+</section>
+
+<!-- ===== 04 KATALOG ===== -->
+<section class="sarmal bolum" aria-labelledby="b4">
+  <header class="bolum-basligi"><span class="bolum-basligi__no">Katalog</span><h2 id="b4">Katalog: filtre, kart, sayfalama</h2><a class="bolum-basligi__ek" href="#">Tüm kitaplar →</a></header>
+  <nav class="iz" aria-label="Konum"><ol><li><a href="#">Ana sayfa</a></li><li><a href="#">Kitaplar</a></li><li><span aria-current="page">Yakın Tarih</span></li></ol></nav>
+  <div class="filtre">
+    <div class="cipler" role="group" aria-label="Kategori">
+      <button class="cip" aria-pressed="true">Tümü</button><button class="cip">Yakın Tarih</button><button class="cip is-hover">Araştırma-İnceleme</button><button class="cip">Hatırat</button><button class="cip">Takım kitaplar</button>
+    </div>
+    <label class="filtre__ara"><span class="etiket">Ara</span><input type="search" placeholder="Kitap ya da yazar adı"></label>
+  </div>
+  <div class="kartlar">
+    <article class="kitap-karti">
+      <a class="kitap-karti__kapak" href="#" tabindex="-1" aria-hidden="true"><span class="sekme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/></svg>Önizle</span><img src="ornek-kapaklar/igneli-fici.jpg" alt="" loading="lazy"></a>
+      <div class="kitap-karti__govde">
+        <p class="kitap-karti__yazar">Cevat Rıfat Atilhan</p>
+        <h3 class="kitap-karti__baslik"><a href="#">İğneli Fıçı</a></h3>
+        <p class="kitap-karti__kunye">208 sayfa · Şubat 2026</p>
+      </div>
+    </article>
+    <article class="kitap-karti is-hover">
+      <a class="kitap-karti__kapak" href="#" tabindex="-1" aria-hidden="true"><img src="ornek-kapaklar/son-sultan-vahideddin.jpg" alt="" loading="lazy"></a>
+      <div class="kitap-karti__govde">
+        <p class="kitap-karti__yazar">Hasan Erol</p>
+        <h3 class="kitap-karti__baslik"><a href="#">Son Sultan Vahideddin'in Hatıraları ve Beyannamesi</a></h3>
+        <p class="kitap-karti__kunye">142 sayfa · Mart 2025 <span class="etiket" style="margin-left:.5em">üzerinde durumu</span></p>
+      </div>
+    </article>
+    <article class="kitap-karti">
+      <a class="kitap-karti__kapak" href="#" tabindex="-1" aria-hidden="true"><img src="ornek-kapaklar/turkun-yeni-amentusu.jpg" alt="" loading="lazy"></a>
+      <div class="kitap-karti__govde">
+        <p class="kitap-karti__yazar">Komisyon</p>
+        <h3 class="kitap-karti__baslik"><a href="#">Türk'ün Yeni Amentüsü</a></h3>
+        <p class="kitap-karti__kunye">128 sayfa · Temmuz 2025</p>
+      </div>
+    </article>
+  </div>
+  <nav class="sayfalama" aria-label="Sayfalar">
+    <span class="sayfalama__yon" aria-disabled="true">← Önceki</span><a href="#" aria-current="page">1</a><a href="#">2</a><a href="#">3</a><span>…</span><a href="#">6</a><a class="sayfalama__yon" href="#">Sonraki →</a>
+  </nav>
+  <p class="not">“Önizle” dosya sekmesi yalnız önizlemesi olan kitapta görünür. Ortadaki kart üzerinde (hover) durumunu gösterir: kapak 4px yükselir, başlığın alt çizgisi belirir.</p>
+</section>
+
+<!-- ===== 05 KİTAP DETAY ===== -->
+<section class="sarmal bolum" aria-labelledby="b5">
+  <header class="bolum-basligi"><span class="bolum-basligi__no">Künye</span><h2 id="b5">Kitap detay: künye, yazar, sipariş</h2><span class="bolum-basligi__ek">İğneli Fıçı</span></header>
+  <div class="izgara detay">
+    <div class="detay__kunye">
+      <table class="kunye">
+        <caption class="etiket">Künye</caption>
+        <tbody>
+          <tr><th scope="row">Yazar</th><td>Cevat Rıfat Atilhan</td></tr>
+          <tr><th scope="row">ISBN</th><td class="rakam">978-625-5529-43-5</td></tr>
+          <tr><th scope="row">Sayfa</th><td class="rakam">208</td></tr>
+          <tr><th scope="row">Boyut</th><td class="rakam">13,5 × 19,5 cm</td></tr>
+          <tr><th scope="row">Cilt</th><td>Karton kapak</td></tr>
+          <tr><th scope="row">Kâğıt</th><td>Kitap kâğıdı</td></tr>
+          <tr><th scope="row">Yayın tarihi</th><td class="rakam">Şubat 2026</td></tr>
+          <tr><th scope="row">Kategori</th><td><a href="#">Araştırma-İnceleme</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="detay__yan">
+      <div class="siparis">
+        <span class="etiket">Sipariş hattı</span>
+        <p>Bu kitabı WhatsApp üzerinden doğrudan yayınevinden isteyin.</p>
+        <a class="dugme dugme--birincil" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.4-1.8-1.2-2.2-2.2l.8-1-1-2z" fill="currentColor" stroke="none"/></svg>WhatsApp ile sipariş ver</a>
+        <span class="siparis__no">+90 505 980 87 35</span>
+        <a class="dugme dugme--ucuncul" href="#">Kitapçılarda bul: Kitapyurdu, Nobel, Küresel</a>
+      </div>
+      <article class="yazar-karti">
+        <div class="yazar-karti__portre" aria-hidden="true">CA</div>
+        <div>
+          <span class="etiket">Yazar</span>
+          <h3 class="yazar-karti__ad"><a href="#">Cevat Rıfat Atilhan</a></h3>
+          <p class="yazar-karti__ek">Portre yoksa baş harf mührü; portre varsa gri tonlama.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 06 FLIPBOOK ===== -->
+<section class="bolum" aria-labelledby="b6">
+  <div class="sarmal"><header class="bolum-basligi"><span class="bolum-basligi__no">Önizleme</span><h2 id="b6">İlk sayfalar: sayfa çevirme çerçevesi</h2><span class="bolum-basligi__ek">modal · Esc ile kapanır</span></header></div>
+  <div class="sahne-arka">
+    <div class="flip" role="dialog" aria-modal="true" aria-labelledby="flip-baslik">
+      <div class="flip__ust">
+        <span class="etiket">İlk sayfalar</span>
+        <h3 class="flip__baslik" id="flip-baslik">Sen Neden Kör Edildin?</h3>
+        <button class="flip__kapat" type="button" aria-label="Önizlemeyi kapat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+      </div>
+      <div class="flip__sahne">
+        <div class="flip__yayilim">
+          <img src="ornek-ic-sayfa-baslik.jpg" width="607" height="1000" alt="İç kapak: Sen Neden Kör Edildin? Mustafa Armağan">
+          <img src="ornek-ic-sayfa-yazar.jpg" width="608" height="1000" alt="Yazar hakkında sayfası">
+        </div>
+      </div>
+      <div class="flip__alt">
+        <a class="dugme dugme--ikincil" href="#">← Önceki</a>
+        <span class="flip__sayac" aria-live="polite">Sayfa 2–3 / 12</span>
+        <span class="flip__ipucu">Klavye: ← → · Esc</span>
+        <a class="dugme dugme--ikincil" href="#">Sonraki →</a>
+      </div>
+    </div>
+  </div>
+  <p class="sarmal not">Sayfa sayısı örnektir. İç sayfa görselleri beyaz; sahne zemini çökük kâğıt (#EAE3D4), sayfaları masaya konmuş gerçek yaprak gibi ayırır.</p>
+</section>
+
+<!-- ===== 07 KARANLIK ===== -->
+<section class="sarmal bolum" aria-labelledby="b7">
+  <header class="bolum-basligi"><span class="bolum-basligi__no">Gece</span><h2 id="b7">Gece arşivi (karanlık tema)</h2><span class="bolum-basligi__ek">ikincil öncelik</span></header>
+  <div class="karanlik">
+    <div class="karanlik-izgara">
+      <article class="kitap-karti">
+        <a class="kitap-karti__kapak kapak-yuvasi-acik" href="#" tabindex="-1" aria-hidden="true"><img src="ornek-kapaklar/igneli-fici.jpg" alt="" loading="lazy"></a>
+        <div class="kitap-karti__govde"><p class="kitap-karti__yazar">Cevat Rıfat Atilhan</p><h3 class="kitap-karti__baslik"><a href="#">İğneli Fıçı</a></h3><p class="kitap-karti__kunye">208 sayfa · Şubat 2026</p></div>
+      </article>
+      <div>
+        <span class="etiket">Kayıt no 978-625-5529-43-5</span>
+        <h3 style="font-size:var(--text-2xl);line-height:var(--leading-tight);margin:var(--space-3) 0">Tarihi doğru okumak için…</h3>
+        <p style="color:var(--c-ink-soft)">Koyu kâğıt <code>#171513</code>, açık mürekkep <code>#ECE5D6</code>, kemik <code>#A39886</code>. Kırmızı korunur: metin vurgusu <a href="#">#E0675C</a>, düğme zemini #B3262B. Kapak yuvası açık kalır; beyaz zeminli kapak çekimleri karanlıkta da kâğıt üstünde durur.</p>
+        <div class="hero__eylem"><a class="dugme dugme--birincil" href="#">WhatsApp ile sipariş ver</a><a class="dugme dugme--ikincil" href="#">Tüm kitaplar</a><button class="cip" aria-pressed="true">Yakın Tarih</button><button class="cip">Hatırat</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer class="alt">
+  <div class="sarmal izgara alt__izgara">
+    <p class="alt__slogan">Tarihi doğru okumak için…</p>
+    <div class="alt__kolon" style="grid-column-start:7"><span class="etiket">Katalog</span><ul><li><a href="#">Kitaplar</a></li><li><a href="#">Yazarlar</a></li><li><a href="#">Diziler</a></li></ul></div>
+    <div class="alt__kolon"><span class="etiket">Yayınevi</span><ul><li><a href="#">Yayın Çizgisi</a></li><li><a href="#">Nereden Alınır</a></li><li><a href="#">İletişim</a></li></ul></div>
+    <div class="alt__kolon"><span class="etiket">Bağlantı</span><ul><li><a href="#">WhatsApp</a></li><li><a href="#">Instagram</a></li><li><a href="#">X</a></li></ul></div>
+    <div class="alt__dip"><span>İslambol Yayınları · Fatih, İstanbul</span><span>Stil karosu · D1 · 2026-10-11</span></div>
+  </div>
+</footer>
+</body>
+</html>

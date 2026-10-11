@@ -1,0 +1,93 @@
+{
+  "kitapyurdu_slug": "sen-neden-kor-edildin",
+  "kitapyurdu_id": 742052,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/sen-neden-kor-edildin/742052.html",
+  "title": "Sen Neden Kör Edildin?",
+  "author_display": "Mustafa Armağan",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 10,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260898/mh:1000/wh:9409f75a1",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/01.jpg",
+      "width": 607,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260899/mh:1000/wh:dbc5f4ce7",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/02.jpg",
+      "width": 608,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260900/mh:1000/wh:a622d23d4",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/03.jpg",
+      "width": 626,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260901/mh:1000/wh:0c29dcbda",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/04.jpg",
+      "width": 618,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260902/mh:1000/wh:e6e4e2f06",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/05.jpg",
+      "width": 616,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260903/mh:1000/wh:ad0003589",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/06.jpg",
+      "width": 607,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260904/mh:1000/wh:3b86d841f",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/07.jpg",
+      "width": 608,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260905/mh:1000/wh:22b951ab6",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/08.jpg",
+      "width": 644,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 9,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260906/mh:1000/wh:6152be715",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/09.jpg",
+      "width": 613,
+      "height": 1000,
+      "kind": "metin"
+    },
+    {
+      "index": 10,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12260907/mh:1000/wh:9ea5fbc1d",
+      "local_path": "public/onsoz/sen-neden-kor-edildin/10.jpg",
+      "width": 603,
+      "height": 1000,
+      "kind": "metin"
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

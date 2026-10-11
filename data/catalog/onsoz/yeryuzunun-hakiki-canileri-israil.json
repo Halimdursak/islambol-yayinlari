@@ -1,0 +1,93 @@
+{
+  "kitapyurdu_slug": "yeryuzunun-hakiki-canileri-israil",
+  "kitapyurdu_id": 736245,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/yeryuzunun-hakiki-canileri-israil/736245.html",
+  "title": "Yeryüzünün Hakiki Canileri: İsrail",
+  "author_display": "Cevat Rıfat Atilhan",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 10,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265924/mh:1000/wh:38ccf8c57",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/01.jpg",
+      "width": 636,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265925/mh:1000/wh:a0f741d75",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/02.jpg",
+      "width": 628,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265926/mh:1000/wh:f2b9fd781",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/03.jpg",
+      "width": 618,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265927/mh:1000/wh:750ddd38d",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/04.jpg",
+      "width": 650,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265928/mh:1000/wh:2e9726846",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/05.jpg",
+      "width": 637,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265929/mh:1000/wh:d1e03ab2f",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/06.jpg",
+      "width": 623,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265930/mh:1000/wh:18233e7cb",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/07.jpg",
+      "width": 641,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265931/mh:1000/wh:38cfddba4",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/08.jpg",
+      "width": 620,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 9,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265932/mh:1000/wh:c8ed5ab5c",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/09.jpg",
+      "width": 617,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 10,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12265933/mh:1000/wh:391da7c56",
+      "local_path": "public/onsoz/yeryuzunun-hakiki-canileri-israil/10.jpg",
+      "width": 606,
+      "height": 1000,
+      "kind": "metin"
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

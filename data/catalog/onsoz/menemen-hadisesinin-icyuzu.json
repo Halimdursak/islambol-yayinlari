@@ -1,0 +1,93 @@
+{
+  "kitapyurdu_slug": "menemen-hadisesinin-icyuzu",
+  "kitapyurdu_id": 731658,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/menemen-hadisesinin-icyuzu/731658.html",
+  "title": "Menemen Hadisesinin İçyüzü",
+  "author_display": "Cevat Rıfat Atilhan",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 10,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185543/mh:1000/wh:01f160e37",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/01.jpg",
+      "width": 657,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185544/mh:1000/wh:a0e205750",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/02.jpg",
+      "width": 651,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185545/mh:1000/wh:35ea6a57e",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/03.jpg",
+      "width": 637,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185546/mh:1000/wh:1b8587e55",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/04.jpg",
+      "width": 639,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185547/mh:1000/wh:632087d92",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/05.jpg",
+      "width": 650,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185548/mh:1000/wh:15d8e3507",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/06.jpg",
+      "width": 638,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185549/mh:1000/wh:6dd66a609",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/07.jpg",
+      "width": 635,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185550/mh:1000/wh:ac7c4d517",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/08.jpg",
+      "width": 653,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 9,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185551/mh:1000/wh:dc50f8ee4",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/09.jpg",
+      "width": 611,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 10,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12185552/mh:1000/wh:231bd630e",
+      "local_path": "public/onsoz/menemen-hadisesinin-icyuzu/10.jpg",
+      "width": 611,
+      "height": 1000,
+      "kind": "onsoz"
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

@@ -1,0 +1,70 @@
+{
+  "sayfalar": {
+    "/": {
+      "title": "İslambol Yayınları | Yakın Tarih, Hatırat ve Belge Kitapları",
+      "description": "İslambol Yayınları: Osmanlı'nın son dönemi, Milli Mücadele ve Cumhuriyet'in ilk yıllarına dair hatırat, araştırma ve arşiv belgesi kitapları."
+    },
+    "/kitaplar/": {
+      "title": "Kitaplar | İslambol Yayınları",
+      "description": "İslambol Yayınları kataloğu: yakın tarih, hatırat, İslam düşüncesi ve arşiv yayınları. Kategori, yazar ve yıla göre süzün."
+    },
+    "/yazarlar/": {
+      "title": "Yazarlar | İslambol Yayınları",
+      "description": "İslambol Yayınları'nda kitabı bulunan yazar ve araştırmacılar: Cevat Rıfat Atilhan, Seyfi Say, Ali Seyyar, Mustafa Sabri Efendi, Rıza Nur."
+    },
+    "/diziler/": {
+      "title": "Set ve Seriler | İslambol Yayınları",
+      "description": "İslambol Yayınları'nın çok ciltli setleri ve serileri: Hayat ve Hatıratım, Enver ve Mustafa Kemal'in Kitabı ve diğerleri."
+    },
+    "/yayin-cizgisi/": {
+      "title": "Yayın Çizgisi | İslambol Yayınları",
+      "description": "İslambol Yayınları'nın yayın alanları: yakın tarih, hatırat, İslam düşüncesi, arşiv belgeleri, Osmanlıca tıpkıbasım ve Latinize metinler."
+    },
+    "/hakkimizda/": {
+      "title": "Hakkımızda | İslambol Yayınları",
+      "description": "İslambol Yayınları, Fatih/İstanbul merkezli bir yayınevidir. Yakın tarih, hatırat ve arşiv belgesi alanındaki çalışmaları ve iletişim bilgileri."
+    },
+    "/nereden-alinir/": {
+      "title": "Nereden Alınır | İslambol Yayınları",
+      "description": "İslambol Yayınları kitaplarını Küresel Kitap, Kitapyurdu, Nobel Kitap, Hepsiburada ve Trendyol'dan ya da WhatsApp hattından edinin."
+    },
+    "/iletisim/": {
+      "title": "İletişim | İslambol Yayınları",
+      "description": "İslambol Yayınları iletişim: telefon ve WhatsApp 0505 980 87 35, e-posta islambolyayinlari@gmail.com, X, Instagram ve Facebook hesapları."
+    },
+    "/onizleme-hakkinda/": {
+      "title": "Önizleme Hakkında | İslambol Yayınları",
+      "description": "Sayfa çevirmeli önizleme nedir, kitapların hangi sayfaları gösterilir ve içeriklerin telif hakkı kimdedir; kısa bilgilendirme."
+    },
+    "/kvkk-ve-cerezler/": {
+      "title": "KVKK ve Çerezler | İslambol Yayınları",
+      "description": "Bu site form, üyelik, çerez veya izleme aracı kullanmaz. Kişisel verilere ilişkin kısa aydınlatma metni ve iletişim kanalları."
+    },
+    "/404.html": {
+      "title": "Sayfa bulunamadı | İslambol Yayınları",
+      "description": "Aradığınız sayfa bulunamadı. Kitaplara, yazarlara veya ana sayfaya buradan dönebilirsiniz."
+    }
+  },
+  "sablonlar": {
+    "kitap": {
+      "title": "{{baslik}} — {{yazar}} | İslambol Yayınları",
+      "description": "{{ozet_ilk_cumle}} {{sayfa_sayisi}} sayfa. İslambol Yayınları. Künye, önizleme ve nereden alınacağı.",
+      "not": "Title 60 karakteri aşarsa {{baslik}} kısaltılır ('…' ile); description 155'te kesilir. ozet_ilk_cumle, books.json description alanının ilk cümlesidir; yoksa 'İslambol Yayınları'ndan {{yazar}} kitabı.' kullanılır. Sayfa sayısı yoksa 'N sayfa.' parçası düşer."
+    },
+    "yazar": {
+      "title": "{{yazar}} — Kitapları | İslambol Yayınları",
+      "description": "{{yazar}} yazarının İslambol Yayınları'ndaki {{kitap_sayisi}} kitabı: {{ilk_uc_baslik}}. Künye ve nereden alınacağı.",
+      "not": "Uzun adlarda title 60'ı aşarsa '— Kitapları' kısmı atılır."
+    },
+    "dizi": {
+      "title": "{{dizi_adi}} — Set ve Seri | İslambol Yayınları",
+      "description": "{{dizi_adi}}: {{aciklama}} İslambol Yayınları kataloğundaki ciltler ve nereden alınacağı.",
+      "not": "aciklama, sozluk.json'daki dizi açıklamasıdır."
+    },
+    "kategori": {
+      "title": "{{kategori}} Kitapları | İslambol Yayınları",
+      "description": "{{aciklama}} İslambol Yayınları kataloğunda {{kitap_sayisi}} kitap.",
+      "not": "Yalnızca kategori için bağımsız URL üretilirse kullanılır (bkz. SITE-HARITASI, /kitaplar/?kategori=)."
+    }
+  }
+}

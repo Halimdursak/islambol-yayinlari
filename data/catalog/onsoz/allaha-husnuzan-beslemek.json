@@ -1,0 +1,77 @@
+{
+  "kitapyurdu_slug": "allaha-husnuzan-beslemek",
+  "kitapyurdu_id": 715102,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/allaha-husnuzan-beslemek/715102.html",
+  "title": "Allah'a Hüsnüzan Beslemek",
+  "author_display": "Dr. İyad Kunaybi",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 8,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123317/mh:1000/wh:a82b519b4",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/01.jpg",
+      "width": 541,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123318/mh:1000/wh:1c7ec48e9",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/02.jpg",
+      "width": 619,
+      "height": 981,
+      "kind": null
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123319/mh:1000/wh:b22e43097",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/03.jpg",
+      "width": 603,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123320/mh:1000/wh:7bac61507",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/04.jpg",
+      "width": 631,
+      "height": 899,
+      "kind": null
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123321/mh:1000/wh:c3f8c4e13",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/05.jpg",
+      "width": 601,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123322/mh:1000/wh:91753ff2e",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/06.jpg",
+      "width": 598,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123323/mh:1000/wh:cc2c666eb",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/07.jpg",
+      "width": 606,
+      "height": 1000,
+      "kind": "onsoz"
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12123324/mh:1000/wh:c96f49753",
+      "local_path": "public/onsoz/allaha-husnuzan-beslemek/08.jpg",
+      "width": 609,
+      "height": 1000,
+      "kind": null
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

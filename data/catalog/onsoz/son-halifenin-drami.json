@@ -1,0 +1,93 @@
+{
+  "kitapyurdu_slug": "son-halifenin-drami",
+  "kitapyurdu_id": 731656,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/son-halifenin-drami/731656.html",
+  "title": "Son Halifenin Dramı",
+  "author_display": "Cevat Rıfat Atilhan",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 10,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255286/mh:1000/wh:9daff04dc",
+      "local_path": "public/onsoz/son-halifenin-drami/01.jpg",
+      "width": 655,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255287/mh:1000/wh:1a778cdb6",
+      "local_path": "public/onsoz/son-halifenin-drami/02.jpg",
+      "width": 636,
+      "height": 1000,
+      "kind": "icindekiler"
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255288/mh:1000/wh:7f4cc8260",
+      "local_path": "public/onsoz/son-halifenin-drami/03.jpg",
+      "width": 625,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255289/mh:1000/wh:ee36a7a8f",
+      "local_path": "public/onsoz/son-halifenin-drami/04.jpg",
+      "width": 647,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255290/mh:1000/wh:e1adcd4d0",
+      "local_path": "public/onsoz/son-halifenin-drami/05.jpg",
+      "width": 613,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255291/mh:1000/wh:b3c667bdf",
+      "local_path": "public/onsoz/son-halifenin-drami/06.jpg",
+      "width": 632,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255292/mh:1000/wh:75d0c1fcd",
+      "local_path": "public/onsoz/son-halifenin-drami/07.jpg",
+      "width": 607,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 8,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255293/mh:1000/wh:9f6c325ef",
+      "local_path": "public/onsoz/son-halifenin-drami/08.jpg",
+      "width": 639,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 9,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255294/mh:1000/wh:26c8baef5",
+      "local_path": "public/onsoz/son-halifenin-drami/09.jpg",
+      "width": 606,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 10,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12255295/mh:1000/wh:4b05aafab",
+      "local_path": "public/onsoz/son-halifenin-drami/10.jpg",
+      "width": 627,
+      "height": 1000,
+      "kind": "takdim"
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}

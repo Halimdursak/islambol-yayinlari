@@ -1,0 +1,19 @@
+{
+  "_not": "Direktör kararı (11 Ekim 2026). Ana sayfa vitrin seçimi. Kaynak: data/catalog/onsoz/REPORT.md vitrin önerisi (R3) + editoryal değerlendirme. 'vitrin_haric' listesindeki kitaplar katalogda ve kendi sayfalarında tam olarak yer alır; yalnızca ana sayfa ve öne çıkarma alanlarına alınmaz.",
+  "one_cikan": "sen-neden-kor-edildin",
+  "onizleme_vitrini": [
+    "sen-neden-kor-edildin",
+    "son-halifenin-drami",
+    "inas",
+    "filistin-suriye-cephesinde-kahramanlar-ve-hainler",
+    "menemen-hadisesinin-icyuzu",
+    "allaha-husnuzan-beslemek"
+  ],
+  "vitrin_haric": [
+    "igneli-fici",
+    "gizli-devlet-ve-fesat-programi",
+    "yeryuzunun-hakiki-canileri-israil"
+  ],
+  "yeni_cikanlar_adet": 8,
+  "yazar_seridi_adet": 8
+}

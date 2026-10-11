@@ -1,0 +1,100 @@
+{
+  "ad": "İslambol Yayınları",
+  "slogan": "Tarihi doğru okumak için...",
+  "telefon": "+90 505 980 87 35",
+  "telefon_gosterim": "0505 980 87 35",
+  "whatsapp_url_sablonu": "https://wa.me/905059808735?text={kitap_adi}",
+  "whatsapp_url": "https://wa.me/905059808735",
+  "eposta": "islambolyayinlari@gmail.com",
+  "adres": "Fatih, İstanbul 34112",
+  "adres_not": "Açık adres ve çalışma saatleri yayınevinden alınacak; ziyaret kabulü olup olmadığı belirsiz.",
+  "sosyal": {
+    "x": "https://x.com/islambolyayin",
+    "instagram": "https://www.instagram.com/islambolyayin/",
+    "facebook": "https://www.facebook.com/p/İslambol-Yayınları-61573154856841/"
+  },
+  "satis_kanallari": [
+    {
+      "ad": "Küresel Kitap",
+      "url": "https://www.kureselkitap.com/firma/7929/islambol-yayinlari/",
+      "not": "Yayınevi sayfası"
+    },
+    {
+      "ad": "Kitapyurdu",
+      "url": "https://www.kitapyurdu.com/yayinevi/islambol-yayinlari/11783.html",
+      "not": "Yayınevi sayfası"
+    },
+    {
+      "ad": "Nobel Kitap",
+      "url": "https://nobelkitap.com/yayinevi/islambol-yayinlari",
+      "not": "Yayınevi sayfası"
+    },
+    {
+      "ad": "Hepsiburada",
+      "url": "https://www.hepsiburada.com/islambolyayinlari",
+      "not": "Mağaza sayfası"
+    },
+    {
+      "ad": "Trendyol",
+      "url": null,
+      "not": "Mağaza adresi doğrulanmadı; bağlantı yayınevinden alınınca eklenecek."
+    }
+  ],
+  "menu": [
+    {
+      "etiket": "Kitaplar",
+      "url": "/kitaplar/"
+    },
+    {
+      "etiket": "Yazarlar",
+      "url": "/yazarlar/"
+    },
+    {
+      "etiket": "Set ve Seriler",
+      "url": "/diziler/"
+    },
+    {
+      "etiket": "Yayın Çizgisi",
+      "url": "/yayin-cizgisi/"
+    },
+    {
+      "etiket": "Nereden Alınır",
+      "url": "/nereden-alinir/"
+    },
+    {
+      "etiket": "Hakkımızda",
+      "url": "/hakkimizda/"
+    },
+    {
+      "etiket": "İletişim",
+      "url": "/iletisim/"
+    }
+  ],
+  "footer_menu": [
+    {
+      "etiket": "Hakkımızda",
+      "url": "/hakkimizda/"
+    },
+    {
+      "etiket": "Yayın Çizgisi",
+      "url": "/yayin-cizgisi/"
+    },
+    {
+      "etiket": "Önizleme Hakkında",
+      "url": "/onizleme-hakkinda/"
+    },
+    {
+      "etiket": "Nereden Alınır",
+      "url": "/nereden-alinir/"
+    },
+    {
+      "etiket": "İletişim",
+      "url": "/iletisim/"
+    },
+    {
+      "etiket": "KVKK ve Çerezler",
+      "url": "/kvkk-ve-cerezler/"
+    }
+  ],
+  "dil": "tr"
+}

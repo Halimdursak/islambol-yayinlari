@@ -1,0 +1,426 @@
+[
+  {
+    "slug": "filistinsuriye-cephesinde-kahramanlar-ve-hainler",
+    "kitapyurdu_id": 731657,
+    "title": "Filistin-Suriye Cephesinde Kahramanlar ve Hainler",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 7,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      3,
+      4,
+      5,
+      6
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "igneli-fici",
+    "kitapyurdu_id": 746013,
+    "title": "İğneli Fıçı",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 10,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "ok"
+  },
+  {
+    "slug": "inas",
+    "kitapyurdu_id": 714274,
+    "title": "İnas",
+    "author": "Dr. İyad Kunaybi",
+    "page_count": 10,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      6,
+      7,
+      8
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "sen-neden-kor-edildin",
+    "kitapyurdu_id": 742052,
+    "title": "Sen Neden Kör Edildin?",
+    "author": "Mustafa Armağan",
+    "page_count": 10,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      5,
+      6,
+      7
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "butun-acikligiyla-inonu-savaslari-ve-hakiki-kahramanlari",
+    "kitapyurdu_id": 739995,
+    "title": "Bütün Açıklığıyla İnönü Savaşları ve Hakiki Kahramanları",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "yahudi-casusu-suzy-liberman",
+    "kitapyurdu_id": 739996,
+    "title": "Yahudi Casusu Suzy Liberman",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "turk-oglu-dusmanini-tani-masonlugun-ic-yuzu",
+    "kitapyurdu_id": 760603,
+    "title": "Türk Oğlu Düşmanını Tanı Masonluğun İç Yüzü",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "gizli-devlet-ve-fesat-programi",
+    "kitapyurdu_id": 739993,
+    "title": "Gizli Devlet ve Fesat Programı",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 10,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      3,
+      4,
+      5
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "mizac-dersleri",
+    "kitapyurdu_id": 760604,
+    "title": "Mizaç Dersleri",
+    "author": "Abdüsselam Tutal",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "son-halifenin-drami",
+    "kitapyurdu_id": 731656,
+    "title": "Son Halifenin Dramı",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 10,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "istiklal-harbinde-sarikli-kahramanlar",
+    "kitapyurdu_id": 760605,
+    "title": "İstiklal Harbinde Sarıklı Kahramanlar",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "yeryuzunun-hakiki-canileri-israil",
+    "kitapyurdu_id": 736245,
+    "title": "Yeryüzünün Hakiki Canileri: İsrail",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 10,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      7,
+      8,
+      9
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "son-sultan-vahideddinin-hatiralari-ve-beyannamesi",
+    "kitapyurdu_id": 713022,
+    "title": "Son Sultan Vahideddin'in Hatıraları ve Beyannamesi",
+    "author": "Hasan Erol",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "yakin-tarihimizi-sorgulamak-tarihin-gercek-yuzu",
+    "kitapyurdu_id": 744816,
+    "title": "Yakın Tarihimizi Sorgulamak & Tarihin Gerçek Yüzü",
+    "author": "Fikret Aktaş",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "hucumlara-cevaplar",
+    "kitapyurdu_id": 729762,
+    "title": "Hücumlara Cevaplar",
+    "author": "Dr. Rıza Nur",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "seyhleride-vururlar-28-subat-surgunu-mahmud-esad-cosan-hoca",
+    "kitapyurdu_id": 763214,
+    "title": "Şeyhleri'de Vururlar & 28 Şubat Sürgünü Mahmud Esad Coşan Hoca",
+    "author": "Dr. Seyfi Say",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "afet-inan-kemalist-ideolojinin-akademik-vitrini",
+    "kitapyurdu_id": 763215,
+    "title": "Afet İnan & Kemalist İdeolojinin Akademik Vitrini",
+    "author": "Prof. Dr. Ali Seyyar",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "turkun-yeni-amentusu",
+    "kitapyurdu_id": 725571,
+    "title": "Türk'ün Yeni Amentüsü",
+    "author": "Komisyon",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "daglarda-parcalarin-toplanmaz-muhsin-yazicioglu-dosyasi",
+    "kitapyurdu_id": 763211,
+    "title": "Dağlarda Parçaların Toplanmaz & Muhsin Yazıcıoğlu Dosyası",
+    "author": "Dr. Seyfi Say",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "1918-mutarekesinden-beri-olan-vakalar-milli-hareket-ve-cumhuriyyet-tarihi",
+    "kitapyurdu_id": 760295,
+    "title": "1918 Mütarekesi'nden Beri Olan Vak'alar & Millî Hareket ve Cumhûriyyet Tarîhi",
+    "author": "Dr. Rıza Nur",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "suretten-sirete-aynadaki-metafor",
+    "kitapyurdu_id": 756188,
+    "title": "Suretten Sirete Aynadaki Metafor",
+    "author": "Nur Dünya Kaplan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "musa-dagi",
+    "kitapyurdu_id": 729761,
+    "title": "Musa Dağı",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "halit-pasa-nasil-olduruldu",
+    "kitapyurdu_id": 739992,
+    "title": "Halit Paşa Nasıl Öldürüldü?",
+    "author": "Sinan Omur",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "vahsi-surgun-sehzade-mahmud-sevket-efendinin-surgun-mektublari-ile-tarihi-ve-siyasi-notlari",
+    "kitapyurdu_id": 748289,
+    "title": "Vahşi Sürgün & Şehzade Mahmûd Şevket Efendi'nin Sürgün Mektûbları İle Tarihî Ve Siyasî Notları",
+    "author": "Dr. M. Hüdai Şentürk",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "mevkiful-akl-akil-ilim-ve-alemin-alemlerin-rabbi-ve-rasulleri-karsisindaki-konumu-4-cilt-takim",
+    "kitapyurdu_id": 726607,
+    "title": "Mevkıfu'l Akl Akıl, İlim ve Âlemin Âlemlerin Rabbi ve Rasûlleri Karşısındaki Konumu (4 Cilt Takım)",
+    "author": "Şeyhülislam Mustafa Sabri Efendi",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "gozyasi-denizi",
+    "kitapyurdu_id": 759824,
+    "title": "Gözyaşı Denizi",
+    "author": "Ebul Ferec İbnul Cevzi",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "mustafa-sabri-efendi-islam-mutefekkiri-kuresel-alim-ve-osmanli-devletinin-eski-seyhulislami",
+    "kitapyurdu_id": 748290,
+    "title": "Mustafa Sabri Efendi & İslam Mütefekkiri, Küresel Âlim ve Osmanlı Devleti'nin Eski Şeyhülislamı",
+    "author": "Prof. Dr. Müferrih B. Süleyman El-Kûsî",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "allaha-dogru-yuruyenlerin-derecesine-nasil-yukseliriz",
+    "kitapyurdu_id": 764927,
+    "title": "Allah'a Doğru Yürüyenlerin Derecesine Nasıl Yükseliriz?",
+    "author": "Halid El-Huseynan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "cahiliye-devrinde-bedeviler-ve-sosyokulturel-hayatlari",
+    "kitapyurdu_id": 765825,
+    "title": "Cahiliye Devrinde Bedevîler ve Sosyo-Kültürel Hayatları",
+    "author": "Adem Varıcı",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "hilafetin-ilgasinin-arka-plani",
+    "kitapyurdu_id": 763952,
+    "title": "Hilafetin İlgasının Arka Planı",
+    "author": "Şeyhülislam Mustafa Sabri Efendi",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "butun-yonleriyle-sah-ismail",
+    "kitapyurdu_id": 726613,
+    "title": "Bütün Yönleriyle Şah İsmail",
+    "author": "Araz Hasanzade",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "yalova-ataturk-koskunun-gercek-insa-oykusu-arsiv-belgeleri-isiginda-38-gun-efsanesi",
+    "kitapyurdu_id": 763212,
+    "title": "Yalova Atatürk Köşkü'nün Gerçek İnşa Öyküsü & Arşiv Belgeleri Işığında “38 Gün” Efsanesi",
+    "author": "Prof. Dr. Ali Seyyar",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "uzgunum-viyanada-dogdum",
+    "kitapyurdu_id": 763217,
+    "title": "Üzgünüm Viyana'da Doğdum!",
+    "author": "Bilal Adalı",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "allaha-husnuzan-beslemek",
+    "kitapyurdu_id": 715102,
+    "title": "Allah'a Hüsnüzan Beslemek",
+    "author": "Dr. İyad Kunaybi",
+    "page_count": 8,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      7
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "menemen-hadisesinin-icyuzu",
+    "kitapyurdu_id": 731658,
+    "title": "Menemen Hadisesinin İçyüzü",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 10,
+    "has_onsoz": true,
+    "onsoz_pages": [
+      9,
+      10
+    ],
+    "status": "ok"
+  },
+  {
+    "slug": "medeniyetin-batisi",
+    "kitapyurdu_id": 729763,
+    "title": "Medeniyetin Batışı",
+    "author": "Cevat Rıfat Atilhan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "sahidinin-kaleminden-31-mart-faciasi",
+    "kitapyurdu_id": 729760,
+    "title": "“Şahidinin Kaleminden” 31 Mart Faciası",
+    "author": "Mustafa Turan",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "enver-ve-mustafa-kemalin-kitabi-1908-1938-3-kitap-takim",
+    "kitapyurdu_id": 730296,
+    "title": "Enver ve Mustafa Kemal'in Kitabı 1908 - 1938 (3 Kitap Takım)",
+    "author": "Yaşar Gören",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  },
+  {
+    "slug": "rabbimizi-taniyalim-2-kuranimiz-ve-resuli-ekrem-asm-efendimiz-bize-rabbimizi-tarif-ediyor",
+    "kitapyurdu_id": 723740,
+    "title": "Rabbimizi Tanıyalım 2 & (Kur'an'ımız ve Resûl-i Ekrem (asm) Efendimiz Bize Rabbimizi Tarif Ediyor)",
+    "author": "Burhan Bozgeyik",
+    "page_count": 0,
+    "has_onsoz": false,
+    "onsoz_pages": [],
+    "status": "onizleme_yok"
+  }
+]

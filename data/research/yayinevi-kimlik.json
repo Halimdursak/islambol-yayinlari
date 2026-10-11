@@ -1,0 +1,27 @@
+{
+  "kaynak": "https://x.com/islambolyayin (11 Ekim 2026)",
+  "slogan": "Tarihi doğru okumak için...",
+  "telefon": "+90 505 980 87 35",
+  "whatsapp": "https://wa.me/905059808735",
+  "eposta": "islambolyayinlari@gmail.com",
+  "adres": "Fatih, İstanbul 34112 (Facebook sayfası)",
+  "sosyal": {
+    "x": "https://x.com/islambolyayin",
+    "instagram": "https://www.instagram.com/islambolyayin/",
+    "facebook": "https://www.facebook.com/p/İslambol-Yayınları-61573154856841/"
+  },
+  "satis_kanallari": [
+    "https://www.kureselkitap.com/firma/7929/islambol-yayinlari/",
+    "https://www.kitapyurdu.com/yayinevi/islambol-yayinlari/11783.html",
+    "https://nobelkitap.com/yayinevi/islambol-yayinlari",
+    "https://www.hepsiburada.com/islambolyayinlari",
+    "WhatsApp sipariş hattı"
+  ],
+  "on_siparis_yeni": [
+    "GARGAT 1-2 (Ali Akbaş, 908 sayfa, kureselkitap urun/601746)",
+    "Atatürk'ün Uşağının Gizli Defteri (Cemal Granda, 2. baskı, urun/573330)",
+    "Put Adam / Raculüs Sanem (urun/518044) - tükenmek üzere"
+  ],
+  "ton": "Yakın tarih, arşiv belgeleri, 'üzeri örtülen hakikatler', TBMM gizli celse zabıtları gibi birincil kaynak vurgusu; ciddi, iddialı, halka açık dil",
+  "logo": "public/logo/islambol-x-profil.jpg (X profil görseli, 400px); iç sayfa görsellerinde de wordmark var"
+}

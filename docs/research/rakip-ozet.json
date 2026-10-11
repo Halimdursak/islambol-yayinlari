@@ -1,0 +1,581 @@
+{
+ "uretim": "2026-10-11",
+ "not_": "doğrulanmadı = o özelliği kontrol etmedim; alınamadı = site erişilemedi. mobil_kalite hiçbir site için puanlanmadı (5 sitenin mobil ekran görüntüsü alındı, incelenmedi).",
+ "siteler": [
+  {
+   "id": "ketebe",
+   "ad": "Ketebe",
+   "url": "https://www.ketebe.com/",
+   "grup": "TR",
+   "kendi_satis": "evet (T-Soft; sepet, üye, bayi girişi, %35 indirim etiketi)",
+   "onizleme": "turn.js yüklü ve #flipbook.turn() çağrısı var; test edilen 17 kitap sayfasında #flipbook öğesi YOK -> aktif önizleme kanıtlanamadı",
+   "yazar": "evet (/necip-fazil-kisakurek, /hayden-white)",
+   "seri": "evet (Kemal Tahir Kitaplığı, Gazzâli Kitaplığı, Diziler menüsü)",
+   "arama": "evet (üstte arama + \"Popüler Aramalar\")",
+   "filtre": "kategori menüsü; ayrıntılı filtre doğrulanmadı",
+   "bulten": "evet (E-Bülten)",
+   "blog_haber": "hayır (Medya Merkezi linki var, içeriğine bakılmadı)",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "görüldü",
+   "tipografi": "Open Sans (okundu, 70 kullanım); Montserrat+Roboto Google Fonts bağlı",
+   "palet": [
+    "#e35252 kırmızı (okundu)",
+    "#000000",
+    "#6c6c6c"
+   ],
+   "ss": [
+    "ketebe.png",
+    "ketebe-mobile.png"
+   ],
+   "guclu": "Kampanya şeritli slider (aylık \"Ketebe Ekim\"), kitaplık banner blokları (renkli çerçeveli koleksiyon afişleri), vitrin/çok satan/yeni sekmeleri",
+   "zayif": "Şablon e-ticaret hissi, indirim rozetleri ve kırmızı şeritler kaos yaratıyor, tipografik karakter yok, tarih/hatırat ayrımı yok"
+  },
+  {
+   "id": "timas",
+   "ad": "Timaş",
+   "url": "https://timas.com.tr/",
+   "grup": "TR",
+   "kendi_satis": "evet (sepet ikonu; çerez politikası satinal.timas.com.tr alt alanında)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "evet (\"Yazarlarımız\" bölümü)",
+   "seri": "evet (çok sayıda kitaplık/dizi menüsü, yaş grupları)",
+   "arama": "evet (Ara ikonu)",
+   "filtre": "yaş/kategori menü ağacı",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "hayır",
+   "etkinlik": "\"Yazar İmzalı Kitaplar\" kampanya sayfası; etkinlik takvimi yok",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "tahmin (ekran görüntüsü incelenmedi)",
+   "tipografi": "American Typewriter (serif, 22 kullanım), SF Pro Display, Inter (okundu)",
+   "palet": [
+    "#ec6608 turuncu (--primary okundu)",
+    "#e57868",
+    "#7e212a"
+   ],
+   "ss": [
+    "timas.png"
+   ],
+   "guclu": "20+ yayınevini tek çatıda toplayan mega menü, yaş filtresi, SSS ve dosya değerlendirme başvuru formu",
+   "zayif": "1.3 MB HTML, çok ağır; çocuk ağırlıklı, tarih okuruna uygun değil"
+  },
+  {
+   "id": "erkam",
+   "ad": "Erkam",
+   "url": "https://www.erkamyayinlari.com/",
+   "grup": "TR",
+   "kendi_satis": "evet (Ticimax altyapısı, 122 \"sepete ekle\")",
+   "onizleme": "hayır (markdown ve menüde yok)",
+   "yazar": "evet (/yazarlar, yazar kitaplıkları)",
+   "seri": "evet (30+ \"Kitaplığı\": Mahmud Sami Ramazanoğlu, Tasavvuf, İslam Tarihi...)",
+   "arama": "evet (sesli arama ikonu görüldü)",
+   "filtre": "kategori menüsü",
+   "bulten": "görülmedi",
+   "blog_haber": "hayır; dergi sayfaları (Altınoluk, Bizim Bahçe)",
+   "etkinlik": "görülmedi",
+   "mobil": null,
+   "tasarim": 2,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "okunamadı (ham HTML 5 KB, bot koruması)",
+   "palet": [
+    "okunamadı"
+   ],
+   "ss": [
+    "erkam.png"
+   ],
+   "guclu": "Marka/imprint yapısı (Pırıltı, Ser Kitap, Akademi), yazar adına kitaplık modeli",
+   "zayif": "Yoğun mega menü, e-ticaret şablonu, görsel kimlik zayıf"
+  },
+  {
+   "id": "semerkand",
+   "ad": "Semerkand Kitap",
+   "url": "https://www.semerkandkitap.com/",
+   "grup": "TR",
+   "kendi_satis": "evet (IdeaSoft; çok yayınevli kitapçı)",
+   "onizleme": "hayır (e-kitap kategorisi var, kitap sayfasında önizleme yok)",
+   "yazar": "yalnızca liste sayfası (/sayfa/yazarlar)",
+   "seri": "yayınevi/marka sayfaları (50+ marka)",
+   "arama": "evet",
+   "filtre": "kategori + marka",
+   "bulten": "evet",
+   "blog_haber": "evet (Blog)",
+   "etkinlik": "görülmedi",
+   "mobil": null,
+   "tasarim": 2,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "sistem sans (Bootstrap varsayılanı, okundu); Font Awesome",
+   "palet": [
+    "#00aebc turkuaz (okundu)",
+    "#313131",
+    "#4b4b4b"
+   ],
+   "ss": [
+    "semerkand.png"
+   ],
+   "guclu": "Dergi aboneliği, set kitaplar, hediyelik, 50+ yayınevi kataloğu (Ketebe, Dergah, Timaş burada da satılıyor)",
+   "zayif": "Pazaryeri görüntüsü, marka kimliği yok"
+  },
+  {
+   "id": "otuken",
+   "ad": "Ötüken",
+   "url": "https://otuken.com.tr/",
+   "grup": "TR",
+   "kendi_satis": "evet (kendi sepet, %20 indirimli fiyat, mobil uygulama iOS/Android)",
+   "onizleme": "hayır (kitap sayfasında anahtar sözcük yok)",
+   "yazar": "evet (/yazarlar, /yazar/ziya-gokalp-1343)",
+   "seri": "evet (\"modül\" sayfaları: İttihat ve Terakki, Miras Kitaplığı, Kırım Kitaplığı, Hayatıhakikiye Tefrikaları, Cumhuriyetin 100. Yılı)",
+   "arama": "doğrulanmadı",
+   "filtre": "/categories",
+   "bulten": "evet (\"Kaydol\")",
+   "blog_haber": "hayır",
+   "etkinlik": "metinde \"yazar etkinlikleri\" geçiyor, sayfa yok",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Open Sans + Bootstrap (okundu)",
+   "palet": [
+    "#e52c17 kırmızı (okundu)",
+    "#212529",
+    "#ffffff"
+   ],
+   "ss": [
+    "otuken.png",
+    "otuken-mobile.png"
+   ],
+   "guclu": "Tematik \"modül\" koleksiyonları (tarih serileri: en yakın rakip yaklaşım), alt imprint kartları, Cumhuriyetin 100. Yılı vitrini",
+   "zayif": "Bootstrap varsayılanı, belge/arşiv duygusu yok, indirim etiketli kart kalabalığı"
+  },
+  {
+   "id": "kronik",
+   "ad": "Kronik Kitap",
+   "url": "https://www.kronikkitap.com/",
+   "grup": "TR",
+   "kendi_satis": "doğrulanamadı (menüde sepet görülmedi)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "evet (/yazarlar, siyah-beyaz portre karuseli)",
+   "seri": "kategori ve \"kitaplık\" (Tarık Zafer Tunaya, Doğan Cüceloğlu)",
+   "arama": "evet (menüde)",
+   "filtre": "kategori sayfaları",
+   "bulten": "evet (\"Haberdar Ol\" + popup)",
+   "blog_haber": "hayır",
+   "etkinlik": "görülmedi",
+   "mobil": null,
+   "tasarim": 4,
+   "tasarim_etiket": "görüldü",
+   "tipografi": "Cormorant Garamond (başlık) + Montserrat (okundu)",
+   "palet": [
+    "#005e85 mavi (okundu)",
+    "#000000",
+    "#ffffff"
+   ],
+   "ss": [
+    "kronik.png",
+    "kronik-mobile.png"
+   ],
+   "guclu": "Kapak rengini kart zeminine taşıyan renkli kart ızgarası, serif başlık, yazar portre şeridi; TR içindeki en tutarlı kimlik",
+   "zayif": "Kart altlarında bilgi kısıtlı, popup bülten rahatsız edici"
+  },
+  {
+   "id": "yky",
+   "ad": "Yapı Kredi Yayınları",
+   "url": "https://www.yapikrediyayinlari.com.tr/",
+   "grup": "TR",
+   "kendi_satis": "hayır (satış noktaları sayfasına yönlendirme, kitap.ykykultur.com.tr)",
+   "onizleme": "evet, PDF \"tadımlık\" sekmesi (#tab-tadimlik; ilk sayfalar PDF olarak yeni sekmede)",
+   "yazar": "doğrulanmadı",
+   "seri": "evet (Meridyen, Delta, Cogito, Doğan Kardeş, Kitap-lık dizi/dergi sayfaları)",
+   "arama": "doğrulanmadı",
+   "filtre": "doğrulanmadı",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "evet (Kitap-lık dergisi)",
+   "etkinlik": "sergi kitapları/katalog",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Open Sans + Quicksand (okundu)",
+   "palet": [
+    "#743790 mor (okundu)",
+    "#33183f",
+    "#eaeaea"
+   ],
+   "ss": [
+    "yky.png"
+   ],
+   "guclu": "Dizi isimleri (Cogito, Delta) markaya dönüşmüş; tadımlık PDF",
+   "zayif": "Eski ASP altyapısı, 14px gri metin"
+  },
+  {
+   "id": "iletisim",
+   "ad": "İletişim Yayınları",
+   "url": "https://iletisim.com.tr/",
+   "grup": "TR",
+   "kendi_satis": "evet (kargo/iade koşulları, ETBİS, üyelik)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "evet (/yazarlar)",
+   "seri": "doğrulanmadı",
+   "arama": "doğrulanmadı",
+   "filtre": "doğrulanmadı",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "RSS: yeni-cikanlar, tekrar-baskilar",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Noto Sans (okundu)",
+   "palet": [
+    "#461a57 mor (theme-color okundu)",
+    "#007bff Bootstrap",
+    "#212529"
+   ],
+   "ss": [
+    "iletisim.png"
+   ],
+   "guclu": "Güçlü marka sesi (başlıkta \"Okumak İptiladır Müptelalara Selam!\"), /katalog sayfası",
+   "zayif": "Bootstrap varsayılanı"
+  },
+  {
+   "id": "dergah",
+   "ad": "Dergâh",
+   "url": "https://www.dergah.com.tr/ (verilen dergahyayinlari.com adresi çözülemedi)",
+   "grup": "TR",
+   "kendi_satis": "doğrulanamadı (kitap sayfasında fiyat/sepet bakılmadı)",
+   "onizleme": "evet: kitap sayfasında Google Docs Viewer ile PDF gömülü (iframe, 600px)",
+   "yazar": "evet (/yazarlar/mustafa-kutlu ...)",
+   "seri": "evet (Diziler menüsü)",
+   "arama": "evet (ikon)",
+   "filtre": "/kitaplar listesi",
+   "bulten": "evet",
+   "blog_haber": "evet (Blog), videolar, Instagram/Facebook embed",
+   "etkinlik": "fuar duyuruları blogda",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "görüldü",
+   "tipografi": "Montserrat (@font-face okundu); geniş harf aralıklı büyük harf bölüm başlıkları",
+   "palet": [
+    "#1a1a18 (okundu)",
+    "#747474",
+    "#e9e9e9"
+   ],
+   "ss": [
+    "dergah.png",
+    "dergah-mobile.png"
+   ],
+   "guclu": "En yakın tür: \"yeni çıkanlar / tekrar baskılar / yazarlar / blog\" omurgası, ortalanmış logolu menü",
+   "zayif": "Boş video bölümü, gri slider, sosyal embedler yarım yüklü, PDF önizleme çirkin"
+  },
+  {
+   "id": "izyayincilik",
+   "ad": "İz Yayıncılık",
+   "url": "https://izyayincilik.com",
+   "grup": "TR",
+   "kendi_satis": "alınamadı",
+   "onizleme": "alınamadı",
+   "yazar": "alınamadı",
+   "seri": "alınamadı",
+   "arama": "alınamadı",
+   "filtre": "alınamadı",
+   "bulten": "alınamadı",
+   "blog_haber": "alınamadı",
+   "etkinlik": "alınamadı",
+   "mobil": null,
+   "tasarim": null,
+   "tasarim_etiket": "alınamadı",
+   "tipografi": "alınamadı",
+   "palet": [
+    "alınamadı"
+   ],
+   "ss": [
+    "iz.png (boş beyaz)"
+   ],
+   "guclu": "-",
+   "zayif": ".com.tr DNS çözülemedi; izyayincilik.com HTTP 200 ama gövde 0 bayt, ekran görüntüsü tamamen beyaz -> alınamadı"
+  },
+  {
+   "id": "fitzcarraldo",
+   "ad": "Fitzcarraldo Editions",
+   "url": "https://fitzcarraldoeditions.com/",
+   "grup": "Dünya",
+   "kendi_satis": "evet (basket; perakendeci listesi de var: Kobo, Libro.fm)",
+   "onizleme": "evet: \"Read preview\" -> modal içinde HTML metin alıntısı + sesli örnek (mp3 butonu); sayfa çevirme yok",
+   "yazar": "evet (/authors/)",
+   "seri": "evet (Essentials, Modern Gothic, Nobel Essentials; Fiction/Essays/Poetry/Classics)",
+   "arama": "evet (ikon)",
+   "filtre": "tür bazlı (Fiction, Essays, Poetry...)",
+   "bulten": "evet (koyu footer bandı)",
+   "blog_haber": "evet (News & Events, Prizes)",
+   "etkinlik": "evet",
+   "mobil": null,
+   "tasarim": 5,
+   "tasarim_etiket": "görüldü",
+   "tipografi": "Serif başlık+gövde (CSS dosyasından okunamadı; görsel tahmin: Garamond/Caslon benzeri), cömert boşluk",
+   "palet": [
+    "#1f3fa0 mavi (tahmin, kapak rengi)",
+    "#ffffff",
+    "#14192b lacivert footer (tahmin)"
+   ],
+   "ss": [
+    "fitzcarraldo.png",
+    "fitzcarraldo-mobile.png"
+   ],
+   "guclu": "Kapak ürün fotoğrafı tam genişlik hero, tek renk kimlik (kitap mavisi), koleksiyon fotoğrafları, minimum menü (Shop/Authors/Prizes)",
+   "zayif": "Vitrinde fiyat yok, keşif zayıf"
+  },
+  {
+   "id": "verso",
+   "ad": "Verso Books",
+   "url": "https://www.versobooks.com/",
+   "grup": "Dünya",
+   "kendi_satis": "evet (Shopify, Book Club üyeliği)",
+   "onizleme": "doğrulanamadı (kitap sayfası istekle engellendi)",
+   "yazar": "evet (/blogs/authors/...)",
+   "seri": "koleksiyon (Palestinian Voices, Featured)",
+   "arama": "evet (ikon)",
+   "filtre": "doğrulanmadı",
+   "bulten": "evet",
+   "blog_haber": "evet (Blog)",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": 4,
+   "tasarim_etiket": "görüldü",
+   "tipografi": "Tiempos Headline/Text (serif) + Aktiv Grotesk (okundu, Typekit)",
+   "palet": [
+    "#eb0000 kırmızı",
+    "#271b1b",
+    "#b6afaf (hepsi okundu)"
+   ],
+   "ss": [
+    "verso.png"
+   ],
+   "guclu": "Siyasi duruşu görsele döküyor: ince kırmızı çizgili bölüm başlıkları, manşet gibi duyuru kutuları, üyelik (Book Club)",
+   "zayif": "Sıkışık, çok bölüm"
+  },
+  {
+   "id": "nyrb",
+   "ad": "New York Review Books",
+   "url": "https://www.nyrb.com/",
+   "grup": "Dünya",
+   "kendi_satis": "evet (Shopify)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "doğrulanmadı",
+   "seri": "evet (Classics, Comics, Kids, Elsewhere Editions koleksiyonları)",
+   "arama": "doğrulanmadı",
+   "filtre": "koleksiyon",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "evet (nyrb-news, events)",
+   "etkinlik": "evet (/blogs/events)",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Lato + Fira Sans (okundu, tema)",
+   "palet": [
+    "#d3232e",
+    "#333333",
+    "#89bf87"
+   ],
+   "ss": [
+    "nyrb.png"
+   ],
+   "guclu": "Seri kimliği güçlü (Classics koleksiyonları), haber",
+   "zayif": "Genel Shopify teması"
+  },
+  {
+   "id": "penguin",
+   "ad": "Penguin Books UK",
+   "url": "https://www.penguin.co.uk/",
+   "grup": "Dünya",
+   "kendi_satis": "hayır (perakendeci ve affiliate linkleri: Waterstones vb.)",
+   "onizleme": "API alanı \"seeInsidePdf\" var ama incelenen kitapta null; gözlemlenemedi",
+   "yazar": "evet (/authors)",
+   "seri": "evet (/series)",
+   "arama": "evet",
+   "filtre": "evet",
+   "bulten": "evet",
+   "blog_haber": "evet",
+   "etkinlik": "evet",
+   "mobil": null,
+   "tasarim": 4,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Penguin Inclusive Sans (okundu)",
+   "palet": [
+    "#fa6400 turuncu",
+    "#0b0c0c",
+    "#e6e5df (okundu)"
+   ],
+   "ss": [
+    "penguin.png"
+   ],
+   "guclu": "Marka rengi tutarlı kullanım, ölçeklenebilir kitap/yazar/dizi şablonu",
+   "zayif": "Kurumsal ölçek, kişisel ton yok"
+  },
+  {
+   "id": "gallimard",
+   "ad": "Gallimard",
+   "url": "https://www.gallimard.fr/",
+   "grup": "Dünya",
+   "kendi_satis": "doğrulanamadı",
+   "onizleme": "doğrulanamadı (curl engellendi)",
+   "yazar": "meta: \"agenda des auteurs\"",
+   "seri": "doğrulanamadı",
+   "arama": "meta: \"recherche de citations\"",
+   "filtre": "doğrulanamadı",
+   "bulten": "doğrulanamadı",
+   "blog_haber": "meta: actualités, vidéos",
+   "etkinlik": "meta: agenda des auteurs",
+   "mobil": null,
+   "tasarim": 4,
+   "tasarim_etiket": "tahmin (ekran görüntüsü incelenmedi)",
+   "tipografi": "okunamadı",
+   "palet": [
+    "okunamadı"
+   ],
+   "ss": [
+    "gallimard.png"
+   ],
+   "guclu": "Drupal 10; ekran görüntüsü alındı, HTML botlara kapalı",
+   "zayif": "Analiz kısıtlı"
+  },
+  {
+   "id": "suhrkamp",
+   "ad": "Suhrkamp",
+   "url": "https://www.suhrkamp.de/",
+   "grup": "Dünya",
+   "kendi_satis": "evet (Onlineshop)",
+   "onizleme": "evet: \"Leseprobe\" düğmesi -> Cloudinary'de PDF (*_leseprobe.pdf)",
+   "yazar": "evet (/autoren)",
+   "seri": "evet (Insel, Bibliothek Suhrkamp)",
+   "arama": "evet",
+   "filtre": "evet",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "evet (Gespräche, Interviews)",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": 3,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Roboto + Arimo (okundu)",
+   "palet": [
+    "#295fcc mavi",
+    "#121212",
+    "#dadada"
+   ],
+   "ss": [
+    "suhrkamp.png"
+   ],
+   "guclu": "Her kitapta indirilebilir PDF okuma örneği, Next.js+Cloudinary",
+   "zayif": "Sade sans, tipografi karakteri zayıf"
+  },
+  {
+   "id": "sternberg",
+   "ad": "Sternberg Press (siteinspire)",
+   "url": "https://www.sternberg-press.com/",
+   "grup": "Dünya-siteinspire",
+   "kendi_satis": "evet (WooCommerce)",
+   "onizleme": "evet: /preview/ sayfası (yaklaşan kitaplar önizleme listesi; sayfa içi okuma örneği değil)",
+   "yazar": "evet (/all-authors/)",
+   "seri": "evet (/all-series/)",
+   "arama": "doğrulanmadı",
+   "filtre": "doğrulanmadı",
+   "bulten": "evet (/newsletter/)",
+   "blog_haber": "doğrulanmadı",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": 4,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Proto (sans) + Sainte Colombe (serif) (okundu @font-face)",
+   "palet": [
+    "#de1623 kırmızı",
+    "#6e1531 şarap",
+    "#dddddd (okundu)"
+   ],
+   "ss": [
+    "sternberg.png"
+   ],
+   "guclu": "Yazar / seri / ürün üç ayrı arşiv sayfası",
+   "zayif": "-"
+  },
+  {
+   "id": "loose-joints",
+   "ad": "Loose Joints (siteinspire)",
+   "url": "https://loosejoints.biz/",
+   "grup": "Dünya-siteinspire",
+   "kendi_satis": "evet (Shopify)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "doğrulanmadı",
+   "seri": "koleksiyonlar (current, forthcoming, signed, special-rare, out-of-print)",
+   "arama": "doğrulanmadı",
+   "filtre": "koleksiyon",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "doğrulanmadı",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": 4,
+   "tasarim_etiket": "tahmin",
+   "tipografi": "Diatype (okundu)",
+   "palet": [
+    "#fbe122 sarı",
+    "#253525",
+    "#161d25 (okundu)"
+   ],
+   "ss": [
+    "loose-joints.png"
+   ],
+   "guclu": "Out-of-print / signed / special-rare koleksiyonları (tükenmiş kitap rafı fikri)",
+   "zayif": "-"
+  },
+  {
+   "id": "place-press",
+   "ad": "Place Press (siteinspire)",
+   "url": "https://placepress.com/",
+   "grup": "Dünya-siteinspire",
+   "kendi_satis": "evet (Shop)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "doğrulanmadı",
+   "seri": "doğrulanmadı",
+   "arama": "doğrulanmadı",
+   "filtre": "doğrulanmadı",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "doğrulanmadı",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": null,
+   "tasarim_etiket": "yalnızca ekran görüntüsü alındı, incelenmedi",
+   "tipografi": "incelenmedi",
+   "palet": [
+    "incelenmedi"
+   ],
+   "ss": [
+    "place-press.png"
+   ],
+   "guclu": "-",
+   "zayif": "-"
+  },
+  {
+   "id": "blackbook",
+   "ad": "Blackbook Publications (siteinspire)",
+   "url": "https://blackbookpublications.com/",
+   "grup": "Dünya-siteinspire",
+   "kendi_satis": "doğrulanmadı (Shopify göstergesi var)",
+   "onizleme": "doğrulanmadı",
+   "yazar": "doğrulanmadı",
+   "seri": "doğrulanmadı",
+   "arama": "doğrulanmadı",
+   "filtre": "doğrulanmadı",
+   "bulten": "doğrulanmadı",
+   "blog_haber": "doğrulanmadı",
+   "etkinlik": "doğrulanmadı",
+   "mobil": null,
+   "tasarim": null,
+   "tasarim_etiket": "yalnızca ekran görüntüsü alındı, incelenmedi",
+   "tipografi": "incelenmedi",
+   "palet": [
+    "incelenmedi"
+   ],
+   "ss": [
+    "blackbook.png"
+   ],
+   "guclu": "-",
+   "zayif": "-"
+  }
+ ]
+}

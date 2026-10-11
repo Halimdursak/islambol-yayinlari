@@ -1,0 +1,69 @@
+{
+  "kitapyurdu_slug": "filistinsuriye-cephesinde-kahramanlar-ve-hainler",
+  "kitapyurdu_id": 731657,
+  "kitapyurdu_url": "https://www.kitapyurdu.com/kitap/filistinsuriye-cephesinde-kahramanlar-ve-hainler/731657.html",
+  "title": "Filistin-Suriye Cephesinde Kahramanlar ve Hainler",
+  "author_display": "Cevat Rıfat Atilhan",
+  "source_type": "kitapyurdu-preview",
+  "page_count": 7,
+  "pages": [
+    {
+      "index": 1,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147462/mh:1000/wh:db0457d67",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/01.jpg",
+      "width": 594,
+      "height": 1000,
+      "kind": "kapak_ici"
+    },
+    {
+      "index": 2,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147463/mh:1000/wh:29234ca75",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/02.jpg",
+      "width": 663,
+      "height": 1000,
+      "kind": null
+    },
+    {
+      "index": 3,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147464/mh:1000/wh:ed3b044e8",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/03.jpg",
+      "width": 666,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 4,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147465/mh:1000/wh:51cce6a59",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/04.jpg",
+      "width": 681,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 5,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147466/mh:1000/wh:6f4569b9c",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/05.jpg",
+      "width": 685,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 6,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147467/mh:1000/wh:82a3bb5a9",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/06.jpg",
+      "width": 773,
+      "height": 1000,
+      "kind": "takdim"
+    },
+    {
+      "index": 7,
+      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12147468/mh:1000/wh:ccc1d2418",
+      "local_path": "public/onsoz/filistinsuriye-cephesinde-kahramanlar-ve-hainler/07.jpg",
+      "width": 611,
+      "height": 1000,
+      "kind": null
+    }
+  ],
+  "fetched_at": "2026-10-11",
+  "rights_note": "Yayınevinin kendi önizleme görselleri; site yayınevi adına yapılıyor."
+}
