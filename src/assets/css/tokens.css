@@ -89,7 +89,7 @@
   --grid-columns: 12;
   --max-w-page:  80rem;  /* 1280px */
   --max-w-wide:  75rem;  /* 1200px, içerik ızgarası */
-  --max-w-prose: 38rem;  /* ~68 karakter serif satır */
+  --max-w-prose: 34rem;  /* ~66–70 karakter serif satır (19px Garamond); ölçüm: tasarım eleştirisi tipografi-2 */
   --max-w-modal: 72rem;  /* sayfa çevirme modalı */
   --hero-min-h:  min(80vh, 56rem);
   --cover-ratio: 2 / 3;

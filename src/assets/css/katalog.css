@@ -206,7 +206,7 @@ a.cip:hover, button.cip:not([aria-pressed="true"]):hover { background: var(--c-p
 .kitap-detay__sag { display: grid; gap: var(--space-5); align-content: start; min-width: 0; }
 .kitap-detay__sag > * { margin: 0; }
 .kitap-detay__sag > .etiketler { margin-bottom: 0; }
-.kitap-detay__baslik { font-size: var(--text-xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); overflow-wrap: anywhere; }
+.kitap-detay__baslik { font-size: var(--text-2xl); line-height: var(--leading-tight); letter-spacing: var(--tracking-tight); overflow-wrap: anywhere; text-wrap: balance; } /* eser adı sitenin en büyük başlığı (tasarım eleştirisi tipografi-1) */
 .kitap-detay__alt-baslik { font-size: var(--text-lg); line-height: var(--leading-snug); font-style: italic; color: var(--c-ink-soft); }
 .kitap-detay__yazar { font: var(--weight-medium) var(--text-sm)/var(--leading-normal) var(--font-sans); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--c-ink-soft); }
 .kitap-detay__yazar a { color: var(--c-ink); text-decoration-color: var(--c-rule-strong); }
