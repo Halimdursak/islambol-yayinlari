@@ -300,7 +300,7 @@ main > :last-child { padding-bottom: var(--space-section); } /* footer önü tek
 }
 .hero__kunye { margin: var(--space-3) 0 0; }
 .hero__kunye cite { font-style: normal; letter-spacing: var(--tracking-label); }
-.hero__kitap-adi { display: block; margin-top: var(--space-1); font-family: var(--font-serif); font-size: var(--text-lg); line-height: var(--leading-tight); letter-spacing: 0; text-transform: none; color: var(--c-ink); text-wrap: balance; } /* eser adı hero'da serif ve büyük (tasarım eleştirisi tipografi-6) */
+.hero__kunye .hero__kitap-adi { display: block; margin-top: var(--space-1); font-family: var(--font-serif); font-size: var(--text-lg); line-height: var(--leading-tight); letter-spacing: 0; text-transform: none; color: var(--c-ink); text-wrap: balance; } /* eser adı hero'da serif ve büyük (tasarım eleştirisi tipografi-6) */
 .hero__slogan { margin: 0 0 var(--space-4); padding-bottom: var(--space-3); border-bottom: var(--rule-hair); }
 .hero__baslik {
   font-size: var(--text-2xl);

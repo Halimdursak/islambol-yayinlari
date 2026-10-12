@@ -16,7 +16,7 @@
           "neden": "Element's background color could not be determined because it is overlapped by another element"
         },
         {
-          "secici": "figcaption",
+          "secici": "figcaption > .etiket",
           "neden": "Element's background color could not be determined due to a background image"
         },
         {
