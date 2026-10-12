@@ -37,7 +37,7 @@
       <img src="{{ hero.kapak_url }}" width="{{ kapak_kaydi.genislik or 800 }}" height="{{ kapak_kaydi.yukseklik or 1200 }}" alt="{{ hero.title }}" loading="eager" fetchpriority="high" decoding="async">
       {% endif %}
     </a>
-    <figcaption class="hero__kunye etiket">{{ hero.yazar_gosterim }} · <cite>{{ hero.title }}</cite></figcaption>
+    <figcaption class="hero__kunye"><span class="etiket">{{ hero.yazar_gosterim }}</span> <cite class="hero__kitap-adi">{{ hero.title }}</cite></figcaption>
   </figure>
   <div class="hero__metin">
     <p class="hero__slogan etiket">{{ site.slogan }}</p>

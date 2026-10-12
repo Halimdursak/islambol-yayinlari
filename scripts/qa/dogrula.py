@@ -77,7 +77,7 @@ def norm(deger):
     """HTML entity'lerini çözer, NBSP ve çoklu boşlukları tek boşluğa indirir."""
     if deger is None:
         return ""
-    metin = htmllib.unescape(str(deger)).replace(" ", " ")
+    metin = htmllib.unescape(str(deger)).replace(" ", " ").replace("’", "'").replace("‘", "'").replace("…", "...")  # tipografi dönüşümüne duyarsız
     return re.sub(r"\s+", " ", metin).strip()
 
 

@@ -7,7 +7,7 @@ import { kitaplar, onizlemeliIdler, ornekKitaplar, yazarlar } from '../yardimci/
 
 const WA = 'wa.me/905059808735';
 const FIYAT = /\d+\s*TL\b/i;
-const normal = (s: string): string => s.replace(/\s+/g, ' ').trim();
+const normal = (s: string): string => (s.replace(/\s+/g, ' ').trim()).replace(/[’‘]/g, "'").replace(/…/g, "...");
 
 test.describe('JSON ile sayfa eşleşmesi', () => {
   test('her kitap kaydının sayfası var ve fazladan kitap sayfası yok', () => {

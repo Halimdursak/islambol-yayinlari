@@ -271,3 +271,6 @@ html.onizleme-acik { overflow: hidden; }
   .onizleme__dugme,
   .onizleme__kapat { transition: none; }
 }
+
+/* Genel p max-width okuma sütunu içindir; modal paragrafları serbest (tasarım eleştirisi duzen-5) */
+.onizleme__not, .onizleme__yukleniyor { max-width: none; }

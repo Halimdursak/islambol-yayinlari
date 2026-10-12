@@ -183,7 +183,7 @@ a:hover { color: var(--c-seal-hover); }
 
 /* ---- Alt bilgi (DESIGN §4.2) ---- */
 .alt {
-  margin-top: var(--space-section);
+  margin-top: 0; /* alt boşluk main'in son çocuğunda (tasarım eleştirisi duzen-3) */
   background: var(--c-paper-sunk);
   border-top: var(--rule-ink);
   padding-block: var(--space-8) var(--space-6);
@@ -226,7 +226,8 @@ a:hover { color: var(--c-seal-hover); }
 
 /* ---- Bölüm başlığı + çizgi (DESIGN §4.7) ---- */
 .bolum { padding-top: var(--space-section); }
-.bolum--son { padding-bottom: var(--space-section); }
+.bolum--son { padding-bottom: 0; }
+main > :last-child { padding-bottom: var(--space-section); } /* footer önü tek ritim: 1× --space-section (duzen-3) */
 .bolum-basligi {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -299,6 +300,7 @@ a:hover { color: var(--c-seal-hover); }
 }
 .hero__kunye { margin: var(--space-3) 0 0; }
 .hero__kunye cite { font-style: normal; letter-spacing: var(--tracking-label); }
+.hero__kitap-adi { display: block; margin-top: var(--space-1); font-family: var(--font-serif); font-size: var(--text-lg); line-height: var(--leading-tight); letter-spacing: 0; text-transform: none; color: var(--c-ink); text-wrap: balance; } /* eser adı hero'da serif ve büyük (tasarım eleştirisi tipografi-6) */
 .hero__slogan { margin: 0 0 var(--space-4); padding-bottom: var(--space-3); border-bottom: var(--rule-hair); }
 .hero__baslik {
   font-size: var(--text-2xl);

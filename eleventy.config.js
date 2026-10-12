@@ -33,6 +33,17 @@ export default function (eleventyConfig) {
   });
   // JSON-LD için: "<" karakterini \u003c yapar; </script> enjeksiyonunu kapatır (Q3 bulgusu H3)
   eleventyConfig.addFilter("guvenliJson", (metin) => String(metin ?? "").replace(/</g, "\\u003c"));
+  // Tipografi dönüşümü (tasarım eleştirisi tipografi-3): metin düğümlerinde harfler arası düz kesme → ’, "..." → …
+  // Attribute'lara (data-ara, href, alt) dokunmaz; <script>/<style>/<pre> içi atlanır.
+  eleventyConfig.addTransform("tipografi", (icerik, ciktiYolu) => {
+    if (!ciktiYolu || !ciktiYolu.endsWith(".html")) return icerik;
+    return icerik.split(/(<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<pre[\s\S]*?<\/pre>)/i).map((parca, i) => {
+      if (i % 2 === 1) return parca;
+      return parca.replace(/>([^<]+)</g, (m, metin) => ">" + metin
+        .replace(/(\p{L})(?:'|&#39;)(\p{L})/gu, "$1’$2")
+        .replace(/\.\.\./g, "…") + "<");
+    }).join("");
+  });
   eleventyConfig.setServerOptions({ port: 8080, showAllHosts: false });
   return {
     dir: { input: "src", output: "dist", includes: "_includes", data: "_data" },
