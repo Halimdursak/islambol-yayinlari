@@ -13,3 +13,4 @@ data/raw/
 # Python önbelleği
 __pycache__/
 *.pyc
+docs/design/secenekler/*/*.png
