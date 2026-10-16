@@ -23,10 +23,12 @@
           <li><a class="rakam" href="tel:{{ site.telefon | replace(' ', '') }}">{{ site.telefon_gosterim }}</a></li>
           <li><a href="{{ site.whatsapp_url }}" rel="noopener noreferrer">{{ site.mikrometin.whatsapp_cta }}</a></li>
           <li><a href="mailto:{{ site.eposta }}">{{ site.eposta }}</a></li>
+          {%- if site.adres %}
           <li><span class="alt__adres">{{ site.adres }}</span></li>
-          {%- for ad, url in site.sosyal %}
+          {%- endif %}
+          {%- for ad, url in site.sosyal %}{% if url %}
           <li><a href="{{ url }}" rel="noopener noreferrer">{{ ad | capitalize }}</a></li>
-          {%- endfor %}
+          {%- endif %}{% endfor %}
         </ul>
       </div>
       <div class="alt__kolon">

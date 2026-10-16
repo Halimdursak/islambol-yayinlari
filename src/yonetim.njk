@@ -9,14 +9,14 @@ eleventyExcludeFromCollections: true
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Yönetim · İslambol Yayınları</title>
-  <meta name="description" content="İslambol Yayınları kitap, yazar ve ana sayfa duyuru yönetimi.">
+  <meta name="description" content="İslambol Yayınları yönetim paneli: kitaplar, yazarlar, ana sayfa, sayfa metinleri ve site ayarları.">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/typography.css">
   <link rel="stylesheet" href="/assets/css/admin.css">
 </head>
 <body>
-  <main id="admin-app" aria-busy="true"><p class="initial-loading" role="status">Yönetim paneli açılıyor…</p></main>
+  <div id="admin-app" aria-busy="true"><p class="initial-loading" role="status">Yönetim paneli açılıyor…</p></div>
+  <noscript><p class="initial-loading">Yönetim paneli için tarayıcınızda JavaScript açık olmalıdır.</p></noscript>
   <div id="notification" class="notification" role="status" hidden></div>
   <dialog id="editor" aria-labelledby="editor-title"></dialog>
   <script type="module" src="/assets/js/admin.js"></script>

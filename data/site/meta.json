@@ -30,7 +30,7 @@
     },
     "/iletisim/": {
       "title": "İletişim | İslambol Yayınları",
-      "description": "İslambol Yayınları iletişim: telefon ve WhatsApp 0505 980 87 35, e-posta islambolyayinlari@gmail.com, X, Instagram ve Facebook hesapları."
+      "description": "İslambol Yayınları iletişim: telefon ve WhatsApp {telefon_gosterim}, e-posta {eposta}, X, Instagram ve Facebook hesapları."
     },
     "/onizleme-hakkinda/": {
       "title": "Önizleme Hakkında | İslambol Yayınları",

@@ -87,7 +87,7 @@ Sonuç: Yönetim paneli yerel Node sunucusudur (`npm run cms`, varsayılan port 
 Tarih: 16 Ekim 2026.
 Bağlam: Üst barda "Satış noktaları" bağlantısı vardı. Kullanıcı, satış yeri bağlantısı yerine orijinal WhatsApp logosunun doğrudan bir numaraya yazdırmasını istedi (numara ayrıca verilecek).
 Karar: Bağlantı kaldırıldı; yerine resmî WhatsApp glifi (yeşil daire, beyaz logo) `site.whatsapp_url` adresine yeni sekmede açılır. "Nereden alınır" menüde ve ana sayfa bölümünde durur. WhatsApp yeşili (`--c-whatsapp`) marka işareti olduğu için "tek kırmızı vurgu" kuralının tek istisnasıdır.
-Sonuç: Numara bekleniyor; verilene kadar sitenin mevcut tek WhatsApp adresi (`data/site/site.json`) kullanılır. Numara şu dosyalarda da geçer ve birlikte değiştirilmelidir: `site.json` (`telefon`, `telefon_gosterim`, `whatsapp_url`, `whatsapp_url_sablonu`), `data/site/sayfalar/{iletisim,nereden-alinir,404}.md`, `data/site/meta.json`, `tests/e2e/kitap.spec.ts` (`WA`), `scripts/qa/dogrula.py` (`WA_ANAHTAR`), `src/_data/books.js` ve `src/_includes/components/kitap/yardimci.mjs` (yedek sabitler).
+Sonuç: Numara bekleniyor; verilene kadar sitenin mevcut tek WhatsApp adresi (`data/site/site.json`) kullanılır. (ADR-015 ile numara tek kaynağa bağlandı: `site.json` değişince sayfa metinleri, meta açıklamaları, kitap sipariş bağlantıları, e2e testi ve `dogrula.py` aynı değeri okur; yedek sabitler kaldırıldı.)
 
 ## ADR-014 Marka betiği logoyu ezmez
 
@@ -95,3 +95,15 @@ Tarih: 16 Ekim 2026.
 Bağlam: `public/logo/islambol-logo*.png` yayınevinin gönderdiği PNG'den (`islambol-logo-kaynak.png`) türetilmiş 480x480 dosyalardır; `scripts/gorsel/marka.mjs` ise yalnızca eski 400 px JPEG'den üretebilir. Betik düzenlendiğinde dosya zamanı "bayat" saydırıp logoyu düşük kaliteli büyütmeyle ezdi (fark yakalanıp geri alındı).
 Karar: Logo üretiminin bayatlık kontrolü artık betik dosyasının zamanına bakmaz; yalnız `--force` ile yenilenir.
 Sonuç: `npm run gorsel` favicon, manifest ve OG görsellerini yeniler, logoya dokunmaz. Vektör logo gelirse `marka.mjs`'e doğru kaynak tanıtılmalıdır.
+
+## ADR-015 Yönetim paneli kapsamı: site ayarları, vitrin, sayfa metinleri, önizleme yükleme
+
+Tarih: 16 Ekim 2026.
+Bağlam: Kullanıcı (yayınevi sahibi, teknik değil) "ekleme çıkarma, kitap ekleme çıkarma, her şeyi yapan basit arayüzlü yönetici paneli" istedi. 14 Ekim'de kitap/yazar/duyuru için yerel bir panel (`scripts/cms/`) zaten vardı; site bilgileri, vitrin, sayfa metinleri ve önizleme sayfaları dosya düzenleme gerektiriyordu.
+Karar:
+- Panel yerel kalır (`127.0.0.1`, scrypt şifre, oturum çerezi + CSRF, CSP `script-src 'self'`). GitHub Pages statik olduğu için panel orada çalışamaz; yayın ayrı adımdır (commit + push). Barındırılan bir panel (sunucu/veritabanı) ayrı bir karardır ve istenmedi.
+- Mevcut işlem hattı (anlık görüntü → doğrula → yedek + günlük → yaz → derle; hata olursa geri al) genelleştirildi: `store.transact`. Yeni işlemler: `PUT /api/admin/site`, `PUT /api/admin/vitrin`, `PUT /api/admin/pages/:slug`, `POST /api/admin/password`; `upload` artık `kind` (cover, preview, image) alır, sharp varsa genişliği sınırlar (1200/1400/1600 px) ve `width/height` döner. Sayfalar yalnızca düzenlenir (oluşturma/silme yok); kurtarma günlüğü `page:<slug>` anahtarını da bilir.
+- Telefon/WhatsApp numarası tek kaynaktır: `data/site/site.json`. Panelde serbest yazılan numara sunucuda normalleştirilir (`telefon`, `telefon_gosterim`, `whatsapp_url`, `whatsapp_url_sablonu`). Sayfa metinleri ve `meta.json` açıklamaları `{telefon_gosterim}`, `{telefon}`, `{whatsapp_url}`, `{eposta}`, `{adres}`, `{sosyal_liste}` yer tutucularını derleme sırasında doldurur (`scripts/cms/tokens.mjs`; bağımlılıksız, Eleventy veri dosyaları kullanır). `books.js`/`yardimci.mjs` yedek sabitleri, e2e testi ve `dogrula.py` artık site.json'dan okur.
+- Kitaba `preview_pages: [{local_path, width, height}]` (en çok 30) eklenebilir; varsa yayınevinin kitapyurdu önizlemesinin yerine geçer (`books.js → yuklenenOnizleme`). Panel yalnızca okur: `onizleme_var` (yayınevi önizlemesi var mı), kategori seçenekleri (`sozluk.json`) ve sayfa listesi sunucuda hesaplanır.
+- Panel kitap kategorilerinde `sozluk.json`'daki site kategorilerini sunar; kayıtlı ham kategori adları ("Tarih > Kişiler") korunur.
+Sonuç: Kitap ekle/sil/düzenle, yazar, duyuru, vitrin, sayfa metni, site ayarları ve şifre panelden yapılır. Telif: önizleme yüklerken ilk 8–10 sayfa önerilir (ADR-007). Başlatma: `yonetim-baslat.bat` (çift tık), şifre sıfırlama: `yonetim-sifre-sifirla.bat`.

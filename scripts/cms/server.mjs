@@ -1,4 +1,5 @@
 import { createServer } from "node:http";
+import { spawn } from "node:child_process";
 import { readFile, realpath, stat } from "node:fs/promises";
 import { randomBytes, randomUUID, scrypt, timingSafeEqual } from "node:crypto";
 import { promisify } from "node:util";
@@ -6,31 +7,45 @@ import { dirname, extname, isAbsolute, join, relative, resolve, sep } from "node
 import { fileURLToPath } from "node:url";
 import { atomicWrite, containedPath, createStore } from "./store.mjs";
 import { CmsError } from "./content.mjs";
+import { MAX_UPLOAD, prepareImage } from "./images.mjs";
 import { rebuildSite } from "./build.mjs";
 
 const deriveKey = promisify(scrypt);
 const SESSION_AGE = 8 * 60 * 60 * 1000;
-const MAX_UPLOAD = 8 * 1024 * 1024;
+const MIN_PASSWORD = 8;
+const MAX_PASSWORD = 512;
+const FIRST_PORT = 8090;
+const PORT_ATTEMPTS = 20;
 const MIME = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".xml": "application/xml; charset=utf-8", ".txt": "text/plain; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".svg": "image/svg+xml", ".ico": "image/x-icon", ".woff2": "font/woff2", ".woff": "font/woff", ".webmanifest": "application/manifest+json" };
 const COOKIE = "islambol_cms";
 const CSP = "default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'";
 
+const credentialPath = (root) => containedPath(root, ".local/cms-auth.json");
+
+async function saveCredential(root, password) {
+  const salt = randomBytes(16).toString("hex");
+  const hash = (await deriveKey(password, salt, 64)).toString("hex");
+  const credential = { version: 1, salt, hash };
+  await atomicWrite(credentialPath(root), JSON.stringify(credential, null, 2) + "\n");
+  return credential;
+}
+
 async function credentialFor(root, { initialPassword, resetPassword, logger }) {
-  const path = containedPath(root, ".local/cms-auth.json");
   if (!resetPassword) {
     try {
-      const credential = JSON.parse(await readFile(path, "utf8"));
+      const credential = JSON.parse(await readFile(credentialPath(root), "utf8"));
       if (credential.version !== 1 || !/^[a-f0-9]{32}$/.test(credential.salt) || !/^[a-f0-9]{128}$/.test(credential.hash)) throw new Error("CMS giriş kaydı bozuk; --reset-password ile sıfırlayın.");
       return credential;
     } catch (error) { if (error.code !== "ENOENT") throw error; }
   }
   const password = initialPassword || randomBytes(18).toString("base64url");
-  const salt = randomBytes(16).toString("hex");
-  const hash = (await deriveKey(password, salt, 64)).toString("hex");
-  const credential = { version: 1, salt, hash };
-  await atomicWrite(path, JSON.stringify(credential, null, 2) + "\n");
+  const credential = await saveCredential(root, password);
   logger(`Yönetici şifresi (yalnızca bu kez gösterilir): ${password}`);
   return credential;
+}
+
+async function matchesPassword(credential, password) {
+  return timingSafeEqual(await deriveKey(password, credential.salt, 64), Buffer.from(credential.hash, "hex"));
 }
 
 async function readJson(request, limit = 256 * 1024) {
@@ -74,25 +89,6 @@ function requireCsrf(request, session) {
   if (request.headers["x-csrf-token"] !== session.csrfToken) throw new CmsError(403, "Güvenlik oturumu geçersiz; sayfayı yenileyin.");
 }
 
-function uploadImage(body) {
-  if (typeof body.filename !== "string" || body.filename.length > 255 || typeof body.data !== "string" || !/^[A-Za-z0-9+/]*={0,2}$/.test(body.data) || body.data.length % 4 !== 0) throw new CmsError(422, "Yüklenen resim bilgileri geçersiz.");
-  const bytes = Buffer.from(body.data, "base64");
-  if (!bytes.length || bytes.length > MAX_UPLOAD) throw new CmsError(413, "Resim en fazla 8 MB olabilir.");
-  let extension;
-  if (bytes.length >= 33 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) && bytes.toString("ascii", 12, 16) === "IHDR") extension = ".png";
-  else if (bytes.length >= 12 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255 && bytes[bytes.length - 2] === 255 && bytes[bytes.length - 1] === 217) extension = ".jpg";
-  else if (bytes.length >= 20 && bytes.toString("ascii", 0, 4) === "RIFF" && bytes.toString("ascii", 8, 12) === "WEBP" && bytes.readUInt32LE(4) + 8 === bytes.length && ["VP8 ", "VP8L", "VP8X"].includes(bytes.toString("ascii", 12, 16))) extension = ".webp";
-  if (!extension) throw new CmsError(422, "Yalnızca gerçek PNG, JPEG veya WebP resimleri yüklenebilir.");
-  const namedExtension = extname(body.filename).toLowerCase();
-  const allowedExtension = extension === ".jpg" ? [".jpg", ".jpeg"] : [extension];
-  if (!allowedExtension.includes(namedExtension)) throw new CmsError(422, "Dosya uzantısı resim türüyle eşleşmiyor.");
-  if (extension === ".png") {
-    const width = bytes.readUInt32BE(16), height = bytes.readUInt32BE(20);
-    if (!width || !height || width * height > 40000000) throw new CmsError(422, "Resim boyutları geçersiz veya çok büyük.");
-  }
-  return { bytes, extension };
-}
-
 async function staticFile(root, pathname) {
   const upload = pathname.startsWith("/uploads/");
   const base = containedPath(root, upload ? "public/uploads" : "dist");
@@ -115,7 +111,7 @@ async function staticFile(root, pathname) {
 export async function createCmsServer({ root = resolve(dirname(fileURLToPath(import.meta.url)), "../.."), build, logger = console.log, initialPassword, resetPassword = false } = {}) {
   root = resolve(root);
   build ??= () => rebuildSite(root);
-  const credential = await credentialFor(root, { initialPassword, resetPassword, logger });
+  let credential = await credentialFor(root, { initialPassword, resetPassword, logger });
   const store = await createStore(root, build, logger);
   await build();
   const sessions = new Map();
@@ -167,8 +163,7 @@ export async function createCmsServer({ root = resolve(dirname(fileURLToPath(imp
       if (current && current.reset > Date.now() && current.count >= 8) throw new CmsError(429, "Çok fazla hatalı giriş. 15 dakika sonra yeniden deneyin.");
       const { password } = await readJson(request, 2048);
       if (typeof password !== "string" || password.length > 512) throw new CmsError(422, "Şifre geçersiz.");
-      const hash = await deriveKey(password, credential.salt, 64);
-      if (!timingSafeEqual(hash, Buffer.from(credential.hash, "hex"))) {
+      if (!(await matchesPassword(credential, password))) {
         attempts.set(address, { count: (current?.reset > Date.now() ? current.count : 0) + 1, reset: current?.reset > Date.now() ? current.reset : Date.now() + 900000 });
         throw new CmsError(401, "Şifre yanlış.");
       }
@@ -189,12 +184,35 @@ export async function createCmsServer({ root = resolve(dirname(fileURLToPath(imp
     }
     if (pathname === "/api/admin/content" && request.method === "GET") { sendJson(response, 200, await store.read()); return; }
     if (pathname === "/api/admin/upload" && request.method === "POST") {
-      const { bytes, extension } = uploadImage(await readJson(request, Math.ceil(MAX_UPLOAD * 4 / 3) + 4096));
+      const { bytes, extension, width, height } = await prepareImage(await readJson(request, Math.ceil(MAX_UPLOAD * 4 / 3) + 4096));
       const filename = randomUUID() + extension;
       const local_path = `public/uploads/${filename}`;
       // Ignore user filenames completely; upload paths are immutable random identifiers.
       await atomicWrite(containedPath(root, local_path), bytes);
-      sendJson(response, 201, { url: `/uploads/${filename}`, local_path });
+      sendJson(response, 201, { url: `/uploads/${filename}`, local_path, width, height });
+      return;
+    }
+    if (pathname === "/api/admin/site" && request.method === "PUT") { sendJson(response, 200, await store.updateSite(await readJson(request))); return; }
+    if (pathname === "/api/admin/vitrin" && request.method === "PUT") { sendJson(response, 200, await store.updateVitrin(await readJson(request))); return; }
+    const page = pathname.match(/^\/api\/admin\/pages\/([a-z0-9]+(?:-[a-z0-9]+)*)$/);
+    if (page && request.method === "PUT") { sendJson(response, 200, await store.updatePage(page[1], await readJson(request))); return; }
+    if (pathname === "/api/admin/password" && request.method === "POST") {
+      const { current, next } = await readJson(request, 4096);
+      if (typeof current !== "string" || typeof next !== "string" || current.length > MAX_PASSWORD || next.length > MAX_PASSWORD) throw new CmsError(422, "Şifre bilgileri geçersiz.");
+      const address = request.socket.remoteAddress;
+      const failures = attempts.get(address);
+      if (failures && failures.reset > Date.now() && failures.count >= 8) throw new CmsError(429, "Çok fazla hatalı deneme. 15 dakika sonra yeniden deneyin.");
+      if (!(await matchesPassword(credential, current))) {
+        attempts.set(address, { count: (failures?.reset > Date.now() ? failures.count : 0) + 1, reset: failures?.reset > Date.now() ? failures.reset : Date.now() + 900000 });
+        throw new CmsError(401, "Şimdiki şifre yanlış.");
+      }
+      if ([...next].length < MIN_PASSWORD) throw new CmsError(422, `Yeni şifre en az ${MIN_PASSWORD} karakter olmalıdır.`);
+      if (next === current) throw new CmsError(422, "Yeni şifre şimdikinden farklı olmalıdır.");
+      attempts.delete(address);
+      credential = await saveCredential(root, next);
+      // Other signed-in browsers must sign in again with the new password.
+      for (const id of sessions.keys()) if (id !== token) sessions.delete(id);
+      sendJson(response, 200, { ok: true });
       return;
     }
     const match = pathname.match(/^\/api\/admin\/(books|authors|campaigns)(?:\/([a-z0-9]+(?:-[a-z0-9]+)*))?$/);
@@ -221,11 +239,32 @@ export async function createCmsServer({ root = resolve(dirname(fileURLToPath(imp
   };
 }
 
+/** İstenen port doluysa sıradakini dener (çift tıkla başlatılan pencere başka bir uygulamayla çakışmasın). Açık --port kesindir. */
+function listen(server, port, attempts) {
+  return new Promise((done, reject) => {
+    const failed = (error) => {
+      if (error.code === "EADDRINUSE" && attempts > 1) { server.removeListener("error", failed); listen(server, port + 1, attempts - 1).then(done, reject); } else reject(error);
+    };
+    server.once("error", failed);
+    server.listen(port, "127.0.0.1", () => { server.removeListener("error", failed); done(port); });
+  });
+}
+
+function openBrowser(url) {
+  const command = process.platform === "win32" ? ["cmd", ["/c", "start", "", url]] : process.platform === "darwin" ? ["open", [url]] : ["xdg-open", [url]];
+  spawn(command[0], command[1], { stdio: "ignore", detached: true, windowsHide: true }).on("error", () => {}).unref();
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const index = process.argv.indexOf("--port");
-  const port = Number(index >= 0 ? process.argv[index + 1] : process.env.CMS_PORT || 8090);
+  const explicit = index >= 0 || Boolean(process.env.CMS_PORT);
+  const port = Number(index >= 0 ? process.argv[index + 1] : process.env.CMS_PORT || FIRST_PORT);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("CMS portu geçersiz.");
+  console.log("Yönetim paneli ve site hazırlanıyor; ilk açılış birkaç on saniye sürebilir...");
   const app = await createCmsServer({ resetPassword: process.argv.includes("--reset-password") });
-  app.server.listen(port, "127.0.0.1", () => console.log(`Yönetim paneli: http://127.0.0.1:${port}/yonetim/`));
+  const actual = await listen(app.server, port, explicit ? 1 : PORT_ATTEMPTS);
+  const address = `http://127.0.0.1:${actual}/yonetim/`;
+  console.log(`\nYönetim paneli hazır: ${address}\nKapatmak için bu pencereyi kapatın (Ctrl+C).`);
+  if (process.argv.includes("--open")) openBrowser(address);
   for (const signal of ["SIGINT", "SIGTERM"]) process.once(signal, async () => { await app.close(); process.exit(0); });
 }

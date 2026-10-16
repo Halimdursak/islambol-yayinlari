@@ -161,7 +161,21 @@ Yazar kayıtları: `name`, `slug`, `display`, `bio`, `bio_source`, `book_ids` (k
 | `vitrin.json` | Ana sayfa vitrin kararı (bkz. [Vitrin düzenleme](#vitrin-düzenleme)). |
 | `sayfalar/*.md` | Statik sayfa metinleri: hakkimizda, iletisim, nereden-alinir, yayin-cizgisi, onizleme-hakkinda, kvkk-ve-cerezler, 404. |
 
-## Yeni kitap ekleme — adım adım
+## Yönetim paneli (önerilen yol)
+
+Teknik bilgisi olmayan biri için kitap, yazar, duyuru, ana sayfa vitrini, sayfa metinleri, telefon/WhatsApp numarası ve site bilgileri bir yönetim panelinden değiştirilir. Aşağıdaki JSON akışı (kitap ekleme, vitrin, site metinleri) panelin arkasındaki dosyalardır; panel onlara güvenli yazar.
+
+- **Başlatma:** `yonetim-baslat.bat` dosyasına çift tıklayın (ya da `npm run cms`). Siyah pencere açılır, site hazırlanır ve tarayıcıda `http://127.0.0.1:8090/yonetim/` açılır. İlk açılışta pencerede **bir kez gösterilen şifre** vardır; panelde "Şifre değiştir" ile kendi şifrenizi belirleyin. Unuttuysanız `yonetim-sifre-sifirla.bat`.
+- **Sadece bu bilgisayarda çalışır** (`127.0.0.1`). Şifre `.local/cms-auth.json` içinde karma olarak durur (Git'e girmez).
+- **Kaydedince** değişiklik veri dosyalarına yazılır ve site otomatik yeniden derlenir (birkaç saniye); önceki sürüm yedeklenir ve derleme hatasında geri alınır. Bu bilgisayardaki `dist/` hemen güncellenir.
+- **İnternetteki siteyi güncellemek ayrı adımdır:** GitHub Pages statik olduğu için panel orada çalışmaz. Değişiklikler `data/`, `public/uploads/` içindedir; commit edip gönderdiğinizde (bkz. [GitHub'a yayınlama](#githuba-yayınlama)) yayına çıkar.
+- **Telefon/WhatsApp numarası tek yerden değişir** (Site ayarları). Üst bardaki WhatsApp logosu, alt bilgi, iletişim sayfası, SEO açıklamaları ve kitap sipariş bağlantıları aynı kaynaktan (`data/site/site.json`) beslenir.
+- **Önizleme sayfası yükleme:** bir kitabın düzenleme penceresinde en fazla 30 sayfa resmi yüklenir ve sıralanır; ana sayfa "Sayfalarına göz atın" rafına eklenebilir. Yayınevinin kendi önizlemesi varsa yüklenen sayfalar onun yerine geçer.
+- **Sayfa metinlerinde yer tutucular:** `{telefon_gosterim}`, `{telefon}`, `{whatsapp_url}`, `{eposta}`, `{adres}`, `{sosyal_liste}` yazılırsa site ayarlarındaki güncel değerle değişir. Başka süslü parantezler olduğu gibi kalır.
+
+Mimari ve güvenlik kararları: [ADR-015](docs/KARARLAR.md).
+
+## Yeni kitap ekleme — adım adım (elle, JSON ile)
 
 Yeni kitap = **1 JSON kaydı + 1 kapak dosyası**. Aşağıdaki akış sahte bir kayıtla denenmiştir.
 
@@ -307,7 +321,8 @@ Listede olmayan bir `id` yazarsanız build "katalogda olmayan id'ler" hatasıyla
 
 - **Statik sayfalar:** `data/site/sayfalar/*.md`. Başında YAML bilgi bloğu (`title`, `slug`, `description`, `son_guncelleme`), sonra Markdown gövde. İlk `# Başlık` şablon başlığı olarak kullanılır.
 - **`[[SORU: ...]]` kuralı:** Yayınevinden öğrenilmesi gereken bilgi için metne `[[SORU: soru metni]]` yazılır. Bu işaretli parçalar **yayına girmez**, build çıktısında sayılıp konsola yazılır. Bilgi geldiğinde işaret ve soru metni silinip yerine gerçek cümle yazılır. Bekleyen soruların listesi: [`docs/SITE-HARITASI.md`](docs/SITE-HARITASI.md) ("Direktöre sorular") ve `data/site/sayfalar/` altındaki `[[SORU` işaretleri (`grep -rn "SORU" data/site`).
-- **Menü, iletişim, satış kanalları:** `data/site/site.json`.
+- **Yer tutucular:** sayfa gövdesinde ve `description` içinde `{telefon_gosterim}`, `{whatsapp_url}`, `{eposta}`, `{adres}`, `{sosyal_liste}` kullanılabilir; `site.json` değerleriyle dolar. Telefon, e-posta ve adresi sayfa metinlerine elle yazmayın.
+- **Menü, iletişim, satış kanalları:** `data/site/site.json` (telefon, e-posta, adres, sosyal medya ve satış noktaları yönetim panelinin "Site ayarları" bölümünden de değişir).
 - **Sayfa başlığı/açıklaması (SEO):** `data/site/meta.json`.
 - **Arayüz etiketleri:** `data/site/mikrometin.json`.
 - **Kategoriler:** `data/site/sozluk.json`.

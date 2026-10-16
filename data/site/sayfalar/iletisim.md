@@ -1,7 +1,7 @@
 ---
 title: İletişim
 slug: iletisim
-description: İslambol Yayınları iletişim: telefon ve WhatsApp 0505 980 87 35, e-posta islambolyayinlari@gmail.com, X, Instagram ve Facebook hesapları.
+description: İslambol Yayınları iletişim: telefon ve WhatsApp {telefon_gosterim}, e-posta {eposta}, X, Instagram ve Facebook hesapları.
 son_guncelleme: 2026-10-11
 ---
 
@@ -9,25 +9,23 @@ son_guncelleme: 2026-10-11
 
 ## Telefon ve WhatsApp
 
-**0505 980 87 35**. Sipariş ve genel sorular için [WhatsApp'tan yazabilirsiniz](https://wa.me/905059808735).
+**{telefon_gosterim}**. Sipariş ve genel sorular için [WhatsApp'tan yazabilirsiniz]({whatsapp_url}).
 
 [[SORU: Hat hangi gün ve saatlerde yanıt veriyor?]]
 
 ## E-posta
 
-**islambolyayinlari@gmail.com**
+**{eposta}**
 
 ## Adres
 
-Fatih, İstanbul 34112.
+{adres}
 
 [[SORU: Açık adres nedir ve yayınevi ziyaretçi kabul ediyor mu? Kabul ediyorsa çalışma saatleri nedir?]]
 
 ## Sosyal medya
 
-- X: [@islambolyayin](https://x.com/islambolyayin)
-- Instagram: [@islambolyayin](https://www.instagram.com/islambolyayin/)
-- Facebook: [İslambol Yayınları sayfası](https://www.facebook.com/p/İslambol-Yayınları-61573154856841/)
+{sosyal_liste}
 
 ## Yazar başvuruları ve basın
 

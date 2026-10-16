@@ -1,18 +1,27 @@
 import { mkdir, readFile, readdir, open, rename, rm } from "node:fs/promises";
-import { isAbsolute, join, relative, resolve, sep } from "node:path";
+import { join } from "node:path";
 import { randomUUID } from "node:crypto";
 import { CmsError, createValidators, maintainRelations } from "./content.mjs";
+import { containedPath } from "./paths.mjs";
+import { listCategories, listPages, pageFile, publicSite, publisherPreviewIds, validatePage, validateSite, validateVitrin } from "./site-content.mjs";
 
+export { containedPath };
+
+// Koleksiyon dosyaları her kitap/yazar/duyuru kaydında birlikte yazılır; site ve sayfa dosyaları yalnız kendi işleminde.
 const FILES = {
   books: "data/catalog/books.json", authors: "data/catalog/authors.json", campaigns: "data/site/campaigns.json",
   vitrin: "data/site/vitrin.json", covers: "data/catalog/kapaklar-opt.json", og: "data/catalog/og.json",
 };
+const SITE_FILE = "data/site/site.json";
+const COLLECTION_KEYS = ["books", "authors", "campaigns"];
 
-export function containedPath(root, ...parts) {
-  const path = resolve(root, ...parts);
-  const remainder = relative(resolve(root), path);
-  if (!remainder || isAbsolute(remainder) || remainder === ".." || remainder.startsWith(`..${sep}`) || resolve(path) === resolve(root)) throw new Error("İşlem yolu proje klasörünün dışında.");
-  return path;
+/** Kurtarma kaydındaki anahtar → proje içi dosya yolu. Bilinmeyen anahtar kurtarmada reddedilir. */
+function fileFor(key) {
+  if (Object.hasOwn(FILES, key)) return FILES[key];
+  if (key === "site") return SITE_FILE;
+  const page = key.match(/^page:([a-z0-9]+(?:-[a-z0-9]+)*)$/);
+  if (page) return pageFile(page[1]);
+  throw new Error("Geçersiz CMS kurtarma kaydı.");
 }
 
 export async function atomicWrite(path, value) {
@@ -27,13 +36,14 @@ async function optionalRead(path) {
   try { return await readFile(path, "utf8"); } catch (error) { if (error.code === "ENOENT") return null; throw error; }
 }
 
+const json = (value) => JSON.stringify(value, null, 2) + "\n";
+
 export async function createStore(root, build, logger) {
   const journal = containedPath(root, ".local/cms-transaction.json");
   const interrupted = await optionalRead(journal);
   async function restore(snapshot) {
     for (const [key, value] of Object.entries(snapshot)) {
-      if (!Object.hasOwn(FILES, key)) throw new Error("Geçersiz CMS kurtarma kaydı.");
-      const path = containedPath(root, FILES[key]);
+      const path = containedPath(root, fileFor(key));
       if (value === null) await rm(path, { force: true });
       else await atomicWrite(path, value);
     }
@@ -45,14 +55,27 @@ export async function createStore(root, build, logger) {
   }
   const validators = createValidators(JSON.parse(await readFile(containedPath(root, "data/catalog/books.schema.json"), "utf8")));
   let queue = Promise.resolve();
-  async function snapshot() {
-    const entries = await Promise.all(Object.entries(FILES).map(async ([key, file]) => [key, await optionalRead(containedPath(root, file))]));
+  async function snapshot(extraKeys = []) {
+    const keys = [...Object.keys(FILES), "site", ...extraKeys];
+    const entries = await Promise.all(keys.map(async (key) => [key, await optionalRead(containedPath(root, fileFor(key)))]));
     return Object.fromEntries(entries);
   }
   function decode(saved) {
-    return Object.fromEntries(Object.entries(saved).map(([key, value]) => [key, value ? JSON.parse(value) : (["books", "authors", "campaigns"].includes(key) ? [] : {})]));
+    return Object.fromEntries(Object.entries(saved).filter(([key]) => Object.hasOwn(FILES, key) || key === "site").map(([key, value]) => [key, value ? JSON.parse(value) : (COLLECTION_KEYS.includes(key) ? [] : {})]));
   }
-  function publicContent(data) { return { books: data.books, authors: data.authors, campaigns: data.campaigns }; }
+  /** Panelin gördüğü tüm içerik: koleksiyonlar + site ayarları + vitrin + sayfa metinleri + kategori seçenekleri. */
+  async function publicContent(data) {
+    const previews = await publisherPreviewIds(root, data.books);
+    return {
+      books: data.books.map((book) => ({ ...book, onizleme_var: previews.has(book.id) })),
+      authors: data.authors,
+      campaigns: data.campaigns,
+      site: publicSite(data.site),
+      vitrin: data.vitrin,
+      pages: await listPages(root),
+      categories: await listCategories(root),
+    };
+  }
   async function backup(saved) {
     const directory = containedPath(root, ".local/cms-backups");
     await mkdir(directory, { recursive: true });
@@ -60,12 +83,37 @@ export async function createStore(root, build, logger) {
     const files = (await readdir(directory)).filter((file) => /^\d+-[a-f0-9-]+\.json$/.test(file)).sort();
     for (const file of files.slice(0, Math.max(0, files.length - 20))) await rm(containedPath(directory, file));
   }
+  /**
+   * Tek işlem: durum anlık görüntüsü → doğrula → yedekle + günlük → yaz → siteyi derle.
+   * Herhangi bir adım düşerse anlık görüntü geri yazılır; önceki yayın korunur. `apply` yazılacak dosyaları döndürür.
+   */
+  function transact(extraKeys, apply) {
+    const task = queue.then(async () => {
+      const saved = await snapshot(extraKeys);
+      const content = decode(saved);
+      const { files, item, extra } = await apply(content, saved);
+      await backup(saved);
+      await atomicWrite(journal, JSON.stringify(saved));
+      try {
+        for (const [key, value] of Object.entries(files)) await atomicWrite(containedPath(root, fileFor(key)), value);
+        await build();
+      } catch (error) {
+        await restore(saved);
+        await rm(journal, { force: true });
+        logger(`CMS kaydı geri alındı: ${error.message}`);
+        throw new CmsError(500, "Değişiklik yayın için derlenemedi ve geri alındı. Önceki yayın korundu; sunucu kaydını kontrol edin.");
+      }
+      await rm(journal, { force: true });
+      return { ok: true, ...(item ? { item } : {}), ...extra, ...(await publicContent(content)) };
+    });
+    // A rejected save must not poison the queue for the next independent request.
+    queue = task.catch(() => {});
+    return task;
+  }
   return {
     async read() { await queue; return publicContent(decode(await snapshot())); },
     mutate(resource, method, id, input) {
-      const task = queue.then(async () => {
-        const saved = await snapshot();
-        const content = decode(saved);
+      return transact([], (content, saved) => {
         const key = resource === "authors" ? "slug" : "id";
         const index = content[resource].findIndex((entry) => entry[key] === id);
         const previous = index >= 0 ? content[resource][index] : null;
@@ -77,25 +125,30 @@ export async function createStore(root, build, logger) {
         else if (method === "DELETE") content[resource].splice(index, 1);
         else content[resource][index] = item;
         maintainRelations(content, resource, previous, item, method === "DELETE");
-        await backup(saved);
-        await atomicWrite(journal, JSON.stringify(saved));
-        try {
-          for (const [field, file] of Object.entries(FILES)) {
-            if (saved[field] !== null || ["books", "authors", "campaigns", "vitrin"].includes(field)) await atomicWrite(containedPath(root, file), JSON.stringify(content[field], null, 2) + "\n");
-          }
-          await build();
-        } catch (error) {
-          await restore(saved);
-          await rm(journal, { force: true });
-          logger(`CMS kaydı geri alındı: ${error.message}`);
-          throw new CmsError(500, "Değişiklik yayın için derlenemedi ve geri alındı. Önceki yayın korundu; sunucu kaydını kontrol edin.");
-        }
-        await rm(journal, { force: true });
-        return { ok: true, ...(item ? { item } : {}), ...publicContent(content) };
+        const files = {};
+        for (const field of Object.keys(FILES)) if (saved[field] !== null || ["books", "authors", "campaigns", "vitrin"].includes(field)) files[field] = json(content[field]);
+        return { files, item };
       });
-      // A rejected save must not poison the queue for the next independent request.
-      queue = task.catch(() => {});
-      return task;
+    },
+    updateSite(input) {
+      return transact([], (content) => {
+        content.site = validateSite(input, content.site);
+        return { files: { site: json(content.site) } };
+      });
+    },
+    updateVitrin(input) {
+      return transact([], (content) => {
+        content.vitrin = validateVitrin(input, content.vitrin, content.books);
+        return { files: { vitrin: json(content.vitrin) } };
+      });
+    },
+    updatePage(slug, input, today = new Date().toLocaleDateString("sv-SE")) {
+      const key = `page:${slug}`;
+      return transact([key], (content, saved) => {
+        if (saved[key] === null) throw new CmsError(404, "Sayfa bulunamadı.");
+        const { file, page } = validatePage(input, saved[key], today);
+        return { files: { [key]: file }, extra: { page: { ...page, slug } } };
+      });
     },
     async idle() { await queue; },
   };

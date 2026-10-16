@@ -52,7 +52,22 @@ function katkidaBulunanlar(c) {
 }
 
 // WhatsApp tabanı tek kaynaktan (data/site/site.json); şablonlar kitap.whatsapp_url kullanır (Q3 M)
-const WHATSAPP = (jsonOkuVeyaBos("data/site/site.json", {}).whatsapp_url || "https://wa.me/905059808735").replace(/\?.*$/, "");
+const WHATSAPP = String(jsonOku("data/site/site.json").whatsapp_url).replace(/\?.*$/, "");
+
+/** Yönetim panelinden yüklenen önizleme sayfaları (kitap.preview_pages); yayınevi önizlemesinin yerine geçer. */
+function yuklenenOnizleme(kitap) {
+  const sayfalar = (kitap.preview_pages ?? []).map((sayfa, sira) => ({
+    sira: sira + 1,
+    url: publicUrl(sayfa.local_path),
+    tur: null,
+    genislik: sayfa.width ?? null,
+    yukseklik: sayfa.height ?? null,
+    kaynaklar: null,
+  }));
+  return sayfalar.length
+    ? { kaynak: "yayinevi-yukleme", kaynak_url: null, sayfa_sayisi: sayfalar.length, has_onsoz: false, sayfalar }
+    : null;
+}
 
 function onsozHaritasi() {
   // B4 üretirse: data/catalog/onsoz-opt.json → { "<kitapyurdu_slug>": { "<index>": { "webp": [{w,url}], "jpg": [{w,url}] } } }
@@ -104,7 +119,7 @@ export default function () {
   }
   const kitaplar = publishedBooks(ham).map((k) => {
     const kySlug = kitapyurduSlug(k.sources?.kitapyurdu);
-    const onizleme = kySlug ? onsoz.get(kySlug) ?? null : null;
+    const onizleme = yuklenenOnizleme(k) ?? (kySlug ? onsoz.get(kySlug) ?? null : null);
     const yil = k.publish_date ? Number(String(k.publish_date).slice(0, 4)) : null;
     const katkida = katkidaBulunanlar(k.contributors);
     const siteKategorileri = kategoriEsle(k.categories);

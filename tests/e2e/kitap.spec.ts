@@ -5,7 +5,8 @@ import { DIST, distSayfalari } from '../yardimci/dist';
 import { kirikGorseller, konsolToplayici, sonunaKaydir } from '../yardimci/sayfa';
 import { kitaplar, onizlemeliIdler, ornekKitaplar, yazarlar } from '../yardimci/veri';
 
-const WA = 'wa.me/905059808735';
+// WhatsApp numarası tek kaynaktan (data/site/site.json); yönetim panelinden değişince testler de izler.
+const WA = (JSON.parse(readFileSync(join(process.cwd(), 'data/site/site.json'), 'utf8')) as { whatsapp_url: string }).whatsapp_url.replace(/^https?:\/\//, '');
 const FIYAT = /\d+\s*TL\b/i;
 const normal = (s: string): string => (s.replace(/\s+/g, ' ').trim()).replace(/[’‘]/g, "'").replace(/…/g, "...");
 

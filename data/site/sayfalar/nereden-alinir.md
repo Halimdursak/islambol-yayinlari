@@ -21,7 +21,7 @@ Her kitabın sayfasında, o kitabın ilgili kitabevindeki sayfasına bağlantı 
 
 ## WhatsApp sipariş hattı
 
-Telefon ve WhatsApp numarası **0505 980 87 35**'tir. Kitap sayfasındaki "WhatsApp'tan sipariş ver" düğmesi, kitabın adı yazılı bir mesajla sohbeti açar; mesajı göndermek size aittir.
+Telefon ve WhatsApp numarası **{telefon_gosterim}**'tir. Kitap sayfasındaki "WhatsApp'tan sipariş ver" düğmesi, kitabın adı yazılı bir mesajla sohbeti açar; mesajı göndermek size aittir.
 
 [[SORU: WhatsApp hattından sipariş alınırken ödeme ve kargo yöntemleri nelerdir (havale/EFT, kapıda ödeme, kargo firması)? Metne eklenecek mi?]]
 

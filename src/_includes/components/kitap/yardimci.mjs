@@ -143,7 +143,7 @@ export function diziMeta(dizi, sablonlar) {
 
 /** WhatsApp bağlantısı: kitap adı URL-kodlanır (site.json şablonundan bağımsız, books.js ile aynı biçim). */
 export function whatsappBaglantisi(site, ad) {
-  const taban = site.whatsapp_url ?? "https://wa.me/905059808735";
+  const taban = site.whatsapp_url;
   return `${taban}?text=${encodeURIComponent(`Merhaba, "${ad}" kitabını sipariş etmek istiyorum.`)}`;
 }
 

@@ -33,7 +33,8 @@ SITE = KOK / "data" / "site"
 RAPOR = KOK / "docs" / "qa" / "ICERIK-DOGRULAMA.md"
 
 SITE_URL = "https://adursak63.github.io/islambol-yayinlari"
-WA_ANAHTAR = "wa.me/905059808735"
+# WhatsApp numarası tek kaynaktan (data/site/site.json); yönetim panelinden değişince denetim de izler.
+WA_ANAHTAR = json.loads((SITE / "site.json").read_text(encoding="utf-8"))["whatsapp_url"].split("://", 1)[-1]
 TOHUM = 20261011
 UA = "Mozilla/5.0 (compatible; IslambolQA/1.0; +https://adursak63.github.io/islambol-yayinlari/)"
 STATIK_SAYFALAR = ("hakkimizda", "yayin-cizgisi", "nereden-alinir", "iletisim",
@@ -304,7 +305,7 @@ K14 = Kontrol("1.4", "ISBN (null değilse) sayfada", "1 Kitap")
 K15 = Kontrol("1.5", "Sayfa sayısı (null değilse) sayfada", "1 Kitap")
 K16 = Kontrol("1.6", "Kapak img/source yolları dist'te var", "1 Kitap")
 K17 = Kontrol("1.7", "sources dolu URL'ler sayfada bağlantı", "1 Kitap")
-K18 = Kontrol("1.8", "WhatsApp bağlantısı (wa.me/905059808735)", "1 Kitap")
+K18 = Kontrol("1.8", f"WhatsApp bağlantısı ({WA_ANAHTAR})", "1 Kitap")
 K19 = Kontrol("1.9", "is_set kitaplarda Takım rozeti/etiketi", "1 Kitap")
 K21 = Kontrol("2.1", "Yazar sayfası üretildi (dist/yazar/<slug>/index.html)", "2 Yazar")
 K22 = Kontrol("2.2", "Yazar sayfası h1 = name", "2 Yazar")
@@ -666,10 +667,19 @@ def oksuz_isaretleri(blok):
     return isaretler
 
 
+def yer_tutucu_doldur(metin: str) -> str:
+    """Sayfa metinlerindeki {telefon_gosterim} vb. yer tutucuları derlemedeki gibi site.json değerleriyle doldurur
+    (scripts/cms/tokens.mjs ile aynı küme; {sosyal_liste} bir paragraf olmadığından burada boş bırakılır)."""
+    site = json.loads((SITE / "site.json").read_text(encoding="utf-8"))
+    degerler = {ad: str(site.get(ad) or "") for ad in ("telefon_gosterim", "telefon", "whatsapp_url", "eposta", "adres")}
+    degerler["sosyal_liste"] = ""
+    return re.sub(r"\{(" + "|".join(degerler) + r")\}", lambda m: degerler[m.group(1)], metin)
+
+
 def kontrol_site_metinleri():
     klasor = SITE / "sayfalar"
     for md in sorted(klasor.glob("*.md")):
-        ham = md.read_text(encoding="utf-8")
+        ham = yer_tutucu_doldur(md.read_text(encoding="utf-8"))
         on = re.match(r"^---\r?\n(.*?)\r?\n---\r?\n?(.*)$", ham, re.S)
         govde = on.group(2) if on else ham
         slug_m = re.search(r"^slug:\s*(\S+)", on.group(1), re.M) if on else None

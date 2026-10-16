@@ -5,7 +5,9 @@ export class CmsError extends Error {
 }
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const BOOK_FIELDS = ["id", "title", "subtitle", "authors", "author_display", "isbn", "pages", "publish_date", "categories", "description", "status", "is_set", "series", "dimensions", "binding", "paper", "language", "edition", "contributors"];
+const BOOK_FIELDS = ["id", "title", "subtitle", "authors", "author_display", "isbn", "pages", "publish_date", "categories", "description", "status", "is_set", "series", "dimensions", "binding", "paper", "language", "edition", "contributors", "preview_pages"];
+const MAX_PREVIEW_PAGES = 30;
+const MAX_IMAGE_SIDE = 20000;
 const AUTHOR_FIELDS = ["name", "slug", "display", "bio", "bio_source", "photo_url", "book_ids", "status", "kitapyurdu_author_url"];
 const CAMPAIGN_FIELDS = ["id", "title", "eyebrow", "description", "image_url", "book_id", "link_url", "button_label", "theme", "active", "order"];
 
@@ -15,7 +17,7 @@ export function slugify(value) {
     .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
-function text(value, name, required = false, maximum = 20000) {
+export function text(value, name, required = false, maximum = 20000) {
   if (value === null || value === undefined) {
     if (required) throw new CmsError(422, `${name} zorunludur.`);
     return null;
@@ -31,7 +33,7 @@ function texts(value, name) {
   return [...new Set(value.map((v) => text(v, name, true, 300)))];
 }
 
-function identity(value, name) {
+export function identity(value, name) {
   if (typeof value !== "string" || value.length > 180 || !ID.test(value)) throw new CmsError(422, `${name} yalnızca küçük harf, rakam ve tire içermelidir.`);
   return value;
 }
@@ -51,6 +53,23 @@ export function safeUrl(value, name = "Bağlantı", { externalOnly = false } = {
   try { url = new URL(clean); } catch { throw new CmsError(422, `${name} geçerli bir adres olmalıdır.`); }
   if (url.protocol !== "https:" || !url.hostname || url.username || url.password) throw new CmsError(422, `${name} https ile başlamalıdır.`);
   return url.href;
+}
+
+function imageSide(value, name) {
+  if (value === null) return null;
+  if (!Number.isInteger(value) || value < 1 || value > MAX_IMAGE_SIDE) throw new CmsError(422, `${name} geçerli bir tam sayı olmalıdır.`);
+  return value;
+}
+
+/** Yüklenen önizleme sayfaları: sıra = gösterim sırası; yalnızca public/ altındaki yerel dosyalar. */
+function previewPages(value) {
+  if (value === null || value === undefined) return [];
+  if (!Array.isArray(value) || value.length > MAX_PREVIEW_PAGES) throw new CmsError(422, `Önizleme sayfaları en fazla ${MAX_PREVIEW_PAGES} sayfalık bir liste olmalıdır.`);
+  return value.map((page) => {
+    if (!page || typeof page !== "object" || Array.isArray(page) || typeof page.local_path !== "string" || !page.local_path.startsWith("public/")) throw new CmsError(422, "Önizleme sayfası yolu public/ klasöründe olmalıdır.");
+    safeUrl("/" + page.local_path.slice(7), "Önizleme sayfası yolu");
+    return { local_path: page.local_path, width: imageSide(page.width ?? null, "Sayfa genişliği"), height: imageSide(page.height ?? null, "Sayfa yüksekliği") };
+  });
 }
 
 function mergeFields(original, input, fields) {
@@ -80,8 +99,14 @@ export function createValidators(bookSchema) {
       if (input.cover !== undefined) {
         if (!input.cover || typeof input.cover !== "object" || Array.isArray(input.cover)) throw new CmsError(422, "Kapak bilgisi geçersiz.");
         record.cover = { ...record.cover };
-        if (Object.hasOwn(input.cover, "local_path")) record.cover.local_path = input.cover.local_path;
+        if (Object.hasOwn(input.cover, "local_path")) {
+          // A replaced cover must not keep the previous image's dimensions.
+          if (input.cover.local_path !== record.cover.local_path) record.cover.width = record.cover.height = null;
+          record.cover.local_path = input.cover.local_path;
+        }
+        for (const side of ["width", "height"]) if (Object.hasOwn(input.cover, side)) record.cover[side] = imageSide(input.cover[side], `Kapak ${side === "width" ? "genişliği" : "yüksekliği"}`);
       }
+      if (Object.hasOwn(record, "preview_pages")) record.preview_pages = previewPages(record.preview_pages);
       if (record.cover.local_path) {
         const path = record.cover.local_path;
         if (typeof path !== "string" || !path.startsWith("public/")) throw new CmsError(422, "Kapak yolu public/ klasöründe olmalıdır.");

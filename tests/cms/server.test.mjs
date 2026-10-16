@@ -7,11 +7,14 @@ import { createCmsServer } from "../../scripts/cms/server.mjs";
 
 const PASSWORD = "cms-fixture-password-12345";
 const PNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aR4sAAAAASUVORK5CYII=";
-const book = { id: "ilk-kitap", title: "İlk Kitap", authors: ["İlk Yazar"], author_display: "İlk Yazar", cover: { local_path: null }, sources: {}, field_sources: { title: "archive" } };
+const book = { id: "ilk-kitap", title: "İlk Kitap", authors: ["İlk Yazar"], author_display: "İlk Yazar", cover: { local_path: null }, sources: { kitapyurdu: "https://www.kitapyurdu.com/kitap/ilk-kitap/1.html" }, field_sources: { title: "archive" } };
+const SITE = { ad: "Deneme Yayınları", slogan: "Deneme sloganı", telefon: "+90 505 000 00 00", telefon_gosterim: "0505 000 00 00", whatsapp_url_sablonu: "https://wa.me/905050000000?text={kitap_adi}", whatsapp_url: "https://wa.me/905050000000", eposta: "info@example.com", adres: "Fatih, İstanbul", sosyal: { x: "https://x.com/deneme" }, satis_kanallari: [{ ad: "Mağaza", url: "https://example.com/magaza", not: null }], menu: [{ etiket: "Kitaplar", url: "/kitaplar/" }], dil: "tr" };
+const PAGE = `---\ntitle: İletişim\nslug: iletisim\ndescription: Telefon {telefon_gosterim}\nson_guncelleme: 2026-01-01\nozet: "Korunan alan"\n---\n\n# İletişim\n\n**{telefon_gosterim}** numarasını arayın.\n`;
 
 async function fixture(t, options = {}) {
   const root = await mkdtemp(join(tmpdir(), "islambol-cms-test-"));
-  for (const directory of ["data/catalog", "data/site", "dist", "public/uploads"]) await mkdir(join(root, directory), { recursive: true });
+  for (const directory of ["data/catalog", "data/catalog/onsoz", "data/site/sayfalar", "dist", "public/uploads"]) await mkdir(join(root, directory), { recursive: true });
+  await writeFile(join(root, "data/site/sayfalar/iletisim.md"), PAGE);
   await writeFile(join(root, "data/catalog/books.schema.json"), await readFile(resolve("data/catalog/books.schema.json")));
   const files = {
     "data/catalog/books.json": [book],
@@ -20,6 +23,10 @@ async function fixture(t, options = {}) {
     "data/site/vitrin.json": { one_cikan: book.id, onizleme_vitrini: [book.id], vitrin_haric: [] },
     "data/catalog/kapaklar-opt.json": {},
     "data/catalog/og.json": {},
+    "data/site/site.json": SITE,
+    "data/site/sozluk.json": { kategoriler: [{ ad: "Tarih", slug: "tarih" }, { ad: "Siyaset", slug: "siyaset" }] },
+    "data/catalog/onsoz/INDEX.json": [{ slug: "ilk-kitap" }],
+    "data/catalog/onsoz/ilk-kitap.json": { pages: [{ index: 1, local_path: "public/x.png" }] },
   };
   for (const [file, value] of Object.entries(files)) await writeFile(join(root, file), JSON.stringify(value));
   await writeFile(join(root, "dist/index.html"), "<h1>Önceki yayın</h1>");
@@ -180,4 +187,142 @@ test("eş zamanlı kayıtlar kaybolmaz; özel veri ve traversal statik sunulmaz"
     assert.equal((await response.text()).includes("salt"), false);
   }
   for (const path of ["/%5c%5cserver%5cshare%5csecret", "/bad%00path"]) assert.equal((await fetch(f.base() + path)).status, 400);
+});
+
+test("içerik yanıtı site, vitrin, sayfalar, kategoriler ve yayınevi önizleme bilgisini taşır", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const content = (await f.request("/api/admin/content")).value;
+  assert.equal(content.site.numara, "0505 000 00 00");
+  assert.equal(content.site.slogan, "Deneme sloganı");
+  assert.deepEqual(content.site.satis_kanallari, SITE.satis_kanallari);
+  assert.equal(content.vitrin.one_cikan, "ilk-kitap");
+  assert.deepEqual(content.categories, [{ ad: "Tarih", slug: "tarih" }, { ad: "Siyaset", slug: "siyaset" }]);
+  assert.equal(content.books[0].onizleme_var, true);
+  assert.deepEqual(content.pages, [{ slug: "iletisim", title: "İletişim", description: "Telefon {telefon_gosterim}", body: "**{telefon_gosterim}** numarasını arayın." }]);
+});
+
+test("site ayarları: numara normalleşir, WhatsApp bağlantısı üretilir, diğer alanlar korunur", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const saved = await f.request("/api/admin/site", "PUT", { numara: "+90 (532) 111-22-33", eposta: "yeni@example.com", adres: "", slogan: "Yeni slogan", sosyal: { x: "https://x.com/yeni", instagram: "", facebook: null }, satis_kanallari: [{ ad: "Mağaza", url: "https://example.com/m", not: "Not" }, { ad: "Yakında", url: "", not: null }] });
+  assert.equal(saved.response.status, 200);
+  assert.equal(saved.value.site.numara, "0532 111 22 33");
+  assert.equal(saved.value.site.whatsapp_url, "https://wa.me/905321112233");
+  const file = JSON.parse(await readFile(join(f.root, "data/site/site.json"), "utf8"));
+  assert.equal(file.telefon, "+90 532 111 22 33");
+  assert.equal(file.whatsapp_url_sablonu, "https://wa.me/905321112233?text={kitap_adi}");
+  assert.deepEqual(file.sosyal, { x: "https://x.com/yeni", instagram: null, facebook: null });
+  assert.equal(file.satis_kanallari[1].url, null);
+  assert.deepEqual(file.menu, SITE.menu);
+  assert.equal(file.ad, SITE.ad);
+  assert.equal(f.builds() >= 2, true);
+});
+
+test("site ayarları: geçersiz numara, e-posta ve güvensiz adresler reddedilir", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const before = await readFile(join(f.root, "data/site/site.json"), "utf8");
+  const valid = { numara: "0505 000 00 00", eposta: "info@example.com", slogan: "Slogan" };
+  for (const bad of [{ numara: "12345" }, { numara: "abc" }, { numara: "0111 111 11 11" }, { eposta: "bozuk" }, { slogan: "" }, { sosyal: { x: "javascript:alert(1)" } }, { satis_kanallari: [{ ad: "", url: "https://example.com" }] }, { satis_kanallari: [{ ad: "Mağaza", url: "http://example.com" }] }]) {
+    const result = await f.request("/api/admin/site", "PUT", { ...valid, ...bad });
+    assert.equal(result.response.status, 422, JSON.stringify(bad));
+  }
+  assert.equal(await readFile(join(f.root, "data/site/site.json"), "utf8"), before);
+});
+
+test("ana sayfa vitrini: yalnızca yayındaki kitaplar seçilir, sayılar 1-12 olur, kalıcıdır", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  await f.request("/api/admin/books", "POST", { id: "taslak-kitap", title: "Taslak", authors: ["Yazar"], status: "draft" });
+  await f.request("/api/admin/books", "POST", { id: "ikinci-kitap", title: "İkinci", authors: ["Yazar"] });
+  for (const bad of [{ one_cikan: "taslak-kitap" }, { one_cikan: "yok" }, { onizleme_vitrini: ["ikinci-kitap", "ikinci-kitap"] }, { vitrin_haric: ["../x"] }, { yeni_cikanlar_adet: 13 }, { yazar_seridi_adet: 0 }, { yeni_cikanlar_adet: 2.5 }]) {
+    assert.equal((await f.request("/api/admin/vitrin", "PUT", bad)).response.status, 422, JSON.stringify(bad));
+  }
+  const saved = await f.request("/api/admin/vitrin", "PUT", { one_cikan: "ikinci-kitap", onizleme_vitrini: ["ikinci-kitap", "ilk-kitap"], vitrin_haric: ["taslak-kitap"], yeni_cikanlar_adet: 4, yazar_seridi_adet: 6 });
+  assert.equal(saved.response.status, 200);
+  assert.deepEqual(saved.value.vitrin.onizleme_vitrini, ["ikinci-kitap", "ilk-kitap"]);
+  await f.restart();
+  await f.login();
+  const vitrin = (await f.request("/api/admin/content")).value.vitrin;
+  assert.equal(vitrin.one_cikan, "ikinci-kitap");
+  assert.equal(vitrin.yazar_seridi_adet, 6);
+  assert.equal((await f.request("/api/admin/vitrin", "PUT", { one_cikan: "" })).value.vitrin.one_cikan, null);
+});
+
+test("sayfa metni: ön bilgi korunur, başlık yeniden yazılır, bozuk yer tutucu ve olmayan sayfa reddedilir", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const saved = await f.request("/api/admin/pages/iletisim", "PUT", { title: "Bize Ulaşın", description: "Yeni açıklama", body: "Bize **{telefon_gosterim}** numarasından ulaşın." });
+  assert.equal(saved.response.status, 200);
+  assert.equal(saved.value.page.slug, "iletisim");
+  const file = await readFile(join(f.root, "data/site/sayfalar/iletisim.md"), "utf8");
+  assert.match(file, /^---\ntitle: Bize Ulaşın\nslug: iletisim\ndescription: Yeni açıklama\nson_guncelleme: \d{4}-\d{2}-\d{2}\nozet: Korunan alan\n---\n\n# Bize Ulaşın\n\nBize \*\*\{telefon_gosterim\}\*\* numarasından ulaşın\.\n$/);
+  assert.equal((await f.request("/api/admin/content")).value.pages[0].body, "Bize **{telefon_gosterim}** numarasından ulaşın.");
+  assert.equal((await f.request("/api/admin/pages/iletisim", "PUT", { title: "X", body: "Arayın {telefon_gosterimi}" })).response.status, 422);
+  assert.equal((await f.request("/api/admin/pages/iletisim", "PUT", { title: "", body: "Metin" })).response.status, 422);
+  assert.equal((await f.request("/api/admin/pages/olmayan", "PUT", { title: "X", body: "Metin" })).response.status, 404);
+  assert.equal((await f.request("/api/admin/pages/..%2Fsite", "PUT", { title: "X", body: "Metin" })).response.status, 404);
+  assert.equal(await readFile(join(f.root, "data/site/sayfalar/iletisim.md"), "utf8"), file);
+});
+
+test("site ve sayfa kaydı derleme hatasında geri alınır", async (t) => {
+  let fail = false;
+  const f = await fixture(t, { build: async () => { if (fail) throw new Error("Kontrollü build hatası"); } });
+  await f.login();
+  const site = await readFile(join(f.root, "data/site/site.json"), "utf8");
+  const page = await readFile(join(f.root, "data/site/sayfalar/iletisim.md"), "utf8");
+  fail = true;
+  assert.equal((await f.request("/api/admin/site", "PUT", { numara: "0532 111 22 33", eposta: "a@example.com", slogan: "S" })).response.status, 500);
+  assert.equal((await f.request("/api/admin/pages/iletisim", "PUT", { title: "Başarısız", body: "Metin" })).response.status, 500);
+  assert.equal(await readFile(join(f.root, "data/site/site.json"), "utf8"), site);
+  assert.equal(await readFile(join(f.root, "data/site/sayfalar/iletisim.md"), "utf8"), page);
+});
+
+test("şifre değiştirme: eski şifre doğrulanır, yeni şifre kalıcıdır, diğer oturumlar kapanır", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  assert.equal((await f.request("/api/admin/password", "POST", { current: "yanlis-sifre", next: "yeni-parola-1234" })).response.status, 401);
+  assert.equal((await f.request("/api/admin/password", "POST", { current: PASSWORD, next: "kisa" })).response.status, 422);
+  assert.equal((await f.request("/api/admin/password", "POST", { current: PASSWORD, next: PASSWORD })).response.status, 422);
+  assert.equal((await f.request("/api/admin/password", "POST", { current: PASSWORD, next: "yeni-parola-1234" })).response.status, 200);
+  assert.equal((await f.request("/api/admin/content")).response.status, 200);
+  const credential = await readFile(join(f.root, ".local/cms-auth.json"), "utf8");
+  assert.equal(credential.includes("yeni-parola-1234"), false);
+  await f.restart();
+  assert.equal((await f.request("/api/admin/login", "POST", { password: PASSWORD })).response.status, 401);
+  assert.equal((await f.request("/api/admin/login", "POST", { password: "yeni-parola-1234" })).response.status, 200);
+});
+
+test("yükleme türleri: boyut bilgisi döner, geçersiz tür reddedilir, önizleme sayfaları kitapta saklanır", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const cover = await f.request("/api/admin/upload", "POST", { filename: "kapak.png", data: PNG, kind: "cover" });
+  assert.equal(cover.response.status, 201);
+  assert.deepEqual([cover.value.width, cover.value.height], [1, 1]);
+  assert.equal((await f.request("/api/admin/upload", "POST", { filename: "kapak.png", data: PNG, kind: "bilinmeyen" })).response.status, 422);
+  const page = await f.request("/api/admin/upload", "POST", { filename: "sayfa.png", data: PNG, kind: "preview" });
+  const saved = await f.request("/api/admin/books/ilk-kitap", "PUT", { cover: { local_path: cover.value.local_path, width: cover.value.width, height: cover.value.height }, preview_pages: [{ local_path: page.value.local_path, width: 1, height: 1 }] });
+  assert.equal(saved.response.status, 200);
+  assert.deepEqual(saved.value.item.cover.width, 1);
+  assert.equal(saved.value.item.preview_pages[0].local_path, page.value.local_path);
+  for (const bad of [[{ local_path: "../gizli.png" }], [{ local_path: "public/../gizli.png" }], [{ local_path: "baska/yol.png" }], "metin", Array.from({ length: 31 }, () => ({ local_path: page.value.local_path }))]) {
+    assert.equal((await f.request("/api/admin/books/ilk-kitap", "PUT", { preview_pages: bad })).response.status, 422, JSON.stringify(bad).slice(0, 60));
+  }
+  // Kapak değişince eski boyutlar taşınmaz.
+  const replaced = await f.request("/api/admin/books/ilk-kitap", "PUT", { cover: { local_path: page.value.local_path } });
+  assert.deepEqual([replaced.value.item.cover.width, replaced.value.item.cover.height], [null, null]);
+});
+
+test("büyük kapak 1200 piksele küçültülür (sharp varsa)", async (t) => {
+  let sharp;
+  try { sharp = (await import("sharp")).default; } catch { return t.skip("sharp bu makinede yüklenemedi"); }
+  const big = await sharp({ create: { width: 2400, height: 1600, channels: 3, background: "#ffffff" } }).png().toBuffer();
+  const f = await fixture(t);
+  await f.login();
+  const cover = await f.request("/api/admin/upload", "POST", { filename: "buyuk.png", data: big.toString("base64"), kind: "cover" });
+  assert.equal(cover.response.status, 201);
+  assert.deepEqual([cover.value.width, cover.value.height], [1200, 800]);
+  const preview = await f.request("/api/admin/upload", "POST", { filename: "buyuk.png", data: big.toString("base64"), kind: "preview" });
+  assert.equal(preview.value.width, 1400);
 });

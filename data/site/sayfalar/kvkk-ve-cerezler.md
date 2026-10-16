@@ -28,4 +28,4 @@ Sitedeki satış bağlantıları sizi Küresel Kitap, Kitapyurdu, Nobel Kitap, H
 
 ## Haklarınız ve başvuru
 
-6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamındaki haklarınız için **islambolyayinlari@gmail.com** adresine yazabilirsiniz. [[SORU: Veri sorumlusu olarak hangi unvan ve adres yazılacak; yayınevinin VERBİS kaydı gerekli mi?]]
+6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamındaki haklarınız için **{eposta}** adresine yazabilirsiniz. [[SORU: Veri sorumlusu olarak hangi unvan ve adres yazılacak; yayınevinin VERBİS kaydı gerekli mi?]]

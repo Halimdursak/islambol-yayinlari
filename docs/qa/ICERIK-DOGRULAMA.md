@@ -8,7 +8,7 @@
 
 ## Özet
 
-- Kontrol grubu: 27; tekil denetim: 11684; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
+- Kontrol grubu: 27; tekil denetim: 11767; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
 - Hata sayılmayan sonuçlar: DOĞRULANAMADI (403/Cloudflare/ağ) ve UYARI. Çıkış kodu yalnızca KALDI için 1 olur.
 
 ## Kontrol tablosu
@@ -34,7 +34,7 @@
 | 4.2 | Fiyat/kampanya dizgisi yok (TL, kargo ücretsiz, indirim, kampanya) | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
 | 5.1 | Her HTML katı UTF-8 olarak çözülüyor | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
 | 5.2 | <html lang="tr"> | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
-| 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8330 | 0 | 0 | 0 | 0 | — |
+| 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8413 | 0 | 0 | 0 | 0 | — |
 | 7.1 | Dış kaynak bağlantıları (rastgele örneklem) | DOĞRULANAMADI | 1 | 0 | 1 | 0 | 0 | — |
 | 8.1 | Site metinlerinde [[SORU işareti dist'te yok | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 8.2 | Sayfalar: ilk paragraf dist'te geçiyor | GEÇTİ | 6 | 0 | 0 | 0 | 0 | — |
@@ -96,7 +96,7 @@ Yöntem: her `[[SORU: …]]` işaretinin bulunduğu cümle `sorulariAyikla` ile 
 ## Sayfalar: ilk paragraf kontrolü
 
 - `hakkimizda`: TAMAM — "İslambol Yayınları, İstanbul'un Fatih ilçesinde yayın yapan bir yayınevidir.…"
-- `iletisim`: TAMAM — "Fatih, İstanbul 34112.…"
+- `iletisim`: TAMAM — "Fatih, İstanbul 34112…"
 - `kvkk-ve-cerezler`: TAMAM — "Bu site çerez kullanmaz ve ziyaretçilerin davranışını izleyen bir analitik ya da reklam ar…"
 - `nereden-alinir`: TAMAM — "İslambol Yayınları'nın kendi çevrim içi mağazası yoktur; bu sitede satış yapılmaz. Kitapla…"
 - `onizleme-hakkinda`: TAMAM — "Bazı kitapların sayfasında "Önizle" düğmesi bulunur. Düğmeye bastığınızda kitabın ilk sayf…"
