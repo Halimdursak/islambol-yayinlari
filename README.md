@@ -32,11 +32,11 @@ Teknik olarak: **Eleventy 3** (Nunjucks şablonları), saf CSS (tasarım token'l
 
 ## Canlı adres ve yayın akışı
 
-- Yayın adresi: **https://islambol.org** (GitHub Pages + özel alan adı, kökte yayın; kurulum: [Özel alan adı](#özel-alan-adı-islambolorg)). Alan adı bağlanana kadar geçici adres: https://adursak63.github.io/islambol-yayinlari/ (bu adreste alt dizin öneki gerekir, bkz. aşağı).
+- Yayın adresi: **https://islambol.org** (GitHub Pages + özel alan adı, kökte yayın; kurulum: [Özel alan adı](#özel-alan-adı-islambolorg)). Alan adı bağlanana kadar geçici adres: https://halimdursak.github.io/islambol-yayinlari/ (bu adreste alt dizin öneki gerekir, bkz. aşağı). Depo: https://github.com/Halimdursak/islambol-yayinlari.
 - `main` dalına her `git push` → GitHub Actions (`.github/workflows/deploy.yml`) siteyi derler (`npm ci && npm run build`) ve Pages'e yayınlar. Tipik süre 1-2 dakika.
 - Elle yayın: GitHub'da depo → **Actions → "Pages'e yayınla" → Run workflow**.
 - Pull request ve diğer dallarda `ci.yml` çalışır: derleme + SEO denetimi (yayın yapmaz).
-- Alt dizin ayarı ortam değişkenleriyle yapılır: `PATH_PREFIX` (yerelde ve özel alan adında `/`) ve `SITE_URL` (kanonik/OG adreslerinde kullanılır). Workflow dosyalarında bunlar `/` ve `https://islambol.org` olarak ayarlıdır (ADR-016). Geçici olarak `adursak63.github.io/islambol-yayinlari/` adresinden yayın gerekirse bu ikisi `/islambol-yayinlari/` ve `https://adursak63.github.io/islambol-yayinlari` yapılır.
+- Alt dizin ayarı ortam değişkenleriyle yapılır: `PATH_PREFIX` (yerelde ve özel alan adında `/`) ve `SITE_URL` (kanonik/OG adreslerinde kullanılır). Workflow dosyalarında bunlar `/` ve `https://islambol.org` olarak ayarlıdır (ADR-016). Geçici olarak `halimdursak.github.io/islambol-yayinlari/` adresinden yayın gerekirse bu ikisi `/islambol-yayinlari/` ve `https://halimdursak.github.io/islambol-yayinlari` yapılır.
 
 ## Hızlı başlangıç
 
@@ -364,16 +364,16 @@ Bu bölüm depo sahibi (kullanıcı) içindir; kimlik doğrulama sizin hesabın�
    gh auth login --web --git-protocol https
    ```
 
-   Tarayıcı açılır; GitHub hesabı `adursak63` ile onaylayın.
+   Tarayıcı açılır; GitHub hesabı `Halimdursak` ile onaylayın.
 2. **Depoyu oluşturup push edin:**
 
    ```bash
    gh repo create islambol-yayinlari --public --source=. --remote=origin --push
    ```
 
-   Depo adı `islambol-yayinlari` olsun (www CNAME'i `adursak63.github.io`'ya gider; depo adı adreste görünmez).
-3. **Pages kaynağını ayarlayın (bir kez):** GitHub'da depo → **Settings → Pages → Build and deployment → Source: "GitHub Actions"**. (Komutla: `gh api -X POST repos/adursak63/islambol-yayinlari/pages -f build_type=workflow`.)
-4. **İlk yayın:** Push zaten `deploy.yml` iş akışını başlatır; ayarı sonradan yaptıysanız **Actions → "Pages'e yayınla" → Run workflow**. Bitince adres: https://adursak63.github.io/islambol-yayinlari/ (özel alan adı bağlanınca https://islambol.org; yönlendirme için [Özel alan adı](#özel-alan-adı-islambolorg)). Not: iş akışı artık kök derlemesi yaptığından alan adı bağlanmadan bu geçici adreste sayfalar/stiller kırık görünür; önce 1. adımı (Custom domain) yapın ya da yukarıdaki geçici `PATH_PREFIX` ayarını kullanın.
+   Depo adı `islambol-yayinlari` olsun (www CNAME'i `halimdursak.github.io`'ya gider; depo adı adreste görünmez).
+3. **Pages kaynağını ayarlayın (bir kez):** GitHub'da depo → **Settings → Pages → Build and deployment → Source: "GitHub Actions"**. (Komutla: `gh api -X POST repos/Halimdursak/islambol-yayinlari/pages -f build_type=workflow`.)
+4. **İlk yayın:** Push zaten `deploy.yml` iş akışını başlatır; ayarı sonradan yaptıysanız **Actions → "Pages'e yayınla" → Run workflow**. Bitince adres: https://halimdursak.github.io/islambol-yayinlari/ (özel alan adı bağlanınca https://islambol.org; yönlendirme için [Özel alan adı](#özel-alan-adı-islambolorg)). Not: iş akışı artık kök derlemesi yaptığından alan adı bağlanmadan bu geçici adreste sayfalar/stiller kırık görünür; önce 1. adımı (Custom domain) yapın ya da yukarıdaki geçici `PATH_PREFIX` ayarını kullanın.
 5. **Sonraki yayınlar:** `git push` yeter.
 
 ### Özel alan adı (islambol.org)
@@ -390,7 +390,7 @@ Depo tarafı hazırdır (ADR-016): `deploy.yml`/`ci.yml` `SITE_URL=https://islam
    | A | `@` | `185.199.110.153` |
    | A | `@` | `185.199.111.153` |
    | AAAA | `@` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` (dört ayrı kayıt; isteğe bağlı) |
-   | CNAME | `www` | `adursak63.github.io` (depo adı olmadan) |
+   | CNAME | `www` | `halimdursak.github.io` (depo adı olmadan) |
 
    Joker (`*`) kayıt eklemeyin. Natro'nun park sayfası/yönlendirme (hosting) hizmeti açıksa kapatın. Değerler GitHub belgesinden doğrulanmıştır (16 Ekim 2026): docs.github.com → "Managing a custom domain for your GitHub Pages site".
 3. DNS yayılması birkaç dakika ile 24 saat sürebilir. Kontrol: `Resolve-DnsName islambol.org -Type A` (PowerShell).

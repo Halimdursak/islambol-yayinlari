@@ -23,7 +23,7 @@ jobs:
     env:
       # Özel alan adı (ADR-016): site alan adı kökünde yayınlanır, alt dizin öneki yoktur.
       # Alan adı GitHub'da depo > Settings > Pages > Custom domain'e yazılır (Actions ile yayında CNAME dosyası gerekmez).
-      # Ayrıntı: README "Özel alan adı". Eski adres https://adursak63.github.io/islambol-yayinlari/ alan adına yönlenir.
+      # Ayrıntı: README "Özel alan adı". Eski adres https://halimdursak.github.io/islambol-yayinlari/ alan adına yönlenir.
       SITE_URL: https://islambol.org
       PATH_PREFIX: /
     steps:
