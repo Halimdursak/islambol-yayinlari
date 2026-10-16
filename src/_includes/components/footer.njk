@@ -6,7 +6,7 @@
   <div class="kap">
     <div class="alt__ust">
       <div class="alt__marka">
-        <p class="alt__ad">{{ site.ad }}</p>
+        <a class="ust__logo alt__logo" href="/"><img src="/logo/islambol-logo.png" width="800" height="800" alt="{{ site.ad }}" loading="lazy" decoding="async"></a>
         <p class="alt__slogan">{{ site.slogan }}</p>
       </div>
       <nav class="alt__kolon" aria-labelledby="alt-yayinevi">
@@ -41,6 +41,7 @@
     <div class="alt__dip">
       <p class="alt__telif">{{ site.mikrometin.footer_telif | replace("{yil}", site.yil | string) }}</p>
       <p class="alt__not">{{ site.mikrometin.footer_not }}</p>
+      <a class="alt__yonetim" href="/yonetim/">Yönetici paneli</a>
     </div>
   </div>
 </footer>

@@ -5,6 +5,8 @@
   "type": "module",
   "description": "İslambol Yayınları tanıtım ve katalog sitesi (Eleventy 3, saf CSS, page-flip)",
   "scripts": {
+    "cms": "node scripts/cms/server.mjs",
+    "test:cms": "node --test tests/cms/*.test.mjs",
     "dev": "eleventy --serve",
     "build": "eleventy",
     "clean": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\"",

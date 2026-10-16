@@ -51,12 +51,14 @@ function sayfaIncele(dosya) {
   const descs = [...html.matchAll(/<meta\s+name="description"\s+content="([^"]*)"/g)].map((m) => coz(m[1]));
   const canon = [...html.matchAll(/<link\s+rel="canonical"\s+href="([^"]*)"/g)].map((m) => m[1]);
   const ldBlok = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  const yonetim = yol === "/yonetim/index.html";
 
   if (titles.length !== 1) hatalar.push(`title sayısı ${titles.length} (1 olmalı)`);
   if (descs.length !== 1) hatalar.push(`description sayısı ${descs.length} (1 olmalı)`);
-  if (canon.length !== 1) hatalar.push(`canonical sayısı ${canon.length} (1 olmalı)`);
-  else if (!canon[0].startsWith(SITE_URL + "/")) hatalar.push(`canonical ${SITE_URL} ile başlamıyor: ${canon[0]}`);
-  if (ldBlok.length < 1) hatalar.push("JSON-LD bloğu yok");
+  if (yonetim && !/<meta\s+name="robots"\s+content="noindex,\s*nofollow"/.test(html)) hatalar.push("yönetim sayfası noindex,nofollow içermeli");
+  if (!yonetim && canon.length !== 1) hatalar.push(`canonical sayısı ${canon.length} (1 olmalı)`);
+  else if (canon.length && !canon[0].startsWith(SITE_URL + "/")) hatalar.push(`canonical ${SITE_URL} ile başlamıyor: ${canon[0]}`);
+  if (!yonetim && ldBlok.length < 1) hatalar.push("JSON-LD bloğu yok");
 
   const veri = [];
   ldBlok.forEach((b, i) => {

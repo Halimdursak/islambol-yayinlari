@@ -1,0 +1,41 @@
+[
+  {
+    "id": "sen-neden-kor-edildin-vitrin",
+    "title": "Soruların peşinden,\nhakikatin izinde.",
+    "eyebrow": "OKUMA LİSTENİZE",
+    "description": "Sen Neden Kör Edildin? kitabını ve ilk sayfalarını keşfedin.",
+    "image_url": null,
+    "book_id": "sen-neden-kor-edildin",
+    "link_url": null,
+    "button_label": "Kitabı incele",
+    "theme": "peach",
+    "active": true,
+    "order": 0
+  },
+  {
+    "id": "son-halifenin-drami-vitrin",
+    "title": "Yakın tarihe\nyeni bir bakış.",
+    "eyebrow": "TARİH KİTAPLIĞI",
+    "description": "Son Halifenin Dramı ve yakın tarih kitaplığımızla tanışın.",
+    "image_url": null,
+    "book_id": "son-halifenin-drami",
+    "link_url": null,
+    "button_label": "Kitabı incele",
+    "theme": "sage",
+    "active": true,
+    "order": 1
+  },
+  {
+    "id": "inas-vitrin",
+    "title": "Bir kitapla\nbaşlayan keşif.",
+    "eyebrow": "İSLAMBOL YAYINLARI",
+    "description": "İnas'ın tanıtımına ve ilk sayfalarına göz atın.",
+    "image_url": null,
+    "book_id": "inas",
+    "link_url": null,
+    "button_label": "Kitabı incele",
+    "theme": "cream",
+    "active": true,
+    "order": 2
+  }
+]

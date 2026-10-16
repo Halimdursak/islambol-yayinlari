@@ -2,6 +2,7 @@
 // Sahibi: Site Direktörü. Şema: data/catalog/books.schema.json. Önizleme birleştirme: data/catalog/onsoz/*.json
 import Ajv from "ajv";
 import { jsonOku, jsonOkuVeyaBos, publicUrl, slugla } from "./_oku.js";
+import { publishedBooks } from "../../scripts/cms/resolvers.mjs";
 
 function kitapyurduSlug(url) {
   const m = String(url ?? "").match(/\/kitap\/([^/]+)\/\d+\.html/);
@@ -93,10 +94,15 @@ export default function () {
   }
   const onsoz = onsozHaritasi();
   const kategoriEsle = kategoriEsleyici();
+  const yazarKimlikleri = new Map(jsonOku("data/catalog/authors.json")
+    .filter((y) => y.status !== "draft")
+    .flatMap((y) => [y.name, y.display].filter(Boolean).map((name) => [slugla(name), y.slug ?? slugla(y.name)])));
   const gorulen = new Set();
-  const kitaplar = ham.map((k) => {
+  for (const k of ham) {
     if (gorulen.has(k.id)) throw new Error(`Tekrarlanan kitap id: ${k.id}`);
     gorulen.add(k.id);
+  }
+  const kitaplar = publishedBooks(ham).map((k) => {
     const kySlug = kitapyurduSlug(k.sources?.kitapyurdu);
     const onizleme = kySlug ? onsoz.get(kySlug) ?? null : null;
     const yil = k.publish_date ? Number(String(k.publish_date).slice(0, 4)) : null;
@@ -112,7 +118,8 @@ export default function () {
       // Yazarsız kayıtlarda (derleme, set ilanı) gösterim: katkıda bulunan ya da null → şablon "Yazar belirtilmemiş" basar
       yazar_gosterim: k.author_display ?? (katkida.length ? katkida.join(", ") : null),
       kapak_url: publicUrl(k.cover?.local_path),
-      yazar_sluglari: (k.authors ?? []).map(slugla),
+      // Null keeps name indices intact while preventing links to withdrawn or absent authors.
+      yazar_sluglari: (k.authors ?? []).map((name) => yazarKimlikleri.get(slugla(name)) ?? null),
       kategori_sluglari: (k.categories ?? []).map(slugla),
       yil,
       onizleme,

@@ -19,7 +19,7 @@ function yuru(dizin: string, cikti: string[]): void {
   }
 }
 
-/** dist/ içindeki tüm HTML dosyaları (yol sırasına göre). `_test` dizini robots ile dışlanmıştır, atlanır. */
+/** Public pages. Private CMS UI and `_test` fixtures have their own checks and are excluded from sitemap/SEO expectations. */
 export function distSayfalari(): DistSayfa[] {
   const dosyalar: string[] = [];
   yuru(DIST, dosyalar);
@@ -29,7 +29,7 @@ export function distSayfalari(): DistSayfa[] {
       const url = rel === 'index.html' ? '/' : rel.endsWith('/index.html') ? `/${rel.slice(0, -'index.html'.length)}` : `/${rel}`;
       return { url, dosya };
     })
-    .filter((s) => !s.url.startsWith('/_test/'))
+    .filter((s) => !s.url.startsWith('/_test/') && !s.url.startsWith('/yonetim/'))
     .sort((a, b) => a.url.localeCompare(b.url));
 }
 

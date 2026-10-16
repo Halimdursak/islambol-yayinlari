@@ -9,7 +9,7 @@
 {%- set _canonical = site.url + page.url -%}
 {%- set _noindex = (page.url == "/404.html") or (page.url.indexOf("/_test/") == 0) -%}
 {%- set _kitapSayfasi = kitap and kitap.id -%}
-{%- set _ogGorsel = site.url + ("/og/" + kitap.id + ".png" if _kitapSayfasi else "/og/site.png") -%}
+{%- set _ogGorsel = site.url + (ogImages[kitap.id] if _kitapSayfasi and ogImages[kitap.id] else (ogImages.site or "/og/site.png")) -%}
 {%- set _logo = site.url + "/logo/islambol-logo.png" -%}
 {%- set _kisaBaslik = _baslik | replace(" | " + site.ad, "") -%}
 

@@ -12,8 +12,14 @@
 //   }
 // }
 // Sahibi: Site Direktörü.
-import { jsonOkuVeyaBos } from "./_oku.js";
+import { jsonOkuVeyaBos, publicUrl } from "./_oku.js";
 
 export default function () {
-  return jsonOkuVeyaBos("data/catalog/kapaklar-opt.json", {});
+  const manifest = jsonOkuVeyaBos("data/catalog/kapaklar-opt.json", {});
+  const books = jsonOkuVeyaBos("data/catalog/books.json", []);
+  // A replacement uploaded through the panel must not render an older optimized cover.
+  return Object.fromEntries(books.filter((book) => {
+    const record = manifest[book.id];
+    return record && record.orijinal === publicUrl(book.cover?.local_path);
+  }).map((book) => [book.id, manifest[book.id]]));
 }

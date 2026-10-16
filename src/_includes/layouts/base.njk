@@ -9,17 +9,17 @@
     B3 bileşeni listeyi şu sırayla çözer: (1) `onizleme_kitaplar` veri/front matter olarak gelirse, (2) yoksa `kitap` varsa [kitap],
     (3) yoksa front matter `onizleme_kaynak: "vitrin"` ise vitrin.onizlemeli. Ana sayfa (3)'ü kullanır.
   - flipbook.css / flipbook.js etiketlerini B3 bileşeni kendisi basar; base'e ayrıca eklenmez.
-  - CSS yükleme sırası: tokens → typography → global → ekstra_css.
-  - Karanlık mod yalnızca sistem ayarıyla (prefers-color-scheme); tema düğmesi yok.
+  - CSS yükleme sırası: tokens → typography → global → ekstra_css → redesign.
+  - Katalog vitrini her sistem ayarında açık temayı kullanır.
   - Menü düğmesi JS ister; JS yoksa <noscript> stili menüyü açık bırakır.
   - Ana içerik kabı `#icerik`; skip-link `.atla` ona bağlanır.
 #}
 <!doctype html>
-<html lang="tr" data-sayfa="{{ page.fileSlug or 'ana' }}">
+<html lang="tr" data-theme="light" data-sayfa="{{ page.fileSlug or 'ana' }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="color-scheme" content="light dark">
+  <meta name="color-scheme" content="light">
   {% include "components/seo.njk" %}
   <link rel="preload" href="/assets/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="/assets/css/global.css">
   {% for css in ekstra_css %}<link rel="stylesheet" href="{{ css }}">
   {% endfor %}
+  <link rel="stylesheet" href="/assets/css/redesign.css">
   <noscript><style>.ust__menu-dugme{display:none}.ust__nav{display:block!important}</style></noscript>
 </head>
 <body>
@@ -39,5 +40,6 @@
   {% include "components/footer.njk" %}
   {% include "components/onizleme/kitap-onizleme.njk" %}
   <script type="module" src="/assets/js/site.js"></script>
+  <script type="module" src="/assets/js/showcase.js"></script>
 </body>
 </html>

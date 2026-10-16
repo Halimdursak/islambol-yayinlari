@@ -1,0 +1,86 @@
+[
+  {
+    "width": 1440,
+    "path": "/",
+    "scrollWidth": 1440,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 1440,
+    "path": "/kitaplar/",
+    "scrollWidth": 1440,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 1440,
+    "path": "/yazarlar/",
+    "scrollWidth": 1440,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 1440,
+    "path": "/kitap/sen-neden-kor-edildin/",
+    "scrollWidth": 1440,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 390,
+    "path": "/",
+    "scrollWidth": 390,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 390,
+    "path": "/kitaplar/",
+    "scrollWidth": 390,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 390,
+    "path": "/yazarlar/",
+    "scrollWidth": 390,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 390,
+    "path": "/kitap/sen-neden-kor-edildin/",
+    "scrollWidth": 390,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 320,
+    "path": "/",
+    "scrollWidth": 320,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 320,
+    "path": "/kitaplar/",
+    "scrollWidth": 320,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 320,
+    "path": "/yazarlar/",
+    "scrollWidth": 320,
+    "h1": 1,
+    "broken": []
+  },
+  {
+    "width": 320,
+    "path": "/kitap/sen-neden-kor-edildin/",
+    "scrollWidth": 320,
+    "h1": 1,
+    "broken": []
+  }
+]

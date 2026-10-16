@@ -1,18 +1,14 @@
-{#
-  Yazar kartı — B2. SÖZLEŞME: `yazar` değişkeniyle include edilir. Portre verisi yok → baş harf mührü.
-  İlk 3 kitabın küçük kapakları gösterilir.
-#}
-{%- from "components/kitap/kapak.njk" import kapak -%}
+{# Yazar kartı: portre varsa gerçek fotoğraf, yoksa adın baş harfleri. #}
 <article class="yazar-karti">
-  <div class="yazar-karti__portre" aria-hidden="true">{% for w in yazar.name.split(" ") %}{% if loop.index0 < 2 %}{{ w | first }}{% endif %}{% endfor %}</div>
+  <div class="yazar-karti__portre" aria-hidden="true">
+    {% if yazar.photo_url %}
+    <img src="{{ yazar.photo_url }}" width="160" height="160" alt="" loading="lazy" decoding="async">
+    {% else %}
+    <span>{% for w in yazar.name.split(" ") %}{% if loop.index0 < 2 %}{{ w | first }}{% endif %}{% endfor %}</span>
+    {% endif %}
+  </div>
   <div class="yazar-karti__metin">
-    <span class="etiket">Yazar</span>
-    <{{ kart_baslik or "h3" }} class="yazar-karti__ad"><a href="{{ yazar.url }}">{{ yazar.display }}</a></{{ kart_baslik or "h3" }}>
-    <p class="yazar-karti__ek">{{ site.mikrometin.kayit_sayisi | replace("{n}", yazar.kitap_sayisi) }}</p>
-    {%- if yazar.kitaplar.length %}
-    <div class="yazar-karti__kapaklar" aria-hidden="true">
-      {%- for k in yazar.kitaplar %}{% if loop.index0 < 3 %}<span class="yazar-karti__mini">{{ kapak(k, kapaklar[k.id], { sizes: "64px", yukle: "lazy", alt: "" }) }}</span>{% endif %}{% endfor %}
-    </div>
-    {%- endif %}
+    <{{ kart_baslik or "h3" }} class="yazar-karti__ad"><a href="{{ yazar.url }}">{{ yazar.display or yazar.name }}</a></{{ kart_baslik or "h3" }}>
+    <p class="yazar-karti__ek">{{ yazar.kitap_sayisi }} kitap</p>
   </div>
 </article>
