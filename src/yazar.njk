@@ -12,42 +12,44 @@ ekstra_css:
 {%- from "components/bolum-basligi.njk" import bolumBasligi -%}
 {%- set m = site.mikrometin -%}
 {%- set iz_ogeler = [{ ad: "Ana sayfa", url: "/" }, { ad: "Yazarlar", url: "/yazarlar/" }, { ad: yazar.display, url: yazar.url }] -%}
-<div class="kap katalog yazar-sayfasi">
-  {% include "components/kitap/iz.njk" %}
-  <header class="katalog__ust">
-    <span class="etiket">{{ m.kunye_yazar }}</span>
-    <h1 class="katalog__baslik">{{ yazar.display }}</h1>
-    <p class="katalog__sayi">{{ m.yazar_giris | replace("{ad}", yazar.display) }}</p>
-  </header>
+<div class="katalog yazar-sayfasi">
+  <div class="kap">
+    {% include "components/kitap/iz.njk" %}
+    <header class="katalog__ust">
+      <span class="etiket">{{ m.kunye_yazar }}</span>
+      <h1 class="katalog__baslik">{{ yazar.display }}</h1>
+      <p class="katalog__sayi">{{ m.yazar_giris | replace("{ad}", yazar.display) }}</p>
+    </header>
 
-  {%- if yazar.bio %}
-  <section class="yazar-bio" aria-labelledby="yazar-bio-baslik">
-    <h2 class="etiket" id="yazar-bio-baslik">{{ m.kunye_yazar }}</h2>
-    <div class="yazar-bio__metin">
-      {%- for p in yazar.bio.split("\n\n") %}{% if p | trim %}<p>{{ p | trim }}</p>{% endif %}{% endfor %}
-    </div>
-    {%- if yazar.bio_source %}<p class="yazar-bio__kaynak">Kaynak: <a href="{{ yazar.bio_source }}" rel="noopener noreferrer">{{ yazar.bio_source | replace("https://", "") | replace("www.", "") | truncate(40, true, "…") }}</a></p>{% endif %}
-  </section>
-  {%- endif %}
+    {%- if yazar.bio %}
+    <section class="yazar-bio" aria-labelledby="yazar-bio-baslik">
+      <h2 class="etiket" id="yazar-bio-baslik">{{ m.kunye_yazar }}</h2>
+      <div class="yazar-bio__metin">
+        {%- for p in yazar.bio.split("\n\n") %}{% if p | trim %}<p>{{ p | trim }}</p>{% endif %}{% endfor %}
+      </div>
+      {%- if yazar.bio_source %}<p class="yazar-bio__kaynak">Kaynak: <a href="{{ yazar.bio_source }}" rel="noopener noreferrer">{{ yazar.bio_source | replace("https://", "") | replace("www.", "") | truncate(40, true, "…") }}</a></p>{% endif %}
+    </section>
+    {%- endif %}
 
-  {%- if yazar.kitaplar.length %}
-  <div class="kartlar">
-    {%- for kitap in yazar.kitaplar %}
-    {% set kart_baslik = "h2" %}{% include "components/kitap/kitap-karti.njk" %}
-    {%- endfor %}
-  </div>
-  {%- else %}
-  <p class="bos-metin">{{ m.bos_durum_yazar }}</p>
-  {%- endif %}
-
-  {%- if yazar_dizileri.length %}
-  <section class="kitap-detay__bolum" aria-labelledby="yazar-dizileri">
-    {{ bolumBasligi(etiket="Set / Seri", baslik="Set ve seriler", id="yazar-dizileri") }}
-    <div class="dizi-izgara">
-      {%- for dizi in yazar_dizileri %}
-      {% include "components/kitap/dizi-karti.njk" %}
+    {%- if yazar.kitaplar.length %}
+    <div class="kartlar">
+      {%- for kitap in yazar.kitaplar %}
+      {% set kart_baslik = "h2" %}{% include "components/kitap/kitap-karti.njk" %}
       {%- endfor %}
     </div>
-  </section>
-  {%- endif %}
+    {%- else %}
+    <p class="bos-metin">{{ m.bos_durum_yazar }}</p>
+    {%- endif %}
+
+    {%- if yazar_dizileri.length %}
+    <section class="katalog__bolum" aria-labelledby="yazar-dizileri">
+      {{ bolumBasligi(etiket="Set / Seri", baslik="Set ve seriler", id="yazar-dizileri") }}
+      <div class="dizi-izgara">
+        {%- for dizi in yazar_dizileri %}
+        {% include "components/kitap/dizi-karti.njk" %}
+        {%- endfor %}
+      </div>
+    </section>
+    {%- endif %}
+  </div>
 </div>

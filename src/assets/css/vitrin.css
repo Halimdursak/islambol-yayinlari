@@ -1,0 +1,181 @@
+/* İslambol Yayınları — ana sayfa: duyuru slaytı, kısayollar, raflar, kategori karoları, hikâye, satış modülleri.
+   Kitap/yazar kartı ve yatay raf (.serit) kartlar.css'te; burada yalnızca ana sayfaya özgü yerleşim vardır. */
+
+/* ==========================================================================
+   Duyuru slaytı. Tema (peach/sage/blue/cream) yalnızca çok hafif bir ton verir; kapaklar sahnede durur.
+   UYARI: kapak sarmalayıcılarının atası z-index/transform/opacity/filter almamalı; yoksa multiply kapağın
+   beyazımsı zeminini eritemez (yalıtılmış katman).
+   ========================================================================== */
+.vitrin-kap { padding-top: 16px; }
+.vitrin { position: relative; }
+.vitrin__slayt {
+  --_ton: var(--c-band);
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center;
+  min-height: 540px; overflow: hidden; border-radius: var(--radius-lg); background: var(--_ton);
+}
+.vitrin__slayt--peach { --_ton: #f6efe9; }
+.vitrin__slayt--sage { --_ton: #eef2ed; }
+.vitrin__slayt--blue { --_ton: #edf1f6; }
+.vitrin__slayt--cream { --_ton: #f5f3ec; }
+
+.vitrin__metin { padding: 56px 24px 88px clamp(32px, 5vw, 72px); }
+.vitrin__etiket { margin: 0 0 14px; color: var(--c-ink-soft); font-size: var(--text-base); font-weight: 600; }
+.vitrin__baslik {
+  max-width: 14ch; margin: 0 0 18px; font-size: clamp(2.25rem, 1.1rem + 3.6vw, 3.75rem); line-height: 1.04; letter-spacing: var(--tracking-display);
+  white-space: pre-line;   /* panelde yazılan satır sonları korunur */
+}
+.vitrin__baslik em { font-style: normal; color: var(--c-ink-soft); }
+.vitrin__aciklama { max-width: 34ch; margin: 0 0 28px; color: var(--c-ink-soft); font-size: var(--text-lg); line-height: 1.4; letter-spacing: -0.012em; }
+.vitrin__eylemler { display: flex; flex-wrap: wrap; gap: 12px; }
+
+/* Sahne: ana kapak perspektifli, iki arka kapak hafif dönük */
+.vitrin__gorsel { position: relative; align-self: stretch; display: flex; min-width: 0; }
+.vitrin__kitaplar { position: relative; display: flex; flex: 1; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 40px 0 56px; }
+.vitrin__kitaplar::before {   /* temas gölgesi: kapakların ARKASINDA, multiply onu kapağın zemininde eritir */
+  content: ""; position: absolute; left: 50%; bottom: 112px; width: 190px; height: 26px; margin-left: -95px;
+  border-radius: 50%; background: rgb(0 0 0 / 0.3); filter: blur(22px);
+}
+.vitrin__kitap { display: block; mix-blend-mode: multiply; }
+.vitrin__kitap picture { display: block; }
+.vitrin__kitap img { display: block; width: 100%; height: auto; filter: brightness(1.04); }
+.vitrin__kitap--ana {
+  width: min(250px, 52%); transform: perspective(1400px) rotateY(-7deg) rotateX(1.5deg); transform-origin: 50% 60%;
+  transition: transform var(--dur-slow) var(--ease);
+}
+.vitrin__kitap--ana:hover, .vitrin__kitap--ana:focus-visible { transform: none; }
+.vitrin__kitap--arka-sol, .vitrin__kitap--arka-sag { position: absolute; top: 50%; width: 150px; opacity: 0.9; }
+.vitrin__kitap--arka-sol { left: calc(50% - 250px); transform: translateY(-62%) rotate(-9deg); }
+.vitrin__kitap--arka-sag { left: calc(50% + 100px); transform: translateY(-62%) rotate(9deg); }
+.vitrin__kitap-kunye { max-width: 22rem; margin: 0; text-align: center; color: var(--c-ink-soft); font-size: var(--text-sm); line-height: 1.4; }
+.vitrin__kitap-kunye span { display: block; }
+.vitrin__kitap-kunye cite { display: block; margin-top: 2px; color: var(--c-ink); font-size: var(--text-base); font-style: normal; font-weight: 600; }
+
+/* Yüklenen duyuru görseli (kullanıcı reklamı) sahneyi doldurur */
+.vitrin__reklam { display: block; width: 100%; height: 100%; }
+.vitrin__reklam img { display: block; width: 100%; height: 100%; min-height: 360px; object-fit: cover; }
+
+.vitrin__kontroller { position: absolute; left: clamp(32px, 5vw, 72px); bottom: 26px; display: flex; align-items: center; gap: 10px; }
+.vitrin__kontroller .yuvarlak-dugme { width: 32px; height: 32px; background: rgb(255 255 255 / 0.7); font-size: 0.9rem; }
+.vitrin__kontroller .yuvarlak-dugme:hover { background: #fff; }
+.vitrin__noktalar { display: flex; align-items: center; }
+.vitrin__nokta { display: grid; place-items: center; width: 24px; height: 32px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.vitrin__nokta::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgb(0 0 0 / 0.28); transition: background-color var(--dur) var(--ease); }
+.vitrin__nokta[aria-current="true"]::after { width: 22px; border-radius: 4px; background: var(--c-ink); }
+
+/* ==========================================================================
+   Keşif kısayolları
+   ========================================================================== */
+.kesif-kisayollari { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding-block: 28px 8px; }
+.kesif-kisayollari a { display: flex; align-items: center; justify-content: center; gap: 12px; min-height: 48px; padding-inline: 12px; color: var(--c-ink); font-size: var(--text-sm); font-weight: 500; text-decoration: none; }
+.kesif-kisayollari a + a { border-left: 1px solid var(--c-line); }
+.kesif-kisayollari svg { width: 24px; height: 24px; flex: none; }
+.kesif-kisayollari a > span::after { content: " ›"; }
+.kesif-kisayollari a:hover > span { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ==========================================================================
+   Raf bölümleri: raf kendi alt boşluğunu (gölge payı) taşır, bölüm alt boşluğu buna göre kısalır
+   ========================================================================== */
+.bolum--raf { padding-bottom: calc(var(--sec-pad) - 56px); }
+.bolum--raf .raf-basligi { margin-bottom: calc(var(--head-gap) - 16px); }
+.serit--yazar { gap: 32px; }
+.serit--yazar .serit__oge { flex-basis: 148px; }
+
+/* ==========================================================================
+   Kategori karoları
+   ========================================================================== */
+.kategori-kartlari { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+.kategori-karti {
+  position: relative; display: flex; align-items: flex-end; min-height: 172px; padding: 24px 26px;
+  border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow-card); color: var(--c-ink); text-decoration: none;
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.kategori-karti:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+.kategori-karti__ad { max-width: 11ch; font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
+.kategori-karti__ok { position: absolute; top: 18px; right: 18px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c-fill); font-size: 1rem; transition: background-color var(--dur) var(--ease); }
+.kategori-karti:hover .kategori-karti__ok { background: var(--c-fill-hover); }
+
+/* ==========================================================================
+   Yayın hikâyesi ve sayılar
+   ========================================================================== */
+.yayin-hikayesi__ic { display: grid; justify-items: center; gap: 20px; max-width: 880px; margin-inline: auto; text-align: center; }
+.yayin-hikayesi__ic .raf-basligi__etiket { margin: 0; }
+.yayin-hikayesi__ozet { max-width: 40rem; font-size: clamp(1.3125rem, 1.1rem + 1vw, 1.875rem); font-weight: 500; line-height: 1.32; letter-spacing: -0.02em; text-wrap: balance; }
+.sayilar { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; max-width: 760px; margin: 64px auto 0; }
+.sayi { display: flex; flex-direction: column-reverse; gap: 8px; padding-top: 18px; border-top: 1px solid var(--c-line); text-align: center; }
+.sayi dt { color: var(--c-ink-2); font-size: var(--text-sm); }
+.sayi dd { margin: 0; font-size: clamp(2.5rem, 1.6rem + 2.8vw, 4rem); font-weight: 600; line-height: 1; letter-spacing: var(--tracking-display); }
+
+/* ==========================================================================
+   Satış modülleri: telefon/WhatsApp + tek gruplu kanal listesi
+   ========================================================================== */
+.satis-vitrini__ic { display: grid; grid-template-columns: 1.05fr 1fr; gap: 24px; align-items: stretch; }
+.satis-vitrini__cta {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 12px;
+  padding: 40px; border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow-card);
+}
+.satis-vitrini__etiket { margin: 0; color: var(--c-ink-2); font-size: var(--text-base); font-weight: 600; }
+.satis-vitrini__no { margin: 0 0 14px; font-size: clamp(1.875rem, 1.2rem + 3vw, 2.5rem); line-height: 1.08; letter-spacing: -0.025em; }
+.satis-vitrini__no a { text-decoration: none; }
+.satis-vitrini__kanallar { overflow: hidden; border-radius: var(--radius-lg); background: #fff; box-shadow: var(--shadow-card); }
+.satis-vitrini__kanallar li + li { border-top: 1px solid var(--c-line); }
+.satis-vitrini__kanallar a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 28px; color: var(--c-ink); font-size: var(--text-base); font-weight: 600; text-decoration: none; transition: background-color var(--dur) var(--ease); }
+.satis-vitrini__kanallar a:hover { background: #fafafc; }
+.satis-vitrini__kanallar small { display: block; margin-top: 2px; color: var(--c-ink-2); font-size: var(--text-sm); font-weight: 400; }
+.satis-vitrini__ok { color: var(--c-ink-2); }
+.satis-vitrini__not { margin-top: 20px; text-align: center; color: var(--c-ink-2); font-size: var(--text-xs); }
+
+/* ==========================================================================
+   Duyarlı
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .satis-vitrini__ic { grid-template-columns: 1fr; }
+  .kategori-kartlari { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sayilar { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 20px; }
+}
+@media (max-width: 834px) {
+  .vitrin__slayt { min-height: 470px; }
+  .vitrin__metin { padding: 44px 16px 80px 32px; }
+  .vitrin__kitap--ana { width: min(200px, 56%); }
+  .vitrin__kitap--arka-sol, .vitrin__kitap--arka-sag { width: 112px; }
+  .vitrin__kitap--arka-sol { left: calc(50% - 190px); }
+  .vitrin__kitap--arka-sag { left: calc(50% + 78px); }
+  .vitrin__kitaplar::before { bottom: 96px; width: 150px; margin-left: -75px; }
+  .kesif-kisayollari a { flex-direction: column; gap: 8px; text-align: center; }
+}
+@media (max-width: 640px) {
+  .vitrin-kap { padding-inline: 12px; padding-top: 12px; }
+  .vitrin__slayt { grid-template-columns: 1fr; min-height: 0; border-radius: 24px; }
+  .vitrin__metin { padding: 36px 24px 0; }
+  .vitrin__baslik { max-width: 13ch; font-size: clamp(2.25rem, 9.5vw, 2.75rem); }
+  .vitrin__aciklama { margin-bottom: 22px; font-size: var(--text-base); }
+  .vitrin__eylemler .dugme { flex: 1 1 auto; }
+  .vitrin__kitaplar { padding: 32px 0 28px; min-height: 340px; }
+  .vitrin__kitap--ana { width: 150px; }
+  .vitrin__kitap--arka-sol, .vitrin__kitap--arka-sag { width: 96px; }
+  .vitrin__kitap--arka-sol { left: calc(50% - 150px); }
+  .vitrin__kitap--arka-sag { left: calc(50% + 54px); }
+  .vitrin__kitaplar::before { bottom: 84px; width: 120px; margin-left: -60px; }
+  .vitrin__kontroller { position: static; justify-content: center; padding: 0 0 22px; }
+  .vitrin__reklam img { min-height: 240px; max-height: 340px; }
+  .kesif-kisayollari { grid-template-columns: 1fr; padding-block: 12px 0; }
+  .kesif-kisayollari a { flex-direction: row; justify-content: flex-start; min-height: 52px; padding-inline: 4px; text-align: left; }
+  .kesif-kisayollari a + a { border-left: 0; border-top: 1px solid var(--c-line); }
+  .serit--yazar { gap: 20px; }
+  .serit--yazar .serit__oge { flex-basis: 112px; }
+  .kategori-kartlari { gap: 12px; }
+  .kategori-karti { min-height: 128px; padding: 18px; border-radius: 24px; }
+  .kategori-karti__ok { top: 12px; right: 12px; width: 30px; height: 30px; }
+  .sayilar { margin-top: 44px; }
+  .satis-vitrini__cta { padding: 28px 24px; border-radius: 24px; }
+  .satis-vitrini__cta .dugme { align-self: stretch; }
+  .satis-vitrini__kanallar { border-radius: 24px; }
+  .satis-vitrini__kanallar a { padding: 18px 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vitrin__kitap--ana, .vitrin__nokta::after, .kategori-karti, .kategori-karti__ok, .satis-vitrini__kanallar a { transition: none; }
+  .kategori-karti:hover { transform: none; }
+}
+@media (hover: none) {
+  .kategori-karti:hover { transform: none; box-shadow: var(--shadow-card); }
+}

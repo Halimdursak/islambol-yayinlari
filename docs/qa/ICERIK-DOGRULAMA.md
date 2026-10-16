@@ -1,14 +1,14 @@
 # Q4 İçerik Doğrulama Raporu
 
-- Tarih: 2026-10-12
-- Kapsam: `dist/` (npm run build çıktısı, 132 HTML), `data/catalog/books.json` (78 kitap), `data/catalog/authors.json` (36 yazar), `data/catalog/onsoz/INDEX.json` (yalnızca bilgi, doğrudan kontrol yok), `data/site/vitrin.json`, `data/site/site.json`, `data/site/sayfalar/*.md`.
+- Tarih: 2026-10-16
+- Kapsam: `dist/` (npm run build çıktısı, 133 HTML), `data/catalog/books.json` (78 kitap), `data/catalog/authors.json` (36 yazar), `data/catalog/onsoz/INDEX.json` (yalnızca bilgi, doğrudan kontrol yok), `data/site/vitrin.json`, `data/site/site.json`, `data/site/sayfalar/*.md`.
 - Betik: `python -I -X utf8 scripts/qa/dogrula.py` (dış örneklem: `--dis-ornek 15`; `--dis-yok` ile atlanır)
 - Denetlenen dizin: `C:\Users\LENOVO\Desktop\islambol_yayinlari\dist` (çalışma öncesi/sonrası dizin imzası aynı kaldıysa geçerli)
 - Çıkış kodu: **1** (hata var)
 
 ## Özet
 
-- Kontrol grubu: 27; tekil denetim: 11713; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
+- Kontrol grubu: 27; tekil denetim: 11684; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
 - Hata sayılmayan sonuçlar: DOĞRULANAMADI (403/Cloudflare/ağ) ve UYARI. Çıkış kodu yalnızca KALDI için 1 olur.
 
 ## Kontrol tablosu
@@ -30,17 +30,17 @@
 | 2.4 | book_ids ↔ books.json authors eşleşmesi (veri tutarlılığı) | GEÇTİ | 36 | 0 | 0 | 0 | 0 | — |
 | 3.1 | Önizleme vitrini ve öne çıkan kitaplar ana sayfada | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 3.2 | vitrin_haric kitapları ana sayfada yok | GEÇTİ | 3 | 0 | 0 | 0 | 0 | — |
-| 4.1 | Yasaklı teknik dizgi yok (null, undefined, [[SORU, NaN, mojibake, TODO vb.) | GEÇTİ | 132 | 0 | 0 | 0 | 0 | — |
-| 4.2 | Fiyat/kampanya dizgisi yok (TL, kargo ücretsiz, indirim, kampanya) | GEÇTİ | 132 | 0 | 0 | 0 | 0 | — |
-| 5.1 | Her HTML katı UTF-8 olarak çözülüyor | GEÇTİ | 132 | 0 | 0 | 0 | 0 | — |
-| 5.2 | <html lang="tr"> | GEÇTİ | 132 | 0 | 0 | 0 | 0 | — |
-| 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8363 | 0 | 0 | 0 | 0 | — |
+| 4.1 | Yasaklı teknik dizgi yok (null, undefined, [[SORU, NaN, mojibake, TODO vb.) | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
+| 4.2 | Fiyat/kampanya dizgisi yok (TL, kargo ücretsiz, indirim, kampanya) | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
+| 5.1 | Her HTML katı UTF-8 olarak çözülüyor | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
+| 5.2 | <html lang="tr"> | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
+| 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8330 | 0 | 0 | 0 | 0 | — |
 | 7.1 | Dış kaynak bağlantıları (rastgele örneklem) | DOĞRULANAMADI | 1 | 0 | 1 | 0 | 0 | — |
 | 8.1 | Site metinlerinde [[SORU işareti dist'te yok | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 8.2 | Sayfalar: ilk paragraf dist'te geçiyor | GEÇTİ | 6 | 0 | 0 | 0 | 0 | — |
 | 8.3 | Sayfalar: SORU ayıklamasından öksüz kalıntı adayları (elle teyit) | UYARI | 14 | 0 | 0 | 3 | 0 | — |
 | 8.4 | Sayfalar: yönerge/editör notu sızıntısı yok | N/A | 0 | 0 | 0 | 0 | 0 | — |
-| 9.1 | Sitemap URL sayısı = HTML sayısı − 404 − _test | GEÇTİ | 1 | 0 | 0 | 0 | 0 | — |
+| 9.1 | Sitemap URL sayısı = HTML sayısı − 404 − _test − yönetim paneli | GEÇTİ | 1 | 0 | 0 | 0 | 0 | — |
 | 9.2 | Sitemap her URL dist'te karşılık buluyor | GEÇTİ | 131 | 0 | 0 | 0 | 0 | — |
 
 ## Uyumsuzluklar (tam liste)
@@ -104,7 +104,7 @@ Yöntem: her `[[SORU: …]]` işaretinin bulunduğu cümle `sorulariAyikla` ile 
 
 ## Sitemap
 
-- sitemap `<loc>` sayısı: 131; dist HTML sayısı: 132; hariç tutulan (404 ve _test): 1; beklenen: 131.
+- sitemap `<loc>` sayısı: 131; dist HTML sayısı: 133; hariç tutulan (404, _test ve yönetim paneli): 2; beklenen: 131.
 - Not: `data/site/site.json` / betik taban adresi `https://adursak63.github.io/islambol-yayinlari` (yol öneki `/islambol-yayinlari`). Varsayılan build `PATH_PREFIX=/` ile çalışır; sitemap'in dağıtım adresiyle tutarlılığı için dağıtım komutunda `PATH_PREFIX=/islambol-yayinlari/` kullanıldığı teyit edilmeli.
 
 ## Betik ve yöntem notları

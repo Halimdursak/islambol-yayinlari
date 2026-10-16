@@ -6,16 +6,18 @@ ekstra_css:
 ---
 {%- set m = site.mikrometin -%}
 {%- set iz_ogeler = [{ ad: "Ana sayfa", url: "/" }, { ad: "Yazarlar", url: "/yazarlar/" }] -%}
-<div class="kap katalog">
-  {% include "components/kitap/iz.njk" %}
-  <header class="katalog__ust">
-    <span class="etiket">{{ m.kayit }}</span>
-    <h1 class="katalog__baslik">Yazarlar</h1>
-    <p class="katalog__sayi">{{ m.bolum_giris.yazarlar }} · {{ m.kayit_sayisi | replace("{n}", authors.length) }}</p>
-  </header>
-  <div class="yazar-izgara">
-    {%- for yazar in authors %}
-    {% set kart_baslik = "h2" %}{% include "components/kitap/yazar-karti.njk" %}
-    {%- endfor %}
+<div class="katalog">
+  <div class="kap">
+    {% include "components/kitap/iz.njk" %}
+    <header class="katalog__ust">
+      <span class="etiket">{{ m.kayit }}</span>
+      <h1 class="katalog__baslik">Yazarlar</h1>
+      <p class="katalog__sayi">{{ m.bolum_giris.yazarlar }} · {{ m.kayit_sayisi | replace("{n}", authors.length) }}</p>
+    </header>
+    <div class="yazar-izgara">
+      {%- for yazar in authors %}
+      {% set kart_baslik = "h2" %}{% include "components/kitap/yazar-karti.njk" %}
+      {%- endfor %}
+    </div>
   </div>
 </div>

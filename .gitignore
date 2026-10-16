@@ -15,3 +15,5 @@ data/raw/
 __pycache__/
 *.pyc
 docs/design/secenekler/*/*.png
+# e2e her koşuda yeniden üretir (68 MB); izlenirse her test koşusu git'i kirletir. Geri almak için: git add -f docs/qa/screenshots
+docs/qa/screenshots/

@@ -1,6 +1,6 @@
 {#
-  Alt bilgi — B1. Veri: site.slogan, footer_menu, telefon_gosterim, eposta, adres, sosyal, satis_kanallari, mikrometin.footer_telif/footer_not.
-  Kuruluş yılı vb. doğrulanmamış bilgi yazılmaz (DESIGN §4.2).
+  Alt bilgi. Veri: site.slogan, footer_menu, telefon_gosterim, eposta, adres, sosyal, satis_kanallari, mikrometin.footer_telif/footer_not.
+  Kuruluş yılı vb. doğrulanmamış bilgi yazılmaz.
 #}
 <footer class="alt">
   <div class="kap">
@@ -10,7 +10,7 @@
         <p class="alt__slogan">{{ site.slogan }}</p>
       </div>
       <nav class="alt__kolon" aria-labelledby="alt-yayinevi">
-        <h2 class="alt__baslik etiket" id="alt-yayinevi">Yayınevi</h2>
+        <h2 class="alt__baslik" id="alt-yayinevi">Yayınevi</h2>
         <ul class="alt__liste">
           {%- for m in site.footer_menu %}
           <li><a href="{{ m.url }}">{{ m.etiket }}</a></li>
@@ -18,7 +18,7 @@
         </ul>
       </nav>
       <div class="alt__kolon">
-        <h2 class="alt__baslik etiket" id="alt-iletisim">İletişim</h2>
+        <h2 class="alt__baslik" id="alt-iletisim">İletişim</h2>
         <ul class="alt__liste" aria-labelledby="alt-iletisim">
           <li><a class="rakam" href="tel:{{ site.telefon | replace(' ', '') }}">{{ site.telefon_gosterim }}</a></li>
           <li><a href="{{ site.whatsapp_url }}" rel="noopener noreferrer">{{ site.mikrometin.whatsapp_cta }}</a></li>
@@ -30,7 +30,7 @@
         </ul>
       </div>
       <div class="alt__kolon">
-        <h2 class="alt__baslik etiket" id="alt-kanallar">{{ site.mikrometin.nereden_alinir }}</h2>
+        <h2 class="alt__baslik" id="alt-kanallar">{{ site.mikrometin.nereden_alinir }}</h2>
         <ul class="alt__liste" aria-labelledby="alt-kanallar">
           {%- for k in site.satis_kanallari %}{% if k.url %}
           <li><a href="{{ k.url }}" rel="noopener noreferrer">{{ k.ad }}</a></li>

@@ -59,3 +59,39 @@ Bağlam: ADR-008'deki Uygulama Denetimi engeli yüzünden Astro 7'nin dört nati
 Seçenekler: (a) Astro 5/6 (esbuild.exe de imzasız, aynı engel) (b) yalnızca CI'da build, yerelde önizleme yok (QA imkânsız) (c) Eleventy 3 (saf JS, sıfır native modül; ölçüldü: 129 paket, 0 `.node`, 3 sayfa 0.16 s).
 Karar: (c) Eleventy 3.1.6 + Nunjucks şablonları + saf CSS + `page-flip` ESM passthrough. JSON doğrulama `ajv` ile `src/_data/books.js` içinde (zod yerine). Görsel optimizasyonu `sharp` (WASM yedeği çalışıyor).
 Sonuç: Dosya düzeni: `src/_includes/layouts|components`, `src/_data/*.js` (data/catalog JSON'u okur ve doğrular), `src/kitap.njk` pagination ile 70 sayfa, `public/` passthrough. CI Linux'ta da aynı komut: `npm ci && npm run build`. EKIP.md rol kartlarındaki dosya yolları buna göre güncellendi.
+
+## ADR-010 Tasarım yönü: "Arşiv Dosyası" → "Beyaz Vitrin" (ADR-004'ün tasarım kısmını günceller; saf CSS + token yaklaşımı geçerli)
+
+Tarih: 16 Ekim 2026.
+Bağlam: Kullanıcı "Arşiv Dosyası" tasarımını beğenmedi (14 Ekim) ve premium, modern, iPhone/Apple görünümü istedi. Dört seçenek hazırlandı (`docs/design/secenekler/`): 1 Beyaz Vitrin, 2 Pro Siyah, 3 Cam Bento, 4 Editoryal Books. Aynı gün başka bir oturum farklı bir "yeni vitrin" yapısı da üretmişti (ADR-012).
+Seçenekler: (a) yalnız dört seçenekten biri, 14 Ekim yapısı atılır; (b) 14 Ekim işi olduğu gibi sürdürülür; (c) 14 Ekim yapısı (arama, duyuru slaytı, CMS) korunur, görünüm seçilen seçeneğin diliyle giydirilir; (d) ayrı dalda seçenek uygulanır, iki sürüm karşılaştırılır.
+Karar: (c) Seçenek 1 "Beyaz Vitrin" görünümü + 14 Ekim yapısı (kullanıcı 16 Ekim'de "Yarım iş + Beyaz Vitrin görünümü"nü seçti). Beyaz/`#f5f5f7` bantlar, Inter (Apple cihazlarda SF öncelikli) self-host, tek kırmızı vurgu (yalnız birincil CTA ve "Önizle" rozeti), kapak fotoğrafı `multiply` ile eritilir, 20/28px kartlar, 980px kapsül düğmeler. Karanlık mod kaldırıldı (14 Ekim çalışması zaten kapatmıştı; e2e artık sistem koyu moddayken de açık temayı doğrular).
+Sonuç: `DESIGN.md` v2; CSS dosyaları `tokens, typography, global, kartlar, vitrin, katalog, flipbook, admin`; `redesign.css` kaldırıldı; EB Garamond ve IBM Plex Sans dosyaları silindi; favicon ve OG görselleri yeni paletle yeniden üretildi; `kontrast.mjs` yeni token'lara uyarlandı (24 çift, 0 başarısız). Inter için `impeccable` kancası "yaygın font" uyarısı verir; seçilen Apple dilinin gereği olduğu için bilinçli kabul edilmiştir.
+
+## ADR-011 `src/_data/*.js` dosyaları yalnızca `export default` taşır
+
+Tarih: 16 Ekim 2026.
+Bağlam: 14 Ekim çalışması `books.js`, `authors.js`, `vitrin.js`, `campaigns.js` dosyalarına yardımcı `export function` eklemişti. Derleme `d.kitap.yazar_sluglari is not iterable` ile düşüyordu. Kök neden Eleventy'nin `Util/Require.js` satır 138-141'inde: modülde yalnızca `default` varsa o veri olur; ek adlandırılmış export varsa veri `{ default, publishedBooks }` modül nesnesidir. Sayfalama nesnenin anahtarlarını dolaştı (`kitap = ""`). `vitrin` ise hatasız ama sessizce bozuk derleniyordu.
+Karar: Veri dosyaları yalnızca `export default` taşır. Saf çözümleyiciler (`publishedBooks`, `resolveAuthors`, `resolveVitrin`, `resolveCampaigns`) `scripts/cms/resolvers.mjs`'e taşındı; CMS testleri oradan içe aktarır.
+Sonuç: Yeni veri dosyasına yardımcı export eklemeyin; testlerinizi `resolvers.mjs`'e yazın. Derleme çıktısındaki "Wrote N files" tek başına doğrulama sayılmaz: bozuk veri dosyası hatasız derlenebilir (e2e/içerik doğrulaması şart).
+
+## ADR-012 14 Ekim "yeni vitrin + yönetim paneli" çalışmasının korunması
+
+Tarih: 16 Ekim 2026.
+Bağlam: 14 Ekim 14:51-15:06 arasında başka bir oturum commit'siz bir yeniden tasarım ve CMS yazmıştı (`docs/plans/2026-10-14-yeniden-tasarim.md`): arama çubuklu başlık, duyuru slaytı, yuvarlak yazar şeridi, kategori karoları, kitap/yazar/duyuru yönetim paneli (`scripts/cms/`, `/yonetim/`). Derlenmiyordu (ADR-011) ve ana sayfadaki önizleme tetikleyicisi (`data-onizleme`) kaybolmuştu.
+Karar: Çalışma düzeltilip `f80b45b` olarak ayrı bir geri dönüş commit'iyle kaydedildi; üzerine Beyaz Vitrin giydirildi (ADR-010). Önizleme tetikleyicisi geri getirildi: hero kapağı, hero ikincil düğmesi ve önizlemeli raf kartlarındaki "Önizle" rozeti.
+Sonuç: Yönetim paneli yerel Node sunucusudur (`npm run cms`, varsayılan port 8090); GitHub Pages yalnız statik kataloğu sunar, canlı panel için kalıcı diskli bir Node barındırması gerekir (plan belgesi). `/yonetim/` `noindex`, sitemap ve SEO beklentilerinin dışındadır (`tests/yardimci/dist.ts`, `scripts/qa/dogrula.py`). Kimlik bilgileri ve yedekler `.local/` altındadır ve git'e girmez.
+
+## ADR-013 Üst barda doğrudan WhatsApp logosu
+
+Tarih: 16 Ekim 2026.
+Bağlam: Üst barda "Satış noktaları" bağlantısı vardı. Kullanıcı, satış yeri bağlantısı yerine orijinal WhatsApp logosunun doğrudan bir numaraya yazdırmasını istedi (numara ayrıca verilecek).
+Karar: Bağlantı kaldırıldı; yerine resmî WhatsApp glifi (yeşil daire, beyaz logo) `site.whatsapp_url` adresine yeni sekmede açılır. "Nereden alınır" menüde ve ana sayfa bölümünde durur. WhatsApp yeşili (`--c-whatsapp`) marka işareti olduğu için "tek kırmızı vurgu" kuralının tek istisnasıdır.
+Sonuç: Numara bekleniyor; verilene kadar sitenin mevcut tek WhatsApp adresi (`data/site/site.json`) kullanılır. Numara şu dosyalarda da geçer ve birlikte değiştirilmelidir: `site.json` (`telefon`, `telefon_gosterim`, `whatsapp_url`, `whatsapp_url_sablonu`), `data/site/sayfalar/{iletisim,nereden-alinir,404}.md`, `data/site/meta.json`, `tests/e2e/kitap.spec.ts` (`WA`), `scripts/qa/dogrula.py` (`WA_ANAHTAR`), `src/_data/books.js` ve `src/_includes/components/kitap/yardimci.mjs` (yedek sabitler).
+
+## ADR-014 Marka betiği logoyu ezmez
+
+Tarih: 16 Ekim 2026.
+Bağlam: `public/logo/islambol-logo*.png` yayınevinin gönderdiği PNG'den (`islambol-logo-kaynak.png`) türetilmiş 480x480 dosyalardır; `scripts/gorsel/marka.mjs` ise yalnızca eski 400 px JPEG'den üretebilir. Betik düzenlendiğinde dosya zamanı "bayat" saydırıp logoyu düşük kaliteli büyütmeyle ezdi (fark yakalanıp geri alındı).
+Karar: Logo üretiminin bayatlık kontrolü artık betik dosyasının zamanına bakmaz; yalnız `--force` ile yenilenir.
+Sonuç: `npm run gorsel` favicon, manifest ve OG görsellerini yeniler, logoya dokunmaz. Vektör logo gelirse `marka.mjs`'e doğru kaynak tanıtılmalıdır.

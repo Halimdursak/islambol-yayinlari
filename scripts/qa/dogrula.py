@@ -322,7 +322,7 @@ K81 = Kontrol("8.1", "Site metinlerinde [[SORU işareti dist'te yok", "8 Site me
 K82 = Kontrol("8.2", "Sayfalar: ilk paragraf dist'te geçiyor", "8 Site metinleri")
 K83 = Kontrol("8.3", "Sayfalar: SORU ayıklamasından öksüz kalıntı adayları (elle teyit)", "8 Site metinleri")
 K84 = Kontrol("8.4", "Sayfalar: yönerge/editör notu sızıntısı yok", "8 Site metinleri")
-K91 = Kontrol("9.1", "Sitemap URL sayısı = HTML sayısı − 404 − _test", "9 Sitemap")
+K91 = Kontrol("9.1", "Sitemap URL sayısı = HTML sayısı − 404 − _test − yönetim paneli", "9 Sitemap")
 K92 = Kontrol("9.2", "Sitemap her URL dist'te karşılık buluyor", "9 Sitemap")
 
 BILGI = {"kitap": 0, "yazar": 0, "html": 0, "dis": [], "oksuz": [], "sayfa_ilk": [], "sitemap": {}}
@@ -757,8 +757,11 @@ def kontrol_sitemap():
         return
     locs = re.findall(r"<loc>([^<]+)</loc>", sm.read_text(encoding="utf-8"))
     html_hepsi = html_dosyalari()
+    # 404, _test fikstürleri ve yönetim paneli (noindex, sitemap dışı) beklenen sayıdan düşülür.
     haric = [x for x in html_hepsi
-             if x.relative_to(DIST).as_posix() == "404.html" or "_test" in x.relative_to(DIST).parts]
+             if x.relative_to(DIST).as_posix() == "404.html"
+             or "_test" in x.relative_to(DIST).parts
+             or x.relative_to(DIST).parts[:1] == ("yonetim",)]
     beklenen = len(html_hepsi) - len(haric)
     BILGI["sitemap"] = {"loc": len(locs), "html": len(html_hepsi), "haric": len(haric), "beklenen": beklenen}
     if len(locs) == beklenen:
@@ -883,7 +886,7 @@ def rapor_yaz(kod, veri, ornek_sayisi):
     sm = BILGI["sitemap"]
     if sm:
         a(f"- sitemap `<loc>` sayısı: {sm['loc']}; dist HTML sayısı: {sm['html']}; "
-          f"hariç tutulan (404 ve _test): {sm['haric']}; beklenen: {sm['beklenen']}.")
+          f"hariç tutulan (404, _test ve yönetim paneli): {sm['haric']}; beklenen: {sm['beklenen']}.")
     a("- Not: `data/site/site.json` / betik taban adresi `https://adursak63.github.io/islambol-yayinlari` "
       "(yol öneki `/islambol-yayinlari`). Varsayılan build `PATH_PREFIX=/` ile çalışır; sitemap'in dağıtım "
       "adresiyle tutarlılığı için dağıtım komutunda `PATH_PREFIX=/islambol-yayinlari/` kullanıldığı teyit edilmeli.")

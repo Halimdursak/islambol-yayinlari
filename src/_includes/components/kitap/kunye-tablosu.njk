@@ -1,10 +1,12 @@
 {#
   Künye tablosu — B2. `kitap` ile include edilir. Boş (null) alanın satırı hiç basılmaz.
+  Beyaz Vitrin: tablo yuvarlak beyaz bir kartın (.kunye-kart) içinde durur; başlık (caption) kartın üst satırıdır.
   İsteğe bağlı: `kunye_kategoriler` ([{ad, slug}]), `kunye_diziler` ([dizi]).
 #}
 {%- from "components/kitap/bicim.njk" import tarih, yazarlar -%}
 {%- set m = site.mikrometin -%}
 {%- set _katki = kitap.contributors.split(": ") if kitap.contributors else [] -%}
+<div class="kunye-kart">
 <table class="kunye">
   <caption class="etiket">{{ m.kunye }}</caption>
   <tbody>
@@ -32,3 +34,4 @@
     {%- endif %}
   </tbody>
 </table>
+</div>

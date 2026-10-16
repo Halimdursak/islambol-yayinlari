@@ -1,10 +1,12 @@
-{# Yazar kartı: portre varsa gerçek fotoğraf, yoksa adın baş harfleri. #}
+{# Yazar kartı: portre varsa gerçek fotoğraf, yoksa adın baş harfleri (küçük harfle başlayan parçacıklar — el, bin, ibn — atlanır, en çok 2 harf). #}
+{%- set _bas = [] -%}
+{%- for w in yazar.name.split(" ") -%}{%- set _c = w | first -%}{%- if _c != (_c | lower) -%}{%- set _x = _bas.push(_c) -%}{%- endif -%}{%- endfor -%}
 <article class="yazar-karti">
   <div class="yazar-karti__portre" aria-hidden="true">
     {% if yazar.photo_url %}
     <img src="{{ yazar.photo_url }}" width="160" height="160" alt="" loading="lazy" decoding="async">
     {% else %}
-    <span>{% for w in yazar.name.split(" ") %}{% if loop.index0 < 2 %}{{ w | first }}{% endif %}{% endfor %}</span>
+    <span>{{ _bas.slice(0, 2).join("") or (yazar.name | first) }}</span>
     {% endif %}
   </div>
   <div class="yazar-karti__metin">

@@ -1,204 +1,63 @@
-/* ==========================================================================
-   İslambol Yayınları — Tipografi (D1)
-   Aileler: EB Garamond (başlık + uzun metin) · IBM Plex Sans (arayüz, etiket, künye)
-   Dosyalar: /assets/fonts/*.woff2 (Google Fonts değişken font, latin + latin-ext alt kümeleri)
-   Türkçe: ı (U+0131) "latin" dosyasında; ğ Ğ ş Ş İ "latin-ext" dosyasında.
-   Lisans: /assets/fonts/OFL.txt
-   Bağımlılık: tokens.css önce yüklenmeli.
-   ========================================================================== */
-
-/* ---- EB Garamond, normal (400–700 değişken) ---- */
+/* İslambol Yayınları — tipografi: Inter (self-host, OFL), değişken ağırlık 100–900.
+   Dosyalar src/assets/fonts/. Türkçe harfler: ğ Ğ ş Ş İ latin-ext, ı latin aralığındadır. */
 @font-face {
-  font-family: "EB Garamond";
+  font-family: "Inter";
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 100 900;
   font-display: swap;
-  src: url("../fonts/eb-garamond-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  src: url("../fonts/inter-latin-ext-wght-normal.woff2") format("woff2-variations");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 @font-face {
-  font-family: "EB Garamond";
+  font-family: "Inter";
   font-style: normal;
-  font-weight: 400 700;
+  font-weight: 100 900;
   font-display: swap;
-  src: url("../fonts/eb-garamond-latin.woff2") format("woff2");
+  src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2-variations");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* ---- EB Garamond, italik (eser adları, alıntı) ---- */
-@font-face {
-  font-family: "EB Garamond";
-  font-style: italic;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url("../fonts/eb-garamond-italic-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: "EB Garamond";
-  font-style: italic;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url("../fonts/eb-garamond-italic-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* ---- IBM Plex Sans, normal (400–600 değişken) ---- */
-@font-face {
-  font-family: "IBM Plex Sans";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("../fonts/ibm-plex-sans-latin-ext.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: "IBM Plex Sans";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("../fonts/ibm-plex-sans-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
-/* ---- Yedek font metrikleri: swap anında satır kaymasını (CLS) azaltır ----
-   Ölçüm: Edge'de aynı Türkçe cümle 100px'te ölçüldü (canvas measureText, 2026-10-11).
-   EB Garamond / Times New Roman genişlik oranı 0.9418; Plex Sans / Arial 1.0037. */
-@font-face {
-  font-family: "EB Garamond Yedek";
-  src: local("Times New Roman"), local("TimesNewRomanPSMT"), local("Liberation Serif");
-  size-adjust: 94.18%;
-  ascent-override: 107.2%;
-  descent-override: 31.9%;
-  line-gap-override: 0%;
-}
-@font-face {
-  font-family: "IBM Plex Sans Yedek";
-  src: local("Arial"), local("ArialMT"), local("Liberation Sans");
-  size-adjust: 100.37%;
-  ascent-override: 102.6%;
-  descent-override: 27.9%;
-  line-gap-override: 0%;
-}
-
-/* ==========================================================================
-   Temel metin stilleri
-   ========================================================================== */
 html {
-  font-size: 100%; /* 16px taban; kullanıcı tarayıcı ayarına saygı */
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
-html[lang="tr"] {
-  hyphens: auto;
-  -webkit-hyphens: auto;
-}
-
 body {
-  font-family: var(--font-serif);
-  font-size: var(--text-base);
-  line-height: var(--leading-loose);
-  font-weight: var(--weight-regular);
+  margin: 0;
   color: var(--c-ink);
+  background: var(--c-bg);
+  font-family: var(--font);
+  font-size: var(--text-base);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
   font-kerning: normal;
-  font-variant-ligatures: common-ligatures;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4 {
-  font-family: var(--font-serif);
-  font-weight: var(--weight-medium);
-  color: var(--c-ink);
-  text-wrap: balance;
-  hyphens: manual; /* başlıkta heceleme yok */
-  margin: 0;
-}
+h1, h2, h3, h4 { margin: 0; font-weight: 600; text-wrap: balance; }
+h1 { font-size: var(--text-h1); line-height: 1.04; letter-spacing: var(--tracking-display); }
+h2 { font-size: var(--text-h2); line-height: 1.08; letter-spacing: var(--tracking-head); }
+h3 { font-size: var(--text-base); line-height: 1.25; letter-spacing: -0.012em; }
+p { margin: 0; text-wrap: pretty; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+b, strong { font-weight: 600; }
+small { font-size: var(--text-xs); }
 
-h1 {
-  font-size: var(--text-2xl);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-}
+/* Türkçe: kelime sonu tireleme kapalı (başlıklar ve etiketler bozulmaz), uzun gövde paragrafında otomatik */
+html[lang="tr"] { hyphens: manual; }
+.okuma p, .kitap-detay__metin p, .yazar-bio__metin p { hyphens: auto; }
 
-h2 {
-  font-size: var(--text-xl);
-  line-height: var(--leading-snug);
-  letter-spacing: var(--tracking-tight);
-}
-
-h3 {
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
-}
-
-h4 {
-  font-family: var(--font-sans);
-  font-size: var(--text-sm);
-  font-weight: var(--weight-semibold);
-  line-height: var(--leading-normal);
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-}
-
-p {
-  margin: 0 0 1em;
-  max-width: var(--max-w-prose);
-  text-wrap: pretty;
-}
-
-small {
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  line-height: var(--leading-normal);
-  color: var(--c-bone);
-}
-
-em, i, cite { font-style: italic; }
-strong, b { font-weight: var(--weight-semibold); }
-
-::selection {
-  background: var(--c-selection);
-  color: var(--c-ink);
-}
-
-/* ==========================================================================
-   Yardımcı sınıflar
-   ========================================================================== */
-.serif { font-family: var(--font-serif); }
-.sans  { font-family: var(--font-sans); }
-
-/* Hero kitap adı */
-.metin-hero {
-  font-family: var(--font-serif);
-  font-size: var(--text-3xl);
-  line-height: var(--leading-tight);
-  letter-spacing: var(--tracking-tight);
-  font-weight: var(--weight-regular);
-}
-
-/* Giriş paragrafı (kitap tanıtımının ilk paragrafı) */
-.metin-giris {
-  font-size: var(--text-lg);
-  line-height: var(--leading-snug);
-  color: var(--c-ink-soft);
-}
-
-/* Arşiv etiketi: "KAYIT NO", "BELGE", "KÜNYE"
-   Not: text-transform Türkçe için lang="tr" gerektirir (i → İ). */
+/* Etiket: cümle düzeninde (büyük harf yok), ikincil renk, 600 */
 .etiket {
-  font-family: var(--font-sans);
-  font-size: var(--text-xs);
-  font-weight: var(--weight-medium);
-  line-height: var(--leading-normal);
-  letter-spacing: var(--tracking-label);
-  text-transform: uppercase;
-  color: var(--c-bone);
-  hyphens: manual;
+  margin: 0;
+  color: var(--c-ink-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
 }
 
-/* Sayı, ISBN, tarih: Plex Sans tablo rakamları */
-.rakam {
-  font-family: var(--font-sans);
-  font-variant-numeric: tabular-nums lining-nums;
-}
+/* Sayılar: ISBN, sayfa, tarih, telefon hizalı basılır */
+.rakam { font-variant-numeric: tabular-nums; }

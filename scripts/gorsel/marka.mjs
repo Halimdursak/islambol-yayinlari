@@ -1,6 +1,6 @@
 // Marka görselleri: şeffaf logo, koyu zemin logosu, favicon seti, web manifest, OG görselleri.
-// NOT: sharp (WASM/resvg) sistem fontlarına erişemez; bu yüzden rasterde "İ" harfi yol (path) olarak çizilir.
-// public/favicon.svg ise istenen biçimde <text> kullanır (tarayıcılar Georgia/EB Garamond ile çizer).
+// NOT: sharp (WASM/resvg) sistem fontlarına erişemez; bu yüzden "İ" harfi hem SVG'de hem rasterde yol (path) olarak çizilir.
+// Renkler Beyaz Vitrin tasarımından gelir (DESIGN.md): vurgu #d11a2a, zemin bandı #f5f5f7.
 import sharp from "sharp";
 import { mkdirSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, extname } from "node:path";
@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 import { yol, guncelMi, dizinDosyalari, toplamBayt } from "./ortak.mjs";
 
 const BU_DOSYA = fileURLToPath(import.meta.url);
-const KAGIT = { r: 244, g: 239, b: 228 }; // #F4EFE4
-const MUHUR = "#A51C22";
+const KAGIT = { r: 245, g: 245, b: 247 }; // #f5f5f7 (OG zemini = bölüm bandı)
+const VURGU = "#d11a2a"; // tek vurgu rengi (CTA, Önizle rozeti, OG alt çizgisi, favicon)
 const KIRIK_BEYAZ = [236, 229, 214]; // #ECE5D6
 const LOGO_KAYNAK = yol("public", "logo", "islambol-x-profil.jpg");
 const LOGO_SEFFAF = yol("public", "logo", "islambol-logo.png");
@@ -41,8 +41,11 @@ function seffafYap(ham, genislik, yukseklik, koyuZemin) {
   return cikis;
 }
 
+// UYARI: public/logo/islambol-logo*.png şu an yayınevinin gönderdiği logo PNG'sinden (islambol-logo-kaynak.png) türetilmiş,
+// elle onaylanmış dosyalardır (480×480). Bu betik yalnızca eski 400 px JPG'den (düşük kalite) üretebilir; bu yüzden
+// staleness kontrolü BU_DOSYA'ya bakmaz: betiği düzenlemek logoyu ezmez. Logoyu bilerek yenilemek için `--force` kullanın.
 async function logolariUret(force) {
-  if (!force && guncelMi(LOGO_SEFFAF, LOGO_KAYNAK, BU_DOSYA) && guncelMi(LOGO_KOYU, LOGO_KAYNAK, BU_DOSYA)) return 0;
+  if (!force && guncelMi(LOGO_SEFFAF, LOGO_KAYNAK) && guncelMi(LOGO_KOYU, LOGO_KAYNAK)) return 0;
   const { data, info } = await sharp(LOGO_KAYNAK)
     .resize({ width: 800, kernel: "lanczos3" })
     .removeAlpha()
@@ -58,20 +61,16 @@ async function logolariUret(force) {
 }
 
 // --- Favicon ---------------------------------------------------------------
+// Font gerektirmeyen yol (path) çizimi: yuvarlak köşeli kırmızı kare, beyaz sans "İ" (nokta + çubuk).
 const FAVICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="2" fill="${MUHUR}"/>
-  <text x="32" y="48" font-family="'EB Garamond', Georgia, serif" font-size="46" font-weight="500" text-anchor="middle" fill="#ECE5D6">İ</text>
+  <rect width="64" height="64" rx="14" fill="${VURGU}"/>
+  <g fill="#ffffff">
+    <circle cx="32" cy="16" r="4.6"/>
+    <rect x="27.2" y="25" width="9.6" height="26" rx="4.8"/>
+  </g>
 </svg>
 `;
-
-// Aynı tasarımın font gerektirmeyen yol (path) sürümü: serifli "İ" + nokta.
-const FAVICON_YOL_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="2" fill="${MUHUR}"/>
-  <g fill="#ECE5D6" transform="translate(0 3)">
-    <circle cx="32" cy="13.2" r="3.5"/>
-    <path d="M21.5 48 H42.5 V45.2 C38.6 45 36.7 44.3 36.5 41.5 V30.5 C36.7 27.7 38.6 27 41.2 26.8 V24.4 H22.8 V26.8 C25.4 27 27.3 27.7 27.5 30.5 V41.5 C27.3 44.3 25.4 45 21.5 45.2 Z"/>
-  </g>
-</svg>`;
+const FAVICON_YOL_SVG = FAVICON_SVG;
 
 const MANIFEST_SITE = {
   name: "İslambol Yayınları",
@@ -80,8 +79,8 @@ const MANIFEST_SITE = {
   lang: "tr",
   start_url: "/",
   display: "standalone",
-  theme_color: MUHUR,
-  background_color: "#F4EFE4",
+  theme_color: "#ffffff",
+  background_color: "#ffffff",
   icons: [
     { src: "/favicon-192.png", sizes: "192x192", type: "image/png" },
     { src: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
@@ -110,7 +109,7 @@ const OG_H = 630;
 
 async function ogTaban() {
   const kagit = await sharp({ create: { width: OG_W, height: OG_H, channels: 3, background: KAGIT } }).png().toBuffer();
-  const cizgi = await sharp({ create: { width: OG_W, height: 8, channels: 3, background: MUHUR } }).png().toBuffer();
+  const cizgi = await sharp({ create: { width: OG_W, height: 8, channels: 3, background: VURGU } }).png().toBuffer();
   return { kagit, cizgi, cizgiKonum: { left: 0, top: OG_H - 8 } };
 }
 

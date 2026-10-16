@@ -1,9 +1,10 @@
-// İslambol Yayınları — site.js (B1). Yalnızca mobil menü: aç/kapat, aria-expanded, Esc ile kapama.
+// İslambol Yayınları — site.js: dar ekran menü paneli (aç/kapat, aria-expanded, Esc) ve arama simgesi.
 const dugme = document.querySelector(".ust__menu-dugme");
 const menu = dugme ? document.getElementById(dugme.getAttribute("aria-controls")) : null;
 
 if (dugme && menu) {
-  const masaustu = window.matchMedia("(min-width: 72rem)");
+  const masaustu = window.matchMedia("(min-width: 68.75rem)");
+  const araDugme = document.querySelector(".ust__ara-dugme");
 
   const ayarla = (acik) => {
     menu.classList.toggle("is-acik", acik);
@@ -12,6 +13,12 @@ if (dugme && menu) {
   };
 
   dugme.addEventListener("click", () => ayarla(dugme.getAttribute("aria-expanded") !== "true"));
+
+  // Arama simgesi paneli açar ve arama kutusuna odaklanır (panelde arama en üsttedir).
+  araDugme?.addEventListener("click", () => {
+    ayarla(true);
+    document.getElementById("ust-arama")?.focus();
+  });
 
   document.addEventListener("keydown", (olay) => {
     if (olay.key === "Escape" && dugme.getAttribute("aria-expanded") === "true") {

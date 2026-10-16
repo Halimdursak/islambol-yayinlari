@@ -1,7 +1,7 @@
 ---js
 {
   layout: "layouts/base.njk",
-  ekstra_css: ["/assets/css/katalog.css"],
+  ekstra_css: ["/assets/css/vitrin.css"],
   onizleme_kaynak: "vitrin",
   eleventyComputed: {
     title: (d) => d.site.meta.sayfalar["/"].title,
@@ -9,23 +9,32 @@
   },
 }
 ---
+{#
+  Ana sayfa — Beyaz Vitrin. Sıra: duyuru slaytı → keşif kısayolları → yeni çıkanlar (raf) → önizlemeli kitaplar (bant, raf)
+  → yazarlar (raf) → kategoriler (bant) → yayın hikâyesi + sayılar → nereden alınır (bant).
+  Önizleme: sayfada <template> basılan kitaplar `vitrin.onizlemeli`dir (base.njk → kitap-onizleme.njk). `onizlemeli_idler` içindeki bir
+  kitabın kartındaki "Önizle" rozeti ve hero kapağı [data-onizleme] tetikleyicisidir (flipbook.js); listede olmayan kitap kitap sayfasına gider.
+#}
 {% from "components/dugme.njk" import dugme %}
 {% from "components/kitap/kapak.njk" import kapak %}
 {% set mt = site.mikrometin %}
 {% set hero = vitrin.one_cikan %}
 {% set cizgi_html = sayfalar['yayin-cizgisi'].html %}
 {% set cizgi_ozet = sayfalar['yayin-cizgisi'].ozet %}
+{% set onizlemeli_idler = [] %}
+{% for k in vitrin.onizlemeli %}{% set _ = onizlemeli_idler.push(k.id) %}{% endfor %}
 
+{# Slayt sahnesi: ana kapak (perspektifli) ve iki arka kapak. multiply, dönen sarmalayıcının KENDİSİNDE durur. #}
 {% macro kitapSahnesi(kitap, n) %}
 <div class="vitrin__kitaplar">
   {% if vitrin.yeni_cikanlar[1] and vitrin.yeni_cikanlar[1].id != kitap.id %}
-  <span class="vitrin__kitap vitrin__kitap--arka-sol" aria-hidden="true">{{ kapak(vitrin.yeni_cikanlar[1], kapaklar[vitrin.yeni_cikanlar[1].id], { sizes: "(min-width: 64rem) 180px, 110px", yukle: "lazy", alt: "" }) }}</span>
+  <span class="vitrin__kitap vitrin__kitap--arka-sol" aria-hidden="true">{{ kapak(vitrin.yeni_cikanlar[1], kapaklar[vitrin.yeni_cikanlar[1].id], { sizes: "(min-width: 64rem) 170px, 110px", yukle: "lazy", alt: "" }) }}</span>
   {% endif %}
   {% if vitrin.yeni_cikanlar[2] and vitrin.yeni_cikanlar[2].id != kitap.id %}
-  <span class="vitrin__kitap vitrin__kitap--arka-sag" aria-hidden="true">{{ kapak(vitrin.yeni_cikanlar[2], kapaklar[vitrin.yeni_cikanlar[2].id], { sizes: "(min-width: 64rem) 180px, 110px", yukle: "lazy", alt: "" }) }}</span>
+  <span class="vitrin__kitap vitrin__kitap--arka-sag" aria-hidden="true">{{ kapak(vitrin.yeni_cikanlar[2], kapaklar[vitrin.yeni_cikanlar[2].id], { sizes: "(min-width: 64rem) 170px, 110px", yukle: "lazy", alt: "" }) }}</span>
   {% endif %}
-  <a class="vitrin__kitap vitrin__kitap--ana" href="{{ kitap.url }}" aria-label="{{ kitap.title }} kitabını incele">
-    {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 64rem) 265px, 170px", yukle: "eager" if n == 1 else "lazy", alt: kitap.title }) }}
+  <a class="vitrin__kitap vitrin__kitap--ana" href="{{ kitap.url }}"{% if kitap.id in onizlemeli_idler %} data-onizleme="{{ kitap.id }}"{% endif %} aria-label="{{ kitap.title }}{% if kitap.id in onizlemeli_idler %}: {{ mt.onizle_uzun | lower }}{% else %} kitabını incele{% endif %}">
+    {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 64rem) 250px, 170px", yukle: "eager" if n == 1 else "lazy", alt: kitap.title }) }}
   </a>
   <p class="vitrin__kitap-kunye"><span>{{ kitap.yazar_gosterim }}</span><cite>{{ kitap.title }}</cite></p>
 </div>
@@ -38,12 +47,17 @@
       {% if campaigns and campaigns.length %}
       {% for campaign in campaigns %}
       {% set kampanya_kitabi = campaign.book or hero %}
-      <article class="vitrin__slayt vitrin__slayt--{{ campaign.theme or 'peach' }}{% if campaign.image_url %} vitrin__slayt--gorselli{% endif %}" data-slide id="duyuru-{{ loop.index }}" role="group" aria-roledescription="slayt" aria-label="{{ loop.index }} / {{ campaigns.length }}"{% if not loop.first %} hidden{% endif %}>
+      <div class="vitrin__slayt vitrin__slayt--{{ campaign.theme or 'cream' }}{% if campaign.image_url %} vitrin__slayt--gorselli{% endif %}" data-slide id="duyuru-{{ loop.index }}" role="group" aria-roledescription="slayt" aria-label="{{ loop.index }} / {{ campaigns.length }}"{% if not loop.first %} hidden{% endif %}>
         <div class="vitrin__metin">
-          <p class="vitrin__etiket">{{ campaign.eyebrow or "YENİ BİR OKUMA" }}</p>
+          <p class="vitrin__etiket">{{ campaign.eyebrow or "Yeni bir okuma" }}</p>
           <h2 class="vitrin__baslik">{{ campaign.title }}</h2>
           {% if campaign.description %}<p class="vitrin__aciklama">{{ campaign.description }}</p>{% endif %}
-          <a class="vitrin__cta" href="{{ campaign.url }}">{{ campaign.button_label or "Kitabı keşfet" }} <span aria-hidden="true">→</span></a>
+          <div class="vitrin__eylemler">
+            <a class="dugme dugme--birincil" href="{{ campaign.url }}">{{ campaign.button_label or "Kitabı incele" }}</a>
+            {% if kampanya_kitabi and kampanya_kitabi.id in onizlemeli_idler and not campaign.image_url %}
+            <button type="button" class="dugme dugme--ikincil" data-onizleme="{{ kampanya_kitabi.id }}">{{ mt.onizle_uzun }}</button>
+            {% endif %}
+          </div>
         </div>
         <div class="vitrin__gorsel">
           {% if campaign.image_url %}
@@ -52,25 +66,25 @@
           {{ kitapSahnesi(kampanya_kitabi, loop.index) }}
           {% endif %}
         </div>
-      </article>
+      </div>
       {% endfor %}
       {% else %}
-      <article class="vitrin__slayt vitrin__slayt--peach" data-slide id="duyuru-1">
+      <div class="vitrin__slayt vitrin__slayt--cream" data-slide id="duyuru-1" role="group" aria-roledescription="slayt">
         <div class="vitrin__metin">
-          <p class="vitrin__etiket">İSLAMBOL YAYINLARI</p>
+          <p class="vitrin__etiket">İslambol Yayınları</p>
           <h2 class="vitrin__baslik">Bir kitap açın.<br><em>Yeni bir bakış kazanın.</em></h2>
           <p class="vitrin__aciklama">Tarihin izini süren eserler, düşünceye açılan sayfalar. İslambol'un kitaplarıyla tanışın.</p>
-          <a class="vitrin__cta" href="/kitaplar/">Kitapları keşfet <span aria-hidden="true">→</span></a>
+          <div class="vitrin__eylemler"><a class="dugme dugme--birincil" href="/kitaplar/">Kitapları keşfet</a></div>
         </div>
         <div class="vitrin__gorsel">{% if hero %}{{ kitapSahnesi(hero, 1) }}{% endif %}</div>
-      </article>
+      </div>
       {% endif %}
     </div>
     {% if campaigns and campaigns.length > 1 %}
     <div class="vitrin__kontroller" data-carousel-controls hidden>
       <button class="yuvarlak-dugme" type="button" data-slide-prev aria-label="Önceki duyuru"><span aria-hidden="true">←</span></button>
       <div class="vitrin__noktalar" role="group" aria-label="Duyuru seç">
-        {% for campaign in campaigns %}<button class="vitrin__nokta" type="button" data-slide-to="{{ loop.index0 }}" aria-controls="duyuru-{{ loop.index }}" aria-label="{{ loop.index }}. duyuru: {{ campaign.title }}"{% if loop.first %} aria-current="true"{% endif %}><span class="sr-only">{{ loop.index }}</span></button>{% endfor %}
+        {% for campaign in campaigns %}<button class="vitrin__nokta" type="button" data-slide-to="{{ loop.index0 }}" aria-controls="duyuru-{{ loop.index }}" aria-label="{{ loop.index }}. duyuru: {{ campaign.title | replace('\n', ' ') }}"{% if loop.first %} aria-current="true"{% endif %}><span class="sr-only">{{ loop.index }}</span></button>{% endfor %}
       </div>
       <button class="yuvarlak-dugme" type="button" data-slide-next aria-label="Sonraki duyuru"><span aria-hidden="true">→</span></button>
     </div>
@@ -79,49 +93,47 @@
   </section>
 </div>
 
-<div class="kap kesif-kisayollari" aria-label="Kitap keşif bağlantıları">
-  <a href="/kitaplar/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6v14"/></svg><span>Bir sonraki kitabınızı bulun</span><span aria-hidden="true">→</span></a>
-  <a href="/kitaplar/?onizleme=1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h5"/></svg><span>Satın almadan önce okuyun</span><span aria-hidden="true">→</span></a>
-  <a href="/nereden-alinir/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.3"/></svg><span>Kitaplara nereden ulaşırım?</span><span aria-hidden="true">→</span></a>
-</div>
+<nav class="kap kesif-kisayollari" aria-label="Kitap keşif bağlantıları">
+  <a href="/kitaplar/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6v14"/></svg><span>Bir sonraki kitabınızı bulun</span></a>
+  <a href="/kitaplar/?onizleme=1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 12h7M9 16h5"/></svg><span>Satın almadan önce okuyun</span></a>
+  <a href="/nereden-alinir/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 0 1 14 0Z"/><circle cx="12" cy="10" r="2.3"/></svg><span>Kitaplara nereden ulaşırım?</span></a>
+</nav>
 
-<section class="bolum ana-raf" aria-labelledby="b-yeni">
+<section class="bolum bolum--raf" aria-labelledby="b-yeni" data-scroll-shelf>
   <div class="kap">
-    <header class="raf-basligi"><div><p class="raf-basligi__etiket">KÜTÜPHANENİZE YENİ BİR SAYFA</p><h2 id="b-yeni">Yeni çıkanlar</h2></div><a href="/kitaplar/">Tüm kitaplar <span aria-hidden="true">→</span></a></header>
-    <div class="kart-izgara">
-      {% for k in vitrin.yeni_cikanlar %}{% if loop.index <= 6 %}
-      <div class="kart-izgara__oge">{% set kitap = k %}{% include "components/kitap/kitap-karti.njk" %}</div>
-      {% endif %}{% endfor %}
-    </div>
+    <header class="raf-basligi"><div><p class="raf-basligi__etiket">Kütüphanenize yeni bir sayfa</p><h2 id="b-yeni">Yeni çıkanlar</h2></div><div class="raf-basligi__eylemler"><a href="/kitaplar/">Tüm kitaplar</a><div class="raf-oklari" data-scroll-controls hidden><button class="yuvarlak-dugme" type="button" data-scroll-prev aria-label="Önceki yeni çıkanlar" aria-controls="yeni-seridi">←</button><button class="yuvarlak-dugme" type="button" data-scroll-next aria-label="Sonraki yeni çıkanlar" aria-controls="yeni-seridi">→</button></div></div></header>
+  </div>
+  <div class="serit" id="yeni-seridi" data-scroll-track role="region" aria-label="Yeni çıkan kitaplar" tabindex="0">
+    {% for k in vitrin.yeni_cikanlar %}<div class="serit__oge">{% set kitap = k %}{% set onizleme_tetik = (k.id in onizlemeli_idler) %}{% include "components/kitap/kitap-karti.njk" %}</div>{% endfor %}
   </div>
 </section>
 
 {% if vitrin.onizlemeli.length %}
-<section class="bolum ana-raf onizleme-rafi" aria-labelledby="b-onizleme">
-  <div class="kap" data-scroll-shelf>
-    <header class="raf-basligi"><div><p class="raf-basligi__etiket">İLK SAYFALAR SİZİ BEKLİYOR</p><h2 id="b-onizleme">Sayfalarına göz atın</h2></div><div class="raf-basligi__eylemler"><a href="/kitaplar/?onizleme=1">Önizlemeli kitaplar <span aria-hidden="true">→</span></a><div class="raf-oklari" data-scroll-controls hidden><button class="yuvarlak-dugme" type="button" data-scroll-prev aria-label="Önceki önizlemeli kitaplar" aria-controls="onizleme-seridi">←</button><button class="yuvarlak-dugme" type="button" data-scroll-next aria-label="Sonraki önizlemeli kitaplar" aria-controls="onizleme-seridi">→</button></div></div></header>
-    <div class="serit" id="onizleme-seridi" data-scroll-track role="region" aria-label="Önizlemeli kitaplar" tabindex="0">
-      {% for k in vitrin.onizlemeli %}<div class="serit__oge">{% set kitap = k %}{% include "components/kitap/kitap-karti.njk" %}</div>{% endfor %}
-    </div>
+<section class="bolum bolum--raf bant" aria-labelledby="b-onizleme" data-scroll-shelf>
+  <div class="kap">
+    <header class="raf-basligi"><div><p class="raf-basligi__etiket">İlk sayfalar sizi bekliyor</p><h2 id="b-onizleme">Sayfalarına göz atın</h2></div><div class="raf-basligi__eylemler"><a href="/kitaplar/?onizleme=1">Önizlemeli kitaplar</a><div class="raf-oklari" data-scroll-controls hidden><button class="yuvarlak-dugme" type="button" data-scroll-prev aria-label="Önceki önizlemeli kitaplar" aria-controls="onizleme-seridi">←</button><button class="yuvarlak-dugme" type="button" data-scroll-next aria-label="Sonraki önizlemeli kitaplar" aria-controls="onizleme-seridi">→</button></div></div></header>
+  </div>
+  <div class="serit" id="onizleme-seridi" data-scroll-track role="region" aria-label="Önizlemeli kitaplar" tabindex="0">
+    {% for k in vitrin.onizlemeli %}<div class="serit__oge">{% set kitap = k %}{% set onizleme_tetik = true %}{% include "components/kitap/kitap-karti.njk" %}</div>{% endfor %}
   </div>
 </section>
 {% endif %}
 
-<section class="bolum yazar-vitrini" aria-labelledby="b-yazarlar">
-  <div class="kap" data-scroll-shelf>
-    <header class="raf-basligi"><div><p class="raf-basligi__etiket">KİTAPLARIN ARDINDAKİ İSİMLER</p><h2 id="b-yazarlar">Yazarlarımız</h2></div><div class="raf-basligi__eylemler"><a href="/yazarlar/">Tüm yazarlar <span aria-hidden="true">→</span></a><div class="raf-oklari" data-scroll-controls hidden><button class="yuvarlak-dugme" type="button" data-scroll-prev aria-label="Önceki yazarlar" aria-controls="yazar-seridi">←</button><button class="yuvarlak-dugme" type="button" data-scroll-next aria-label="Sonraki yazarlar" aria-controls="yazar-seridi">→</button></div></div></header>
-    <div class="yazar-izgara" id="yazar-seridi" data-scroll-track role="region" aria-label="Yazarlarımız" tabindex="0">
-      {% for y in vitrin.yazarlar %}<div class="yazar-izgara__oge">{% set yazar = y %}{% include "components/kitap/yazar-karti.njk" %}</div>{% endfor %}
-    </div>
+<section class="bolum bolum--raf" aria-labelledby="b-yazarlar" data-scroll-shelf>
+  <div class="kap">
+    <header class="raf-basligi"><div><p class="raf-basligi__etiket">Kitapların ardındaki isimler</p><h2 id="b-yazarlar">Yazarlarımız</h2></div><div class="raf-basligi__eylemler"><a href="/yazarlar/">Tüm yazarlar</a><div class="raf-oklari" data-scroll-controls hidden><button class="yuvarlak-dugme" type="button" data-scroll-prev aria-label="Önceki yazarlar" aria-controls="yazar-seridi">←</button><button class="yuvarlak-dugme" type="button" data-scroll-next aria-label="Sonraki yazarlar" aria-controls="yazar-seridi">→</button></div></div></header>
+  </div>
+  <div class="serit serit--yazar" id="yazar-seridi" data-scroll-track role="region" aria-label="Yazar listesi" tabindex="0">
+    {% for y in vitrin.yazarlar %}<div class="serit__oge">{% set yazar = y %}{% include "components/kitap/yazar-karti.njk" %}</div>{% endfor %}
   </div>
 </section>
 
-<section class="bolum kategori-vitrini" aria-labelledby="b-kategoriler">
+<section class="bolum bant kategori-vitrini" aria-labelledby="b-kategoriler">
   <div class="kap">
-    <header class="raf-basligi"><div><p class="raf-basligi__etiket">MERAKINIZIN İZİNDEN</p><h2 id="b-kategoriler">Hangi raftan başlayalım?</h2></div><a href="/kitaplar/">Kataloğu keşfet <span aria-hidden="true">→</span></a></header>
+    <header class="raf-basligi"><div><p class="raf-basligi__etiket">Merakınızın izinden</p><h2 id="b-kategoriler">Hangi raftan başlayalım?</h2></div><a href="/kitaplar/">Kataloğu keşfet</a></header>
     <div class="kategori-kartlari">
       {% for kategori in site.sozluk.kategoriler %}{% if loop.index <= 4 %}
-      <a class="kategori-karti kategori-karti--{{ loop.index }}" href="/kitaplar/?kategori={{ kategori.slug }}"><span class="kategori-karti__cizim" aria-hidden="true"><svg viewBox="0 0 100 110" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10h51v88H22zM18 17h51v88H18zM28 27h38M28 35h23M28 70h38M28 78h30"/><circle cx="47" cy="52" r="8"/></svg></span><span class="kategori-karti__ad">{{ kategori.ad }}</span><span class="kategori-karti__ok" aria-hidden="true">↗</span></a>
+      <a class="kategori-karti" href="/kitaplar/?kategori={{ kategori.slug }}"><span class="kategori-karti__ad">{{ kategori.ad }}</span><span class="kategori-karti__ok" aria-hidden="true">↗</span></a>
       {% endif %}{% endfor %}
     </div>
   </div>
@@ -129,10 +141,38 @@
 
 <section class="bolum yayin-hikayesi" aria-labelledby="b-cizgi">
   <div class="kap">
-    <div class="yayin-hikayesi__ic"><div><p class="raf-basligi__etiket">İSLAMBOL YAYINLARI</p><h2 id="b-cizgi">{{ site.slogan }}</h2></div><div><p>{{ cizgi_ozet or (cizgi_html.split('</p>')[0] | striptags | truncate(280)) }}</p><a href="/yayin-cizgisi/">Yayın çizgimizi keşfedin <span aria-hidden="true">→</span></a></div></div>
+    <div class="yayin-hikayesi__ic">
+      <p class="raf-basligi__etiket">İslambol Yayınları</p>
+      <h2 id="b-cizgi">{{ site.slogan }}</h2>
+      <p class="yayin-hikayesi__ozet">{{ cizgi_ozet or (cizgi_html.split('</p>')[0] | striptags | truncate(280)) }}</p>
+      <a class="dugme dugme--ucuncul" href="/yayin-cizgisi/">Yayın çizgimizi keşfedin</a>
+    </div>
+    <dl class="sayilar" aria-label="Katalog özeti">
+      <div class="sayi"><dt>Kitap</dt><dd class="rakam">{{ books.length }}</dd></div>
+      <div class="sayi"><dt>Yazar</dt><dd class="rakam">{{ authors.length }}</dd></div>
+      <div class="sayi"><dt>Önizlemeli kitap</dt><dd class="rakam">{{ books | selectattr("onizleme") | length }}</dd></div>
+      <div class="sayi"><dt>Set ve seri</dt><dd class="rakam">{{ diziler.length }}</dd></div>
+    </dl>
   </div>
 </section>
 
-<section class="bolum bolum--son satis-vitrini" aria-labelledby="b-alinir">
-  <div class="kap satis-vitrini__ic"><div><p class="raf-basligi__etiket">KİTAPLA BULUŞUN</p><h2 id="b-alinir">İslambol kitapları burada.</h2><p>Kitaplarımızı anlaşmalı satış noktalarından edinebilirsiniz.</p></div><div class="satis-vitrini__kanallar">{% for kanal in site.satis_kanallari %}{% if kanal.url %}<a href="{{ kanal.url }}" rel="noopener noreferrer">{{ kanal.ad }} <span aria-hidden="true">↗</span></a>{% endif %}{% endfor %}</div></div>
+<section class="bolum bolum--son bant satis-vitrini" aria-labelledby="b-alinir">
+  <div class="kap">
+    <header class="raf-basligi"><div><p class="raf-basligi__etiket">Kitapla buluşun</p><h2 id="b-alinir">İslambol kitapları burada.</h2></div></header>
+    <div class="satis-vitrini__ic">
+      <div class="satis-vitrini__cta">
+        <p class="satis-vitrini__etiket">Telefon ve WhatsApp</p>
+        <h3 class="satis-vitrini__no rakam"><a href="tel:{{ site.telefon | replace(' ', '') }}">{{ site.telefon_gosterim }}</a></h3>
+        {{ dugme(mt.whatsapp_cta, site.whatsapp_url, "birincil", true) }}
+      </div>
+      <div>
+        <ul class="satis-vitrini__kanallar">
+          {% for kanal in site.satis_kanallari %}{% if kanal.url %}
+          <li><a href="{{ kanal.url }}" rel="noopener noreferrer"><span>{{ kanal.ad }}{% if kanal.not %}<small>{{ kanal.not }}</small>{% endif %}</span><span class="satis-vitrini__ok" aria-hidden="true">↗</span></a></li>
+          {% endif %}{% endfor %}
+        </ul>
+        <p class="satis-vitrini__not">{{ mt.nereden_alinir_not }}</p>
+      </div>
+    </div>
+  </div>
 </section>

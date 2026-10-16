@@ -1,160 +1,84 @@
 #!/usr/bin/env node
 /**
- * kontrast.mjs — tokens.css'teki metin/zemin çiftlerinin WCAG 2.x kontrastını ölçer.
+ * kontrast.mjs — Beyaz Vitrin token'larındaki metin/zemin çiftlerinin WCAG 2.x kontrastını ölçer.
  *
- * Kullanım:  node scripts/design/kontrast.mjs [--md] [--oklch]
- *   --md     Markdown tablosu basar (DESIGN.md §1'e yapıştırmak için)
- *   --oklch  Her renk token'ının OKLCH karşılığını da basar
+ * Kullanım:  node scripts/design/kontrast.mjs [--md]
+ *   --md   Markdown tablosu basar (DESIGN.md §1'e yapıştırmak için)
  * Çıkış kodu: herhangi bir çift eşiğin altındaysa 1.
+ * Kaynaklar: src/assets/css/tokens.css (:root) ve vitrin.css (.vitrin__slayt--* tema tonları, --_ton).
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
-const TOKENS_PATH = resolve(ROOT, 'src/assets/css/tokens.css');
+const KOK = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
+const MARKDOWN = process.argv.includes('--md');
 
-const args = new Set(process.argv.slice(2));
-const AS_MARKDOWN = args.has('--md');
-const WITH_OKLCH = args.has('--oklch');
+const tokenCss = readFileSync(resolve(KOK, 'src/assets/css/tokens.css'), 'utf8');
+const vitrinCss = readFileSync(resolve(KOK, 'src/assets/css/vitrin.css'), 'utf8');
 
-/* Ölçülecek çiftler: [ön plan, zemin, kullanım, eşik] — eşik: 4.5 metin, 3 büyük metin/bileşen sınırı */
-const PAIRS = [
-  ['--c-ink', '--c-paper', 'Gövde metni / sayfa', 4.5],
-  ['--c-ink', '--c-paper-raised', 'Gövde metni / kart, modal', 4.5],
-  ['--c-ink', '--c-paper-sunk', 'Metin / footer, filtre çubuğu', 4.5],
-  ['--c-ink-soft', '--c-paper', 'İkincil metin / sayfa', 4.5],
-  ['--c-ink-soft', '--c-paper-sunk', 'İkincil metin / footer', 4.5],
-  ['--c-bone', '--c-paper', 'Künye, metadata / sayfa', 4.5],
-  ['--c-bone', '--c-paper-raised', 'Künye / künye tablosu', 4.5],
-  ['--c-bone', '--c-paper-sunk', 'Künye / footer', 4.5],
-  ['--c-seal', '--c-paper', 'Bağlantı, etiket vurgusu / sayfa', 4.5],
-  ['--c-seal', '--c-paper-raised', 'Bağlantı / kart', 4.5],
-  ['--c-seal', '--c-paper-sunk', 'Bağlantı / footer', 4.5],
-  ['--c-seal-hover', '--c-paper', 'Bağlantı üzerinde / sayfa', 4.5],
-  ['--c-on-seal', '--c-seal-fill', 'Birincil düğme metni', 4.5],
-  ['--c-on-seal', '--c-seal-fill-hover', 'Birincil düğme üzerinde', 4.5],
-  ['--c-paper', '--c-ink', 'Ters düğme / mürekkep zemin', 4.5],
-  ['--c-rule-strong', '--c-paper', 'Bileşen sınırı (form, çip)', 3],
-  ['--c-seal', '--c-paper', 'Odak halkası (bileşen)', 3],
-  ['--c-ink', '--c-selection', 'Seçili metin', 4.5],
-];
-
-/* ---------- CSS ayrıştırma ---------- */
-function extractBlock(css, selectorRegex) {
-  const match = selectorRegex.exec(css);
-  if (!match) return null;
-  let depth = 0;
-  const start = css.indexOf('{', match.index);
-  for (let i = start; i < css.length; i += 1) {
-    if (css[i] === '{') depth += 1;
-    if (css[i] === '}') {
-      depth -= 1;
-      if (depth === 0) return css.slice(start + 1, i);
-    }
-  }
-  return null;
-}
-
-function parseVars(block) {
-  const vars = {};
-  const re = /(--[\w-]+)\s*:\s*([^;]+);/g;
-  let m;
-  while ((m = re.exec(block))) vars[m[1]] = m[2].replace(/\/\*.*?\*\//g, '').trim();
-  return vars;
-}
-
-function resolveColor(vars, name, seen = new Set()) {
-  const raw = vars[name];
-  if (raw === undefined) throw new Error(`Token bulunamadı: ${name}`);
-  const ref = /^var\((--[\w-]+)\)$/.exec(raw);
-  if (ref) {
-    if (seen.has(ref[1])) throw new Error(`Döngüsel referans: ${name}`);
-    seen.add(ref[1]);
-    return resolveColor(vars, ref[1], seen);
-  }
-  if (!/^#[0-9a-f]{6}$/i.test(raw)) throw new Error(`${name} hex değil: ${raw}`);
-  return raw.toUpperCase();
-}
-
-/* ---------- Renk matematiği ---------- */
-const hexToRgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-const toLinear = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-
-function luminance(hex) {
-  const [r, g, b] = hexToRgb(hex).map(toLinear);
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-
-function contrast(a, b) {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
-  return (hi + 0.05) / (lo + 0.05);
-}
-
-function toOklch(hex) {
-  const [r, g, b] = hexToRgb(hex).map(toLinear);
-  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b);
-  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b);
-  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
-  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s;
-  const A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s;
-  const B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
-  const C = Math.hypot(A, B);
-  const H = C < 0.002 ? 0 : (Math.atan2(B, A) * 180) / Math.PI;
-  return `oklch(${(L * 100).toFixed(1)}% ${C.toFixed(3)} ${Math.round((H + 360) % 360)})`;
-}
-
-const grade = (ratio) => (ratio >= 7 ? 'AAA' : ratio >= 4.5 ? 'AA' : ratio >= 3 ? 'AA büyük/bileşen' : 'BAŞARISIZ');
-
-/* ---------- Ana akış ---------- */
-const css = readFileSync(TOKENS_PATH, 'utf8');
-const lightBlock = extractBlock(css, /^:root\s*\{/m);
-const darkBlock = extractBlock(css, /:root\[data-theme="dark"\]\s*\{/);
-if (!lightBlock || !darkBlock) {
-  console.error('tokens.css içinde :root veya :root[data-theme="dark"] bloğu bulunamadı.');
+const kok = tokenCss.slice(tokenCss.indexOf(':root'), tokenCss.indexOf('}', tokenCss.indexOf(':root')));
+const t = {};
+for (const m of kok.matchAll(/(--[\w-]+)\s*:\s*(#[0-9a-f]{6})\b/gi)) t[m[1]] = m[2].toLowerCase();
+for (const m of vitrinCss.matchAll(/\.vitrin__slayt--(\w+)\s*\{\s*--_ton:\s*(#[0-9a-f]{6})/gi)) t[`ton-${m[1]}`] = m[2].toLowerCase();
+const gerekli = ['--c-bg', '--c-band', '--c-ink', '--c-ink-2', '--c-ink-soft', '--c-fill', '--c-fill-hover', '--c-accent', '--c-accent-hover', '--c-on-accent', '--c-focus'];
+const eksik = gerekli.filter((k) => !t[k]);
+if (eksik.length) {
+  console.error(`tokens.css içinde bulunamadı: ${eksik.join(', ')}`);
   process.exit(2);
 }
-const light = parseVars(lightBlock);
-const themes = [
-  ['Açık (kâğıt)', light],
-  ['Karanlık (gece arşivi)', { ...light, ...parseVars(darkBlock) }],
+
+/* [ön plan, zemin, kullanım, eşik, ön plan opaklığı] — eşik: 4.5 metin, 3 bileşen sınırı/odak halkası */
+const CIFTLER = [
+  ['--c-ink', '--c-bg', 'Gövde metni / sayfa', 4.5],
+  ['--c-ink', '--c-band', 'Gövde metni / bant', 4.5],
+  ['--c-ink', '--c-fill', 'Çip, ikincil düğme metni', 4.5],
+  ['--c-ink', '--c-fill-hover', 'İkincil düğme üzerinde', 4.5],
+  ['--c-ink-2', '--c-bg', 'İkincil metin, künye / sayfa', 4.5],
+  ['--c-ink-2', '--c-band', 'İkincil metin / bant, arama yer tutucusu', 4.5],
+  ['--c-ink', '--c-fill', 'Çip sayacı (%70 opak)', 4.5, 0.7],
+  ['--c-ink', '--c-fill-hover', 'Çip sayacı üzerinde (%70 opak)', 4.5, 0.7],
+  ['--c-on-accent', '--c-accent', 'Birincil düğme, Önizle rozeti', 4.5],
+  ['--c-on-accent', '--c-accent-hover', 'Birincil düğme üzerinde', 4.5],
+  ['--c-accent', '--c-bg', 'Vurgu rengi metin (geçerli menü öğesi) / sayfa', 4.5],
+  ['--c-accent', '--c-band', 'Vurgu rengi metin / bant', 4.5],
+  ['--c-bg', '--c-ink', 'Seçili çip, koyu düğme metni', 4.5],
+  ['--c-focus', '--c-bg', 'Odak halkası / sayfa (bileşen)', 3],
+  ['--c-focus', '--c-band', 'Odak halkası / bant (bileşen)', 3],
+  ['--c-focus', '--c-fill', 'Odak halkası / çip, düğme (bileşen)', 3],
 ];
-
-let failures = 0;
-const colorTokenCount = Object.keys(light).filter((k) => k.startsWith('--c-')).length;
-
-for (const [themeName, vars] of themes) {
-  const rows = PAIRS.map(([fg, bg, use, min]) => {
-    const fgHex = resolveColor(vars, fg);
-    const bgHex = resolveColor(vars, bg);
-    const ratio = contrast(fgHex, bgHex);
-    const ok = ratio >= min;
-    if (!ok) failures += 1;
-    return { fg, bg, fgHex, bgHex, use, ratio: ratio.toFixed(2), min, level: grade(ratio), ok };
-  });
-
-  if (AS_MARKDOWN) {
-    console.log(`\n**${themeName}**\n`);
-    console.log('| Ön plan | Zemin | Kullanım | Oran | Eşik | Seviye |');
-    console.log('|---|---|---|---:|---:|---|');
-    rows.forEach((r) => console.log(`| \`${r.fg}\` ${r.fgHex} | \`${r.bg}\` ${r.bgHex} | ${r.use} | ${r.ratio}:1 | ${r.min} | ${r.ok ? r.level : '**BAŞARISIZ**'} |`));
-  } else {
-    console.log(`\n== ${themeName} ==`);
-    console.table(rows.map((r) => ({ 'ön plan': `${r.fg} ${r.fgHex}`, zemin: `${r.bg} ${r.bgHex}`, kullanım: r.use, oran: r.ratio, eşik: r.min, seviye: r.ok ? r.level : 'BAŞARISIZ' })));
-  }
-
-  if (WITH_OKLCH) {
-    console.log(`\nOKLCH (${themeName})`);
-    Object.keys(vars)
-      .filter((k) => k.startsWith('--c-'))
-      .forEach((k) => {
-        try {
-          const hex = resolveColor(vars, k);
-          console.log(`${k.padEnd(18)} ${hex}  ${toOklch(hex)}`);
-        } catch { /* rgb()/var() dışı değerler (scrim) atlanır */ }
-      });
+for (const ad of ['peach', 'sage', 'blue', 'cream']) {
+  if (t[`ton-${ad}`]) {
+    CIFTLER.push(['--c-ink', `ton-${ad}`, `Hero başlığı / ${ad} tonu`, 4.5]);
+    CIFTLER.push(['--c-ink-soft', `ton-${ad}`, `Hero açıklaması / ${ad} tonu`, 4.5]);
   }
 }
 
-console.log(`\n--c- token sayısı (:root): ${colorTokenCount} · ölçülen çift: ${PAIRS.length * themes.length} · başarısız: ${failures}`);
-process.exit(failures ? 1 : 0);
+const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+const dogrusal = (c) => ((c /= 255) <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+const parlaklik = ([r, g, b]) => 0.2126 * dogrusal(r) + 0.7152 * dogrusal(g) + 0.0722 * dogrusal(b);
+const karistir = (on, zemin, a) => on.map((v, i) => Math.round(v * a + zemin[i] * (1 - a)));
+const oran = (a, b) => {
+  const [yuksek, dusuk] = [parlaklik(a), parlaklik(b)].sort((x, y) => y - x);
+  return (yuksek + 0.05) / (dusuk + 0.05);
+};
+const seviye = (o) => (o >= 7 ? 'AAA' : o >= 4.5 ? 'AA' : o >= 3 ? 'AA bileşen/büyük' : 'BAŞARISIZ');
+
+let basarisiz = 0;
+const satirlar = CIFTLER.map(([on, zemin, kullanim, esik, alfa = 1]) => {
+  const z = rgb(t[zemin]);
+  const o = karistir(rgb(t[on]), z, alfa);
+  const r = oran(o, z);
+  const gecti = r >= esik;
+  if (!gecti) basarisiz += 1;
+  return { on: `${on.replace('--c-', '')}${alfa < 1 ? ` ${alfa * 100}%` : ''}`, zemin: zemin.replace('--c-', ''), hexOn: t[on], hexZemin: t[zemin], kullanim, r, esik, sev: seviye(r), gecti };
+});
+
+if (MARKDOWN) {
+  console.log('| Ön plan | Zemin | Kullanım | Oran | Eşik | Seviye |\n|---|---|---|---:|---:|---|');
+  for (const s of satirlar) console.log(`| \`${s.on}\` ${s.hexOn} | \`${s.zemin}\` ${s.hexZemin} | ${s.kullanim} | ${s.r.toFixed(2)}:1 | ${s.esik} | ${s.gecti ? s.sev : 'BAŞARISIZ'} |`);
+} else {
+  for (const s of satirlar) console.log(`${s.gecti ? 'OK ' : 'XX '} ${s.r.toFixed(2).padStart(5)}:1  (eşik ${s.esik})  ${s.on} ${s.hexOn} / ${s.zemin} ${s.hexZemin}  — ${s.kullanim}`);
+}
+console.log(`\n${satirlar.length} çift ölçüldü, ${basarisiz} başarısız.`);
+process.exit(basarisiz ? 1 : 0);

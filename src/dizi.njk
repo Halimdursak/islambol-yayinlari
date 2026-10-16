@@ -16,42 +16,60 @@ ekstra_css:
 {%- set kapak_kitap = dizi.set_kaydi or dizi.kitaplar[0] -%}
 {%- set na_kaynaklar = dizi.set_kaydi.sources if dizi.set_kaydi else null -%}
 {%- set na_wa = dizi_whatsapp -%}
-<article class="kap kitap-detay dizi-sayfasi">
-  {% include "components/kitap/iz.njk" %}
+{%- set baslik_uzunluk = dizi.ad | length -%}
+{%- set baslik_olcek = "kitap-detay__baslik--uzun" if baslik_uzunluk > 56 else ("kitap-detay__baslik--orta" if baslik_uzunluk > 32 else "") -%}
+<article class="kitap-detay dizi-sayfasi">
+  {#- Bloklar bant / beyaz dönüşümlüdür (CSS: .kitap-detay > :nth-child(even)). -#}
+  <div class="kitap-detay__ust">
+    <div class="kap">
+      {% include "components/kitap/iz.njk" %}
 
-  <div class="kitap-detay__izgara">
-    <div class="kitap-detay__sol">
-      <figure class="kitap-detay__kapak">
-        {{ kapak(kapak_kitap, kapaklar[kapak_kitap.id], { sizes: "(min-width: 64em) 36vw, 80vw", yukle: "eager", alt: dizi.ad ~ " kapağı" }) }}
-      </figure>
-    </div>
+      <div class="kitap-detay__izgara">
+        <div class="kitap-detay__sol">
+          <figure class="kitap-detay__kapak">
+            <span class="kitap-detay__kapak-kap">
+              {{ kapak(kapak_kitap, kapaklar[kapak_kitap.id], { sizes: "(min-width: 56.25em) 420px, 80vw", yukle: "eager", alt: dizi.ad ~ " kapağı" }) }}
+            </span>
+          </figure>
+        </div>
 
-    <div class="kitap-detay__sag">
-      <ul class="etiketler"><li><span class="cip cip--durum">Set / Seri</span></li></ul>
-      <h1 class="kitap-detay__baslik">{{ dizi.ad }}</h1>
-      {%- if dizi.aciklama %}<p class="kitap-detay__alt-baslik">{{ dizi.aciklama }}</p>{% endif %}
+        <div class="kitap-detay__sag">
+          <ul class="etiketler"><li><span class="cip cip--durum">Set / Seri</span></li></ul>
+          <h1 class="kitap-detay__baslik {{ baslik_olcek }}">{{ dizi.ad }}</h1>
+          {%- if dizi.aciklama %}<p class="kitap-detay__alt-baslik">{{ dizi.aciklama }}</p>{% endif %}
 
-      {%- if dizi.set_kaydi %}
-      {%- set kitap = dizi.set_kaydi -%}
-      {%- set kunye_kategoriler = set_kategorileri -%}
-      {% include "components/kitap/kunye-tablosu.njk" %}
-      <p><a class="dugme dugme--ucuncul" href="{{ dizi.set_kaydi.url }}">Kitap sayfası</a></p>
-      {%- endif %}
-
-      {% include "components/kitap/nereden-alinir.njk" %}
+          {% include "components/kitap/nereden-alinir.njk" %}
+        </div>
+      </div>
     </div>
   </div>
 
-  <section class="kitap-detay__bolum" aria-labelledby="dizi-ciltler">
-    {{ bolumBasligi(etiket=m.kayit, baslik="Ciltler", id="dizi-ciltler", giris=m.dizi_giris) }}
-    {%- if dizi.uyeler.length %}
-    <div class="kartlar">
-      {%- for kitap in dizi.uyeler %}
-      {% set kart_baslik = "h2" %}{% include "components/kitap/kitap-karti.njk" %}
-      {%- endfor %}
+  {%- if dizi.set_kaydi %}
+  {%- set kitap = dizi.set_kaydi -%}
+  {%- set kunye_kategoriler = set_kategorileri -%}
+  <div class="kitap-detay__bolum">
+    <div class="kap">
+      {% include "components/kitap/kunye-tablosu.njk" %}
+      <p class="kitap-detay__kunye-ek"><a class="dugme dugme--ucuncul" href="{{ dizi.set_kaydi.url }}">Kitap sayfası</a></p>
     </div>
-    {%- else %}
-    <p class="bos-metin">{{ m.bos_durum_dizi }}</p>
-    {%- endif %}
+  </div>
+  {%- endif %}
+
+  {#- Ciltler bölümü: üye kitap varsa kartlar; yalnız set kaydı olan dizide (şu an tümü) boş bir başlık basılmaz, set künyede zaten anlatılır. -#}
+  {%- if dizi.uyeler.length %}
+  <section class="kitap-detay__bolum" aria-labelledby="dizi-ciltler">
+    <div class="kap">
+      {{ bolumBasligi(etiket=m.kayit, baslik="Ciltler", id="dizi-ciltler", giris=m.dizi_giris) }}
+      <div class="kartlar">
+        {%- for kitap in dizi.uyeler %}
+        {% set kart_baslik = "h2" %}{% include "components/kitap/kitap-karti.njk" %}
+        {%- endfor %}
+      </div>
+    </div>
   </section>
+  {%- elif not dizi.set_kaydi %}
+  <section class="kitap-detay__bolum">
+    <div class="kap"><p class="bos-metin">{{ m.bos_durum_dizi }}</p></div>
+  </section>
+  {%- endif %}
 </article>

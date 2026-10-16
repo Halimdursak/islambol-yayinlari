@@ -21,17 +21,21 @@ export function konsolToplayici(page: Page): KonsolKaydi[] {
   return kayitlar;
 }
 
-/** Tembel görselleri tetiklemek için sayfayı sonuna kadar kaydırır, başa döner, ağın durulmasını bekler. */
+/**
+ * Tembel görselleri tetiklemek için sayfayı sonuna kadar kaydırır, başa döner, ağın durulmasını bekler.
+ * Kaydırma `behavior: 'instant'` ile yapılır: global CSS `scroll-behavior: smooth` iken adım adım animasyon
+ * uzun sayfalarda (katalog ~12 000 px) dakikalar sürer ve testi zaman aşımına uğratır.
+ */
 export async function sonunaKaydir(page: Page): Promise<void> {
   await page.evaluate(async () => {
     const adim = Math.max(200, Math.floor(window.innerHeight * 0.8));
     let son = -1;
     while (window.scrollY !== son) {
       son = window.scrollY;
-      window.scrollBy(0, adim);
+      window.scrollBy({ top: adim, behavior: 'instant' });
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
     }
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   });
   await page.waitForLoadState('networkidle');
 }

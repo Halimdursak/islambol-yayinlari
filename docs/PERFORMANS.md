@@ -94,9 +94,9 @@ Kurallar:
 ## 5. Öneriler
 
 1. `dist/` içine `public/` altındaki 96 MB orijinal kapaklar da kopyalanıyor (passthrough). Şablonlar yalnızca `kapaklar-opt` kullanıyorsa orijinal klasörünü yayına almamak (`dist/kapaklar` hariç tutmak ya da orijinalleri repo dışında arşivlemek) dağıtımı ~96 MB küçültür. Karar Direktörde.
-2. Favicon için `<link rel="icon" href="/favicon.svg" type="image/svg+xml">`, `<link rel="icon" href="/favicon-32.png" sizes="32x32">`, `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, `<link rel="manifest" href="/site.webmanifest">`, `<meta name="theme-color" content="#A51C22">`.
+2. Favicon için `<link rel="icon" href="/favicon.svg" type="image/svg+xml">`, `<link rel="icon" href="/favicon-32.png" sizes="32x32">`, `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`, `<link rel="manifest" href="/site.webmanifest">`, `<meta name="theme-color" content="#ffffff">`.
 3. OG: `<meta property="og:image" content="{{ site.url }}/og/<id>.png">` ve `og:image:width=1200`, `og:image:height=630`. Kitap yoksa `/og/site.png`.
-4. Kapak görseline `font-display`-benzeri bir şey gerekmez; ama kapak yüklenene kadar kâğıt rengi (#F4EFE4) zemin verilmeli.
+4. Kapak görseline `font-display`-benzeri bir şey gerekmez; ama kapak yüklenene kadar kartın beyaz zemini görünür; kapakların beyazımsı fotoğraf zemini `mix-blend-mode: multiply` ile eritilir (DESIGN.md §5).
 5. Lighthouse (mobil) ölçümü bu rapora eklenmedi: şablonlar (B1/B2/B3/B5) henüz birleşmedi. Şablonlar bitince yerel `npx lighthouse` ile LCP/CLS ölçülmeli (hedef LCP < 2,5 sn, CLS < 0,1).
 
 ## 6. Bilinen sınırlar
@@ -110,6 +110,6 @@ Kurallar:
   - Bu dört kayıtta `kaynaklar.webp/jpg` uzunluğu 2 (sonuncusu 1) olur; diğer 74 kapakta 3.
   - Bu kaynaklarla 640/960 CSS genişliğinde (2x ekran) görsel yumuşak görünür; daha iyi kaynak dosyası gerekir.
 - **Önsöz sayfaları** 541-654 x 1000 px; hiçbirinin yüksekliği 1200'e ulaşmadığı için `-1200` varyantı yok. Retina için 1000 px yerli sürüm istenirse `ONSOZ_YERLI_EKLE = true` yapılıp `--force` çalıştırılır (+~4 MB).
-- **Logo:** kaynak 400x400 JPEG; 800 px'e Lanczos ile büyütüldü ve şeffaflaştırıldı. JPEG gürültüsü nedeniyle çok soluk benekler eşikle atıldı, "yayınları" ince harfleri hafif yumuşak. Gerçek vektör/PNG logo gelirse betik girdisi `public/logo/islambol-x-profil.jpg` değiştirilip yeniden çalıştırılır. Logo kare tuvalde ve geniş şeffaf kenar boşluklu (800x800); başlıkta kullanılacaksa CSS ile kırpılmalı (`object-fit: cover` + `object-position`) ya da kırpılmış sürüm istenmeli.
-- **Favicon:** sharp (resvg WASM) sistem fontu bulamadığı için PNG'lerde "İ" harfi font yerine yol (path) olarak çizilir; `favicon.svg` ise istenen şekilde `<text>` + `'EB Garamond', Georgia, serif` kullanır (tarayıcıda Georgia ile görünür). İki sürümün serifleri küçük farklarla ayrışabilir.
+- **Logo:** `public/logo/islambol-logo*.png` yayınevinin gönderdiği PNG'den (`islambol-logo-kaynak.png`, 300 px) türetilmiş 480×480 dosyalardır; `marka.mjs` yalnızca eski 400 px JPEG'den (`islambol-x-profil.jpg`) üretebildiği için logoyu bilerek yenilemedikçe dokunmaz (`--force`). Eski not: kaynak JPEG 800 px'e Lanczos ile büyütülüp şeffaflaştırılmıştı. JPEG gürültüsü nedeniyle çok soluk benekler eşikle atıldı, "yayınları" ince harfleri hafif yumuşak. Gerçek vektör/PNG logo gelirse betik girdisi `public/logo/islambol-x-profil.jpg` değiştirilip yeniden çalıştırılır. Logo kare tuvalde ve geniş şeffaf kenar boşluklu (800x800); başlıkta kullanılacaksa CSS ile kırpılmalı (`object-fit: cover` + `object-position`) ya da kırpılmış sürüm istenmeli.
+- **Favicon:** sharp (resvg WASM) sistem fontu bulamadığı için "İ" harfi hem PNG'lerde hem `favicon.svg`'de yazı tipi yerine yol (path) olarak çizilir: kırmızı (#d11a2a) yuvarlak kare, beyaz sans "İ". Görünüm yazı tipine bağlı değildir.
 - **OG görselleri:** metin yok (yalnızca kapak, logo ve alt kırmızı şerit); palette PNG (256 renk) ile ortalama ~60 KB. Büyük kapak gölgesi hafif bantlaşabilir.

@@ -1,16 +1,12 @@
 {#
-  Temel düzen — sahibi B1 Çekirdek Frontend (Direktör iskeleti, B1 geliştirdi).
-  SÖZLEŞME (değiştirme):
-  - <head> içinde {% include "components/seo.njk" %} (B5) — title/description/JSON-LD buradan gelir.
-  - Sayfalar ek CSS'i front matter `ekstra_css: ["/assets/css/katalog.css"]` ile bildirir; burada döngüyle basılır.
-  - </body> öncesi {% include "components/onizleme/kitap-onizleme.njk" %} (B3) bir kez.
-  - Flipbook tetikleyici: herhangi bir öğe `data-onizleme="<kitap.id>"` taşır; B3'ün flipbook.js dinler.
-  - ÖNEMLİ (Eleventy gerçeği): sayfa gövdesinde {% set onizleme_kitaplar %} layout'a ULAŞMAZ (layout ayrı render edilir).
-    B3 bileşeni listeyi şu sırayla çözer: (1) `onizleme_kitaplar` veri/front matter olarak gelirse, (2) yoksa `kitap` varsa [kitap],
-    (3) yoksa front matter `onizleme_kaynak: "vitrin"` ise vitrin.onizlemeli. Ana sayfa (3)'ü kullanır.
-  - flipbook.css / flipbook.js etiketlerini B3 bileşeni kendisi basar; base'e ayrıca eklenmez.
-  - CSS yükleme sırası: tokens → typography → global → ekstra_css → redesign.
-  - Katalog vitrini her sistem ayarında açık temayı kullanır.
+  Temel düzen. SÖZLEŞME (değiştirme):
+  - <head> içinde {% include "components/seo.njk" %} — title/description/JSON-LD buradan gelir.
+  - CSS sırası: tokens → typography → global → kartlar → ekstra_css (sayfa front matter'ı: vitrin.css, katalog.css …).
+  - </body> öncesi {% include "components/onizleme/kitap-onizleme.njk" %} bir kez; flipbook.css/js'i o bileşen basar.
+  - Flipbook tetikleyici: herhangi bir öğe `data-onizleme="<kitap.id>"` taşır (yalnız sayfada o kitabın <template>'i varsa çalışır).
+    ÖNEMLİ (Eleventy): sayfa gövdesinde {% set onizleme_kitaplar %} layout'a ULAŞMAZ; bileşen listeyi şu sırayla çözer:
+    (1) `onizleme_kitaplar` veri/front matter, (2) `kitap` varsa [kitap], (3) front matter `onizleme_kaynak: "vitrin"` → vitrin.onizlemeli.
+  - Site her sistem ayarında açık temayı kullanır (Beyaz Vitrin; karanlık mod yok).
   - Menü düğmesi JS ister; JS yoksa <noscript> stili menüyü açık bırakır.
   - Ana içerik kabı `#icerik`; skip-link `.atla` ona bağlanır.
 #}
@@ -20,16 +16,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#ffffff">
   {% include "components/seo.njk" %}
-  <link rel="preload" href="/assets/fonts/eb-garamond-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/assets/fonts/ibm-plex-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/typography.css">
   <link rel="stylesheet" href="/assets/css/global.css">
+  <link rel="stylesheet" href="/assets/css/kartlar.css">
   {% for css in ekstra_css %}<link rel="stylesheet" href="{{ css }}">
   {% endfor %}
-  <link rel="stylesheet" href="/assets/css/redesign.css">
-  <noscript><style>.ust__menu-dugme{display:none}.ust__nav{display:block!important}</style></noscript>
+  <noscript><style>.ust__menu-dugme,.ust__ara-dugme{display:none}.ust__nav{display:flex!important;position:static!important;flex-direction:column;background:none!important;padding:0 0 12px!important}.ust__ic{flex-wrap:wrap}</style></noscript>
 </head>
 <body>
   <a class="atla" href="#icerik">{{ site.mikrometin.skip_link }}</a>

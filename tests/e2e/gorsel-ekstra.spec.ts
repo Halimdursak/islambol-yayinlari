@@ -25,28 +25,35 @@ test.describe('önizleme açıkken', () => {
   });
 });
 
-test.describe('koyu tema', () => {
+// Beyaz Vitrin açık temayı her sistem ayarında kullanır (ADR-010): sistem koyu moddayken de sayfa açık kalmalı.
+test.describe('sistem koyu moddayken', () => {
   test.use({ colorScheme: 'dark' });
 
   for (const { ad, url } of SAYFALAR.filter((s) => ['ana-sayfa', 'kitap-sen-neden-kor-edildin'].includes(s.ad))) {
-    test(`koyu ${ad}`, async ({ page }, testInfo) => {
+    test(`açık tema korunur: ${ad}`, async ({ page }, testInfo) => {
       const genislik = testInfo.project.name === 'mobil' ? 390 : 1440;
       await hazirla(page, url);
 
-      // Koyu tema gerçekten uygulanmış mı? Gövde arka planı koyu olmalı.
-      const parlaklik = await page.evaluate(() => {
-        const m = getComputedStyle(document.body).backgroundColor.match(/\d+(\.\d+)?/g)?.map(Number) ?? [255, 255, 255];
-        return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255;
+      // Gövde ve ana metin rengi açık-tema değerlerinde kalmalı (koyu zemin / açık metin olmamalı).
+      const renkler = await page.evaluate(() => {
+        const parlaklik = (css: string) => {
+          const m = css.match(/\d+(\.\d+)?/g)?.map(Number) ?? [0, 0, 0];
+          return (0.2126 * m[0] + 0.7152 * m[1] + 0.0722 * m[2]) / 255;
+        };
+        const stil = getComputedStyle(document.body);
+        return { zemin: parlaklik(stil.backgroundColor), metin: parlaklik(stil.color), seviye: getComputedStyle(document.documentElement).colorScheme };
       });
 
       const olcum = await yatayTasma(page);
-      tasmaKaydet(genislik, ad, 'koyu', olcum);
+      tasmaKaydet(genislik, ad, 'sistem-koyu', olcum);
       await page.screenshot({
-        path: join(klasor(EKRAN, 'koyu', String(genislik)), `${ad}.png`),
+        path: join(klasor(EKRAN, 'sistem-koyu', String(genislik)), `${ad}.png`),
         fullPage: true,
         animations: 'disabled',
       });
-      expect(parlaklik, 'koyu temada gövde arka planı koyu').toBeLessThan(0.35);
+      expect(renkler.zemin, 'sistem koyuyken gövde zemini açık kalır').toBeGreaterThan(0.9);
+      expect(renkler.metin, 'sistem koyuyken ana metin koyu kalır').toBeLessThan(0.2);
+      expect(renkler.seviye).toBe('light');
       expect(olcum.scrollWidth).toBeLessThanOrEqual(olcum.innerWidth);
     });
   }

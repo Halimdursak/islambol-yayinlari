@@ -100,11 +100,11 @@ Notlar:
 ├── src/
 │   ├── _data/             Veri yükleyicileri (books, authors, diziler, vitrin, sayfalar, site, kapaklar); JSON → şablon verisi, Ajv doğrulaması
 │   ├── _includes/         layouts/base.njk ve components/ (header, footer, kitap kartı, önizleme, SEO ...)
-│   ├── assets/            css/ (tokens, typography, global, katalog, flipbook), js/, fonts/ (yerel EB Garamond, IBM Plex Sans)
+│   ├── assets/            css/ (tokens, typography, global, kartlar, vitrin, katalog, flipbook, admin), js/, fonts/ (yerel Inter, değişken ağırlık)
 │   ├── *.njk              Sayfa şablonları (index, kitaplar, kitap, yazarlar, yazar, diziler, dizi, statik sayfalar, sitemap, 404)
 │   └── *.11tydata.js      Sayfa başına hesaplanan veri (başlık, açıklama, ilgili kitaplar)
 ├── tests/                 Playwright e2e testleri (varsa)
-├── DESIGN.md              Tasarım sistemi ("Arşiv Dosyası"): palet, tipografi, boşluk, bileşenler
+├── DESIGN.md              Tasarım sistemi ("Beyaz Vitrin"): palet, tipografi, boşluk, bileşenler
 ├── eleventy.config.js     Eleventy yapılandırması (PATH_PREFIX, HtmlBasePlugin, passthrough, filtreler)
 ├── playwright.config.ts   E2E yapılandırması (channel: msedge)
 └── package.json
@@ -315,7 +315,7 @@ Listede olmayan bir `id` yazarsanız build "katalogda olmayan id'ler" hatasıyla
 
 ## Tasarım
 
-Tasarım sistemi kökteki [`DESIGN.md`](DESIGN.md) dosyasındadır ("Arşiv Dosyası": kâğıt/mühür kırmızısı paleti, EB Garamond + IBM Plex Sans, kontrast tablosu, bileşen envanteri). Token'lar `src/assets/css/tokens.css` içindedir (CSS özel özellikleri, OKLCH); tipografi `typography.css`, genel kurallar `global.css`, katalog `katalog.css`, sayfa çevirme `flipbook.css`. Renk ya da yazı tipi değiştirmeden önce DESIGN.md'yi okuyun; kontrastı `node scripts/design/kontrast.mjs --md` ile yeniden ölçün. Yazı tipleri yerel dosyadır (`src/assets/fonts/`), üçüncü taraf istek yapılmaz.
+Tasarım sistemi kökteki [`DESIGN.md`](DESIGN.md) dosyasındadır ("Beyaz Vitrin": apple.com ürün sayfası dili; beyaz ve #f5f5f7 bantlar, Inter, tek kırmızı vurgu, kapak sahnede). Token'lar `src/assets/css/tokens.css` içindedir; tipografi `typography.css`, genel kurallar ve üst bar/alt bilgi `global.css`, kitap/yazar kartı ve yatay raf `kartlar.css`, ana sayfa `vitrin.css`, katalog ve kitap detayı `katalog.css`, sayfa çevirme `flipbook.css`, yönetim paneli `admin.css`. Renk ya da yazı tipi değiştirmeden önce DESIGN.md'yi okuyun; kontrastı `node scripts/design/kontrast.mjs` ile yeniden ölçün. Yazı tipi (Inter, SIL OFL) yerel dosyadır (`src/assets/fonts/`), üçüncü taraf istek yapılmaz.
 
 ## SEO
 
@@ -377,7 +377,7 @@ Bu bölüm depo sahibi (kullanıcı) içindir; kimlik doğrulama sizin hesabın�
   - **MIT:** kodun serbestçe kullanılmasına izin verir; içerik yine yayınevinindir (içeriği lisanstan açıkça hariç tutan bir not ekleyin).
   - **Apache-2.0:** MIT'ye benzer, patent hakkı hükmü içerir.
   - **Kod için MIT + içerik için "tüm hakları saklıdır" (önerilen ayrım):** `LICENSE` (kod) ile `data/`, `public/` ve `src/` altındaki içeriği kapsayan bir `CONTENT-LICENSE` notu.
-- Üçüncü taraf bileşenler: `page-flip` (MIT), yazı tipleri EB Garamond ve IBM Plex Sans (SIL OFL; metin: `src/assets/fonts/OFL.txt`).
+- Üçüncü taraf bileşenler: `page-flip` (MIT), yazı tipi Inter (SIL OFL; metin: `src/assets/fonts/OFL.txt`).
 
 ## Ekip ve kararlar
 

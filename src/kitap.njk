@@ -19,81 +19,106 @@ ekstra_css:
 {%- set kunye_diziler = kitap_dizileri -%}
 {%- set na_kaynaklar = kitap.sources -%}
 {%- set na_wa = kitap.whatsapp_url -%}
-<article class="kap kitap-detay">
-  {% include "components/kitap/iz.njk" %}
+{#- Eser adı uzunluğuna göre ölçek: kısa ad en büyük başlık, çok uzun ad bir kademe küçük (satır sayısı dengede kalır). -#}
+{%- set baslik_uzunluk = kitap.title | length -%}
+{%- set baslik_olcek = "kitap-detay__baslik--uzun" if baslik_uzunluk > 56 else ("kitap-detay__baslik--orta" if baslik_uzunluk > 32 else "") -%}
+<article class="kitap-detay">
+  {#- 1. blok (beyaz): kapak sahnesi + eser bilgisi. Sonraki bloklar bant / beyaz dönüşümlü (CSS: :nth-child(even)). -#}
+  <div class="kitap-detay__ust">
+    <div class="kap">
+      {% include "components/kitap/iz.njk" %}
 
-  <div class="kitap-detay__izgara">
-    <div class="kitap-detay__sol">
-      <figure class="kitap-detay__kapak"{% if kitap.onizleme %} data-onizleme="{{ kitap.id }}"{% endif %}>
-        {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 64em) 36vw, 80vw", yukle: "eager", alt: kitap.title ~ " kapağı" }) }}
-      </figure>
-      {%- if kitap.onizleme %}
-      <button type="button" class="dugme dugme--ikincil kitap-detay__onizle" data-onizleme="{{ kitap.id }}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18" aria-hidden="true"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/></svg>{{ m.onizle_uzun }}
-      </button>
-      <p class="kitap-detay__not">{{ m.onizleme_notu }}</p>
-      {%- endif %}
-      <a class="dugme dugme--birincil kitap-detay__hizli-siparis" href="{{ kitap.whatsapp_url }}" rel="noopener noreferrer">{{ m.whatsapp_cta }}</a>
-    </div>
+      <div class="kitap-detay__izgara">
+        <div class="kitap-detay__sol">
+          <figure class="kitap-detay__kapak"{% if kitap.onizleme %} data-onizleme="{{ kitap.id }}"{% endif %}>
+            <span class="kitap-detay__kapak-kap">
+              {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 56.25em) 420px, 80vw", yukle: "eager", alt: kitap.title ~ " kapağı" }) }}
+            </span>
+          </figure>
+          <div class="kitap-detay__eylemler">
+            <a class="dugme dugme--birincil kitap-detay__hizli-siparis" href="{{ kitap.whatsapp_url }}" rel="noopener noreferrer">{{ m.whatsapp_cta }}</a>
+            {%- if kitap.onizleme %}
+            <button type="button" class="dugme dugme--ikincil kitap-detay__onizle" data-onizleme="{{ kitap.id }}">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18" aria-hidden="true"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/></svg>{{ m.onizle_uzun }}
+            </button>
+            <p class="kitap-detay__not">{{ m.onizleme_notu }}</p>
+            {%- endif %}
+          </div>
+        </div>
 
-    <div class="kitap-detay__sag">
-      {%- if kitap_kategorileri.length or kitap.is_set or (kitap.yil and kitap.yil == site.yil) %}
-      <ul class="etiketler" aria-label="{{ m.filtre_kategori }}">
-        {%- for k in kitap_kategorileri %}
-        <li><a class="cip" href="/kitaplar/?kategori={{ k.slug }}">{{ k.ad }}</a></li>
-        {%- endfor %}
-        {%- if kitap.yil and kitap.yil == site.yil %}<li><span class="cip cip--durum">{{ m.yeni }}</span></li>{% endif %}
-        {%- if kitap.is_set %}<li><span class="cip cip--durum">Takım</span></li>{% endif %}
-      </ul>
-      {%- endif %}
+        <div class="kitap-detay__sag">
+          {%- if kitap_kategorileri.length or kitap.is_set or (kitap.yil and kitap.yil == site.yil) %}
+          <ul class="etiketler" aria-label="{{ m.filtre_kategori }}">
+            {%- for k in kitap_kategorileri %}
+            <li><a class="cip" href="/kitaplar/?kategori={{ k.slug }}">{{ k.ad }}</a></li>
+            {%- endfor %}
+            {%- if kitap.yil and kitap.yil == site.yil %}<li><span class="cip cip--durum">{{ m.yeni }}</span></li>{% endif %}
+            {%- if kitap.is_set %}<li><span class="cip cip--durum">Takım</span></li>{% endif %}
+          </ul>
+          {%- endif %}
 
-      <h1 class="kitap-detay__baslik">{{ kitap.title }}</h1>
-      {%- if kitap.subtitle %}<p class="kitap-detay__alt-baslik">{{ kitap.subtitle }}</p>{% endif %}
-      <p class="kitap-detay__yazar">{{ yazarlar(kitap, true, m.kunye_belirtilmemis) }}</p>
+          <h1 class="kitap-detay__baslik {{ baslik_olcek }}">{{ kitap.title }}</h1>
+          {%- if kitap.subtitle %}<p class="kitap-detay__alt-baslik">{{ kitap.subtitle }}</p>{% endif %}
+          {%- if kitap.authors.length or kitap.yazar_gosterim %}
+          <p class="kitap-detay__yazar">{{ yazarlar(kitap, true, "") }}</p>
+          {%- endif %}
 
-      {%- if kitap_paragraflar.length %}
-      <div class="kitap-detay__metin">
-        {%- for p in kitap_paragraflar %}
-        <p>{{ p }}</p>
-        {%- endfor %}
+          {%- if kitap_paragraflar.length %}
+          <div class="kitap-detay__metin">
+            {#- Giriş paragrafı (büyük punto) yalnız gerçek bir tanıtım cümlesi olduğunda: kısa başlık benzeri satır ya da çok uzun blok büyütülmez. -#}
+            {%- for p in kitap_paragraflar %}
+            <p{% if loop.first and p.length > 80 and p.length <= 480 %} class="kitap-detay__giris"{% endif %}>{{ p }}</p>
+            {%- endfor %}
+          </div>
+          {%- endif %}
+
+          {%- if kitap.is_set %}
+          <section class="kitap-detay__takim" aria-labelledby="takim-baslik">
+            <h2 class="etiket" id="takim-baslik">Takım</h2>
+            <p>Bu kayıt, birden fazla ciltten oluşan bir takımdır.</p>
+            {%- if kitap.set_items and kitap.set_items.length %}
+            <ul class="kitap-detay__takim-liste">
+              {%- for it in kitap.set_items %}<li>{{ it.title or it.baslik or it.ad or it }}</li>{% endfor %}
+            </ul>
+            {%- endif %}
+          </section>
+          {%- endif %}
+
+          {% include "components/kitap/nereden-alinir.njk" %}
+        </div>
       </div>
-      {%- endif %}
+    </div>
+  </div>
 
-      {%- if kitap.is_set %}
-      <section class="kitap-detay__takim" aria-labelledby="takim-baslik">
-        <h2 class="etiket" id="takim-baslik">Takım</h2>
-        <p>Bu kayıt, birden fazla ciltten oluşan bir takımdır.</p>
-        {%- if kitap.set_items and kitap.set_items.length %}
-        <ul class="kitap-detay__takim-liste">
-          {%- for it in kitap.set_items %}<li>{{ it.title or it.baslik or it.ad or it }}</li>{% endfor %}
-        </ul>
-        {%- endif %}
-      </section>
-      {%- endif %}
-
+  {#- 2. blok (bant): künye -#}
+  <div class="kitap-detay__bolum">
+    <div class="kap">
       {% include "components/kitap/kunye-tablosu.njk" %}
-      {% include "components/kitap/nereden-alinir.njk" %}
     </div>
   </div>
 
   {%- if ayni_yazardan.length %}
   <section class="kitap-detay__bolum" aria-labelledby="ayni-yazardan">
-    {{ bolumBasligi(etiket=m.kunye_yazar, baslik="Aynı yazardan", id="ayni-yazardan", url=("/yazar/" ~ kitap.yazar_sluglari[0] ~ "/") if kitap.yazar_sluglari.length else "", baglanti=m.tum_kitaplar) }}
-    <div class="kartlar">
-      {%- for kitap in ayni_yazardan %}
-      {% include "components/kitap/kitap-karti.njk" %}
-      {%- endfor %}
+    <div class="kap">
+      {{ bolumBasligi(etiket=m.kunye_yazar, baslik="Aynı yazardan", id="ayni-yazardan", url=("/yazar/" ~ kitap.yazar_sluglari[0] ~ "/") if kitap.yazar_sluglari.length else "", baglanti=m.tum_kitaplar) }}
+      <div class="kartlar">
+        {%- for kitap in ayni_yazardan %}
+        {% include "components/kitap/kitap-karti.njk" %}
+        {%- endfor %}
+      </div>
     </div>
   </section>
   {%- endif %}
 
   {%- if kitap_dizileri.length %}
   <section class="kitap-detay__bolum" aria-labelledby="kitabin-dizisi">
-    {{ bolumBasligi(etiket="Set / Seri", baslik="Bu kitabın dizisi", id="kitabin-dizisi") }}
-    <div class="dizi-izgara">
-      {%- for dizi in kitap_dizileri %}
-      {% include "components/kitap/dizi-karti.njk" %}
-      {%- endfor %}
+    <div class="kap">
+      {{ bolumBasligi(etiket="Set / Seri", baslik="Bu kitabın dizisi", id="kitabin-dizisi") }}
+      <div class="dizi-izgara">
+        {%- for dizi in kitap_dizileri %}
+        {% include "components/kitap/dizi-karti.njk" %}
+        {%- endfor %}
+      </div>
     </div>
   </section>
   {%- endif %}
