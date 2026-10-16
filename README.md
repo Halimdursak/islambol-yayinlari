@@ -32,11 +32,11 @@ Teknik olarak: **Eleventy 3** (Nunjucks şablonları), saf CSS (tasarım token'l
 
 ## Canlı adres ve yayın akışı
 
-- Yayın adresi: **https://adursak63.github.io/islambol-yayinlari/** (GitHub Pages, proje sayfası; alt dizin `/islambol-yayinlari/`).
+- Yayın adresi: **https://islambol.org** (GitHub Pages + özel alan adı, kökte yayın; kurulum: [Özel alan adı](#özel-alan-adı-islambolorg)). Alan adı bağlanana kadar geçici adres: https://adursak63.github.io/islambol-yayinlari/ (bu adreste alt dizin öneki gerekir, bkz. aşağı).
 - `main` dalına her `git push` → GitHub Actions (`.github/workflows/deploy.yml`) siteyi derler (`npm ci && npm run build`) ve Pages'e yayınlar. Tipik süre 1-2 dakika.
 - Elle yayın: GitHub'da depo → **Actions → "Pages'e yayınla" → Run workflow**.
 - Pull request ve diğer dallarda `ci.yml` çalışır: derleme + SEO denetimi (yayın yapmaz).
-- Alt dizin ayarı ortam değişkenleriyle yapılır: `PATH_PREFIX` (yerelde ve özel alan adında `/`) ve `SITE_URL` (kanonik/OG adreslerinde kullanılır). Workflow dosyalarında bunlar `/islambol-yayinlari/` ve `https://adursak63.github.io/islambol-yayinlari` olarak sabittir.
+- Alt dizin ayarı ortam değişkenleriyle yapılır: `PATH_PREFIX` (yerelde ve özel alan adında `/`) ve `SITE_URL` (kanonik/OG adreslerinde kullanılır). Workflow dosyalarında bunlar `/` ve `https://islambol.org` olarak ayarlıdır (ADR-016). Geçici olarak `adursak63.github.io/islambol-yayinlari/` adresinden yayın gerekirse bu ikisi `/islambol-yayinlari/` ve `https://adursak63.github.io/islambol-yayinlari` yapılır.
 
 ## Hızlı başlangıç
 
@@ -336,9 +336,9 @@ Tasarım sistemi kökteki [`DESIGN.md`](DESIGN.md) dosyasındadır ("Beyaz Vitri
 
 Ayrıntı: [`docs/SEO.md`](docs/SEO.md) (title/description kuralları, JSON-LD `@graph`, sitemap, robots, bilinen sınırlar). Özet Google Search Console adımları:
 
-1. search.google.com/search-console → **Özellik ekle → URL öneki** → `https://adursak63.github.io/islambol-yayinlari/` (alt dizin olduğu için "alan adı" özelliği seçilemez).
-2. Doğrulama: **HTML etiketi**; verilen `<meta name="google-site-verification" ...>` etiketini `src/_includes/components/seo.njk` içine ekletin ve siteyi yayınlayın.
-3. **Site haritaları → `sitemap.xml`** gönderin (alt dizinde `robots.txt` alan adı kökünde olmadığından arama motorlarınca okunmaz; sitemap elle bildirilir).
+1. search.google.com/search-console → **Özellik ekle → Alan adı** → `islambol.org` (DNS TXT kaydıyla doğrulanır) ya da **URL öneki** → `https://islambol.org/`.
+2. URL öneki seçtiyseniz doğrulama **HTML etiketi**: verilen `<meta name="google-site-verification" ...>` etiketini `src/_includes/components/seo.njk` içine ekletin ve siteyi yayınlayın.
+3. **Site haritaları → `sitemap.xml`** gönderin (`robots.txt` artık alan adı kökünde olduğundan arama motorları sitemap'i oradan da bulur).
 4. **URL denetimi** ile ana sayfayı ve bir kitap sayfasını indekslemeye gönderin.
 5. Rich Results Test ile bir kitap sayfasını deneyin (`Book` şeması; fiyat yok, ürün zengin sonucu beklenmemeli).
 
@@ -371,18 +371,31 @@ Bu bölüm depo sahibi (kullanıcı) içindir; kimlik doğrulama sizin hesabın�
    gh repo create islambol-yayinlari --public --source=. --remote=origin --push
    ```
 
-   Depo adı `islambol-yayinlari` olmalı; yayın adresi ve `PATH_PREFIX` buna dayanır.
+   Depo adı `islambol-yayinlari` olsun (www CNAME'i `adursak63.github.io`'ya gider; depo adı adreste görünmez).
 3. **Pages kaynağını ayarlayın (bir kez):** GitHub'da depo → **Settings → Pages → Build and deployment → Source: "GitHub Actions"**. (Komutla: `gh api -X POST repos/adursak63/islambol-yayinlari/pages -f build_type=workflow`.)
-4. **İlk yayın:** Push zaten `deploy.yml` iş akışını başlatır; ayarı sonradan yaptıysanız **Actions → "Pages'e yayınla" → Run workflow**. Bitince adres: https://adursak63.github.io/islambol-yayinlari/
+4. **İlk yayın:** Push zaten `deploy.yml` iş akışını başlatır; ayarı sonradan yaptıysanız **Actions → "Pages'e yayınla" → Run workflow**. Bitince adres: https://adursak63.github.io/islambol-yayinlari/ (özel alan adı bağlanınca https://islambol.org; yönlendirme için [Özel alan adı](#özel-alan-adı-islambolorg)). Not: iş akışı artık kök derlemesi yaptığından alan adı bağlanmadan bu geçici adreste sayfalar/stiller kırık görünür; önce 1. adımı (Custom domain) yapın ya da yukarıdaki geçici `PATH_PREFIX` ayarını kullanın.
 5. **Sonraki yayınlar:** `git push` yeter.
 
-### Özel alan adı (ileride)
+### Özel alan adı (islambol.org)
 
-1. `public/CNAME` dosyası oluşturun; içine yalnızca alan adını yazın (örn. `www.ornek.com`). Build bu dosyayı `dist/` köküne kopyalar.
-2. `.github/workflows/deploy.yml` içinde `SITE_URL: https://www.ornek.com` ve `PATH_PREFIX: /` yapın (`ci.yml` içindekileri de aynı şekilde). Alan adı kökünde yayınlandığı için alt dizin öneki gerekmez.
-3. `public/robots.txt` içindeki `Sitemap:` satırını yeni adrese çevirin.
-4. DNS: alan adı sağlayıcınızda GitHub Pages kayıtlarını ekleyin (apex için A kayıtları, `www` için `adursak63.github.io` CNAME'i); depo → **Settings → Pages → Custom domain**'e alan adını yazıp "Enforce HTTPS"i açın.
-5. Search Console'da yeni adresi ayrı özellik olarak ekleyin.
+Depo tarafı hazırdır (ADR-016): `deploy.yml`/`ci.yml` `SITE_URL=https://islambol.org`, `PATH_PREFIX=/` ile derler; `robots.txt` ve kanonik adresler alan adına bakar. Actions ile yayınlandığı için `CNAME` dosyası gerekmez. Sizin yapacağınız sıra:
+
+1. **GitHub'da depo → Settings → Pages → Custom domain** kutusuna `islambol.org` yazıp **Save** deyin. (DNS kayıtlarından ÖNCE yapın; aksi hâlde başkası alt alan adınızı kullanabilir.) İsterseniz önce alan adını GitHub'da doğrulayın (hesap **Settings → Pages → Add a domain**, size bir TXT kaydı verir).
+2. **Natro'da DNS kayıtları** (alan adı → DNS yönetimi; kayıt düzenleme bölümü yoksa Natro destek ya da Profesyonel DNS gerekebilir). Önce `@` için mevcut/varsayılan A–AAAA kayıtlarını silin, sonra ekleyin:
+
+   | Tür | Ad | Değer |
+   |---|---|---|
+   | A | `@` | `185.199.108.153` |
+   | A | `@` | `185.199.109.153` |
+   | A | `@` | `185.199.110.153` |
+   | A | `@` | `185.199.111.153` |
+   | AAAA | `@` | `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153` (dört ayrı kayıt; isteğe bağlı) |
+   | CNAME | `www` | `adursak63.github.io` (depo adı olmadan) |
+
+   Joker (`*`) kayıt eklemeyin. Natro'nun park sayfası/yönlendirme (hosting) hizmeti açıksa kapatın. Değerler GitHub belgesinden doğrulanmıştır (16 Ekim 2026): docs.github.com → "Managing a custom domain for your GitHub Pages site".
+3. DNS yayılması birkaç dakika ile 24 saat sürebilir. Kontrol: `Resolve-DnsName islambol.org -Type A` (PowerShell).
+4. DNS oturunca **Settings → Pages → Enforce HTTPS**'i açın (sertifika hazır olunca seçilebilir hâle gelir; 24 saate kadar sürebilir).
+5. Search Console'da yeni adresi ekleyin (yukarıdaki [SEO](#seo) adımları) ve eski `github.io` adresi alan adına yönlenir.
 
 ## Telif ve lisans
 

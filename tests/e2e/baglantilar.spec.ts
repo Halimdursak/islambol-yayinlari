@@ -76,7 +76,8 @@ test('dış bağlantılar: her alan adından birer örnek (HEAD) — doğrulanam
       if (!ornek.has(alan)) ornek.set(alan, { url: h, sayfa: s.url });
     }
   }
-  // Site kendi alan adı (canonical/GitHub Pages) dış denetime girmez.
+  // Site kendi alan adı (canonical, özel alan adı ve eski GitHub Pages adresi) dış denetime girmez.
+  ornek.delete('islambol.org');
   ornek.delete('adursak63.github.io');
 
   type Sonuc = { alan: string; url: string; sayfa: string; durum: number | string; sonuc: 'ok' | 'dogrulanamadi' | 'kirik' };

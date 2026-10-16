@@ -9,7 +9,7 @@ export default function () {
   const mikrometin = jsonOku("data/site/mikrometin.json");
   return {
     ...site,
-    url: process.env.SITE_URL ?? "https://adursak63.github.io/islambol-yayinlari",
+    url: process.env.SITE_URL ?? "https://islambol.org",
     yil: new Date().getFullYear(),
     meta,
     sozluk,

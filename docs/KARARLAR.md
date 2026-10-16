@@ -107,3 +107,10 @@ Karar:
 - Kitaba `preview_pages: [{local_path, width, height}]` (en çok 30) eklenebilir; varsa yayınevinin kitapyurdu önizlemesinin yerine geçer (`books.js → yuklenenOnizleme`). Panel yalnızca okur: `onizleme_var` (yayınevi önizlemesi var mı), kategori seçenekleri (`sozluk.json`) ve sayfa listesi sunucuda hesaplanır.
 - Panel kitap kategorilerinde `sozluk.json`'daki site kategorilerini sunar; kayıtlı ham kategori adları ("Tarih > Kişiler") korunur.
 Sonuç: Kitap ekle/sil/düzenle, yazar, duyuru, vitrin, sayfa metni, site ayarları ve şifre panelden yapılır. Telif: önizleme yüklerken ilk 8–10 sayfa önerilir (ADR-007). Başlatma: `yonetim-baslat.bat` (çift tık), şifre sıfırlama: `yonetim-sifre-sifirla.bat`.
+
+## ADR-016 Yayın adresi: islambol.org (GitHub Pages + özel alan adı; ADR-006'yı günceller)
+
+Tarih: 16 Ekim 2026.
+Bağlam: Kullanıcı, Natro'dan aldığı `islambol.org` alan adında yayın istedi. Natro hesabında barındırma hizmeti yok (alan adı kayıtlı, DNS Natro'da, hosting "Mevcut Değil"). Seçenekler: Natro hosting (ücretli, elle FTP) ya da GitHub Pages + özel alan adı (ücretsiz, otomatik HTTPS, `git push` ile yayın). Kullanıcı GitHub Pages'i seçti.
+Karar: Site alan adı kökünde yayınlanır: `deploy.yml`/`ci.yml` `SITE_URL=https://islambol.org`, `PATH_PREFIX=/`; `site.js`, `seo/dogrula.mjs`, `dogrula.py` varsayılanları ve `robots.txt` Sitemap satırı aynı adrese bakar. Actions ile yayınlandığından `CNAME` dosyası gerekmez; alan adı depo → Settings → Pages → Custom domain'e yazılır (DNS kayıtlarından önce). DNS (Natro): apex için GitHub Pages A (ve isteğe bağlı AAAA) kayıtları, `www` için `adursak63.github.io` CNAME'i; değerler GitHub belgesinden doğrulandı (README "Özel alan adı").
+Sonuç: Depo tarafı hazır; yayın için kullanıcıdan gereken: `gh auth login` + depoyu oluşturup push, Pages kaynağı "GitHub Actions", Custom domain ve Natro DNS kayıtları. Alan adı bağlanana kadar `github.io/islambol-yayinlari/` adresi kök derlemesiyle kırık görünür (geçici çözüm README'de). Yönetim paneli (ADR-015) yine yalnızca yerelde çalışır. Not: alan adı 16 Aralık 2026'da yenilenir (Natro'da otomatik yenileme açık).

@@ -4,7 +4,7 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 
 const KOK = process.argv[2] ?? "dist";
-const SITE_URL = (process.env.SITE_URL ?? "https://adursak63.github.io/islambol-yayinlari").replace(/\/$/, "");
+const SITE_URL = (process.env.SITE_URL ?? "https://islambol.org").replace(/\/$/, "");
 const TITLE_MAX = 60;
 const DESC_MAX = 155;
 

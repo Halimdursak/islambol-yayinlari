@@ -21,8 +21,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      SITE_URL: https://adursak63.github.io/islambol-yayinlari
-      PATH_PREFIX: /islambol-yayinlari/
+      SITE_URL: https://islambol.org
+      PATH_PREFIX: /
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7

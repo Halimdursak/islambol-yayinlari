@@ -32,11 +32,11 @@ CATALOG = KOK / "data" / "catalog"
 SITE = KOK / "data" / "site"
 RAPOR = KOK / "docs" / "qa" / "ICERIK-DOGRULAMA.md"
 
-SITE_URL = "https://adursak63.github.io/islambol-yayinlari"
+SITE_URL = "https://islambol.org"
 # WhatsApp numarası tek kaynaktan (data/site/site.json); yönetim panelinden değişince denetim de izler.
 WA_ANAHTAR = json.loads((SITE / "site.json").read_text(encoding="utf-8"))["whatsapp_url"].split("://", 1)[-1]
 TOHUM = 20261011
-UA = "Mozilla/5.0 (compatible; IslambolQA/1.0; +https://adursak63.github.io/islambol-yayinlari/)"
+UA = "Mozilla/5.0 (compatible; IslambolQA/1.0; +https://islambol.org/)"
 STATIK_SAYFALAR = ("hakkimizda", "yayin-cizgisi", "nereden-alinir", "iletisim",
                    "onizleme-hakkinda", "kvkk-ve-cerezler", "404.html")
 KITAP_ALANLARI = ("kitap", "yazar", "yazarlar", "kitaplar", "dizi", "diziler")
@@ -897,9 +897,8 @@ def rapor_yaz(kod, veri, ornek_sayisi):
     if sm:
         a(f"- sitemap `<loc>` sayısı: {sm['loc']}; dist HTML sayısı: {sm['html']}; "
           f"hariç tutulan (404, _test ve yönetim paneli): {sm['haric']}; beklenen: {sm['beklenen']}.")
-    a("- Not: `data/site/site.json` / betik taban adresi `https://adursak63.github.io/islambol-yayinlari` "
-      "(yol öneki `/islambol-yayinlari`). Varsayılan build `PATH_PREFIX=/` ile çalışır; sitemap'in dağıtım "
-      "adresiyle tutarlılığı için dağıtım komutunda `PATH_PREFIX=/islambol-yayinlari/` kullanıldığı teyit edilmeli.")
+    a("- Not: betik taban adresi `https://islambol.org` (alan adı kökünde yayın, yol öneki yok). Varsayılan build ve "
+      "dağıtım iş akışı `PATH_PREFIX=/` ile çalışır; sitemap adresleri bu tabana göre üretilir.")
     a("")
     a("## Betik ve yöntem notları")
     a("")

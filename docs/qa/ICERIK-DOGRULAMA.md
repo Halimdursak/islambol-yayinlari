@@ -105,7 +105,7 @@ Yöntem: her `[[SORU: …]]` işaretinin bulunduğu cümle `sorulariAyikla` ile 
 ## Sitemap
 
 - sitemap `<loc>` sayısı: 131; dist HTML sayısı: 133; hariç tutulan (404, _test ve yönetim paneli): 2; beklenen: 131.
-- Not: `data/site/site.json` / betik taban adresi `https://adursak63.github.io/islambol-yayinlari` (yol öneki `/islambol-yayinlari`). Varsayılan build `PATH_PREFIX=/` ile çalışır; sitemap'in dağıtım adresiyle tutarlılığı için dağıtım komutunda `PATH_PREFIX=/islambol-yayinlari/` kullanıldığı teyit edilmeli.
+- Not: betik taban adresi `https://islambol.org` (alan adı kökünde yayın, yol öneki yok). Varsayılan build ve dağıtım iş akışı `PATH_PREFIX=/` ile çalışır; sitemap adresleri bu tabana göre üretilir.
 
 ## Betik ve yöntem notları
 

@@ -43,7 +43,7 @@ Son çıktı (2026-10-11, B1/B2 içerik sayfaları henüz yokken yalnızca iskel
 
 ## Google Search Console adımları (kullanıcı için)
 
-1. search.google.com/search-console -> "Özellik ekle" -> "URL öneki" -> `https://adursak63.github.io/islambol-yayinlari/` (alt dizin olduğu için alan adı özelliği seçilemez).
+1. search.google.com/search-console -> "Özellik ekle" -> "Alan adı" -> `islambol.org` (DNS TXT kaydıyla doğrulanır) ya da "URL öneki" -> `https://islambol.org/` (ADR-016: site alan adı kökünde yayınlanır).
 2. Doğrulama: "HTML etiketi" yöntemi; verilen `<meta name="google-site-verification">` etiketini `seo.njk` içine eklettirin (B5'e iletin) ve siteyi yayımlayın.
 3. "Site haritaları" -> `sitemap.xml` ekleyin.
 4. "URL denetimi" ile ana sayfayı ve bir kitap sayfasını indekslemeye gönderin.
