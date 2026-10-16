@@ -73,7 +73,7 @@
 .kartlar > .kitap-karti { min-width: 0; }
 /* 640–833 px de üç sütun: tablet dikeyde iki sütun ~350 px'lik devasa kartlar üretiyordu (ana sayfa rafındaki 232 px kart ölçüsüne yakın tutulur) */
 @media (min-width: 640px) { .kartlar { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
-@media (min-width: 1100px) { .kartlar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (min-width: 68.75rem) { .kartlar { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
 .bos-durum { display: grid; justify-items: center; gap: 12px; padding: 72px 24px 56px; text-align: center; color: var(--c-ink-2); }
 .bos-durum__baslik { color: var(--c-ink); font-size: var(--text-xl); letter-spacing: -0.02em; }
@@ -91,12 +91,10 @@
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .katalog .yazar-karti:hover, .katalog .yazar-karti:focus-within { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
-.katalog .yazar-karti:hover .yazar-karti__portre,
-.katalog .yazar-karti:focus-within .yazar-karti__portre { transform: none; box-shadow: none; }   /* kartın kendisi yükselir */
-.katalog .yazar-karti:has(.yazar-karti__ad a:focus-visible) { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
-.katalog .yazar-karti:has(.yazar-karti__ad a:focus-visible) .yazar-karti__portre { outline: none; }
+.katalog .yazar-karti:hover .yazar-karti__portre { transform: none; box-shadow: none; }   /* kartın kendisi yükselir */
 .katalog .yazar-karti__ad { font-size: var(--text-base); }
 .katalog .yazar-karti__ad a::after { border-radius: inherit; }
+.katalog .yazar-karti__ad a:focus-visible::after { outline: var(--focus-ring); outline-offset: var(--focus-offset); border-radius: var(--radius-card); }
 .katalog .yazar-karti__ek { font-size: var(--text-sm); }
 
 /* ---- 5. Yazar sayfası: okuma genişliğinde beyaz biyografi kartı ---- */
@@ -115,7 +113,7 @@
 /* ---- 6. Set / seri kartı: üstte kapak, altta etiket + ad + ek + açıklama; bütün kart tek bağlantı ---- */
 .dizi-izgara { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 @media (min-width: 640px) { .dizi-izgara { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1100px) { .dizi-izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 68.75rem) { .dizi-izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .dizi-karti {
   position: relative; display: flex; flex-direction: column; height: 100%; padding: 20px 20px 28px;
@@ -123,7 +121,6 @@
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .dizi-karti:hover, .dizi-karti:focus-within { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
-.dizi-karti:has(.dizi-karti__ad a:focus-visible) { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
 
 /* Set görselleri farklı oranlarda (kitap fotoğrafı, afiş): kutu sabit kare, görsel mutlak konumlu ve taban hizalı sığar */
 .dizi-karti__kapak { position: relative; aspect-ratio: 1 / 1; margin-bottom: 22px; }
@@ -135,6 +132,7 @@
 .dizi-karti__ad a { text-decoration: none; }
 .dizi-karti__ad a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }   /* tüm kart tek bağlantı */
 .dizi-karti__ad a:focus-visible { outline: none; }
+.dizi-karti__ad a:focus-visible::after { outline: var(--focus-ring); outline-offset: var(--focus-offset); }   /* :has() gerektirmez */
 .dizi-karti__ek { margin: 0; color: var(--c-ink-2); font-size: var(--text-sm); font-variant-numeric: tabular-nums; }
 .dizi-karti__aciklama { margin: 4px 0 0; color: var(--c-ink-2); font-size: var(--text-sm); line-height: 1.45; }
 @media (max-width: 640px) { .dizi-karti { padding: 16px 16px 24px; } }
@@ -183,13 +181,13 @@
   .kitap-detay__kapak::before { bottom: 34px; }
   .kitap-detay__kapak-kap { width: min(100%, 270px); }
 }
-@media (min-width: 641px) and (max-width: 899px) { .kitap-detay__kapak { max-width: 520px; width: 100%; justify-self: center; } }
+@media (min-width: 641px) and (max-width: 899px) { .kitap-detay__kapak { max-width: 520px; width: 100%; } }
 
 /* ---- Birincil eylemler: kırmızı CTA ekranın tek vurgusu ---- */
 .kitap-detay__eylemler { display: grid; gap: 12px; margin-top: 22px; }
 .kitap-detay__eylemler .dugme { width: 100%; min-height: 48px; white-space: normal; text-align: center; }
 .kitap-detay__not { margin: 0; color: var(--c-ink-2); font-size: var(--text-xs); line-height: 1.45; text-align: center; }
-@media (min-width: 641px) and (max-width: 899px) { .kitap-detay__eylemler { width: 100%; max-width: 420px; justify-self: center; } }
+@media (min-width: 641px) and (max-width: 899px) { .kitap-detay__eylemler { width: 100%; max-width: 520px; } }
 
 /* ---- Eser bilgisi (sağ sütun) ---- */
 .kitap-detay__sag { display: flex; flex-direction: column; align-items: flex-start; }
@@ -203,8 +201,8 @@
 .kitap-detay__alt-baslik, .kitap-detay__yazar { color: var(--c-ink-2); font-size: 1.3125rem; line-height: 1.3; letter-spacing: -0.012em; }
 .kitap-detay__alt-baslik { margin-top: 14px; }
 .kitap-detay__yazar { margin-top: 10px; }
-.kitap-detay__yazar a { text-decoration-color: var(--c-line); }
-.kitap-detay__yazar a:hover { color: var(--c-ink); text-decoration-color: currentColor; }
+.kitap-detay__yazar a { text-decoration: none; }
+.kitap-detay__yazar a:hover { color: var(--c-ink); text-decoration: underline; text-underline-offset: 0.2em; }
 
 .kitap-detay__metin { margin-top: 36px; max-width: var(--okuma-w); }
 .kitap-detay__metin p { font-size: 1.1875rem; line-height: 1.55; letter-spacing: -0.012em; }
@@ -251,6 +249,22 @@
 @media (max-width: 640px) {
   .kunye-kart { padding: 4px 20px 8px; }
   .kunye th { width: 38%; padding-right: 12px; }
+}
+
+/* ---- Dar ekran: kitap adı ve yazar ilk ekranda görünsün (sıra: çipler, ad, yazar, kapak, eylemler, metin).
+   Sol/sağ sütun sarmalayıcıları düşürülür; kardeşler `order` ile dizilir. DOM sırası okuma sırasını korur. ---- */
+@media (max-width: 899px) {
+  .kitap-detay__izgara { display: flex; flex-direction: column; gap: 0; }
+  .kitap-detay__sol, .kitap-detay__sag { display: contents; }
+  .kitap-detay__sag > .etiketler { order: 1; margin-bottom: 14px; }
+  .kitap-detay__sag > .kitap-detay__baslik { order: 2; }
+  .kitap-detay__sag > .kitap-detay__alt-baslik { order: 3; }
+  .kitap-detay__sag > .kitap-detay__yazar { order: 4; }
+  .kitap-detay__kapak { order: 5; margin-top: 28px; }
+  .kitap-detay__eylemler { order: 6; }
+  .kitap-detay__sag > .kitap-detay__metin { order: 7; }
+  .kitap-detay__sag > .kitap-detay__takim { order: 8; }
+  .kitap-detay__sag > .siparis { order: 9; }
 }
 
 /* ---- Hareket: yalnız transform / opacity; azaltma tercihinde geçişler kapalı ---- */

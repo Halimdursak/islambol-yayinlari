@@ -26,12 +26,15 @@
 
 {# Slayt sahnesi: ana kapak (perspektifli) ve iki arka kapak. multiply, dönen sarmalayıcının KENDİSİNDE durur. #}
 {% macro kitapSahnesi(kitap, n) %}
+{#- Arka kapaklar slayttan slayta değişir: ana kitap dışındaki yeni çıkanlardan, slayt numarasına göre ikili seçilir. -#}
+{%- set aday = [] -%}
+{%- for k in vitrin.yeni_cikanlar -%}{%- if k.id != kitap.id -%}{%- set _a = aday.push(k) -%}{%- endif -%}{%- endfor -%}
 <div class="vitrin__kitaplar">
-  {% if vitrin.yeni_cikanlar[1] and vitrin.yeni_cikanlar[1].id != kitap.id %}
-  <span class="vitrin__kitap vitrin__kitap--arka-sol" aria-hidden="true">{{ kapak(vitrin.yeni_cikanlar[1], kapaklar[vitrin.yeni_cikanlar[1].id], { sizes: "(min-width: 64rem) 170px, 110px", yukle: "lazy", alt: "" }) }}</span>
+  {% if aday.length %}{% set sol = aday[(2 * n - 2) % aday.length] %}
+  <span class="vitrin__kitap vitrin__kitap--arka-sol" aria-hidden="true">{{ kapak(sol, kapaklar[sol.id], { sizes: "(min-width: 64rem) 160px, 110px", yukle: "lazy", alt: "" }) }}</span>
   {% endif %}
-  {% if vitrin.yeni_cikanlar[2] and vitrin.yeni_cikanlar[2].id != kitap.id %}
-  <span class="vitrin__kitap vitrin__kitap--arka-sag" aria-hidden="true">{{ kapak(vitrin.yeni_cikanlar[2], kapaklar[vitrin.yeni_cikanlar[2].id], { sizes: "(min-width: 64rem) 170px, 110px", yukle: "lazy", alt: "" }) }}</span>
+  {% if aday.length > 1 %}{% set sag = aday[(2 * n - 1) % aday.length] %}
+  <span class="vitrin__kitap vitrin__kitap--arka-sag" aria-hidden="true">{{ kapak(sag, kapaklar[sag.id], { sizes: "(min-width: 64rem) 160px, 110px", yukle: "lazy", alt: "" }) }}</span>
   {% endif %}
   <a class="vitrin__kitap vitrin__kitap--ana" href="{{ kitap.url }}"{% if kitap.id in onizlemeli_idler %} data-onizleme="{{ kitap.id }}"{% endif %} aria-label="{{ kitap.title }}{% if kitap.id in onizlemeli_idler %}: {{ mt.onizle_uzun | lower }}{% else %} kitabını incele{% endif %}">
     {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 64rem) 250px, 170px", yukle: "eager" if n == 1 else "lazy", alt: kitap.title }) }}
@@ -133,7 +136,12 @@
     <header class="raf-basligi"><div><p class="raf-basligi__etiket">Merakınızın izinden</p><h2 id="b-kategoriler">Hangi raftan başlayalım?</h2></div><a href="/kitaplar/">Kataloğu keşfet</a></header>
     <div class="kategori-kartlari">
       {% for kategori in site.sozluk.kategoriler %}{% if loop.index <= 4 %}
-      <a class="kategori-karti" href="/kitaplar/?kategori={{ kategori.slug }}"><span class="kategori-karti__ad">{{ kategori.ad }}</span><span class="kategori-karti__ok" aria-hidden="true">↗</span></a>
+      {%- set kat_kitaplar = [] -%}
+      {%- for b in books -%}{%- if kat_kitaplar.length < 3 and (kategori.slug in b.site_kategori_sluglari) and not (b.id in vitrin.haric) and b.kapak_url -%}{%- set _k = kat_kitaplar.push(b) -%}{%- endif -%}{%- endfor %}
+      <a class="kategori-karti" href="/kitaplar/?kategori={{ kategori.slug }}">
+        {%- if kat_kitaplar.length %}<span class="kategori-karti__kapaklar" aria-hidden="true">{% for b in kat_kitaplar %}<span>{{ kapak(b, kapaklar[b.id], { sizes: "80px", yukle: "lazy", alt: "" }) }}</span>{% endfor %}</span>{% endif %}
+        <span class="kategori-karti__ad">{{ kategori.ad }}</span><span class="kategori-karti__ok" aria-hidden="true">↗</span>
+      </a>
       {% endif %}{% endfor %}
     </div>
   </div>

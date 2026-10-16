@@ -1,3 +1,5 @@
+> **16 Ekim 2026 notu:** Bu istem uygulandı. Tasarım olarak Seçenek 1 (Beyaz Vitrin) ve 14 Ekim vitrin/CMS yapısı seçildi; ayrıntı için OTURUM-OZETI.md §15 ve KARARLAR.md ADR-010..014. Aşağıdaki metin tarihsel kayıttır.
+
 # Yeni Oturum Prompt'u
 
 Yeni bir Claude Code penceresi açıp çalışma klasörünü `C:\Users\LENOVO\Desktop\islambol_yayinlari` yapın, aşağıdaki bloğu olduğu gibi yapıştırın.

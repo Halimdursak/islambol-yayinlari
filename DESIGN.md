@@ -31,7 +31,7 @@ Yapı (arama çubuklu üst bar, duyuru slaytı, yuvarlak portreli yazar şeridi,
 | `--c-whatsapp` / `-hover` | `#25d366` / `#1ebe5a` | **Yalnız** üst bardaki resmî WhatsApp logosu |
 | `--c-scrim` | `rgb(0 0 0 / .42)` | Modal perdesi |
 
-Hero karosu tonları (`vitrin.css`, panelden seçilir): `peach #f6efe9`, `sage #eef2ed`, `blue #edf1f6`, `cream #f5f3ec`. Yalnızca çok hafif bir ton verir.
+Hero karosu tonları (`vitrin.css`): `peach #f6efe9`, `sage #eef2ed`, `cream #f5f3ec` panelden seçilir; `blue #edf1f6` CSS'te hazırdır ama yönetim paneli şimdilik sunmaz (`scripts/cms/content.mjs` yalnız peach/sage/cream kabul eder; geçersiz değer cream'e düşer). Yalnızca çok hafif bir ton verir.
 
 Kurallar:
 - Ekranda tek vurgu rengi: kırmızı. Kırmızı başlık, kırmızı büyük yüzey, kırmızı dekor yok. Bağlantı rengi mürekkeptir, vurgu hover'da altçizgiyle verilir.
@@ -107,7 +107,7 @@ Tek aile: **Inter** (SIL OFL, self-host, değişken ağırlık 100–900). Apple
 ## 4. Bileşenler
 
 ### 4.1 Üst bar `.ust`
-Masaüstü (≥1100px): tek sıra, yapışkan, yarı saydam cam şerit (`backdrop-filter: blur(20px) saturate(180%)`), yükseklik ~57px: logo · menü (7 bağlantı, tek satır, geçerli sayfa 600) · arama kapsülü (210px, `--c-band`) · WhatsApp logosu. Dar ekran: logo · WhatsApp · arama simgesi · "Menüyü aç"; panel açılınca arama en üstte, menü altında. Esc kapatır, arama simgesi paneli açıp aramaya odaklanır (`site.js`). JS yoksa `<noscript>` stili paneli açık bırakır.
+Masaüstü (≥1100px): tek sıra, yapışkan, yarı saydam cam şerit (`backdrop-filter: blur(20px) saturate(180%)`), yükseklik ~57px: logo · menü (7 bağlantı, tek satır, geçerli sayfa 600) · arama kapsülü (210px, `--c-band`) · WhatsApp logosu. Dar ekran: logo · WhatsApp · arama simgesi · "Menüyü aç"; panel açılınca opak beyaz, görünür alanın tamamını kaplar, arama en üstte, menü altında; arka sayfa kaymaz (`html.menu-acik`). Esc kapatır ve odağı düğmeye geri verir; klavyeyle (Enter/Boşluk) açılınca odak panelin ilk bağlantısına geçer (DOM'da panel düğmeden önce olduğu için); arama simgesi paneli açıp aramaya odaklanır (`site.js`). JS yoksa `<noscript>` stili paneli açık bırakır. Simge düğmeleri 40px, ≤380px 36–38px.
 
 Logo, şeffaf PNG'nin içerik kutusunun (x 99–696, y 305–503 / 800) kırpılmasıyla gösterilir (`--lh` yüksekliği).
 
@@ -126,7 +126,7 @@ Beyaz zemin, üstte 1px çizgi, 13px ikincil metin. 4 sütun (marka+slogan, Yay�
 Sol: ikincil etiket (17px/600) + `h2`; sağ: bağlantı ("Tüm kitaplar ›") ve raf okları. Dokunmatik cihazda oklar gizlenir (raf parmakla kaydırılır).
 
 ### 4.6 Kitap kartı `.kitap-karti` (`kartlar.css`)
-Beyaz, 20px, `--shadow-card`; hover/odakta −4px yükselir ve gölge büyür (zıplama yok). Yapı: kapak yuvası (2:3, `multiply`, bkz. §5) · yazar (15px gri) · başlık (17px/600, tüm kartı kaplayan bağlantı) · künye (13px). **"Önizle" rozeti** `.sekme`: kırmızı kapsül, kartın sol altında. Sayfada o kitabın önizleme `<template>`'i basılıyorsa rozet gerçek düğmedir (`data-onizleme="<id>"`, sayfa çevirmeyi açar); değilse yalnızca etikettir. "Takım" rozeti nötr gridir.
+Beyaz, 20px, `--shadow-card`; hover/odakta −4px yükselir ve gölge büyür (zıplama yok). Yapı: kapak yuvası (kesin 2:3; görsel mutlak konumlu `object-fit: contain`, tabana oturur, böylece farklı oranlı kapaklarda başlıklar tek taban çizgisinde kalır; `multiply`, bkz. §5) · yazar (15px gri) · başlık (17px/600, tüm kartı kaplayan bağlantı) · künye (13px). **"Önizle" rozeti** `.sekme`: kırmızı kapsül, kartın sol altında. Sayfada o kitabın önizleme `<template>`'i basılıyorsa rozet gerçek düğmedir (`data-onizleme="<id>"`, sayfa çevirmeyi açar, görünmeyen isabet alanı ~44px); değilse yalnızca etikettir ve `pointer-events: none` ile kart bağlantısının tıklamasını yutmaz. JS kapalıyken düğme gizlenir. Kart odak halkası bağlantının `::after` katmanındadır (`:has()` gerekmez). "Takım" rozeti nötr gridir.
 
 ### 4.7 Yatay raf `.serit`
 `scroll-snap-type: x mandatory`; kenara taşar, iç boşluk içerik ızgarasına hizalıdır. Kart 232px (≤834: 204, ≤640: 184). `data-scroll-shelf/track/controls` işaretleri `showcase.js`'i sürer (ok durumları, taşma algısı).
@@ -135,13 +135,13 @@ Beyaz, 20px, `--shadow-card`; hover/odakta −4px yükselir ve gölge büyür (z
 Yuvarlak 132px portre (fotoğraf yoksa baş harfler, `--c-band` zemin, 600); altında ad ve kitap sayısı. Hover'da portre hafifçe yükselir.
 
 ### 4.9 Duyuru slaytı `.vitrin` (panelden yönetilir)
-28px yuvarlak karo, iki sütun: sol metin (etiket, `h2` ≤60px/600, açıklama, kırmızı CTA + ikincil "İlk sayfalara göz at"), sağ sahne (ana kapak perspektifli `rotateY(-7deg)`, iki arka kapak ±9° dönük, altta yazar ve başlık). Panelden görsel yüklenirse sahneyi o doldurur. Kontroller: önceki/sonraki yuvarlak düğmeler ve nokta göstergesi (aktif nokta uzar); yalnız kullanıcı kontrolüyle değişir, kendiliğinden kaymaz. Slayt başlığındaki satır sonları korunur (`white-space: pre-line`). Ana kapak ve ikincil düğme, kitap vitrin önizlemelisindeyse `data-onizleme` taşır.
+28px yuvarlak karo, iki sütun: sol metin (etiket, `h2` ≤60px/600, açıklama, kırmızı CTA + ikincil "İlk sayfalara göz at"), sağ sahne (ana kapak perspektifli `rotateY(-7deg)`, iki arka kapak ±9° dönük ve sahne genişliğine oranlı konumlu, altta yazar ve başlık). Arka kapaklar slayttan slayta değişir. Tüm slaytlar aynı ızgara hücresinde üst üste durur (kap en yüksek slayta göre ölçülür; etkin olmayan `visibility: hidden`), böylece slayt değişince sayfa kaymaz. Panelden görsel yüklenirse sahneyi o doldurur. Kontroller: önceki/sonraki yuvarlak düğmeler ve nokta göstergesi (aktif nokta uzar); yalnız kullanıcı kontrolüyle değişir, kendiliğinden kaymaz. Slayt başlığındaki satır sonları korunur (`white-space: pre-line`). Ana kapak ve ikincil düğme, kitap vitrin önizlemelisindeyse `data-onizleme` taşır.
 
 ### 4.10 Kısayollar `.kesif-kisayollari`
 Üç bağlantı (kitap bul, satın almadan önce oku, nereden alınır), ince dikey çizgilerle ayrılmış, simge + metin + "›". Mobilde alt alta.
 
 ### 4.11 Kategori karoları `.kategori-karti`
-Bant üstünde beyaz 28px karolar, ad 28px/600 (alt-sol), sağ üstte yuvarlak ok; hover'da yükselir.
+Bant üstünde beyaz 28px karolar: ad 28px/600 (alt-sol), o kategoriden üç gerçek kapak (sağ üst, sabit 54×84px kutularda `contain`, hafif dönük, `multiply` dönen kutuda; editoryal olarak vitrin dışı bırakılan kitaplar hariç), yuvarlak ok (alt-sağ; mobilde sağ üst, kapaklar yazının üstünde). Hover'da yükselir.
 
 ### 4.12 Yayın hikâyesi ve sayılar
 Ortalı slogan (`h2`), 30px/500 özet, üçüncül bağlantı. Altında dört sayı (kitap, yazar, önizlemeli kitap, set ve seri): 64px/600, üstte 1px çizgi, hepsi katalog verisinden hesaplanır.
@@ -157,11 +157,11 @@ Ortalı slogan (`h2`), 30px/500 özet, üçüncül bağlantı. Altında dört sa
 - **Set/seri kartı `.dizi-karti`**: beyaz kart, kare kapak kutusu (görsel taban hizalı, multiply), etiket + ad (21px/600) + gri ek + açıklama; bütün kart tek bağlantıdır.
 
 **Kitap/set detayı `.kitap-detay`**: bloklar dönüşümlüdür: 1. beyaz (kapak + eser bilgisi), 2. bant (künye), 3. beyaz ("Aynı yazardan"), 4. bant ("Bu kitabın dizisi").
-- ≥900px iki sütun (sol 330–420px kapak sütunu; yeterince yüksek ekranda `sticky`), altı tek sütun, sahne önce.
+- ≥900px iki sütun (sol 330–420px kapak sütunu; yeterince yüksek ekranda `sticky`), altı tek sütun; kitap adı ve yazar ilk ekranda görünsün diye sıra çipler → ad → yazar → kapak sahnesi → eylemler → metin (sütun sarmalayıcıları `display: contents` ile düşürülüp `order` verilir; DOM sırası okuma sırasını korur).
 - **Kapak sahnesi**: `--c-band` 28px karo; kapak `perspective` + `rotateY(-7deg) rotateX(1.5deg)` ile durur, `multiply` dönen kapta (§5), kapağın arkasında bulanık temas gölgesi, hover'da düzleşir. Altında tam genişlik **kırmızı CTA** ("WhatsApp'tan sipariş ver"), gri "İlk sayfalara göz at" (`data-onizleme`), küçük gri not.
 - **Sağ sütun**: çipler, başlık (uzunluğa göre üç kademe: 64 → 52 → 44px), gri alt başlık ve yazar (21px), giriş paragrafı 24px/500 (yalnız 80–480 karakterlik ilk paragraf), gövde 19px/1.55, "Takım" kutusu, **"Nereden alınır" `.siparis`** (bant 28px modül: WhatsApp düğmesi + not, çizgili kitapçı satırları ve "›").
 - **Künye `.kunye-kart`**: bant bloğunda ortalı beyaz 20px kart; tablo semantiği korunur (`caption` başlık, `th scope="row"` gri 15px, `td` 500, ince satır çizgileri). Boş alanın satırı basılmaz; yazarsız kayıtta "—" satırı yoktur.
-- Sırada iki kırmızı düğme vardır (kapak altı ve "Nereden alınır" içi): aynı eylemin iki konumu; ikincisi sayfa sonuna yakın kullanıcı içindir.
+- Sayfada iki kırmızı düğme vardır (kapak altı ve "Nereden alınır" içi): aynı eylemin iki konumu; ikincisi sayfa sonuna yakın kullanıcı içindir.
 
 ### 4.15 Statik sayfalar `.sayfa`, `.okuma`
 Dar okuma sütunu (760px), başlık `clamp(36→64px)/600`; gövdede ilk paragraf 26px/500 giriş, sonra 19px/1.58; `h2` 32px; bağlantılar alt çizgili. Kanal listesi `.kanallar` ve WhatsApp kutusu `.hat` bant zeminli 28px modüllerdir.
@@ -170,7 +170,7 @@ Dar okuma sütunu (760px), başlık `clamp(36→64px)/600`; gövdede ilk paragra
 Beyaz 28px diyalog (≤1080px, mobilde tam ekran), `::backdrop` bulanık perde. Üst şerit: gri etiket, 21–24px/600 kitap adı, gri yazar, sağda 40px yuvarlak kapat düğmesi; alt çizgi. Sahne `--c-band`, sayfalar beyaz + `--shadow-page`, ortada bulanık cilt gölgesi. Alt şerit: "Önceki/Sonraki" kapsül düğmeleri (≤480px yalnız ok), tabular sayaç, klavye ipucu, not. Esc ve ← → çalışır, odak kapat düğmesine gider ve tetikleyiciye döner. `prefers-reduced-motion` veya hata durumunda dikey beyaz sayfa galerisi (page-flip yüklenmez). Mobil tek sayfa modu, güvenli alanlara saygılı.
 
 ### 4.17 Odak, atlama bağlantısı, konum yolu
-Odak halkası global: `2px solid #0071e3`, 3px ofset (`:focus-visible`), hiçbir yerde kaldırılmaz; kartlarda halka kartın tamamına verilir. Atlama bağlantısı `.atla` ilk odaklanabilir öğedir. Konum yolu `.iz` 13px, "›" ayraçlı.
+Odak halkası global: `2px solid #0071e3`, 3px ofset (`:focus-visible`), hiçbir yerde kaldırılmaz; kartlarda halka bağlantının tüm kartı kaplayan `::after` katmanına verilir. Dokunma hedefleri ≥24px (WCAG 2.5.8), birincil simge/düğmeler 40px; Apple'ın 44px önerisine kıyasla üst bar simgeleri (40px) ve "Önizle" rozeti (görünür 27px, isabet alanı daha büyük) bilinçli olarak küçüktür. Atlama bağlantısı `.atla` ilk odaklanabilir öğedir. Konum yolu `.iz` 13px, "›" ayraçlı.
 
 ---
 
@@ -186,7 +186,7 @@ Kapak fotoğrafları beyazımsı (`~#f6f6f6`) zeminli 3B çekimdir. Zemin şu ku
 
 ## 6. Hareket
 
-Yalnızca `transform`, `opacity`, renk. Süreler: 300ms (`--dur`), 600ms (`--dur-slow`), eğri `cubic-bezier(.22,.61,.36,1)`. Kart ve karo hover'ı −4px; düğme basışı `scale(.97)`; hero kapağı hover'da düzleşir; modal açılışı opacity + 8px. `prefers-reduced-motion: reduce` → tüm süreler 0, hover kayması ve kapak eğimi yok, önizleme dikey galeriye düşer. Dokunmatikte (`hover: none`) hover yükselmesi uygulanmaz.
+Yalnızca `transform`, `opacity`, renk. Süreler: 300ms (`--dur`), 600ms (`--dur-slow`), eğri `cubic-bezier(.22,.61,.36,1)`. Kart ve karo hover'ı −4px; düğme basışı `scale(.97)`; hero kapağı hover'da düzleşir; modal açılışı opacity + 8px. `prefers-reduced-motion: reduce` → tüm süreler 0, hover kayması ve düzleşme yok (kitap detayında kapak eğimi sabit kalır, hero kapağı geçişsiz), önizleme dikey galeriye düşer. Dokunmatikte (`hover: none`) hover yükselmesi uygulanmaz.
 
 ---
 
