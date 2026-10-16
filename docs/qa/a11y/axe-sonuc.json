@@ -6,34 +6,35 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 43,
+      "gecen": 46,
       "tamamlanmamis": [
-        "color-contrast"
+        "color-contrast",
+        "label-content-name-mismatch"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": ".hero__sekme",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
+          "secici": "#duyuru-1 > .vitrin__gorsel > .vitrin__kitaplar > .vitrin__kitap-kunye > span",
+          "neden": "Element's background color could not be determined due to a pseudo element"
         },
         {
-          "secici": "figcaption > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": "#duyuru-1 > .vitrin__gorsel > .vitrin__kitaplar > .vitrin__kitap-kunye > cite",
+          "neden": "Element's background color could not be determined due to a pseudo element"
         },
         {
-          "secici": "cite",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": "button[data-slide-prev=\"\"] > span[aria-hidden=\"true\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": ".hero__slogan",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": "button[data-slide-next=\"\"] > span[aria-hidden=\"true\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "#hero-baslik",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": "button[aria-label=\"Sonraki yeni çıkanlar\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": ".hero__alt",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": "button[aria-label=\"Sonraki önizlemeli kitaplar\"]",
+          "neden": "Element content contains only non-text characters"
         }
       ]
     },
@@ -43,34 +44,35 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 41,
+      "gecen": 50,
       "tamamlanmamis": [
-        "color-contrast"
+        "color-contrast",
+        "label-content-name-mismatch"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "#duyuru-1 > .vitrin__gorsel > .vitrin__kitaplar > .vitrin__kitap-kunye > span",
+          "neden": "Element's background color could not be determined due to a pseudo element"
         },
         {
-          "secici": "li:nth-child(2) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "#duyuru-1 > .vitrin__gorsel > .vitrin__kitaplar > .vitrin__kitap-kunye > cite",
+          "neden": "Element's background color could not be determined due to a pseudo element"
         },
         {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[data-slide-prev=\"\"] > span[aria-hidden=\"true\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[data-slide-next=\"\"] > span[aria-hidden=\"true\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[aria-label=\"Sonraki yeni çıkanlar\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[aria-label=\"Sonraki önizlemeli kitaplar\"]",
+          "neden": "Element content contains only non-text characters"
         }
       ]
     },
@@ -86,28 +88,20 @@
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
+          "secici": "select[name=\"yazar\"]",
+          "neden": "Element's background color could not be determined due to a background image"
+        },
+        {
+          "secici": "select[name=\"yil\"]",
+          "neden": "Element's background color could not be determined due to a background image"
+        },
+        {
+          "secici": "input[data-alan=\"q\"]",
+          "neden": "Element has no value; test color contrast with a value entered"
+        },
+        {
+          "secici": ".alt__slogan",
           "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": ".katalog__ust > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".katalog__sayi",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "button[data-kategori-cip=\"siyaset\"]",
-          "neden": "Element's background color could not be determined because it's partially obscured by another element"
         }
       ]
     },
@@ -123,28 +117,20 @@
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "select[name=\"yazar\"]",
+          "neden": "Element's background color could not be determined due to a background image"
         },
         {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "select[name=\"yil\"]",
+          "neden": "Element's background color could not be determined due to a background image"
         },
         {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "input[data-alan=\"q\"]",
+          "neden": "Element has no value; test color contrast with a value entered"
         },
         {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -160,28 +146,20 @@
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
+          "secici": "select[name=\"yazar\"]",
+          "neden": "Element's background color could not be determined due to a background image"
+        },
+        {
+          "secici": "select[name=\"yil\"]",
+          "neden": "Element's background color could not be determined due to a background image"
+        },
+        {
+          "secici": "input[data-alan=\"q\"]",
+          "neden": "Element has no value; test color contrast with a value entered"
+        },
+        {
+          "secici": ".alt__slogan",
           "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": ".katalog__ust > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".katalog__sayi",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "button[data-kategori-cip=\"siyaset\"]",
-          "neden": "Element's background color could not be determined because it's partially obscured by another element"
         }
       ]
     },
@@ -197,28 +175,20 @@
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "select[name=\"yazar\"]",
+          "neden": "Element's background color could not be determined due to a background image"
         },
         {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "select[name=\"yil\"]",
+          "neden": "Element's background color could not be determined due to a background image"
         },
         {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "input[data-alan=\"q\"]",
+          "neden": "Element has no value; test color contrast with a value entered"
         },
         {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -234,28 +204,8 @@
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
+          "secici": ".alt__slogan",
           "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "li:nth-child(2) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".kitap-detay__onizle",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".kitap-detay__not",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".cip[href=\"/kitaplar/?kategori=tarih\"]",
-          "neden": "Element's background color could not be determined due to a background image"
         }
       ]
     },
@@ -265,34 +215,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 43,
+      "gecen": 50,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -308,28 +238,8 @@
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
+          "secici": ".alt__slogan",
           "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "li:nth-child(2) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".cip[href=\"/kitaplar/?kategori=tarih\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "li:nth-child(2) > .cip",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".cip--durum",
-          "neden": "Element's background color could not be determined due to a background image"
         }
       ]
     },
@@ -339,293 +249,126 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
+      "gecen": 51,
+      "tamamlanmamis": [
+        "color-contrast"
+      ],
+      "tamamlanmamisKontrast": [
+        {
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    },
+    {
+      "sayfa": "/yazarlar/",
+      "genislik": 390,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
+      "gecen": 38,
+      "tamamlanmamis": [],
+      "tamamlanmamisKontrast": []
+    },
+    {
+      "sayfa": "/yazarlar/",
+      "genislik": 1440,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
+      "gecen": 45,
+      "tamamlanmamis": [
+        "color-contrast"
+      ],
+      "tamamlanmamisKontrast": [
+        {
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    },
+    {
+      "sayfa": "/yazar/cevat-rifat-atilhan/",
+      "genislik": 390,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
+      "gecen": 39,
+      "tamamlanmamis": [
+        "color-contrast"
+      ],
+      "tamamlanmamisKontrast": [
+        {
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    },
+    {
+      "sayfa": "/yazar/cevat-rifat-atilhan/",
+      "genislik": 1440,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
+      "gecen": 46,
+      "tamamlanmamis": [
+        "color-contrast"
+      ],
+      "tamamlanmamisKontrast": [
+        {
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    },
+    {
+      "sayfa": "/diziler/",
+      "genislik": 390,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
+      "gecen": 39,
+      "tamamlanmamis": [
+        "color-contrast"
+      ],
+      "tamamlanmamisKontrast": [
+        {
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    },
+    {
+      "sayfa": "/diziler/",
+      "genislik": 1440,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
+      "gecen": 46,
+      "tamamlanmamis": [
+        "color-contrast"
+      ],
+      "tamamlanmamisKontrast": [
+        {
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
+        }
+      ]
+    },
+    {
+      "sayfa": "/dizi/bilinmeyen-yonleriyle-mustafa-kemal-ve-kurtulus-savasi-gercekleri-serisi/",
+      "genislik": 390,
+      "mod": "acik",
+      "etiket": "sayfa",
+      "ihlaller": [],
       "gecen": 43,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        }
-      ]
-    },
-    {
-      "sayfa": "/yazarlar/",
-      "genislik": 390,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 37,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
+          "secici": ".alt__slogan",
           "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": ".katalog__ust > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".katalog__sayi",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "article:nth-child(1) > .yazar-karti__metin > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        }
-      ]
-    },
-    {
-      "sayfa": "/yazarlar/",
-      "genislik": 1440,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 36,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        }
-      ]
-    },
-    {
-      "sayfa": "/yazar/cevat-rifat-atilhan/",
-      "genislik": 390,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 38,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "ol > li:nth-child(2) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".katalog__ust > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".katalog__sayi",
-          "neden": "Element's background color could not be determined due to a background image"
-        }
-      ]
-    },
-    {
-      "sayfa": "/yazar/cevat-rifat-atilhan/",
-      "genislik": 1440,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 37,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": ".ust__liste > li:nth-child(2) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        }
-      ]
-    },
-    {
-      "sayfa": "/diziler/",
-      "genislik": 390,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 37,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": ".katalog__ust > span",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".katalog__sayi",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "article:nth-child(1) > .dizi-karti__govde > span",
-          "neden": "Element's background color could not be determined due to a background image"
-        }
-      ]
-    },
-    {
-      "sayfa": "/diziler/",
-      "genislik": 1440,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 36,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        }
-      ]
-    },
-    {
-      "sayfa": "/dizi/bilinmeyen-yonleriyle-mustafa-kemal-ve-kurtulus-savasi-gercekleri-serisi/",
-      "genislik": 390,
-      "mod": "acik",
-      "etiket": "sayfa",
-      "ihlaller": [],
-      "gecen": 42,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "li:nth-child(2) > a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined because it is overlapped by another element"
-        },
-        {
-          "secici": "span[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".cip",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".kitap-detay__alt-baslik",
-          "neden": "Element's background color could not be determined due to a background image"
         }
       ]
     },
@@ -635,34 +378,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 41,
+      "gecen": 50,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(3) > a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -672,34 +395,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 37,
+      "gecen": 39,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": ".sayfa__baslik > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__govde > p:nth-child(1)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__govde > p:nth-child(2)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "p:nth-child(2) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "p:nth-child(3)",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -709,36 +412,9 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 36,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(2) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        }
-      ]
+      "gecen": 46,
+      "tamamlanmamis": [],
+      "tamamlanmamisKontrast": []
     },
     {
       "sayfa": "/nereden-alinir/",
@@ -746,36 +422,9 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 38,
-      "tamamlanmamis": [
-        "color-contrast"
-      ],
-      "tamamlanmamisKontrast": [
-        {
-          "secici": ".sayfa__baslik > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__govde > p:nth-child(1)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h2:nth-child(2)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".kanal:nth-child(1) > .kanal__ad[rel=\"noopener noreferrer\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".kanal:nth-child(1) > .kanal__not",
-          "neden": "Element's background color could not be determined due to a background image"
-        }
-      ]
+      "gecen": 39,
+      "tamamlanmamis": [],
+      "tamamlanmamisKontrast": []
     },
     {
       "sayfa": "/nereden-alinir/",
@@ -783,34 +432,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 37,
+      "gecen": 46,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[aria-current=\"page\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -820,34 +449,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 37,
+      "gecen": 39,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": ".sayfa__baslik > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__giris",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".dugme--ikincil.dugme[href=\"tel:+905059808735\"] > span",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".dugme--ikincil.dugme:nth-child(3)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h2:nth-child(2)",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -857,34 +466,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 36,
+      "gecen": 46,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -894,34 +483,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 37,
+      "gecen": 39,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": ".sayfa__baslik > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__govde > h2:nth-child(1)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__govde > p:nth-child(2)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h2:nth-child(3)",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "p:nth-child(4)",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -931,34 +500,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 36,
+      "gecen": 46,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -968,34 +517,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 37,
+      "gecen": 39,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": ".sayfa__baslik > .etiket",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "h1",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": ".sayfa__govde > p",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "li:nth-child(1) > a[href=\"/\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "li:nth-child(2) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background image"
-        },
-        {
-          "secici": "li:nth-child(3) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background image"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -1005,34 +534,14 @@
       "mod": "acik",
       "etiket": "sayfa",
       "ihlaller": [],
-      "gecen": 36,
+      "gecen": 46,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(2) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -1042,34 +551,35 @@
       "mod": "koyu",
       "etiket": "koyu",
       "ihlaller": [],
-      "gecen": 41,
+      "gecen": 50,
       "tamamlanmamis": [
-        "color-contrast"
+        "color-contrast",
+        "label-content-name-mismatch"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "#duyuru-1 > .vitrin__gorsel > .vitrin__kitaplar > .vitrin__kitap-kunye > span",
+          "neden": "Element's background color could not be determined due to a pseudo element"
         },
         {
-          "secici": "li:nth-child(2) > a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "#duyuru-1 > .vitrin__gorsel > .vitrin__kitaplar > .vitrin__kitap-kunye > cite",
+          "neden": "Element's background color could not be determined due to a pseudo element"
         },
         {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[data-slide-prev=\"\"] > span[aria-hidden=\"true\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[data-slide-next=\"\"] > span[aria-hidden=\"true\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[aria-label=\"Sonraki yeni çıkanlar\"]",
+          "neden": "Element content contains only non-text characters"
         },
         {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": "button[aria-label=\"Sonraki önizlemeli kitaplar\"]",
+          "neden": "Element content contains only non-text characters"
         }
       ]
     },
@@ -1079,34 +589,14 @@
       "mod": "koyu",
       "etiket": "koyu",
       "ihlaller": [],
-      "gecen": 43,
+      "gecen": 50,
       "tamamlanmamis": [
         "color-contrast"
       ],
       "tamamlanmamisKontrast": [
         {
-          "secici": "li:nth-child(1) > a[href$=\"kitaplar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"yazarlar/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "a[href$=\"diziler/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(4) > a[href$=\"yayin-cizgisi/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(5) > a[href$=\"nereden-alinir/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
-        },
-        {
-          "secici": "li:nth-child(6) > a[href$=\"hakkimizda/\"]",
-          "neden": "Element's background color could not be determined due to a background gradient"
+          "secici": ".alt__slogan",
+          "neden": "Element's background color could not be determined because it is overlapped by another element"
         }
       ]
     },
@@ -1158,56 +648,56 @@
         {
           "e": "a.atla",
           "metin": "Ana içeriğe geç",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a.ust__logo",
           "metin": "",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a",
           "metin": "Kitaplar",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a",
           "metin": "Yazarlar",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a",
           "metin": "Set ve Seriler",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a",
           "metin": "Yayın Çizgisi",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a",
           "metin": "Nereden Alınır",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         },
         {
           "e": "a",
           "metin": "Hakkımızda",
-          "halka": "solid 2px rgb(165, 28, 34)",
+          "halka": "solid 2px rgb(0, 113, 227)",
           "goruk": true,
           "fv": true
         }
@@ -1238,8 +728,8 @@
         "gorunur": true
       },
       "spaceIkinci": {
-        "exp": "false",
-        "gorunur": false
+        "exp": "true",
+        "gorunur": true
       }
     },
     {
@@ -1264,7 +754,7 @@
     },
     {
       "test": "kitap-onizle-dugme-odak-halkasi",
-      "halka": "solid 2px rgb(165, 28, 34) off 2px"
+      "halka": "solid 2px rgb(0, 113, 227) off 3px"
     }
   ],
   "yapi": [
@@ -1272,16 +762,16 @@
       "sayfa": "/",
       "lang": "tr",
       "h1": 1,
-      "h1Metin": "Tarihi belgeyle ve tanıklıkla okuyun",
+      "h1Metin": "İslambol Yayınları — Tarihi doğru okumak için…",
       "main": 1,
       "header": 7,
       "footer": 2,
-      "nav": 2,
+      "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 38,
+      "imgSayisi": 37,
       "altYok": [],
-      "altBos": 36,
+      "altBos": 32,
       "kotuLink": [],
       "adsizLink": [],
       "adsizDugme": [],
@@ -1301,7 +791,7 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 79,
+      "imgSayisi": 80,
       "altYok": [],
       "altBos": 78,
       "kotuLink": [],
@@ -1323,7 +813,7 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 79,
+      "imgSayisi": 80,
       "altYok": [],
       "altBos": 78,
       "kotuLink": [],
@@ -1345,7 +835,7 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 2,
+      "imgSayisi": 3,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1367,7 +857,7 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 5,
+      "imgSayisi": 6,
       "altYok": [],
       "altBos": 3,
       "kotuLink": [],
@@ -1389,9 +879,9 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 53,
+      "imgSayisi": 2,
       "altYok": [],
-      "altBos": 52,
+      "altBos": 0,
       "kotuLink": [],
       "adsizLink": [],
       "adsizDugme": [],
@@ -1411,7 +901,7 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 18,
+      "imgSayisi": 19,
       "altYok": [],
       "altBos": 17,
       "kotuLink": [],
@@ -1433,7 +923,7 @@
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 8,
+      "imgSayisi": 9,
       "altYok": [],
       "altBos": 7,
       "kotuLink": [],
@@ -1450,12 +940,12 @@
       "h1": 1,
       "h1Metin": "Bilinmeyen Yönleriyle Mustafa Kemal ve Kurtuluş Savaşı Gerçe",
       "main": 1,
-      "header": 2,
+      "header": 1,
       "footer": 1,
       "nav": 3,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 2,
+      "imgSayisi": 3,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1477,7 +967,7 @@
       "nav": 2,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 1,
+      "imgSayisi": 2,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1499,7 +989,7 @@
       "nav": 2,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 1,
+      "imgSayisi": 2,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1521,7 +1011,7 @@
       "nav": 2,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 1,
+      "imgSayisi": 2,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1543,7 +1033,7 @@
       "nav": 2,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 1,
+      "imgSayisi": 2,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1565,7 +1055,7 @@
       "nav": 2,
       "navEtiketsiz": 0,
       "baslikAtlama": [],
-      "imgSayisi": 1,
+      "imgSayisi": 2,
       "altYok": [],
       "altBos": 0,
       "kotuLink": [],
@@ -1585,9 +1075,9 @@
       "clientW": 320,
       "yatayKayma": false,
       "tasan": [
-        "div.serit__oge right=344",
-        "article.kitap-karti right=344",
-        "div.kitap-karti__kapak right=344"
+        "div.serit__oge right=404",
+        "article.kitap-karti right=404",
+        "div.kitap-karti__kapak right=390"
       ]
     },
     {
@@ -1597,9 +1087,9 @@
       "clientW": 320,
       "yatayKayma": false,
       "tasan": [
-        "button.cip right=377",
-        "span.cip__sayi right=364",
-        "button.cip right=478"
+        "button.cip right=432",
+        "span.cip__sayi right=418",
+        "button.cip right=548"
       ]
     },
     {
@@ -1609,9 +1099,9 @@
       "clientW": 320,
       "yatayKayma": false,
       "tasan": [
-        "button.cip right=377",
-        "span.cip__sayi right=364",
-        "button.cip right=478"
+        "button.cip right=432",
+        "span.cip__sayi right=418",
+        "button.cip right=548"
       ]
     },
     {
@@ -1709,9 +1199,9 @@
       "clientW": 720,
       "yatayKayma": false,
       "tasan": [
-        "div.serit__oge right=931",
-        "article.kitap-karti right=931",
-        "div.kitap-karti__kapak right=931"
+        "div.serit__oge right=886",
+        "article.kitap-karti right=886",
+        "div.kitap-karti__kapak right=868"
       ]
     },
     {
@@ -1720,11 +1210,7 @@
       "scrollW": 720,
       "clientW": 720,
       "yatayKayma": false,
-      "tasan": [
-        "button.cip right=758",
-        "span.cip__sayi right=745",
-        "button.cip right=955"
-      ]
+      "tasan": []
     },
     {
       "sayfa": "/kitaplar/?kategori=tarih",
@@ -1732,11 +1218,7 @@
       "scrollW": 720,
       "clientW": 720,
       "yatayKayma": false,
-      "tasan": [
-        "button.cip right=758",
-        "span.cip__sayi right=745",
-        "button.cip right=955"
-      ]
+      "tasan": []
     },
     {
       "sayfa": "/kitap/sen-neden-kor-edildin/",
@@ -1847,8 +1329,8 @@
       "galeriOdaklandi": true,
       "kaydirilabilirKap": {
         "eleman": "onizleme__galeri",
-        "sh": 9064,
-        "ch": 694
+        "sh": 9168,
+        "ch": 718
       },
       "kapatOdaktaPageDownKaydirir": false
     },
@@ -1899,7 +1381,7 @@
       "1 / 10"
     ],
     "okIleCevirir": true,
-    "dialogOdakHalkasi": "solid 2px rgb(165, 28, 34) off:2px",
+    "dialogOdakHalkasi": "solid 2px rgb(0, 113, 227) off:2px",
     "escKapatti": true,
     "odakDugmeyeDondu": true,
     "kilitKalkti": true,
@@ -1913,69 +1395,65 @@
       "sayfa": "/",
       "mod": "acik",
       "q": "body p",
-      "renk": "rgb(106, 98, 87)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 5.24,
+      "renk": "rgb(66, 66, 69)",
+      "zemin": "rgb(246,239,233)",
+      "oran": 8.79,
       "esik": 4.5,
-      "px": 13
+      "px": 17
     },
     {
       "sayfa": "/",
       "mod": "acik",
       "q": "h1",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
       "esik": 3,
-      "px": 56
+      "px": 72
     },
     {
       "sayfa": "/",
       "mod": "acik",
       "q": "main a:not([class])",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
-      "esik": 3,
-      "px": 24
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
+      "esik": 4.5,
+      "px": 15
     },
     {
       "sayfa": "/",
       "mod": "acik",
       "q": ".etiket",
-      "renk": "rgb(106, 98, 87)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 5.24,
-      "esik": 4.5,
-      "px": 13
+      "yok": true
     },
     {
       "sayfa": "/",
       "mod": "acik",
       "q": ".dugme--birincil",
-      "renk": "rgb(250, 247, 240)",
-      "zemin": "rgb(165,28,34)",
-      "oran": 7.04,
+      "renk": "rgb(255, 255, 255)",
+      "zemin": "rgb(209,26,42)",
+      "oran": 5.4,
       "esik": 4.5,
-      "px": 15
+      "px": 17
     },
     {
       "sayfa": "/",
       "mod": "acik",
       "q": ".dugme--ikincil",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(232,232,237)",
+      "oran": 13.78,
       "esik": 4.5,
-      "px": 15
+      "px": 17
     },
     {
       "sayfa": "/",
       "mod": "acik",
       "q": ".ust__nav a",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
       "esik": 4.5,
       "px": 15
     },
@@ -1983,41 +1461,41 @@
       "sayfa": "/",
       "mod": "acik",
       "q": "footer p",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(234,227,212)",
-      "oran": 13.3,
-      "esik": 3,
-      "px": 24
-    },
-    {
-      "sayfa": "/",
-      "mod": "acik",
-      "q": "footer a",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(234,227,212)",
-      "oran": 13.3,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 15
     },
     {
       "sayfa": "/",
       "mod": "acik",
-      "q": ".kitap-karti__yazar",
-      "renk": "rgb(58, 54, 50)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 10.44,
+      "q": "footer a",
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 13
     },
     {
       "sayfa": "/",
       "mod": "acik",
+      "q": ".kitap-karti__yazar",
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
+      "esik": 4.5,
+      "px": 15
+    },
+    {
+      "sayfa": "/",
+      "mod": "acik",
       "q": ".kitap-karti__baslik a",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
-      "esik": 3,
-      "px": 24
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
+      "esik": 4.5,
+      "px": 17
     },
     {
       "sayfa": "/",
@@ -2029,29 +1507,29 @@
       "sayfa": "/kitaplar/",
       "mod": "acik",
       "q": ".cip",
-      "renk": "rgb(244, 239, 228)",
-      "zemin": "rgb(30,28,26)",
-      "oran": 14.81,
+      "renk": "rgb(255, 255, 255)",
+      "zemin": "rgb(29,29,31)",
+      "oran": 16.83,
       "esik": 4.5,
-      "px": 13
+      "px": 15
     },
     {
       "sayfa": "/kitaplar/",
       "mod": "acik",
       "q": ".cip[aria-pressed=true]",
-      "renk": "rgb(244, 239, 228)",
-      "zemin": "rgb(30,28,26)",
-      "oran": 14.81,
+      "renk": "rgb(255, 255, 255)",
+      "zemin": "rgb(29,29,31)",
+      "oran": 16.83,
       "esik": 4.5,
-      "px": 13
+      "px": 15
     },
     {
       "sayfa": "/kitaplar/",
       "mod": "acik",
       "q": ".filtre__alan span",
-      "renk": "rgb(106, 98, 87)",
-      "zemin": "rgb(234,227,212)",
-      "oran": 4.7,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 13
     },
@@ -2059,9 +1537,9 @@
       "sayfa": "/kitaplar/",
       "mod": "acik",
       "q": "input[type=search]",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(250,247,240)",
-      "oran": 15.88,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(245,245,247)",
+      "oran": 15.46,
       "esik": 4.5,
       "px": 15
     },
@@ -2069,11 +1547,11 @@
       "sayfa": "/kitaplar/",
       "mod": "acik",
       "q": ".katalog__sayi",
-      "renk": "rgb(58, 54, 50)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 10.44,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(245,245,247)",
+      "oran": 4.66,
       "esik": 4.5,
-      "px": 15
+      "px": 23
     },
     {
       "sayfa": "/kitap/sen-neden-kor-edildin/",
@@ -2091,9 +1569,9 @@
       "sayfa": "/kitap/sen-neden-kor-edildin/",
       "mod": "acik",
       "q": ".kitap-detay__not",
-      "renk": "rgb(106, 98, 87)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 5.24,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 13
     },
@@ -2101,89 +1579,85 @@
       "sayfa": "/kitap/sen-neden-kor-edildin/",
       "mod": "acik",
       "q": ".kitap-detay__onizle",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(232,232,237)",
+      "oran": 13.78,
       "esik": 4.5,
-      "px": 15
+      "px": 17
     },
     {
       "sayfa": "/kitap/sen-neden-kor-edildin/",
       "mod": "acik",
       "q": ".cip",
-      "renk": "rgb(30, 28, 26)",
-      "zemin": "rgb(244,239,228)",
-      "oran": 14.81,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(232,232,237)",
+      "oran": 13.78,
       "esik": 4.5,
-      "px": 13
+      "px": 15
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": "body p",
-      "renk": "rgb(163, 152, 134)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 6.41,
+      "renk": "rgb(66, 66, 69)",
+      "zemin": "rgb(246,239,233)",
+      "oran": 8.79,
       "esik": 4.5,
-      "px": 13
+      "px": 17
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": "h1",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
       "esik": 3,
-      "px": 56
+      "px": 72
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": "main a:not([class])",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
-      "esik": 3,
-      "px": 24
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
+      "esik": 4.5,
+      "px": 15
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": ".etiket",
-      "renk": "rgb(163, 152, 134)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 6.41,
-      "esik": 4.5,
-      "px": 13
+      "yok": true
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": ".dugme--birincil",
-      "renk": "rgb(250, 247, 240)",
-      "zemin": "rgb(179,38,43)",
-      "oran": 6.08,
+      "renk": "rgb(255, 255, 255)",
+      "zemin": "rgb(209,26,42)",
+      "oran": 5.4,
       "esik": 4.5,
-      "px": 15
+      "px": 17
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": ".dugme--ikincil",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(232,232,237)",
+      "oran": 13.78,
       "esik": 4.5,
-      "px": 15
+      "px": 17
     },
     {
       "sayfa": "/",
       "mod": "koyu",
       "q": ".ust__nav a",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
       "esik": 4.5,
       "px": 15
     },
@@ -2191,41 +1665,41 @@
       "sayfa": "/",
       "mod": "koyu",
       "q": "footer p",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(17,15,14)",
-      "oran": 15.24,
-      "esik": 3,
-      "px": 24
-    },
-    {
-      "sayfa": "/",
-      "mod": "koyu",
-      "q": "footer a",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(17,15,14)",
-      "oran": 15.24,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 15
     },
     {
       "sayfa": "/",
       "mod": "koyu",
-      "q": ".kitap-karti__yazar",
-      "renk": "rgb(207, 199, 183)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 10.85,
+      "q": "footer a",
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 13
     },
     {
       "sayfa": "/",
       "mod": "koyu",
+      "q": ".kitap-karti__yazar",
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
+      "esik": 4.5,
+      "px": 15
+    },
+    {
+      "sayfa": "/",
+      "mod": "koyu",
       "q": ".kitap-karti__baslik a",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
-      "esik": 3,
-      "px": 24
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 16.83,
+      "esik": 4.5,
+      "px": 17
     },
     {
       "sayfa": "/",
@@ -2237,29 +1711,29 @@
       "sayfa": "/kitaplar/",
       "mod": "koyu",
       "q": ".cip",
-      "renk": "rgb(23, 21, 19)",
-      "zemin": "rgb(236,229,214)",
-      "oran": 14.52,
+      "renk": "rgb(255, 255, 255)",
+      "zemin": "rgb(29,29,31)",
+      "oran": 16.83,
       "esik": 4.5,
-      "px": 13
+      "px": 15
     },
     {
       "sayfa": "/kitaplar/",
       "mod": "koyu",
       "q": ".cip[aria-pressed=true]",
-      "renk": "rgb(23, 21, 19)",
-      "zemin": "rgb(236,229,214)",
-      "oran": 14.52,
+      "renk": "rgb(255, 255, 255)",
+      "zemin": "rgb(29,29,31)",
+      "oran": 16.83,
       "esik": 4.5,
-      "px": 13
+      "px": 15
     },
     {
       "sayfa": "/kitaplar/",
       "mod": "koyu",
       "q": ".filtre__alan span",
-      "renk": "rgb(163, 152, 134)",
-      "zemin": "rgb(17,15,14)",
-      "oran": 6.73,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 13
     },
@@ -2267,9 +1741,9 @@
       "sayfa": "/kitaplar/",
       "mod": "koyu",
       "q": "input[type=search]",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(32,29,26)",
-      "oran": 13.37,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(245,245,247)",
+      "oran": 15.46,
       "esik": 4.5,
       "px": 15
     },
@@ -2277,11 +1751,11 @@
       "sayfa": "/kitaplar/",
       "mod": "koyu",
       "q": ".katalog__sayi",
-      "renk": "rgb(207, 199, 183)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 10.85,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(245,245,247)",
+      "oran": 4.66,
       "esik": 4.5,
-      "px": 15
+      "px": 23
     },
     {
       "sayfa": "/kitap/sen-neden-kor-edildin/",
@@ -2299,9 +1773,9 @@
       "sayfa": "/kitap/sen-neden-kor-edildin/",
       "mod": "koyu",
       "q": ".kitap-detay__not",
-      "renk": "rgb(163, 152, 134)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 6.41,
+      "renk": "rgb(110, 110, 115)",
+      "zemin": "rgb(255,255,255)",
+      "oran": 5.07,
       "esik": 4.5,
       "px": 13
     },
@@ -2309,21 +1783,21 @@
       "sayfa": "/kitap/sen-neden-kor-edildin/",
       "mod": "koyu",
       "q": ".kitap-detay__onizle",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(232,232,237)",
+      "oran": 13.78,
       "esik": 4.5,
-      "px": 15
+      "px": 17
     },
     {
       "sayfa": "/kitap/sen-neden-kor-edildin/",
       "mod": "koyu",
       "q": ".cip",
-      "renk": "rgb(236, 229, 214)",
-      "zemin": "rgb(23,21,19)",
-      "oran": 14.52,
+      "renk": "rgb(29, 29, 31)",
+      "zemin": "rgb(232,232,237)",
+      "oran": 13.78,
       "esik": 4.5,
-      "px": 13
+      "px": 15
     }
   ]
 }
