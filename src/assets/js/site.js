@@ -63,3 +63,17 @@ if (document.querySelector(".katalog")) {
   });
   guncelle();
 }
+
+// Kitap sayfası: ön / arka kapak seçici. Düğmeler JS yokken gizli kalır (noscript bağlantısı arka kapağı açar).
+const kapakSecici = document.querySelector("[data-kapak-secici]");
+if (kapakSecici) {
+  const yuzler = document.querySelectorAll(".kitap-detay__kapak [data-kapak-yuzu]");
+  const dugmeler = kapakSecici.querySelectorAll("button[data-yuz]");
+  const buyut = kapakSecici.querySelector("[data-buyut]");
+  kapakSecici.hidden = false;
+  dugmeler.forEach((d) => d.addEventListener("click", () => {
+    dugmeler.forEach((x) => x.setAttribute("aria-pressed", String(x === d)));
+    yuzler.forEach((y) => { y.hidden = y.dataset.kapakYuzu !== d.dataset.yuz; });
+    if (buyut) buyut.hidden = d.dataset.yuz !== "arka";
+  }));
+}

@@ -54,6 +54,12 @@ function katkidaBulunanlar(c) {
 // WhatsApp tabanı tek kaynaktan (data/site/site.json); şablonlar kitap.whatsapp_url kullanır (Q3 M)
 const WHATSAPP = String(jsonOku("data/site/site.json").whatsapp_url).replace(/\?.*$/, "");
 
+/** Arka kapak (baskı dosyasından): back_cover { local_path (jpg), webp_path, width, height }; yoksa null. */
+function arkaKapak(b) {
+  if (!b?.local_path) return null;
+  return { url: publicUrl(b.local_path), webp_url: b.webp_path ? publicUrl(b.webp_path) : null, genislik: b.width ?? null, yukseklik: b.height ?? null };
+}
+
 /** Yönetim panelinden yüklenen önizleme sayfaları (kitap.preview_pages); yayınevi önizlemesinin yerine geçer. */
 function yuklenenOnizleme(kitap) {
   const sayfalar = (kitap.preview_pages ?? []).map((sayfa, sira) => ({
@@ -136,6 +142,7 @@ export default function () {
       // Yazarsız kayıtlarda (derleme, set ilanı) gösterim: katkıda bulunan ya da null → şablon "Yazar belirtilmemiş" basar
       yazar_gosterim: k.author_display ?? (katkida.length ? katkida.join(", ") : null),
       kapak_url: publicUrl(k.cover?.local_path),
+      arka_kapak: arkaKapak(k.back_cover),
       // Null keeps name indices intact while preventing links to withdrawn or absent authors.
       yazar_sluglari: (k.authors ?? []).map((name) => yazarKimlikleri.get(slugla(name)) ?? null),
       kategori_sluglari: (k.categories ?? []).map(slugla),

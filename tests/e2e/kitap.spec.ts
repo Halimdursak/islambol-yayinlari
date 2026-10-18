@@ -52,7 +52,7 @@ for (const kitap of ornekKitaplar()) {
     }
 
     // Kapak yüklü
-    const kapak = page.locator('.kitap-detay__kapak img');
+    const kapak = page.locator('.kitap-detay__kapak [data-kapak-yuzu="on"] img');
     await expect(kapak).toBeVisible();
     await expect
       .poll(() => kapak.evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0))
@@ -87,7 +87,7 @@ for (const kitap of ornekKitaplar()) {
   });
 }
 
-test('hiçbir kitap sayfasının görünür HTML metninde fiyat deseni yok (78 sayfa)', () => {
+test('hiçbir kitap sayfasının görünür HTML metninde fiyat deseni yok (tüm kitap sayfaları)', () => {
   const ihlal: string[] = [];
   for (const s of distSayfalari().filter((x) => x.url.startsWith('/kitap/'))) {
     const html = readFileSync(s.dosya, 'utf8');

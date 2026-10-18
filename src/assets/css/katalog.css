@@ -189,6 +189,21 @@
 }
 @media (min-width: 641px) and (max-width: 899px) { .kitap-detay__kapak { max-width: 520px; width: 100%; } }
 
+/* ---- Ön / arka kapak: iki yüz aynı hücrede üst üste durur (yükseklik oynamaz, CLS yok); gizli yüz görünmez ve erişilemez ---- */
+.kitap-detay__kapak > .kitap-detay__kapak-kap { grid-area: 1 / 1; }
+.kitap-detay__kapak-kap[hidden] { display: block; visibility: hidden; }
+.kitap-detay__kapak-kap--arka { transform: rotateY(7deg) rotateX(1.5deg); }
+.kapak-secici { display: flex; justify-content: center; gap: 8px; margin-top: 14px; }
+.kapak-secici[hidden] { display: none; }
+.kapak-secici__dugme {
+  min-height: 44px; padding: 0 20px; border: 0; border-radius: var(--radius-pill); background: var(--c-fill); color: var(--c-ink);
+  font: inherit; font-size: var(--text-sm); font-weight: 600; cursor: pointer; transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.kapak-secici__dugme:hover { background: var(--c-fill-hover); }
+.kapak-secici__buyut { display: inline-flex; align-items: center; text-decoration: none; }
+.kapak-secici__buyut[hidden] { display: none; }
+.kapak-secici__dugme[aria-pressed="true"] { background: var(--c-ink); color: var(--c-bg); }
+
 /* ---- Birincil eylemler: kırmızı CTA ekranın tek vurgusu ---- */
 .kitap-detay__eylemler { display: grid; gap: 12px; margin-top: 22px; }
 .kitap-detay__eylemler .dugme { width: 100%; min-height: 48px; white-space: normal; text-align: center; }
@@ -276,6 +291,7 @@
   .kitap-detay__sag > .kitap-detay__fiyat { order: 4; }
   .kitap-detay__eylemler { order: 5; margin-top: 20px; }
   .kitap-detay__kapak { order: 6; margin-top: 24px; }
+  .kapak-secici, .kitap-detay__sol > noscript { order: 6; }
   .kitap-detay__sag > .kitap-detay__metin { order: 7; }
   .kitap-detay__sag > .kitap-detay__takim { order: 8; }
   .kitap-detay__sag > .siparis { order: 9; }
@@ -289,4 +305,5 @@
   .filtre__alan select, .filtre__alan input, .katalog .yazar-karti, .dizi-karti, .kitap-detay__kapak-kap { transition: none; }
   .katalog .yazar-karti:hover, .katalog .yazar-karti:focus-within, .dizi-karti:hover, .dizi-karti:focus-within { transform: none; }
   .kitap-detay__kapak:hover .kitap-detay__kapak-kap { transform: rotateY(-7deg) rotateX(1.5deg); }   /* düzleşme yok, sabit eğim kalır */
+  .kitap-detay__kapak:hover .kitap-detay__kapak-kap--arka { transform: rotateY(7deg) rotateX(1.5deg); }
 }

@@ -312,18 +312,6 @@
     "kitapyurdu_author_url": "https://www.kitapyurdu.com/yazar/dr-iyad-kunaybi/195095.html"
   },
   {
-    "name": "Komisyon",
-    "slug": "komisyon",
-    "display": "Komisyon",
-    "bio": null,
-    "bio_source": null,
-    "book_ids": [
-      "turkun-yeni-amentusu"
-    ],
-    "photo_url": null,
-    "kitapyurdu_author_url": "https://www.kitapyurdu.com/yazar/komisyon/40541.html"
-  },
-  {
     "name": "M. Hüdai Şentürk",
     "slug": "m-hudai-senturk",
     "display": "Dr. M. Hüdai Şentürk",
@@ -451,6 +439,18 @@
     ],
     "photo_url": null,
     "kitapyurdu_author_url": "https://www.kitapyurdu.com/yazar/dr-riza-nur/2511.html"
+  },
+  {
+    "name": "Sâfî",
+    "slug": "safi",
+    "display": "Sâfî",
+    "bio": null,
+    "bio_source": null,
+    "book_ids": [
+      "turkun-yeni-amentusu"
+    ],
+    "photo_url": null,
+    "kitapyurdu_author_url": null
   },
   {
     "name": "Seyfi Say",

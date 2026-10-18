@@ -85,13 +85,14 @@ Notlar:
 ├── docs/                  EKIP.md (ekip tüzüğü), KARARLAR.md (ADR'ler), SITE-HARITASI.md, SEO.md, PERFORMANS.md, design/, qa/, research/
 ├── public/                Statik dosyalar, build'de dist/ köküne olduğu gibi kopyalanır
 │   ├── kapaklar/          Kitap kapakları (orijinal, ≤1600 px): <id>.jpg
+│   ├── kapaklar-arka/     Arka kapaklar (800 px jpg + webp; scripts/gorsel/baski-kapaklari.mjs üretir; books.json → back_cover)
 │   ├── kapaklar-opt/      Optimize kapak boyutları (webp/jpg; npm run gorsel üretir)
 │   ├── onsoz/             Önizleme sayfaları: <slug>/01.jpg, 02.jpg ...
 │   ├── onsoz-opt/         Optimize önizleme sayfaları (npm run gorsel üretir)
 │   ├── og/                Paylaşım (Open Graph) görselleri, 1200x630
 │   ├── logo/, favicon*, site.webmanifest, robots.txt
 ├── scripts/
-│   ├── gorsel/            Görsel hattı: optimize.mjs (npm run gorsel), orijinal-kucult.mjs, kapak.mjs, marka.mjs
+│   ├── gorsel/            Görsel hattı: optimize.mjs (npm run gorsel), orijinal-kucult.mjs, kapak.mjs, marka.mjs, baski-kapaklari.mjs (baskı PDF'inden ön/arka kapak, ADR-019)
 │   ├── katalog/           Kitap verisi toplama (Python; README.md'ye bakın)
 │   ├── onsoz/             Kitapyurdu "iç sayfalara gözat" toplayıcı (Python; README.md'ye bakın)
 │   ├── qa/                sunucu.mjs (dist/ sunucusu), dogrula.py (içerik doğrulaması, varsa), a11y/
@@ -138,6 +139,7 @@ Kitap kayıtlarının dizisi; **tek doğruluk kaynağı** (ADR-005). Şema: `dat
 | `series` | metin / null | hayır | Dizi/seri adı. |
 | `contributors` | metin / dizi / nesne | hayır | Çevirmen, editör vb. |
 | `cover` | nesne | evet | `local_path` (örn. `public/kapaklar/<id>.jpg`; sitede `/kapaklar/<id>.jpg` olur), `source_url`, `width`, `height`. |
+| `back_cover` | nesne | hayır | Arka kapak: `local_path` (`public/kapaklar-arka/<id>.jpg`), `webp_path`, `width`, `height`. Varsa kitap sayfasında "Ön kapak / Arka kapak" seçicisi çıkar. Baskı PDF'inden `scripts/gorsel/baski-kapaklari.mjs` üretir (ADR-019). |
 | `sources` | nesne | evet | `kitapyurdu`, `nobelkitap`, `kureselkitap` (ürün sayfası adresleri; yoksa `null`). Kitapyurdu adresinin slug'ı önizleme eşlemesinde kullanılır. |
 
 Gerisi (`category_sources`, `field_sources`, `set_info`) toplama betiklerinin izlenebilirlik alanlarıdır; elle eklenen kayıtta gerekmez.

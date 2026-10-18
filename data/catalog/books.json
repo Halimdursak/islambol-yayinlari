@@ -39,11 +39,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12258858/wi:1200/wh:2bc8cd237",
-      "source": "kitapyurdu",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/1918-mutarekesinden-beri-olan-vakalar.jpg",
       "width": 1200,
-      "height": 1941
+      "height": 1710
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/1918-mutarekesinden-beri-olan-vakalar-milli-hareket-ve-cumhuriyyet-tarihi/760295.html",
@@ -61,6 +61,12 @@
       "price_list_try": "kitapyurdu",
       "description": "kitapyurdu",
       "subtitle": "kitapyurdu"
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/1918-mutarekesinden-beri-olan-vakalar.jpg",
+      "webp_path": "public/kapaklar-arka/1918-mutarekesinden-beri-olan-vakalar.webp",
+      "width": 800,
+      "height": 1140
     }
   },
   {
@@ -295,11 +301,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/588246-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/ataturk-ingiliz-ajani-miydi-tartismasi.jpg",
-      "width": 2000,
-      "height": 2000
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -317,6 +323,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/ataturk-ingiliz-ajani-miydi-tartismasi.jpg",
+      "webp_path": "public/kapaklar-arka/ataturk-ingiliz-ajani-miydi-tartismasi.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -358,11 +370,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/585465-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/ataturkun-manevi-kizi-zehra-aylinin-munasebetsiz-olumu.jpg",
-      "width": 2000,
-      "height": 3457
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -380,6 +392,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/ataturkun-manevi-kizi-zehra-aylinin-munasebetsiz-olumu.jpg",
+      "webp_path": "public/kapaklar-arka/ataturkun-manevi-kizi-zehra-aylinin-munasebetsiz-olumu.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -387,7 +405,7 @@
     "title": "Atatürk'ün Uşağının Gizli Defteri",
     "subtitle": null,
     "alt_titles": [],
-    "edition": null,
+    "edition": "2. Baskı",
     "authors": [
       "Cemal Granda"
     ],
@@ -415,11 +433,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/57/573330-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/ataturkun-usaginin-gizli-defteri.jpg",
-      "width": 2000,
-      "height": 3054
+      "width": 1200,
+      "height": 1734
     },
     "sources": {
       "kitapyurdu": null,
@@ -437,6 +455,12 @@
       "price_list_try": "kureselkitap",
       "description": "kureselkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/ataturkun-usaginin-gizli-defteri.jpg",
+      "webp_path": "public/kapaklar-arka/ataturkun-usaginin-gizli-defteri.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -540,11 +564,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/588247-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/bir-ingiliz-operasyonu-turk-kurtulus-savasi.jpg",
-      "width": 2000,
-      "height": 2000
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -562,6 +586,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/bir-ingiliz-operasyonu-turk-kurtulus-savasi.jpg",
+      "webp_path": "public/kapaklar-arka/bir-ingiliz-operasyonu-turk-kurtulus-savasi.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -662,11 +692,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/57/573327-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/butun-ciplakligiyla-31-mart-faciasi.jpg",
-      "width": 2000,
-      "height": 2702
+      "width": 1200,
+      "height": 1734
     },
     "sources": {
       "kitapyurdu": null,
@@ -684,6 +714,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/butun-ciplakligiyla-31-mart-faciasi.jpg",
+      "webp_path": "public/kapaklar-arka/butun-ciplakligiyla-31-mart-faciasi.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -1048,6 +1084,12 @@
       "isbn": "yayinevi-arka-kapak",
       "description": "yayinevi-arka-kapak",
       "subtitle": "yayinevi-kapak"
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/devlet-i-osmaniye-ve-siyonistler.jpg",
+      "webp_path": "public/kapaklar-arka/devlet-i-osmaniye-ve-siyonistler.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -1647,11 +1689,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/24/243012-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/haim-nahum.jpg",
-      "width": 2000,
-      "height": 2519
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -1669,6 +1711,12 @@
       "price_list_try": "kureselkitap",
       "description": "kureselkitap",
       "subtitle": "kureselkitap"
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/haim-nahum.jpg",
+      "webp_path": "public/kapaklar-arka/haim-nahum.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -2216,11 +2264,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/583509-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/ittihad-ve-terakki-cemiyeti.jpg",
-      "width": 2000,
-      "height": 3762
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -2238,6 +2286,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/ittihad-ve-terakki-cemiyeti.jpg",
+      "webp_path": "public/kapaklar-arka/ittihad-ve-terakki-cemiyeti.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -2365,7 +2419,7 @@
     "title": "Kemalistlerin Din Düşmanlığı",
     "subtitle": null,
     "alt_titles": [],
-    "edition": null,
+    "edition": "3. Baskı",
     "authors": [
       "Mustafa Sabri Efendi"
     ],
@@ -2393,11 +2447,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/55/556159-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/kemalistlerin-din-dusmanligi.jpg",
-      "width": 2000,
-      "height": 2914
+      "width": 1200,
+      "height": 1734
     },
     "sources": {
       "kitapyurdu": null,
@@ -2415,6 +2469,12 @@
       "price_list_try": "kureselkitap",
       "description": "kureselkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/kemalistlerin-din-dusmanligi.jpg",
+      "webp_path": "public/kapaklar-arka/kemalistlerin-din-dusmanligi.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -2576,11 +2636,17 @@
       "source": "yayinevi",
       "local_path": "public/kapaklar/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri.jpg",
       "width": 1200,
-      "height": 1866
+      "height": 1869
     },
     "field_sources": {
       "isbn": "yayinevi-arka-kapak",
       "description": "yayinevi-arka-kapak"
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri.jpg",
+      "webp_path": "public/kapaklar-arka/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -2620,11 +2686,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/588245-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/kurtulus-savasinin-sansursuz-tarihi.jpg",
-      "width": 2000,
-      "height": 2000
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -2642,6 +2708,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/kurtulus-savasinin-sansursuz-tarihi.jpg",
+      "webp_path": "public/kapaklar-arka/kurtulus-savasinin-sansursuz-tarihi.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -2885,6 +2957,12 @@
     "field_sources": {
       "isbn": "yayinevi-arka-kapak",
       "description": "yayinevi-arka-kapak"
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/milli-din-duygusu-ve-oz-turk-dini.jpg",
+      "webp_path": "public/kapaklar-arka/milli-din-duygusu-ve-oz-turk-dini.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -3054,11 +3132,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/583508-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/mustafa-kemal-az-bilinenler.jpg",
-      "width": 2000,
-      "height": 3443
+      "width": 1200,
+      "height": 1710
     },
     "sources": {
       "kitapyurdu": null,
@@ -3076,6 +3154,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/mustafa-kemal-az-bilinenler.jpg",
+      "webp_path": "public/kapaklar-arka/mustafa-kemal-az-bilinenler.webp",
+      "width": 800,
+      "height": 1140
     }
   },
   {
@@ -3111,11 +3195,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/583510-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/mustafa-kemal-icki-ve-kadinlar.jpg",
-      "width": 2000,
-      "height": 3664
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -3133,6 +3217,12 @@
       "price_list_try": "kureselkitap",
       "description": "kureselkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/mustafa-kemal-icki-ve-kadinlar.jpg",
+      "webp_path": "public/kapaklar-arka/mustafa-kemal-icki-ve-kadinlar.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -3292,11 +3382,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/585466-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/nebile-sait-irdelp-unutulan-bir-hayatin-kronolojisi.jpg",
-      "width": 2000,
-      "height": 3425
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -3314,6 +3404,12 @@
       "price_list_try": "kureselkitap",
       "description": "kureselkitap",
       "subtitle": "kureselkitap"
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/nebile-sait-irdelp-unutulan-bir-hayatin-kronolojisi.jpg",
+      "webp_path": "public/kapaklar-arka/nebile-sait-irdelp-unutulan-bir-hayatin-kronolojisi.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -3940,7 +4036,7 @@
     "alt_titles": [
       "Son Halifenin Dramı (Sansürsüz baskı, Osmanlıca aslıyla birlikte)"
     ],
-    "edition": null,
+    "edition": "2. Baskı",
     "authors": [
       "Manavoğlu Nevres Bey"
     ],
@@ -3998,7 +4094,59 @@
       "price_list_try": "kitapyurdu",
       "description": "kitapyurdu",
       "subtitle": null
-    }
+    },
+    "preview_pages": [
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-01.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-02.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-03.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-04.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-05.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-06.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-07.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-08.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-09.jpg",
+        "width": 1402,
+        "height": 2042
+      },
+      {
+        "local_path": "public/uploads/son-halifenin-drami-onizleme-10.jpg",
+        "width": 1402,
+        "height": 2042
+      }
+    ]
   },
   {
     "id": "son-sultan-vahideddinin-hatiralari-ve-beyannamesi",
@@ -4227,11 +4375,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/588197-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/takiyyeli-fuhrer.jpg",
-      "width": 2000,
-      "height": 2000
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -4249,6 +4397,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/takiyyeli-fuhrer.jpg",
+      "webp_path": "public/kapaklar-arka/takiyyeli-fuhrer.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -4284,11 +4438,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/585464-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/turk-basininda-tartismalarin-odaginda-ataturk-ve-ataturkculuk.jpg",
-      "width": 2000,
-      "height": 3398
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -4306,6 +4460,12 @@
       "price_list_try": "kureselkitap",
       "description": "kureselkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/turk-basininda-tartismalarin-odaginda-ataturk-ve-ataturkculuk.jpg",
+      "webp_path": "public/kapaklar-arka/turk-basininda-tartismalarin-odaginda-ataturk-ve-ataturkculuk.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {
@@ -4431,13 +4591,13 @@
   {
     "id": "turkun-yeni-amentusu",
     "title": "Türk'ün Yeni Amentüsü",
-    "subtitle": null,
+    "subtitle": "Kemalist Din Telakkisi 1",
     "alt_titles": [],
-    "edition": null,
+    "edition": "3. Baskı",
     "authors": [
-      "Komisyon"
+      "Sâfî"
     ],
-    "author_display": "Komisyon",
+    "author_display": "Sâfî",
     "isbn": "9786058036482",
     "pages": 128,
     "publish_date": "2025-07-18",
@@ -4461,11 +4621,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12089256/wi:1200/wh:996af1af2",
-      "source": "kitapyurdu",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/turkun-yeni-amentusu.jpg",
       "width": 1200,
-      "height": 1786
+      "height": 1734
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/turkun-yeni-amentusu/725571.html",
@@ -4483,6 +4643,12 @@
       "price_list_try": "kitapyurdu",
       "description": "kitapyurdu",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/turkun-yeni-amentusu.jpg",
+      "webp_path": "public/kapaklar-arka/turkun-yeni-amentusu.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -4849,11 +5015,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://img.kitapyurdu.com/v1/getImage/fn:12131320/wi:1200/wh:0f209b770",
-      "source": "kitapyurdu",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/yeryuzunun-hakiki-canileri-israil.jpg",
       "width": 1200,
-      "height": 1796
+      "height": 1734
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/yeryuzunun-hakiki-canileri-israil/736245.html",
@@ -4871,6 +5037,12 @@
       "price_list_try": "kitapyurdu",
       "description": "kitapyurdu",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/yeryuzunun-hakiki-canileri-israil.jpg",
+      "webp_path": "public/kapaklar-arka/yeryuzunun-hakiki-canileri-israil.webp",
+      "width": 800,
+      "height": 1156
     }
   },
   {
@@ -4910,11 +5082,11 @@
     "series": null,
     "contributors": null,
     "cover": {
-      "source_url": "https://www.kureselkitap.com/Gorsel/Urun/58/588244-1.jpg",
-      "source": "kureselkitap",
+      "source_url": null,
+      "source": "yayinevi",
       "local_path": "public/kapaklar/zampara-diktator.jpg",
-      "width": 2000,
-      "height": 2000
+      "width": 1200,
+      "height": 1869
     },
     "sources": {
       "kitapyurdu": null,
@@ -4932,6 +5104,12 @@
       "price_list_try": "kureselkitap",
       "description": "nobelkitap",
       "subtitle": null
+    },
+    "back_cover": {
+      "local_path": "public/kapaklar-arka/zampara-diktator.jpg",
+      "webp_path": "public/kapaklar-arka/zampara-diktator.webp",
+      "width": 800,
+      "height": 1246
     }
   },
   {

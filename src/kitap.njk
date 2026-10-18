@@ -31,10 +31,26 @@ ekstra_css:
       <div class="kitap-detay__izgara">
         <div class="kitap-detay__sol">
           <figure class="kitap-detay__kapak"{% if kitap.onizleme %} data-onizleme="{{ kitap.id }}"{% endif %}>
-            <span class="kitap-detay__kapak-kap">
+            <span class="kitap-detay__kapak-kap" data-kapak-yuzu="on">
               {{ kapak(kitap, kapaklar[kitap.id], { sizes: "(min-width: 56.25em) 420px, 80vw", yukle: "eager", alt: kitap.title ~ " kapağı" }) }}
             </span>
+            {%- if kitap.arka_kapak %}
+            <span class="kitap-detay__kapak-kap kitap-detay__kapak-kap--arka" data-kapak-yuzu="arka" hidden>
+              <picture>
+                {%- if kitap.arka_kapak.webp_url %}<source type="image/webp" srcset="{{ kitap.arka_kapak.webp_url }}">{% endif %}
+                <img src="{{ kitap.arka_kapak.url }}"{% if kitap.arka_kapak.genislik and kitap.arka_kapak.yukseklik %} width="{{ kitap.arka_kapak.genislik }}" height="{{ kitap.arka_kapak.yukseklik }}"{% endif %} alt="{{ kitap.title }} arka kapağı" loading="lazy" decoding="async">
+              </picture>
+            </span>
+            {%- endif %}
           </figure>
+          {%- if kitap.arka_kapak %}
+          <div class="kapak-secici" role="group" aria-label="{{ m.kapak_yuzu }}" data-kapak-secici hidden>
+            <button type="button" class="kapak-secici__dugme" data-yuz="on" aria-pressed="true">{{ m.kapak_on }}</button>
+            <button type="button" class="kapak-secici__dugme" data-yuz="arka" aria-pressed="false">{{ m.kapak_arka }}</button>
+            <a class="kapak-secici__dugme kapak-secici__buyut" href="{{ kitap.arka_kapak.url }}" target="_blank" rel="noopener" aria-label="{{ m.kapak_buyut_aria }}" data-buyut hidden>{{ m.kapak_buyut }}</a>
+          </div>
+          <noscript><p class="kitap-detay__not"><a href="{{ kitap.arka_kapak.url }}">{{ m.kapak_arka }}</a></p></noscript>
+          {%- endif %}
           <div class="kitap-detay__eylemler">
             <a class="dugme dugme--birincil kitap-detay__hizli-siparis" href="{{ kitap.whatsapp_url }}" rel="noopener noreferrer">{{ m.whatsapp_cta }}</a>
             {%- if kitap.onizleme %}
