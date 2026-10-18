@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Sen Neden Kör Edildin? — Instagram Reels</title>
+<style>
+  html,body{margin:0;background:#111;}
+  canvas{display:block;width:540px;height:960px;}
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script type="module">
+/* Sen Neden Kör Edildin? — 9:16 Instagram Reels, 1080×1920, 30 fps.
+   Her kare yalnızca zamanın (t) saf fonksiyonudur: drawAt(t). Kodlama tarayıcıdaki WebCodecs + mp4-muxer ile
+   yapılır (bu makinede ffmpeg Uygulama Denetimi tarafından engelli). Marka: DESIGN.md "Beyaz Vitrin". */
+
+const W = 1080, H = 1920, FPS = 30, DUR = 24.0, SR = 48000;
+const INK = '#1d1d1f', BAND = '#f5f5f7', GRAY = '#6e6e73', ACCENT = '#d11a2a', WHITE = '#ffffff';
+const FONT = 'Inter, "Helvetica Neue", Arial, sans-serif';
+
+/* ---------- Zaman çizelgesi (saniye) ---------- */
+const T = {
+  words: [0.40, 0.95, 1.55, 2.15],     // Sen / neden / kör / edildin?
+  flash: 3.00,                          // şimşek
+  cut: 3.20,                            // karanlıktan aydınlığa
+  coverIn: 3.20,
+  a0: 3.55, a1: 5.35,                   // "50 kitaba imza atan…"
+  b0: 5.35, b1: 7.00,                   // "Ezberleri sorgulatan…"
+  toB: [7.00, 7.80],                    // kapak küçülür
+  topics0: 7.45, topicStep: 1.80, topicN: 5,
+  c0: 16.30, c1: 18.05,                 // "Zihninizi sorgulama yeteneğiyle…"
+  d0: 18.05, d1: 19.55,                 // "Tercih sizin."
+  toC: [19.30, 20.30],                  // uç kart
+  end0: 19.70,
+};
+const TOPICS = [
+  ['Talas Meydan', 'Savaşı'],
+  ['Newton’ın', 'büyücülüğü'],
+  ['Akşemseddin’in', 'Fatih’e uyarı', 'mektubu'],
+  ['Şakir Paşa’yı', 'kim öldürdü?'],
+  ['Köy Enstitülerini', 'kim kapattı?'],
+];
+
+/* ---------- Yardımcılar ---------- */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const eOut = x => 1 - Math.pow(1 - x, 3);
+const eOut5 = x => 1 - Math.pow(1 - x, 5);
+const eInOut = x => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+function rng(seed) { let s = seed >>> 0; return () => ((s = (Math.imul(s, 1664525) + 1013904223) >>> 0) / 4294967296); }
+
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const IMG = {};
+
+async function loadAssets() {
+  const ext = new FontFace('Inter', 'url(assets/inter-latin-ext-wght-normal.woff2)', {
+    weight: '100 900',
+    unicodeRange: 'U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF',
+  });
+  const lat = new FontFace('Inter', 'url(assets/inter-latin-wght-normal.woff2)', {
+    weight: '100 900',
+    unicodeRange: 'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD',
+  });
+  await Promise.all([ext.load(), lat.load()]);
+  document.fonts.add(ext); document.fonts.add(lat);
+  await document.fonts.load('700 100px Inter', 'Köğşİıüâ’?.');
+  for (const [k, src] of [['cover', 'assets/kapak.jpg'], ['logo', 'assets/logo.png']]) {
+    const im = new Image(); im.src = src; await im.decode(); IMG[k] = im;
+  }
+  IMG.cover = whitenBackdrop(IMG.cover);
+}
+
+/* Kapak görseli (kitapyurdu maketi) tam beyaz değil: köşelerde 244 gri var, multiply ile kutu gibi görünür.
+   Parlak (>225) pikselleri yumuşakça 255'e çeker; kapağın kendi kâğıdı (~215 ve altı) etkilenmez. */
+function whitenBackdrop(im) {
+  const c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+  const x = c.getContext('2d'); x.drawImage(im, 0, 0);
+  const img = x.getImageData(0, 0, c.width, c.height), d = img.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const L = Math.min(d[i], d[i + 1], d[i + 2]);
+    const k = clamp((L - 228) / (243 - 228)), t = k * k * (3 - 2 * k);
+    if (t > 0) { d[i] += (255 - d[i]) * t; d[i + 1] += (255 - d[i + 1]) * t; d[i + 2] += (255 - d[i + 2]) * t; }
+  }
+  x.putImageData(img, 0, 0);
+  return c;
+}
+
+function setFont(size, weight = 700, track = -0.03) {
+  ctx.font = `${weight} ${size}px ${FONT}`;
+  ctx.letterSpacing = `${(track * size).toFixed(2)}px`;
+}
+function fit(text, maxW, maxSize, weight = 700, track = -0.03) {
+  setFont(maxSize, weight, track);
+  const w = ctx.measureText(text).width;
+  return w > maxW ? Math.floor(maxSize * maxW / w) : maxSize;
+}
+
+/* Bir öğeyi blur + yükselme + saydamlıkla açar/kapatır. fn(ctx) orijinde çizer. */
+function reveal(t, o, fn) {
+  const { t0, t1 = 1e9, inDur = 0.6, outDur = 0.35, rise = 46, blurIn = 18, delay = 0 } = o;
+  const s0 = t0 + delay;
+  if (t < s0 || t > t1) return;
+  const ki = prog(t, s0, s0 + inDur), ko = prog(t, t1 - outDur, t1);
+  const a = eOut(ki) * (1 - eInOut(ko));
+  const dy = (1 - eOut5(ki)) * rise - eInOut(ko) * 34;
+  const blur = (1 - eOut(ki)) * blurIn + eInOut(ko) * 10;
+  ctx.save();
+  ctx.globalAlpha *= a;
+  ctx.translate(0, dy);
+  if (blur > 0.4) ctx.filter = `blur(${blur.toFixed(1)}px)`;
+  fn();
+  ctx.restore();
+}
+
+/* Ortalı satırlar; y = bloğun orta noktası. */
+function lines(t, o) {
+  const { text, y, size, weight = 700, color = INK, x = 540, align = 'center', lh = 1.08, track = -0.03, maxW = 920, stagger = 0.08 } = o;
+  const sz = Math.min(...text.map(l => fit(l, maxW, size, weight, track)));
+  text.forEach((l, i) => {
+    reveal(t, { ...o, delay: (o.delay || 0) + i * stagger }, () => {
+      setFont(sz, weight, track);
+      ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'middle';
+      ctx.fillText(l, x, y + (i - (text.length - 1) / 2) * sz * lh);
+    });
+  });
+}
+
+/* ---------- Sahne 1: karanlık, soru ---------- */
+function drawDark(t) {
+  ctx.fillStyle = INK; ctx.fillRect(0, 0, W, H);
+  const zoom = 1 + 0.05 * prog(t, 0, T.flash);
+  ctx.save();
+  ctx.translate(W / 2, H / 2); ctx.scale(zoom, zoom); ctx.translate(-W / 2, -H / 2);
+  const words = ['Sen', 'neden', 'kör', 'edildin?'];
+  const size = fit('edildin?', 860, 190);
+  const lh = 1.0, x = 110, y0 = 960;
+  const snap = prog(t, T.flash, T.flash + 0.05);            // şimşekte "kör" bir an netleşir
+  words.forEach((w, i) => {
+    const k = prog(t, T.words[i], T.words[i] + 0.55);
+    if (k <= 0) return;
+    let blur = (1 - eOut(k)) * 26;
+    if (i === 2) blur = Math.max(blur, 11 * (1 - snap));     // "kör" odak dışı kalır
+    const a = eOut(k);
+    ctx.save();
+    ctx.globalAlpha = a;
+    if (blur > 0.4) ctx.filter = `blur(${blur.toFixed(1)}px)`;
+    setFont(size, 700, -0.035);
+    ctx.fillStyle = WHITE; ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+    const yy = y0 + (i - 1.5) * size * lh + (1 - eOut5(k)) * 36;
+    ctx.fillText(w, x, yy);
+    ctx.restore();
+  });
+  ctx.restore();
+}
+
+/* Şimşek: tohumlu, kırık çizgi. */
+function bolt(t) {
+  const k = t - T.flash;
+  if (k < 0 || k > 0.16) return;
+  const r = rng(7);
+  const path = (x, y, dir, len, w, depth) => {
+    ctx.beginPath(); ctx.moveTo(x, y);
+    let cx = x, cy = y;
+    const steps = Math.floor(len / 70);
+    for (let i = 0; i < steps; i++) {
+      cx += (r() - 0.5) * 120 + dir * 18; cy += 55 + r() * 40;
+      ctx.lineTo(cx, cy);
+      if (depth < 2 && r() < 0.22) { ctx.stroke(); path(cx, cy, r() < 0.5 ? -1 : 1, len * 0.4, w * 0.6, depth + 1); ctx.beginPath(); ctx.moveTo(cx, cy); }
+    }
+    ctx.lineWidth = w; ctx.stroke();
+  };
+  ctx.save();
+  ctx.globalAlpha = k < 0.08 ? 1 : 0.55;
+  ctx.strokeStyle = WHITE; ctx.shadowColor = 'rgba(255,255,255,0.9)'; ctx.shadowBlur = 40; ctx.lineJoin = 'round';
+  path(700, -20, -1, 1500, 8, 0);
+  ctx.restore();
+}
+
+function flashAlpha(t) {
+  if (t < T.flash) return 0;
+  if (t < T.flash + 0.05) return 1;
+  if (t < T.flash + 0.14) return lerp(1, 0.12, prog(t, T.flash + 0.05, T.flash + 0.14));
+  if (t < T.cut) return lerp(0.12, 1, prog(t, T.flash + 0.14, T.cut));
+  return 1 - eOut(prog(t, T.cut, T.cut + 0.40));
+}
+
+/* ---------- Sahneler 2–6: açık zemin, kapak ---------- */
+const POSE = { A: { w: 640, cy: 1035 }, B: { w: 470, cy: 1240 }, C: { w: 520, cy: 885 } };
+function coverPose(t) {
+  if (t < T.coverIn) return null;
+  let w, cy, a = 1, s = 1, blur = 0;
+  if (t < T.toB[0]) {
+    const k = prog(t, T.coverIn, T.coverIn + 0.9);
+    w = POSE.A.w; s = lerp(1.3, 1, eOut5(k)); a = eOut(prog(t, T.coverIn, T.coverIn + 0.45));
+    blur = (1 - eOut(prog(t, T.coverIn, T.coverIn + 0.7))) * 16;
+    cy = POSE.A.cy + (1 - eOut5(k)) * 50;
+  } else if (t < T.toB[1]) {
+    const k = eInOut(prog(t, T.toB[0], T.toB[1]));
+    w = lerp(POSE.A.w, POSE.B.w, k); cy = lerp(POSE.A.cy, POSE.B.cy, k);
+  } else if (t < T.toC[0]) {
+    w = POSE.B.w; cy = POSE.B.cy;
+  } else {
+    const k = eInOut(prog(t, T.toC[0], T.toC[1]));
+    w = lerp(POSE.B.w, POSE.C.w, k); cy = lerp(POSE.B.cy, POSE.C.cy, k);
+  }
+  cy += Math.sin(t * 1.5) * 5;
+  return { w: w * s, cy, a, blur };
+}
+function drawCover(t) {
+  const p = coverPose(t); if (!p) return;
+  const im = IMG.cover, h = p.w * im.height / im.width;
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply';
+  ctx.globalAlpha = p.a;
+  if (p.blur > 0.4) ctx.filter = `blur(${p.blur.toFixed(1)}px)`;
+  ctx.drawImage(im, W / 2 - p.w / 2, p.cy - h / 2, p.w, h);
+  ctx.restore();
+}
+
+function drawTopics(t) {
+  const t0 = T.topics0, step = T.topicStep, end = t0 + step * T.topicN;
+  reveal(t, { t0: t0 - 0.1, t1: end - 0.1, inDur: 0.5, rise: 20, blurIn: 8 }, () => {
+    setFont(46, 500, -0.01); ctx.fillStyle = GRAY; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('Kitaptan birkaç başlık', W / 2, 310);
+  });
+  TOPICS.forEach((tp, i) => {
+    const a0 = t0 + i * step;
+    lines(t, { text: tp, y: 590, size: 124, t0: a0, t1: a0 + step - 0.02, inDur: 0.55, outDur: 0.28, rise: 60, blurIn: 20, lh: 1.06, stagger: 0.07 });
+  });
+  // ilerleme noktaları
+  const alive = prog(t, t0 - 0.1, t0 + 0.3) * (1 - prog(t, end - 0.4, end - 0.1));
+  if (alive > 0) {
+    const cur = clamp(Math.floor((t - t0) / step), 0, T.topicN - 1);
+    ctx.save(); ctx.globalAlpha = alive;
+    for (let i = 0; i < T.topicN; i++) {
+      const on = i === cur;
+      ctx.fillStyle = on ? INK : '#c7c7cc';
+      ctx.beginPath(); ctx.arc(W / 2 + (i - 2) * 38, 828, on ? 9 : 7, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+function drawEndCard(t) {
+  const o = { t0: T.end0 };
+  // logo (yalnız sözcük işareti: 480×480 PNG'nin ortası)
+  reveal(t, { ...o, delay: 0 }, () => {
+    ctx.save(); ctx.globalCompositeOperation = 'multiply';
+    const sw = 390, sh = 135, dw = 500, dh = dw * sh / sw;
+    ctx.drawImage(IMG.logo, 45, 175, sw, sh, W / 2 - dw / 2, 330 - dh / 2, dw, dh);
+    ctx.restore();
+  });
+  reveal(t, { ...o, delay: 0.15 }, () => {
+    setFont(76, 700, -0.03); ctx.fillStyle = INK; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('islambol.org', W / 2, 1340);
+  });
+  reveal(t, { ...o, delay: 0.3 }, () => {
+    const pw = 800, ph = 116, px = W / 2 - pw / 2, py = 1410;
+    const pulse = 1 + 0.012 * Math.sin((t - T.end0) * 4);
+    ctx.save(); ctx.translate(W / 2, py + ph / 2); ctx.scale(pulse, pulse); ctx.translate(-W / 2, -(py + ph / 2));
+    ctx.fillStyle = ACCENT; ctx.beginPath(); ctx.roundRect(px, py, pw, ph, ph / 2); ctx.fill();
+    setFont(44, 600, -0.015); ctx.fillStyle = WHITE; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('WhatsApp: 0505 980 87 35', W / 2, py + ph / 2 + 2);
+    ctx.restore();
+  });
+  reveal(t, { ...o, delay: 0.45 }, () => {
+    setFont(38, 500, -0.01); ctx.fillStyle = GRAY; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('@islambolyayin', W / 2, 1556);
+  });
+}
+
+function bgLight(t) {
+  const k = eInOut(prog(t, T.toC[0], T.toC[1]));
+  const c = k > 0 ? `rgb(${Math.round(lerp(245, 255, k))},${Math.round(lerp(245, 255, k))},${Math.round(lerp(247, 255, k))})` : BAND;
+  ctx.fillStyle = c; ctx.fillRect(0, 0, W, H);
+}
+
+function drawAt(t) {
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalAlpha = 1; ctx.filter = 'none'; ctx.globalCompositeOperation = 'source-over';
+  // şimşek anında hafif sarsıntı
+  let sx = 0, sy = 0;
+  if (t >= T.flash && t < T.cut + 0.3) { const r = rng(Math.floor(t * 60)); const m = 14 * (1 - prog(t, T.flash, T.cut + 0.3)); sx = (r() - 0.5) * m; sy = (r() - 0.5) * m; }
+  ctx.translate(sx, sy);
+  if (t < T.cut) {
+    drawDark(t); bolt(t);
+  } else {
+    bgLight(t);
+    drawCover(t);
+    lines(t, { text: ['50 kitaba imza atan'], y: 300, size: 50, weight: 500, color: GRAY, track: -0.01, t0: T.a0, t1: T.a1, rise: 24, blurIn: 10 });
+    lines(t, { text: ['Mustafa Armağan’ın', 'iddialı kitabı'], y: 435, size: 88, t0: T.a0, t1: T.a1, delay: 0.1 });
+    lines(t, { text: ['Ezberleri sorgulatan', 'bir tarih macerası'], y: 400, size: 88, t0: T.b0, t1: T.b1 });
+    drawTopics(t);
+    lines(t, { text: ['Zihninizi sorgulama', 'yeteneğiyle donatan', 'bir kitap.'], y: 600, size: 100, t0: T.c0, t1: T.c1, lh: 1.08 });
+    lines(t, { text: ['Şimşek çaktığında uyanmak da,'], y: 500, size: 52, weight: 500, color: GRAY, track: -0.01, t0: T.d0, t1: T.d1, rise: 24, blurIn: 10, maxW: 960 });
+    lines(t, { text: ['uyumak da mümkün.'], y: 568, size: 52, weight: 500, color: GRAY, track: -0.01, t0: T.d0 + 0.12, t1: T.d1, rise: 24, blurIn: 10, maxW: 960 });
+    lines(t, { text: ['Tercih sizin.'], y: 730, size: 140, t0: T.d0 + 0.45, t1: T.d1, inDur: 0.7 });
+    drawEndCard(t);
+  }
+  const fa = flashAlpha(t);
+  if (fa > 0.001) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = `rgba(255,255,255,${fa})`; ctx.fillRect(0, 0, W, H); }
+  // açılış/kapanış yumuşatması
+  const fin = 1 - prog(t, 0, 0.35), fout = prog(t, DUR - 0.3, DUR);
+  const edge = Math.max(fin, fout * 0);
+  if (edge > 0.001) { ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = `rgba(29,29,31,${edge})`; ctx.fillRect(0, 0, W, H); }
+  ctx.restore();
+}
+
+/* ---------- Ses (özgün, sentezlenmiş: telif sorunu yok) ---------- */
+async function buildAudio() {
+  const len = Math.ceil(DUR * SR);
+  const oc = new OfflineAudioContext(2, len, SR);
+  const master = oc.createGain(); master.gain.value = 0.9;
+  const lim = oc.createDynamicsCompressor();
+  lim.threshold.value = -14; lim.knee.value = 12; lim.ratio.value = 6; lim.attack.value = 0.003; lim.release.value = 0.25;
+  master.connect(lim); lim.connect(oc.destination);
+  master.gain.setValueAtTime(0.9, DUR - 0.9); master.gain.linearRampToValueAtTime(0, DUR - 0.02);
+
+  const r = rng(42);
+  const noiseBuf = oc.createBuffer(2, SR * 3, SR);
+  for (let c = 0; c < 2; c++) { const d = noiseBuf.getChannelData(c); for (let i = 0; i < d.length; i++) d[i] = r() * 2 - 1; }
+
+  const env = (g, t0, a, peak, dec) => { g.gain.setValueAtTime(0.0001, t0); g.gain.linearRampToValueAtTime(peak, t0 + a); g.gain.exponentialRampToValueAtTime(0.0001, t0 + a + dec); };
+  const tone = (f, t0, a, peak, dec, type = 'sine', f2 = null) => {
+    const o = oc.createOscillator(), g = oc.createGain(); o.type = type; o.frequency.setValueAtTime(f, t0);
+    if (f2) o.frequency.exponentialRampToValueAtTime(f2, t0 + a + dec);
+    env(g, t0, a, peak, dec); o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + a + dec + 0.05);
+  };
+  const noise = (t0, a, dec, peak, ftype, f0, f1, q = 0.8) => {
+    const s = oc.createBufferSource(); s.buffer = noiseBuf; const f = oc.createBiquadFilter(), g = oc.createGain();
+    f.type = ftype; f.Q.value = q; f.frequency.setValueAtTime(f0, t0); f.frequency.exponentialRampToValueAtTime(f1, t0 + a + dec);
+    env(g, t0, a, peak, dec); s.connect(f); f.connect(g); g.connect(master); s.start(t0, r() * 1.5); s.stop(t0 + a + dec + 0.05);
+  };
+  const sustain = (f, t0, t1, peak, type = 'sine', fadeIn = 1.0, fadeOut = 1.0, detune = 0) => {
+    const o = oc.createOscillator(), g = oc.createGain(); o.type = type; o.frequency.value = f; o.detune.value = detune;
+    g.gain.setValueAtTime(0.0001, t0); g.gain.linearRampToValueAtTime(peak, t0 + fadeIn);
+    g.gain.setValueAtTime(peak, t1 - fadeOut); g.gain.linearRampToValueAtTime(0.0001, t1);
+    o.connect(g); g.connect(master); o.start(t0); o.stop(t1 + 0.05);
+  };
+
+  // Karanlık: düşük drone + her kelimede alçak vuruş + yükselen gerilim
+  sustain(55, 0, T.cut, 0.22, 'sawtooth', 2.4, 0.15);
+  sustain(82.4, 0.4, T.cut, 0.10, 'sine', 2.0, 0.15);
+  T.words.forEach((w, i) => { tone(78, w, 0.004, 0.55, 0.38, 'sine', 40); noise(w, 0.002, 0.07, 0.05, 'lowpass', 600, 200); });
+  noise(1.9, 1.0, 0.12, 0.20, 'bandpass', 300, 5000, 1.2);
+  // Şimşek + gök gürültüsü
+  noise(T.flash, 0.001, 0.14, 0.95, 'highpass', 1200, 900, 0.5);
+  noise(T.flash, 0.01, 1.7, 0.55, 'lowpass', 420, 80, 0.7);
+  tone(48, T.flash, 0.005, 0.85, 1.3, 'sine', 30);
+  noise(T.flash + 0.17, 0.001, 0.12, 0.55, 'highpass', 1400, 900, 0.5);
+  tone(60, T.flash + 0.17, 0.005, 0.5, 0.6, 'sine', 35);
+  // Aydınlık pedi (A minör): yavaş açılan, düşük seviye
+  [[110, 0], [164.81, 4], [220, -3], [261.63, 5], [329.63, -5]].forEach(([f, d], i) => sustain(f, T.cut + 0.1, DUR, 0.055 - i * 0.004, 'triangle', 1.6, 1.4, d));
+  sustain(55, T.cut + 0.1, DUR, 0.12, 'sine', 1.2, 1.4);
+  // Başlık geçişleri: yumuşak "tok" + hava
+  for (let i = 0; i < T.topicN; i++) {
+    const a0 = T.topics0 + i * T.topicStep;
+    tone(520, a0, 0.003, 0.16, 0.16, 'sine', 380); tone(130, a0, 0.003, 0.22, 0.22, 'sine', 90);
+    noise(a0 - 0.08, 0.08, 0.2, 0.09, 'bandpass', 900, 3400, 1.0);
+  }
+  noise(T.toB[0], 0.3, 0.5, 0.10, 'bandpass', 500, 2600, 0.9);
+  // Vurgu vuruşları
+  tone(65, T.c0, 0.004, 0.45, 0.7, 'sine', 40);
+  tone(55, T.d0 + 0.45, 0.004, 0.7, 1.0, 'sine', 35); noise(T.d0 + 0.45, 0.002, 0.25, 0.12, 'lowpass', 900, 200);
+  // Uç kart: çan
+  [[880, 0.16], [1318.5, 0.10], [1760, 0.08], [2637, 0.04]].forEach(([f, p], i) => tone(f, T.end0, 0.004, p, 2.6 - i * 0.4, 'sine'));
+  noise(T.toC[0], 0.4, 0.5, 0.10, 'bandpass', 700, 3600, 0.8);
+
+  const buf = await oc.startRendering();
+  // tepe -2 dBFS'e normalle
+  let peak = 0; for (let c = 0; c < 2; c++) { const d = buf.getChannelData(c); for (let i = 0; i < d.length; i++) peak = Math.max(peak, Math.abs(d[i])); }
+  const gain = peak > 0 ? 0.794 / peak : 1;
+  for (let c = 0; c < 2; c++) { const d = buf.getChannelData(c); for (let i = 0; i < d.length; i++) d[i] *= gain; }
+  return { buf, peakBefore: peak, gain };
+}
+
+/* ---------- Dışa aktarma ---------- */
+async function exportMp4({ audio = true } = {}) {
+  const { Muxer, ArrayBufferTarget } = await import('./vendor/mp4-muxer.mjs');
+  const muxer = new Muxer({
+    target: new ArrayBufferTarget(),
+    video: { codec: 'avc', width: W, height: H, frameRate: FPS },
+    audio: audio ? { codec: 'aac', sampleRate: SR, numberOfChannels: 2 } : undefined,
+    fastStart: 'in-memory',
+  });
+  let err = null;
+  const venc = new VideoEncoder({ output: (c, m) => muxer.addVideoChunk(c, m), error: e => { err = e; } });
+  venc.configure({ codec: 'avc1.640028', width: W, height: H, bitrate: 8_000_000, framerate: FPS, avc: { format: 'avc' }, latencyMode: 'quality' });
+  const n = Math.round(DUR * FPS);
+  for (let i = 0; i < n; i++) {
+    if (err) throw err;
+    drawAt(i / FPS);
+    const f = new VideoFrame(canvas, { timestamp: Math.round(i * 1e6 / FPS), duration: Math.round(1e6 / FPS) });
+    venc.encode(f, { keyFrame: i % FPS === 0 });
+    f.close();
+    while (venc.encodeQueueSize > 6) await new Promise(r => setTimeout(r, 2));
+  }
+  await venc.flush(); venc.close();
+  let audioInfo = null;
+  if (audio) {
+    const { buf, peakBefore, gain } = await buildAudio();
+    audioInfo = { peakBefore, gain };
+    const aenc = new AudioEncoder({ output: (c, m) => muxer.addAudioChunk(c, m), error: e => { err = e; } });
+    aenc.configure({ codec: 'mp4a.40.2', sampleRate: SR, numberOfChannels: 2, bitrate: 160_000 });
+    const chunk = 4800, total = buf.length;
+    const L = buf.getChannelData(0), R = buf.getChannelData(1);
+    for (let off = 0; off < total; off += chunk) {
+      const nf = Math.min(chunk, total - off);
+      const data = new Float32Array(nf * 2); data.set(L.subarray(off, off + nf), 0); data.set(R.subarray(off, off + nf), nf);
+      const ad = new AudioData({ format: 'f32-planar', sampleRate: SR, numberOfFrames: nf, numberOfChannels: 2, timestamp: Math.round(off * 1e6 / SR), data });
+      aenc.encode(ad); ad.close();
+      while (aenc.encodeQueueSize > 8) await new Promise(r => setTimeout(r, 2));
+    }
+    await aenc.flush(); aenc.close();
+  }
+  if (err) throw err;
+  muxer.finalize();
+  window.__mp4 = new Uint8Array(muxer.target.buffer);
+  return { bytes: window.__mp4.length, frames: n, audio: audioInfo };
+}
+
+function pngAt(t) { drawAt(t); return canvas.toDataURL('image/png'); }
+
+function sheet(times, cols = 6, scale = 0.25) {
+  const cw = Math.round(W * scale), ch = Math.round(H * scale), pad = 8, rows = Math.ceil(times.length / cols);
+  const s = document.createElement('canvas'); s.width = cols * (cw + pad) + pad; s.height = rows * (ch + pad + 26) + pad;
+  const sc = s.getContext('2d'); sc.fillStyle = '#3a3a3c'; sc.fillRect(0, 0, s.width, s.height);
+  times.forEach((t, i) => {
+    drawAt(t);
+    const x = pad + (i % cols) * (cw + pad), y = pad + Math.floor(i / cols) * (ch + pad + 26);
+    sc.drawImage(canvas, x, y + 24, cw, ch);
+    sc.fillStyle = '#fff'; sc.font = '16px monospace'; sc.fillText(`t=${t.toFixed(2)}s`, x + 2, y + 17);
+  });
+  return s.toDataURL('image/png');
+}
+
+function b64Chunk(off, len) {
+  const u = window.__mp4.subarray(off, off + len); let s = '';
+  for (let i = 0; i < u.length; i += 0x8000) s += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+
+window.reel = { drawAt, pngAt, sheet, exportMp4, b64Chunk, buildAudio, W, H, FPS, DUR, T };
+await loadAssets();
+drawAt(5);
+window.reelReady = true;
+</script>
+</body>
+</html>

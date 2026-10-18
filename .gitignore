@@ -20,3 +20,6 @@ docs/qa/screenshots/
 
 # Yayınevinin gönderdiği ham kapak/iç sayfa dosyaları (baskı PDF'leri, zip): herkese açık depoya girmez
 /data/KITAPLAR/
+
+# Üretilen reklam videoları (24 MB/adet): herkese açık depoya girmez; kaynak (reklam/*/reel.html, build.mjs) izlenir
+/reklam/*/out/
