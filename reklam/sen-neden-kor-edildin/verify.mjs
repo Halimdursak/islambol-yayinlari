@@ -41,7 +41,8 @@ const srv = http.createServer((req, res) => {
 const b = await chromium.launch({ channel: 'msedge', headless: true });
 const pg = await b.newPage(); await pg.goto(`http://127.0.0.1:${srv.address().port}/`);
 const times = (process.argv[3] || '0.5,3.05,5,9,13,17,19.9,21,23.7').split(',').map(Number);
-const res = await pg.evaluate(async ([f, times]) => {
+const tlFile = path.join(out, 'timeline.json'); const tl0 = fs.existsSync(tlFile) ? JSON.parse(fs.readFileSync(tlFile, 'utf8')) : null;
+const res = await pg.evaluate(async ([f, times, tl]) => {
   const v = document.createElement('video'); v.muted = true; v.preload = 'auto'; v.src = '/' + f; document.body.appendChild(v);
   await new Promise((r, j) => { v.onloadedmetadata = r; v.onerror = () => j(new Error('video error ' + (v.error && v.error.message))); });
   const info = { duration: v.duration, w: v.videoWidth, h: v.videoHeight };
@@ -59,9 +60,13 @@ const res = await pg.evaluate(async ([f, times]) => {
     const L = d.getChannelData(0), R = d.getChannelData(1); const per = [];
     for (let sec = 0; sec < Math.ceil(d.duration); sec++) { let ss = 0, n = 0, pk = 0; for (let i = sec * d.sampleRate; i < Math.min(L.length, (sec + 1) * d.sampleRate); i++) { const x = (L[i] + R[i]) / 2; ss += x * x; n++; pk = Math.max(pk, Math.abs(L[i]), Math.abs(R[i])); } per.push([+(20 * Math.log10(Math.sqrt(ss / n) + 1e-9)).toFixed(1), +(20 * Math.log10(pk + 1e-9)).toFixed(1)]); }
     audio = { channels: d.numberOfChannels, sr: d.sampleRate, duration: d.duration, perSecRmsPeakDb: per };
+    if (tl) {   // seslendirme pencereleri: konuşma penceresi ile hemen öncesindeki 0,3 sn karşılaştırılır
+      const rms = (a, b) => { let ss = 0, n = 0; for (let i = Math.max(0, Math.floor(a * d.sampleRate)); i < Math.min(L.length, Math.floor(b * d.sampleRate)); i++) { const x = (L[i] + R[i]) / 2; ss += x * x; n++; } return +(10 * Math.log10(ss / Math.max(1, n) + 1e-12)).toFixed(1); };
+      audio.vo = Object.fromEntries(Object.entries(tl.T.vo).map(([k, t0]) => [k, { start: +t0.toFixed(2), dur: tl.vo[k], rmsDbIn: rms(t0, t0 + tl.vo[k]), rmsDbBefore: rms(t0 - 0.3, t0 - 0.05) }]));
+    }
   } catch (e) { audio = 'çözülemedi: ' + e.message; }
   return { info, audio, sheet: s.toDataURL('image/png') };
-}, [file, times]);
+}, [file, times, tl0]);
 fs.writeFileSync(path.join(out, 'verify-' + file.replace('.mp4', '.png')), Buffer.from(res.sheet.split(',')[1], 'base64'));
 console.log('video öğesi:', JSON.stringify(res.info));
 console.log('ses:', JSON.stringify(res.audio));

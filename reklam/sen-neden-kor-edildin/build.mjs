@@ -40,20 +40,27 @@ if (mode === 'sheet') {
   const times = (arg || '0.5,1.5,2.5,3.02,3.1,3.3').split(',').map(Number);
   const cols = Number(process.argv[4] || 6), scale = Number(process.argv[5] || 0.25);
   save(await page.evaluate(([t, c, s]) => window.reel.sheet(t, c, s), [times, cols, scale]), process.argv[6] || 'sheet.png');
+} else if (mode === 'timeline') {
+  const r = await page.evaluate(() => ({ dur: window.reel.DUR, T: window.reel.T, vo: Object.fromEntries(Object.entries(window.reel.vo).map(([k, v]) => [k, +v.dur.toFixed(2)])) }));
+  fs.writeFileSync(path.join(out, 'timeline.json'), JSON.stringify(r, null, 1));
+  console.log(JSON.stringify(r));
 } else if (mode === 'frame') {
   const t = Number(arg);
   save(await page.evaluate(t => window.reel.pngAt(t), t), `frame-${t.toFixed(2)}.png`);
 } else if (mode === 'export') {
-  for (const audio of [true, false]) {
+  // node build.mjs export            -> sesli + sessiz, 8 Mbps (Instagram'a yüklenecek)
+  // node build.mjs export 5          -> yalnız sesli önizleme kopyası, 5 Mbps (-onizleme.mp4; ~20 MB, uzaktan paylaşım için)
+  const mbps = Number(arg) || 8, variants = arg ? [true] : [true, false];
+  for (const audio of variants) {
     const t0 = Date.now();
-    const info = await page.evaluate(a => window.reel.exportMp4({ audio: a }), audio);
+    const info = await page.evaluate(([a, m]) => window.reel.exportMp4({ audio: a, mbps: m }), [audio, mbps]);
     const parts = [];
     for (let off = 0; off < info.bytes; off += 3_000_000) parts.push(Buffer.from(await page.evaluate(([o, l]) => window.reel.b64Chunk(o, l), [off, 3_000_000]), 'base64'));
-    const file = path.join(out, audio ? 'sen-neden-kor-edildin-reels.mp4' : 'sen-neden-kor-edildin-reels-sessiz.mp4');
-    fs.writeFileSync(file, Buffer.concat(parts));
-    console.log(path.basename(file), (info.bytes / 1e6).toFixed(2) + ' MB', info.frames + ' kare', ((Date.now() - t0) / 1000).toFixed(1) + ' sn', JSON.stringify(info.audio));
+    const name = arg ? 'sen-neden-kor-edildin-reels-onizleme.mp4' : (audio ? 'sen-neden-kor-edildin-reels.mp4' : 'sen-neden-kor-edildin-reels-sessiz.mp4');
+    fs.writeFileSync(path.join(out, name), Buffer.concat(parts));
+    console.log(name, (info.bytes / 1e6).toFixed(2) + ' MB', info.frames + ' kare', ((Date.now() - t0) / 1000).toFixed(1) + ' sn', JSON.stringify(info.audio));
   }
 } else {
-  console.log('mod: sheet | frame | export');
+  console.log('mod: sheet | frame | export | timeline');
 }
 await browser.close(); srv.close();
