@@ -62,10 +62,10 @@
 .vitrin__reklam img { display: block; width: 100%; height: 100%; min-height: 360px; object-fit: cover; }
 
 .vitrin__kontroller { position: absolute; left: clamp(32px, 5vw, 72px); bottom: 26px; display: flex; align-items: center; gap: 10px; }
-.vitrin__kontroller .yuvarlak-dugme { width: 32px; height: 32px; background: rgb(255 255 255 / 0.7); font-size: 0.9rem; }
+.vitrin__kontroller .yuvarlak-dugme { width: 36px; height: 36px; background: rgb(255 255 255 / 0.7); font-size: 0.9rem; }
 .vitrin__kontroller .yuvarlak-dugme:hover { background: var(--c-bg); }
 .vitrin__noktalar { display: flex; align-items: center; }
-.vitrin__nokta { display: grid; place-items: center; width: 28px; height: 40px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.vitrin__nokta { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; cursor: pointer; }
 .vitrin__nokta::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgb(0 0 0 / 0.28); transition: background-color var(--dur) var(--ease); }
 .vitrin__nokta[aria-current="true"]::after { width: 22px; border-radius: 4px; background: var(--c-ink); }
 
@@ -97,7 +97,7 @@
   transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
 }
 .kategori-karti:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
-.kategori-karti__ad { max-width: 9ch; font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
+.kategori-karti__ad { max-width: 9ch; min-width: 0; overflow-wrap: anywhere; font-size: clamp(1.375rem, 1rem + 1vw, 1.75rem); font-weight: 600; line-height: 1.1; letter-spacing: -0.025em; text-wrap: balance; }
 .kategori-karti__ok { position: absolute; bottom: 18px; right: 18px; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--c-fill); font-size: 1rem; transition: background-color var(--dur) var(--ease); }
 .kategori-karti:hover .kategori-karti__ok { background: var(--c-fill-hover); }
 /* Karoların üst-sağında o kategoriden üç gerçek kapak (vitrin dışı bırakılan kitaplar hariç); multiply dönen kapta durur */
@@ -128,8 +128,8 @@
   padding: 40px; border-radius: var(--radius-lg); background: var(--c-bg); box-shadow: var(--shadow-card);
 }
 .satis-vitrini__etiket { margin: 0; color: var(--c-ink-2); font-size: var(--text-base); font-weight: 600; }
-.satis-vitrini__no { margin: 0 0 14px; font-size: clamp(1.875rem, 1.2rem + 3vw, 2.5rem); line-height: 1.08; letter-spacing: -0.025em; }
-.satis-vitrini__no a { text-decoration: none; }
+.satis-vitrini__no { margin: 0 0 14px; max-width: 100%; font-size: clamp(1.875rem, 1.2rem + 3vw, 2.5rem); line-height: 1.08; letter-spacing: -0.025em; overflow-wrap: anywhere; }
+.satis-vitrini__no a { display: inline-block; padding-block: 7px; margin-block: -7px; text-decoration: none; }   /* telefon bağlantısı dokunma alanı ≥ 44 px */
 .satis-vitrini__kanallar { overflow: hidden; border-radius: var(--radius-lg); background: var(--c-bg); box-shadow: var(--shadow-card); }
 .satis-vitrini__kanallar li + li { border-top: 1px solid var(--c-line); }
 .satis-vitrini__kanallar a { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 28px; color: var(--c-ink); font-size: var(--text-base); font-weight: 600; text-decoration: none; transition: background-color var(--dur) var(--ease); }
@@ -167,8 +167,7 @@
   .vitrin__kitap--ana { width: 150px; }
   .vitrin__kitaplar::before { bottom: 84px; width: 120px; margin-left: -60px; }
   .vitrin__kontroller { position: static; justify-content: center; padding: 0 0 22px; }
-  .vitrin__kontroller .yuvarlak-dugme { width: 40px; height: 40px; }
-  .vitrin__nokta { height: 44px; }
+  .vitrin__kontroller .yuvarlak-dugme { width: 44px; height: 44px; }
   .vitrin__reklam img { min-height: 240px; max-height: 340px; }
   .kesif-kisayollari { grid-template-columns: 1fr; padding-block: 12px 0; }
   .kesif-kisayollari a { flex-direction: row; justify-content: flex-start; min-height: 52px; padding-inline: 4px; text-align: left; }

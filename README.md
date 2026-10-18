@@ -350,7 +350,7 @@ Ayrıntı: [`docs/SEO.md`](docs/SEO.md) (title/description kuralları, JSON-LD `
 | `npm run serve` | `dist/` klasörünü `http://localhost:8090` üzerinde sunar. |
 | `npm run dogrula:seo` (= `node scripts/seo/dogrula.mjs`) | `dist/` içindeki tüm sayfalarda title/description/canonical/JSON-LD/ISBN kontrolü; hata varsa çıkış kodu 1. Uyarılar (uzun title vb.) çıkış kodunu etkilemez. |
 | `npm run dogrula:icerik` (= `python -I -X utf8 scripts/qa/dogrula.py`) | İçerik doğrulaması (Q4 tarafından yazılıyor). Betik `scripts/qa/dogrula.py` mevcutsa çalışır. |
-| `npm run test:e2e` | Playwright uçtan uca testleri. **Önce `npm run build` gerekir.** Bu makinede yalnızca sistemdeki **Edge** (`channel: 'msedge'`) çalışır, ayrıca tarayıcı indirmeyin. Testler CI'da çalıştırılmaz (CI Linux'ta Edge yoktur). |
+| `npm run test:e2e` | Playwright uçtan uca testleri. **Önce `npm run build` gerekir.** Bu makinede yalnızca sistemdeki **Edge** (`channel: 'msedge'`) çalışır, ayrıca tarayıcı indirmeyin. Testler CI'da çalıştırılmaz (CI Linux'ta Edge yoktur). `tests/e2e/mobil.spec.ts` mobil sözleşmesini (taşma, %150–200 yazı, 44 px hedef, CLS, yatay önizleme; DESIGN.md §3.1) ölçer: `npx playwright test tests/e2e/mobil.spec.ts`. |
 | `npm run gorsel` | Kapak/önsöz/OG görsel optimizasyonu. |
 | `node scripts/design/kontrast.mjs --md` | Tasarım renklerinin WCAG kontrast ölçümü. |
 

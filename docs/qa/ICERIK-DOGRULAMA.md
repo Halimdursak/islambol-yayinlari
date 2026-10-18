@@ -1,6 +1,6 @@
 # Q4 İçerik Doğrulama Raporu
 
-- Tarih: 2026-10-16
+- Tarih: 2026-10-18
 - Kapsam: `dist/` (npm run build çıktısı, 133 HTML), `data/catalog/books.json` (78 kitap), `data/catalog/authors.json` (36 yazar), `data/catalog/onsoz/INDEX.json` (yalnızca bilgi, doğrudan kontrol yok), `data/site/vitrin.json`, `data/site/site.json`, `data/site/sayfalar/*.md`.
 - Betik: `python -I -X utf8 scripts/qa/dogrula.py` (dış örneklem: `--dis-ornek 15`; `--dis-yok` ile atlanır)
 - Denetlenen dizin: `C:\Users\LENOVO\Desktop\islambol_yayinlari\dist` (çalışma öncesi/sonrası dizin imzası aynı kaldıysa geçerli)

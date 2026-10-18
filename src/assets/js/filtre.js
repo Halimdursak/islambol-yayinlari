@@ -1,6 +1,6 @@
 // Katalog süzgeci (B2) — bağımlılıksız ESM.
 // URL ile eşitlenir: /kitaplar/?kategori=<slug>&yazar=<slug>&yil=<yyyy>&q=<metin>&onizleme=1
-// JS yoksa form `hidden` kalır ve tüm liste görünür; bu betik formu açar (ilerlemeli iyileştirme).
+// Form sunucudan görünür gelir (yerleşim sıçramasın); JS yoksa <noscript> stili formu gizler ve tüm liste görünür.
 
 const PARAMLAR = ["kategori", "yazar", "yil", "q", "onizleme"];
 const ARAMA_GECIKMESI_MS = 120;
@@ -133,8 +133,7 @@ function baslat(form) {
     uygula();
   });
 
-  uygula(); // form hâlâ gizliyken: canlı bölge ilk metni duyurmaz
-  form.hidden = false;
+  uygula(); // sunucu metniyle aynı sayı: canlı bölge yüklemede gereksiz duyuru yapmaz
 }
 
 const form = document.querySelector("[data-filtre]");

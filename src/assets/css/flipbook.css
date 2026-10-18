@@ -323,6 +323,21 @@ html.onizleme-acik { overflow: hidden; }
     white-space: nowrap;
   }
 }
+/* ---- Yatay telefon (kısa ekran, ADR-017): tam ekran, tek satırlık başlık ve sıkı alt şerit; sayfa yüksekliğin çoğunu alır.
+   Eskiden başlık + yazar + not ekranın yarısını yiyor, sayfa ~110 px yüksekliğinde kalıyordu. ---- */
+@media (orientation: landscape) and (max-height: 560px) {
+  .onizleme { --_sahne-pad: 8px; --_pad: 14px; --_kapat: 40px; inset: 0; width: 100%; height: 100dvh; }
+  .onizleme__kutu {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    border-radius: 0; box-shadow: none;
+  }
+  .onizleme__ust { gap: 12px; padding: 6px 10px 6px var(--_pad); }
+  .onizleme__etiket, .onizleme__yazar, .onizleme__ipucu { display: none; }
+  .onizleme__baslik { font-size: 1.0625rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .onizleme__alt { gap: 12px; padding: 6px var(--_pad); }
+  .onizleme__not { padding-bottom: 6px; }   /* telif notu (ADR-007) yatayda da görünür, tek satır */
+}
+
 /* Klavye ipucu yalnızca klavyesi olan geniş ekranlarda anlamlı. */
 @media (max-width: 768px), (hover: none) {
   .onizleme__ipucu { display: none; }

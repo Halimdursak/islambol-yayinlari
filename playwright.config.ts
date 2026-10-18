@@ -38,7 +38,7 @@ export default defineConfig({
     {
       name: 'mobil',
       // Tarayıcısız (dosya sistemi) ve genişlik taramaları yalnız masaüstü projesinde koşar.
-      testIgnore: [/baglantilar.spec/, /seo.spec.ts/, /gorsel.spec/],
+      testIgnore: [/baglantilar.spec/, /seo.spec.ts/, /gorsel.spec/, /mobil.spec/],   // mobil.spec kendi telefon bağlamlarını açar
       use: {
         viewport: { width: 390, height: 844 },
         isMobile: true,

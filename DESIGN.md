@@ -102,6 +102,17 @@ Tek aile: **Inter** (SIL OFL, self-host, değişken ağırlık 100–900). Apple
 - Şekil: kart `--radius-card` 20px, büyük modül ve modal `--radius-lg` 28px (mobil 24px), düğme ve çip `--radius-pill` 980px.
 - Gölge: `--shadow-card` (durağan), `--shadow-card-hover`, `--shadow-modal`, `--shadow-page` (sayfa çevirme sayfaları).
 
+### 3.1 Mobil sözleşmesi (ADR-017; `tests/e2e/mobil.spec.ts` bunu denetler)
+
+1. **Taşma yok:** 320–412 px genişlikte ve sistem yazı tipi %150–200'e çıksa da hiçbir sayfa yatay genişlemez (aksi hâlde mobil tarayıcı sayfayı küçültüp sığdırır ve her şey minik görünür). Düğmeler, telefon numarası, e-posta ve kart başlıkları sarar (`.dugme` artık `nowrap` değildir; kartlar ve alt bilgi `overflow-wrap: anywhere`).
+2. **Dokunma hedefi ≥ 44×44 px** (`@media (pointer: coarse)` ve üst bar her yerde): üst bar düğmeleri, çipler, slayt okları ve noktaları, konum yolu, alt bilgi bağlantıları, liste/künye bağlantıları. Genişletilmiş alan için `::after` kullanılır, görünüm değişmez. Paragraf içi bağlantılar WCAG 2.5.8 satır içi istisnasındadır.
+3. **Yazı ≥ 13 px** (`--text-xs`): rozetler, alt bilgi ve notlar dahil 12 px kullanılmaz.
+4. **Yerleşim kayması < 0,05 (CLS):** geç açılan arayüz parçası yoktur. Katalog süzgeci sunucudan görünür gelir; JS yoksa `<noscript>` stili gizler.
+5. **İlk ekran:** kitap sayfasında sıra çipler → ad → yazar → **sipariş düğmeleri** → kapak (390×664'te düğme kaydırmadan görünür). Üst bar: logo · WhatsApp · arama · **Menü** (kısa etiket; panel açıkken "Kapat").
+6. **Uzun liste:** iki ekran aşağıda "başa dön" düğmesi (yalnız dar ekran); kategori çipleri sağ kenarda solarak "devamı var" der.
+7. **Yatay telefon:** önizleme penceresi tam ekran, başlık tek satır; sayfa sahnesi yüksekliğin yarısından fazlasını alır, telif notu görünür kalır.
+8. **Logo:** üst bar/alt bilgi önceden kırpılmış `islambol-logo-yatay.webp` (300×102, ~13 KB) kullanır; kaynak logo (`islambol-logo.png`) değişmez (ADR-014).
+
 ---
 
 ## 4. Bileşenler
@@ -151,7 +162,7 @@ Ortalı slogan (`h2`), 30px/500 özet, üçüncül bağlantı. Altında dört sa
 
 ### 4.14 Katalog ve kitap detayı (`katalog.css`)
 **Liste sayfaları** (kitaplar, yazarlar, diziler, yazar): `.katalog` sarmalayıcısı tam genişlik `--c-band` zemindir; üstte etiket, `h1` (40→64px/600) ve gri sayı satırı. Kartlar beyazdır.
-- **Süzgeç `.filtre`** (JS açar; JS yokken gizli kalır ve liste tam görünür): beyaz 28px kap + `--shadow-card`; kategori çipleri (mobilde tek satır yatay kaydırma, kenardaki yarım çip kaydırmayı ima eder), 44px kapsül Yazar / Yıl / Ara alanları (`--c-band` dolgu, kenarlıksız, tek tip ok ve büyüteç SVG'si), "Önizlemeli" çipi, sonuç sayısı (`role="status"`), "Temizle" üçüncül düğme.
+- **Süzgeç `.filtre`** (sunucudan görünür gelir; JS yokken `<noscript>` stili gizler ve liste tam görünür): beyaz 28px kap + `--shadow-card`; kategori çipleri (mobilde tek satır yatay kaydırma, kenardaki yarım çip kaydırmayı ima eder), 44px kapsül Yazar / Yıl / Ara alanları (`--c-band` dolgu, kenarlıksız, tek tip ok ve büyüteç SVG'si), "Önizlemeli" çipi, sonuç sayısı (`role="status"`), "Temizle" üçüncül düğme.
 - **Kitap ızgarası `.kartlar`**: 2 sütun (<640px), 3 (≥640px), 4 (≥1100px); kartın kendisi `kartlar.css`. Boş durum `.bos-durum`: ortalı, gri, "Temizle" düğmeli.
 - **Yazarlar**: beyaz kart + yuvarlak portre (`auto-fill minmax(200px, 1fr)`); hover'da kartın kendisi yükselir. **Yazar sayfası**: okuma genişliğinde (760px) beyaz biyografi kartı, gri kaynak satırı; altında kitap kartları ve "Set ve seriler".
 - **Set/seri kartı `.dizi-karti`**: beyaz kart, kare kapak kutusu (görsel taban hizalı, multiply), etiket + ad (21px/600) + gri ek + açıklama; bütün kart tek bağlantıdır.

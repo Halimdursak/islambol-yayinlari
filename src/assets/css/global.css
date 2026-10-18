@@ -30,11 +30,18 @@ main:focus { outline: none; }
 .bolum--son { padding-bottom: calc(var(--sec-pad) + 8px); }
 .bant { background: var(--c-band); }
 
+/* Dokunmatik: çift dokunma yakınlaştırma gecikmesi yok; dokunma vurgusu hafif ve marka renginden bağımsız */
+a, button, input, select, textarea, summary, label { touch-action: manipulation; }
+html { -webkit-tap-highlight-color: rgb(0 0 0 / 0.06); }
+
+/* Uzun sözcük ve e-posta adresi hiçbir yazı boyutunda kabı taşırmaz (sistem yazı tipi %150–200'e çıksa da sayfa yatay genişlemez) */
+main, .alt { overflow-wrap: break-word; }
+
 /* ---- Düğme ---- */
 .dugme {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 44px; padding: 0 22px; border: 0; border-radius: var(--radius-pill);
-  font: 600 var(--text-base)/1 var(--font); letter-spacing: -0.01em; text-decoration: none; white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%;
+  min-height: 44px; padding: 12px 22px; border: 0; border-radius: var(--radius-pill);
+  font: 600 var(--text-base)/1.2 var(--font); letter-spacing: -0.01em; text-decoration: none; text-align: center; overflow-wrap: anywhere;
   cursor: pointer; transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .dugme:active { transform: scale(0.97); }
@@ -43,7 +50,7 @@ main:focus { outline: none; }
 .dugme--birincil:hover { background: var(--c-accent-hover); }
 .dugme--ikincil { background: var(--c-fill); color: var(--c-ink); }
 .dugme--ikincil:hover { background: var(--c-fill-hover); }
-.dugme--ucuncul { min-height: 0; padding: 0; background: none; color: var(--c-ink); font-weight: 500; }
+.dugme--ucuncul { min-height: 0; padding: 0; background: none; color: var(--c-ink); font-weight: 500; text-align: left; }
 .dugme--ucuncul::after { content: "›"; margin-left: 2px; }
 .dugme--ucuncul:hover { text-decoration: underline; text-underline-offset: 3px; }
 .dugme--ucuncul:active { transform: none; }
@@ -95,8 +102,8 @@ main:focus { outline: none; }
 
 /* ---- Konum yolu ---- */
 .iz { margin-bottom: 28px; font-size: var(--text-xs); color: var(--c-ink-2); }
-.iz ol { display: flex; flex-wrap: wrap; gap: 4px 8px; }
-.iz li { display: inline-flex; gap: 8px; }
+.iz ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; }
+.iz li { display: inline-flex; align-items: center; gap: 8px; }
 .iz li + li::before { content: "›"; color: var(--c-line); }
 .iz a { text-decoration: none; }
 .iz a:hover { color: var(--c-ink); text-decoration: underline; }
@@ -112,21 +119,22 @@ main:focus { outline: none; }
 }
 .ust__ic { display: flex; align-items: center; gap: 12px; min-height: var(--header-h); }
 
-/* Logo: şeffaf PNG 800×800, içerik kutusu x 99–696, y 305–503 → kırpılır */
-.ust__logo { --lh: 30px; position: relative; display: block; flex: none; width: calc(var(--lh) * 3.02); height: var(--lh); overflow: hidden; }
-.ust__logo img { position: absolute; max-width: none; width: calc(var(--lh) * 4.034); height: calc(var(--lh) * 4.034); left: calc(var(--lh) * -0.496); top: calc(var(--lh) * -1.538); }
+/* Logo: önceden kırpılmış yatay WebP (300×102; kaynak logo public/logo/islambol-logo.png'den türetilir, ADR-014). Oran 300/102. */
+.ust__logo { --lh: 30px; position: relative; display: block; flex: none; width: calc(var(--lh) * 2.941); height: var(--lh); }
+.ust__logo::after { content: ""; position: absolute; inset: -8px -6px; }   /* görünümü değiştirmeden dokunma alanı ≥ 44 px */
+.ust__logo img { display: block; width: 100%; height: 100%; }
 
 /* WhatsApp: resmî logo (marka yeşili) — sitedeki tek kırmızı dışı renk, marka işareti olduğu için korunur */
 .ust__wa {
-  display: grid; place-items: center; flex: none; width: 40px; height: 40px; margin-left: auto;
+  display: grid; place-items: center; flex: none; width: 44px; height: 44px; margin-left: auto;
   border-radius: 50%; background: var(--c-whatsapp); color: #fff;
   transition: background-color var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
 .ust__wa:hover { background: var(--c-whatsapp-hover); }
 .ust__wa:active { transform: scale(0.94); }
 .ust__wa svg { width: 21px; height: 21px; }
-.ust__menu-dugme { flex: none; min-height: 40px; }
-.ust__ara-dugme { display: grid; flex: none; place-items: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--c-ink); cursor: pointer; }
+.ust__menu-dugme { flex: none; min-height: 44px; padding-block: 0; }
+.ust__ara-dugme { display: grid; flex: none; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--c-ink); cursor: pointer; }
 .ust__ara-dugme:hover { background: var(--c-fill); }
 .ust__ara-dugme svg { width: 20px; height: 20px; }
 
@@ -152,13 +160,11 @@ html.menu-acik { overflow: hidden; }
 .ust__arama button { display: grid; place-items: center; flex: none; width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--c-ink); cursor: pointer; border-radius: 50%; }
 .ust__arama svg { width: 19px; height: 19px; }
 
-/* 360 px ve altı: logo + WhatsApp + arama + Menü sığsın (320 px'te 280 px kullanılabilir alan) */
+/* 380 px ve altı: logo + WhatsApp + arama + Menü sığsın (320 px'te 280 px kullanılabilir alan); hedefler 44 px kalır */
 @media (max-width: 380px) {
-  .ust__ic { gap: 4px; }
-  .ust__logo { --lh: 26px; }
-  .ust__wa { width: 36px; height: 36px; }
-  .ust__ara-dugme { width: 38px; height: 38px; }
-  .ust__menu-dugme { padding: 0 12px; min-height: 38px; }
+  .ust__ic { gap: 2px; }
+  .ust__logo { --lh: 26px; margin-right: 6px; }
+  .ust__menu-dugme { padding-inline: 14px; }
 }
 
 @media (min-width: 68.75rem) {
@@ -191,15 +197,16 @@ html.menu-acik { overflow: hidden; }
 .alt__liste a { display: inline-block; padding-block: 5px; text-decoration: none; }   /* hedef >= 24px (WCAG 2.5.8) */
 .alt__liste a:hover { color: var(--c-ink); text-decoration: underline; text-underline-offset: 3px; }
 .alt__adres { display: block; max-width: 14rem; }
-.alt__dip { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 32px; padding-top: 20px; border-top: 1px solid var(--c-line); font-size: 0.75rem; }
+.alt__dip { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 32px; padding-top: 20px; border-top: 1px solid var(--c-line); font-size: var(--text-xs); }
 .alt__dip p { margin: 0; }
 .alt__not { flex: 1 1 18rem; }
 .alt__yonetim { padding-block: 5px; color: var(--c-ink-2); text-decoration: none; white-space: nowrap; }
 .alt__yonetim:hover { color: var(--c-ink); text-decoration: underline; }
 
 @media (max-width: 834px) {
-  .alt__ust { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+  .alt__ust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 24px; }
   .alt__marka { grid-column: 1 / -1; }
+  .alt__liste a, .alt__adres { overflow-wrap: anywhere; }   /* e-posta gibi uzun adresler sütunu taşırmaz (büyük yazı boyutunda da) */
 }
 @media (max-width: 640px) {
   .alt { padding-block: 44px 32px; }
@@ -247,13 +254,40 @@ html.menu-acik { overflow: hidden; }
 .hat__no a { text-decoration: none; }
 .hat__no a:hover { text-decoration: underline; }
 
+/* ---- Dokunmatik hedefler (ADR-017): parmakla kullanılan ekranlarda her denetim ve gezinme bağlantısı en az 44×44 px.
+   Fare/klavyeli cihazlarda yoğun masaüstü ölçüleri korunur. Paragraf içi bağlantılar WCAG 2.5.8 satır içi istisnasındadır. ---- */
+@media (pointer: coarse) {
+  .cip, .dugme--kucuk { min-height: 44px; }
+  .dugme--ucuncul { min-height: 44px; padding-inline: 2px; }
+  .yuvarlak-dugme { width: 44px; height: 44px; }
+  .iz { margin-bottom: 12px; }
+  .iz a { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 2px; }
+  .alt__liste a, .alt__yonetim { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; padding-block: 0; }
+  .alt__liste li { margin-bottom: 0; }
+  .okuma li > a, .kunye td a { display: inline-block; min-width: 44px; padding-block: 11px; margin-block: -11px; }   /* liste/künye bağlantıları: dokunma alanı ≥ 44 px, satır aralığı aynı */
+  .raf-basligi > a, .raf-basligi__eylemler > a, .bolum-basligi__ek { display: inline-flex; align-items: center; gap: 0.3em; min-height: 44px; padding-bottom: 0; }   /* gap: flex içinde " ›" başındaki boşluk çöker */
+  .kanal__ad { display: inline-flex; align-items: center; min-height: 44px; }
+}
+
+/* ---- Başa dön: uzun listelerde (katalog, yazarlar, setler) site.js ekler ---- */
+.basa-don {
+  position: fixed; right: 16px; bottom: 16px; z-index: var(--z-header); display: grid; place-items: center;
+  width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%;
+  background: var(--c-ink); color: #fff; box-shadow: 0 6px 20px rgb(0 0 0 / 0.28); cursor: pointer;
+  opacity: 0; transform: translateY(8px); visibility: hidden;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease), visibility 0s linear var(--dur);
+}
+.basa-don.is-gorunur { opacity: 1; transform: none; visibility: visible; transition-delay: 0s; }
+.basa-don svg { width: 20px; height: 20px; }
+@media (min-width: 68.75rem) { .basa-don { display: none; } }
+
 /* ---- Hareket azaltma ---- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .dugme, .yuvarlak-dugme, .cip { transition: none; }
+  .dugme, .yuvarlak-dugme, .cip, .basa-don { transition: none; }
   .dugme:active, .yuvarlak-dugme:active { transform: none; }
 }
 
 @media print {
-  .ust, .alt, .atla, .onizleme { display: none !important; }
+  .ust, .alt, .atla, .onizleme, .basa-don { display: none !important; }
 }

@@ -1,9 +1,10 @@
 {#
   Katalog süzgeç çubuğu — B2. Girdi (sayfa verisi): filtreKategoriler, filtreYazarlar, filtreYillar, katalog.
-  JS yokken form `hidden` kalır ve tüm liste görünür (ilerlemeli iyileştirme); filtre.js formu açar.
+  Form baştan görünür: eskiden `hidden` gelip filtre.js ile açılıyordu ve liste ~370 px aşağı sıçrıyordu (CLS 0,36, ADR-017).
+  JS yokken denetimler işe yaramaz; base.njk <noscript> stili formu gizler ve tüm liste görünür (ilerlemeli iyileştirme).
 #}
 {%- set m = site.mikrometin -%}
-<form class="filtre" data-filtre hidden role="search" aria-label="{{ m.filtre_baslik }}"
+<form class="filtre" data-filtre role="search" aria-label="{{ m.filtre_baslik }}"
   data-sonuc-sablon="{{ m.filtre_sonuc }}">
   <div class="filtre__kategoriler cipler" role="group" aria-label="{{ m.filtre_kategori }}">
     <button type="button" class="cip" data-kategori-cip="" aria-pressed="true">{{ m.filtre_hepsi }}<span class="cip__sayi">{{ katalog.length }}</span></button>
@@ -37,7 +38,7 @@
     <button type="button" class="cip filtre__onizleme" data-onizlemeli-cip aria-pressed="false">Önizlemeli</button>
   </div>
   <div class="filtre__durum">
-    <p class="filtre__sonuc" data-sonuc role="status" aria-live="polite"></p>
+    <p class="filtre__sonuc" data-sonuc role="status" aria-live="polite">{{ m.filtre_sonuc | replace("{n}", katalog.length) }}</p>
     <button type="button" class="dugme dugme--ucuncul" data-temizle hidden>{{ m.filtre_temizle }}</button>
   </div>
 </form>
