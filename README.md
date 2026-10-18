@@ -165,17 +165,20 @@ Yazar kayıtları: `name`, `slug`, `display`, `bio`, `bio_source`, `book_ids` (k
 
 ## Yönetim paneli (önerilen yol)
 
-Teknik bilgisi olmayan biri için kitap, yazar, duyuru, ana sayfa vitrini, sayfa metinleri, telefon/WhatsApp numarası ve site bilgileri bir yönetim panelinden değiştirilir. Aşağıdaki JSON akışı (kitap ekleme, vitrin, site metinleri) panelin arkasındaki dosyalardır; panel onlara güvenli yazar.
+Kitap eklemek, çıkarmak ve siteyi güncellemek için tek yer. Teknik bilgi gerekmez. Panelin arkasındaki JSON dosyaları (aşağıdaki akış) panelin güvenle yazdığı dosyalardır.
 
-- **Başlatma:** `yonetim-baslat.bat` dosyasına çift tıklayın (ya da `npm run cms`). Siyah pencere açılır, site hazırlanır ve tarayıcıda `http://127.0.0.1:8090/yonetim/` açılır. İlk açılışta pencerede **bir kez gösterilen şifre** vardır; panelde "Şifre değiştir" ile kendi şifrenizi belirleyin. Unuttuysanız `yonetim-sifre-sifirla.bat`.
-- **Sadece bu bilgisayarda çalışır** (`127.0.0.1`). Şifre `.local/cms-auth.json` içinde karma olarak durur (Git'e girmez).
-- **Kaydedince** değişiklik veri dosyalarına yazılır ve site otomatik yeniden derlenir (birkaç saniye); önceki sürüm yedeklenir ve derleme hatasında geri alınır. Bu bilgisayardaki `dist/` hemen güncellenir.
-- **İnternetteki siteyi güncellemek ayrı adımdır:** GitHub Pages statik olduğu için panel orada çalışmaz. Değişiklikler `data/`, `public/uploads/` içindedir; commit edip gönderdiğinizde (bkz. [GitHub'a yayınlama](#githuba-yayınlama)) yayına çıkar.
+- **Açmak:** masaüstündeki **İslambol Panel** kısayoluna (ya da `yonetim-baslat.bat`, `npm run cms`) çift tıklayın. Küçük bir pencere açılır, site hazırlanır, tarayıcıda `http://127.0.0.1:8090/yonetim/` görünür. Pencereyi kapatmayın (küçültebilirsiniz). **Kullanıcı adı ve şifre** ile girilir; "beni hatırla" 30 gün sürer. Unutulursa `yonetim-sifre-sifirla.bat` yeni bilgi üretir; panelde "Hesap" bölümünden de değişir.
+- **Kitaplık (açılış sayfası):** kitaplar kapak kartları olarak görünür; ara, "Yayında / Sitede gizli" süz. Kartın menüsünde: Düzenle · Sitede gizle/göster · Kitap görselini indir · Sil.
+- **Kitap eklemek:** "+ Yeni kitap" → kapak **resmini ya da baskı PDF'ini** kutuya bırakın (PDF'ten ön ve arka kapak kendiliğinden ayrılır) → kitap adı, yazar, açıklama ("Açıklamaya ne yazmalı?" notu açıktır), isteğe bağlı fiyat, kategori → **Kaydet ve yayınla** (ya da "Taslak olarak kaydet"). Gerisi ("Daha fazla bilgi") isteğe bağlıdır. Kitap adı ve yazar kapaktan okunmaz, elle yazılır.
+- **Kitap görseli:** kapaktan otomatik, kitap şeklinde (hafif dönük, sırtlı, gölgeli) şeffaf PNG üretilir; sosyal medya ve WhatsApp için indirilir. Yapay zekâ değildir, her zaman aynı kapaktan aynı sonucu verir.
+- **Yayınla:** üstteki çubuk, yayınlanmayı bekleyen değişikliği gösterir ("1 yeni kitap, 1 düzenlenen kitap"). **Yayınla** değişiklikleri GitHub'a gönderir ve GitHub Pages'in siteyi güncellemesini bekler (genellikle 1–2 dakika; "Yayında ✓"). **Geri al**, henüz yayınlanmamış değişiklikleri atar. Yayınla yalnız içerik dosyalarını (`data/catalog/books.json`, `authors.json`, `data/site/`, `public/uploads/`) işler; bu bilgisayarda gönderilmemiş başka işler (başka commit'ler) varsa önce sorar. Bilgisayarda GitHub girişi (`gh auth login`) açık olmalıdır; değilse çubuk bunu sade Türkçeyle söyler.
+- **Sadece bu bilgisayarda çalışır** (`127.0.0.1`). Giriş bilgisi `.local/cms-auth.json`, oturumlar `.local/cms-sessions.json` içinde karma olarak durur (Git'e girmez).
+- **Kaydedince** değişiklik veri dosyalarına yazılır ve site bu bilgisayarda yeniden derlenir (birkaç saniye); önceki sürüm yedeklenir ve derleme hatasında geri alınır. İnternetteki site ancak **Yayınla** ile güncellenir (GitHub Pages statiktir; panel orada çalışmaz).
 - **Telefon/WhatsApp numarası tek yerden değişir** (Site ayarları). Üst bardaki WhatsApp logosu, alt bilgi, iletişim sayfası, SEO açıklamaları ve kitap sipariş bağlantıları aynı kaynaktan (`data/site/site.json`) beslenir.
-- **Önizleme sayfası yükleme:** bir kitabın düzenleme penceresinde en fazla 30 sayfa resmi yüklenir ve sıralanır; ana sayfa "Sayfalarına göz atın" rafına eklenebilir. Yayınevinin kendi önizlemesi varsa yüklenen sayfalar onun yerine geçer.
+- **Diğer ayarlar:** yazarlar, ana sayfa duyuruları, ana sayfa vitrini ve sayfa metinleri burada durur (sık kullanılmaz). Bir kitabın "Daha fazla bilgi" bölümünde en fazla 30 önizleme sayfası yüklenip sıralanabilir.
 - **Sayfa metinlerinde yer tutucular:** `{telefon_gosterim}`, `{telefon}`, `{whatsapp_url}`, `{eposta}`, `{adres}`, `{sosyal_liste}` yazılırsa site ayarlarındaki güncel değerle değişir. Başka süslü parantezler olduğu gibi kalır.
 
-Mimari ve güvenlik kararları: [ADR-015](docs/KARARLAR.md).
+Mimari ve güvenlik kararları: [ADR-015](docs/KARARLAR.md), [ADR-020](docs/KARARLAR.md).
 
 ## Yeni kitap ekleme — adım adım (elle, JSON ile)
 

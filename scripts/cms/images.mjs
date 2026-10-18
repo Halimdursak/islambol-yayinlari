@@ -5,7 +5,7 @@ import { CmsError } from "./content.mjs";
 export const MAX_UPLOAD = 8 * 1024 * 1024;
 const MAX_PIXELS = 40000000;
 // Kitap kapakları liste/detay için, önizleme sayfaları okunabilirlik için bu genişliğin üstüne çıkmaz.
-const MAX_WIDTH = { cover: 1200, preview: 1400, image: 1600 };
+const MAX_WIDTH = { cover: 1200, back: 800, preview: 1400, image: 1600 };
 export const UPLOAD_KINDS = Object.keys(MAX_WIDTH);
 
 function detectExtension(bytes) {
@@ -56,6 +56,13 @@ async function optimize(bytes, extension, limit) {
         : await resized.jpeg({ quality: 86, mozjpeg: true }).toBuffer({ resolveWithObject: true });
     return { bytes: output.data, width: output.info.width, height: output.info.height };
   } catch { return null; }
+}
+
+/** Arka kapak için WebP eşi (sharp yoksa null: site JPEG ile de çalışır). */
+export async function toWebp(bytes) {
+  let sharp;
+  try { sharp = (await import("sharp")).default; } catch { return null; }
+  try { return await sharp(bytes, { limitInputPixels: MAX_PIXELS, failOn: "none" }).rotate().webp({ quality: 72, effort: 5 }).toBuffer(); } catch { return null; }
 }
 
 /** İstek gövdesini doğrular; { bytes, extension, width, height } döndürür. */

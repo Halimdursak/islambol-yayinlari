@@ -150,6 +150,12 @@ export async function createStore(root, build, logger) {
         return { files: { [key]: file }, extra: { page: { ...page, slug } } };
       });
     },
+    /** Yayınlama / geri alma gibi diskteki dosyaları kaydetmelerle çakışmadan işleyen işlemler sırayla çalışır. */
+    exclusive(task) {
+      const run = queue.then(task);
+      queue = run.catch(() => {});
+      return run;
+    },
     async idle() { await queue; },
   };
 }

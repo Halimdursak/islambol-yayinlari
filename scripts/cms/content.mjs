@@ -5,7 +5,7 @@ export class CmsError extends Error {
 }
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const BOOK_FIELDS = ["id", "title", "subtitle", "authors", "author_display", "isbn", "pages", "publish_date", "categories", "description", "status", "is_set", "series", "dimensions", "binding", "paper", "language", "edition", "contributors", "preview_pages", "price_list_try"];
+const BOOK_FIELDS = ["id", "title", "subtitle", "authors", "author_display", "isbn", "pages", "publish_date", "categories", "description", "status", "is_set", "series", "dimensions", "binding", "paper", "language", "edition", "contributors", "preview_pages", "price_list_try", "back_cover"];
 const MAX_PREVIEW_PAGES = 30;
 const MAX_IMAGE_SIDE = 20000;
 const AUTHOR_FIELDS = ["name", "slug", "display", "bio", "bio_source", "photo_url", "book_ids", "status", "kitapyurdu_author_url"];
@@ -68,6 +68,20 @@ function listPrice(value) {
   return value;
 }
 
+/** Arka kapak: { local_path, webp_path?, width, height } ya da null (kaldırır). Yollar yalnız public/ altında. */
+function backCover(value) {
+  if (value === null || value === undefined) return null;
+  if (typeof value !== "object" || Array.isArray(value) || typeof value.local_path !== "string" || !value.local_path.startsWith("public/")) throw new CmsError(422, "Arka kapak yolu public/ klasöründe olmalıdır.");
+  safeUrl("/" + value.local_path.slice(7), "Arka kapak yolu");
+  let webp = null;
+  if (value.webp_path !== null && value.webp_path !== undefined) {
+    if (typeof value.webp_path !== "string" || !value.webp_path.startsWith("public/")) throw new CmsError(422, "Arka kapak WebP yolu public/ klasöründe olmalıdır.");
+    safeUrl("/" + value.webp_path.slice(7), "Arka kapak WebP yolu");
+    webp = value.webp_path;
+  }
+  return { local_path: value.local_path, webp_path: webp, width: imageSide(value.width ?? null, "Arka kapak genişliği"), height: imageSide(value.height ?? null, "Arka kapak yüksekliği") };
+}
+
 /** Yüklenen önizleme sayfaları: sıra = gösterim sırası; yalnızca public/ altındaki yerel dosyalar. */
 function previewPages(value) {
   if (value === null || value === undefined) return [];
@@ -115,6 +129,7 @@ export function createValidators(bookSchema) {
       }
       if (Object.hasOwn(record, "preview_pages")) record.preview_pages = previewPages(record.preview_pages);
       if (Object.hasOwn(record, "price_list_try")) record.price_list_try = listPrice(record.price_list_try);
+      if (Object.hasOwn(record, "back_cover")) record.back_cover = backCover(record.back_cover);
       if (record.cover.local_path) {
         const path = record.cover.local_path;
         if (typeof path !== "string" || !path.startsWith("public/")) throw new CmsError(422, "Kapak yolu public/ klasöründe olmalıdır.");

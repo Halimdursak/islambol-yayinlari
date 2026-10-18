@@ -1,5 +1,8 @@
 /* İslambol Yayınları yönetim paneli. Tek dosya, vanilla JS.
    CSP: script-src 'self'; style-src 'self' -> satır içi stil/betik yok; görünüm yalnız sınıflarla kurulur. */
+import { createLibrary } from "./admin-kitaplik.js";
+import { createPublishBar } from "./admin-yayin.js";
+
 const app = document.getElementById("admin-app");
 const dialog = document.getElementById("editor");
 const notification = document.getElementById("notification");
@@ -8,17 +11,20 @@ const base = location.pathname.replace(/yonetim\/?$/, "");
 const MAX_UPLOAD = 8 * 1024 * 1024;
 const MAX_PREVIEW = 30;
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
-const BUILD_MESSAGE = "Kaydediliyor ve site güncelleniyor…";
+const BUILD_MESSAGE = "Kaydediliyor ve site hazırlanıyor…";
 
-const TABS = [
-  ["overview", "Genel bakış"], ["books", "Kitaplar"], ["authors", "Yazarlar"], ["campaigns", "Ana sayfa duyuruları"],
-  ["vitrin", "Ana sayfa vitrini"], ["pages", "Sayfa metinleri"], ["site", "Site ayarları"],
+const TABS = [["books", "Kitaplar"], ["site", "Site ayarları"], ["more", "Diğer ayarlar"]];
+const MORE_TABS = [
+  ["authors", "Yazarlar", "Yazar portreleri ve biyografileri."],
+  ["campaigns", "Ana sayfa duyuruları", "Ana sayfanın üstündeki duyuru slaytı."],
+  ["vitrin", "Ana sayfa vitrini", "Ana sayfada öne çıkacak kitaplar."],
+  ["pages", "Sayfa metinleri", "Hakkımızda, İletişim gibi sayfaların yazıları."],
 ];
-const TAB_LABEL = Object.fromEntries(TABS);
-const COUNTED = ["books", "authors", "campaigns", "pages"];
+const TAB_LABEL = Object.fromEntries([...TABS, ...MORE_TABS.map(([id, label]) => [id, label]), ["more", "Diğer ayarlar"]]);
+const NAV_OF = Object.fromEntries(MORE_TABS.map(([id]) => [id, "more"]));
+const COUNTED = ["books"];
 const singular = { books: "Kitap", authors: "Yazar", campaigns: "Duyuru" };
 const SECTIONS = {
-  books: ["İçerik yönetimi", "Kataloğa kitap ekleyin, bilgileri ve önizleme sayfalarını güncelleyin, yayın durumunu yönetin."],
   authors: ["İçerik yönetimi", "Yazarların portrelerini, biyografilerini ve kitaplarını düzenleyin."],
   campaigns: ["İçerik yönetimi", "Ana sayfanın üstündeki duyuruları, görselleri ve sıralamayı yönetin."],
   vitrin: ["Ana sayfa", "Ana sayfada hangi kitapların öne çıkacağını ve kaç öğe gösterileceğini seçin."],
@@ -27,7 +33,7 @@ const SECTIONS = {
 };
 
 const emptyContent = () => ({ books: [], authors: [], campaigns: [], site: null, vitrin: null, pages: null, categories: [] });
-const state = { csrfToken: "", content: emptyContent(), tab: "overview", query: "", saving: false };
+const state = { csrfToken: "", username: "", content: emptyContent(), tab: "books", query: "", saving: false };
 let dialogContext = null;
 let toastTimer;
 let busyTimer;
@@ -106,7 +112,7 @@ function lockForm(form, busy, message = BUILD_MESSAGE) {
   if (busy) { const started = Date.now(); busyTimer = setInterval(() => paintStatus(form, Math.floor((Date.now() - started) / 1000)), 1000); }
 }
 async function guarded(form, message, task) {
-  if (state.saving) return;
+  if (state.saving) { toast("Başka bir işlem sürüyor; birkaç saniye bekleyip yeniden deneyin.", "error"); return; }
   lockApp(true);
   lockForm(form, true, message);
   try { await task(); }
@@ -129,18 +135,21 @@ const markDirty = (form) => { if (form) form.dataset.dirty = "true"; };
 /* ---------- Giriş ekranı ---------- */
 function renderLogin(error = "") {
   app.removeAttribute("aria-busy");
-  app.innerHTML = `<main class="login-shell" id="main"><section class="login-intro"><a class="login-brand" href="${route("/")}">isl<span>am</span>bol <small>yayınları</small></a><p class="eyebrow">Yayınevi yönetimi</p><h1>Kitaplarınızın<br>yeni hikâyesi<br>burada başlıyor.</h1><p>Kitaplarınızı, ana sayfanızı ve site bilgilerinizi tek yerden yönetin.</p></section><section class="login-panel"><div class="login-card"><p class="eyebrow">İslambol Yayınları</p><h2>Yönetici girişi</h2><p class="muted">Sitenizi düzenlemek için giriş yapın.</p><form id="login-form"><label class="field"><span class="field-label">Yönetici şifresi</span><input name="password" data-pw aria-describedby="login-error" type="password" autocomplete="current-password" required autofocus minlength="8"></label><label class="checkbox-field"><input type="checkbox" data-show-password>Şifreyi göster</label><p class="form-error" role="alert" id="login-error" ${error ? "" : "hidden"}>${escape(error)}</p><button class="button button-primary" type="submit">Giriş yap</button></form><p class="local-note">Şifrenizi yönetim penceresinde (siyah komut ekranı) ilk açılışta gösterilen şifre olarak girin; Şifre değiştir bölümünden kendi şifrenizi belirleyebilirsiniz.</p><p class="login-return"><a href="${route("/")}">← Siteye dön</a></p></div></section></main>`;
+  app.innerHTML = `<main class="login-shell" id="main"><section class="login-intro"><a class="login-brand" href="${route("/")}">isl<span>am</span>bol <small>yayınları</small></a><p class="eyebrow">Yayınevi yönetimi</p><h1>Kitaplarınızın<br>yeni hikâyesi<br>burada başlıyor.</h1><p>Kitaplarınızı, ana sayfanızı ve site bilgilerinizi tek yerden yönetin.</p></section><section class="login-panel"><div class="login-card"><p class="eyebrow">İslambol Yayınları</p><h2>Yönetici girişi</h2><p class="muted">Sitenizi düzenlemek için giriş yapın.</p><form id="login-form"><label class="field"><span class="field-label">Kullanıcı adı</span><input name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus></label><label class="field"><span class="field-label">Şifre</span><input name="password" data-pw aria-describedby="login-error" type="password" autocomplete="current-password" required minlength="8"></label><label class="checkbox-field"><input type="checkbox" data-show-password>Şifreyi göster</label><label class="checkbox-field"><input type="checkbox" name="remember" checked>Bu bilgisayarda beni hatırla (30 gün)</label><p class="form-error" role="alert" id="login-error" ${error ? "" : "hidden"}>${escape(error)}</p><button class="button button-primary" type="submit">Giriş yap</button></form><p class="local-note">Kullanıcı adı ve şifre size ayrıca verilmiştir. Unutursanız klasördeki “yonetim-sifre-sifirla” dosyasına çift tıklayın; panelde “Hesap” bölümünden de değiştirebilirsiniz.</p><p class="login-return"><a href="${route("/")}">← Siteye dön</a></p></div></section></main>`;
   $("#login-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget; const button = $("button[type=submit]", form); const errorElement = $("#login-error");
     button.disabled = true; button.textContent = "Giriş yapılıyor…"; errorElement.hidden = true;
     try {
-      const result = await api("login", { method: "POST", body: JSON.stringify({ password: new FormData(form).get("password") }) });
+      const data = new FormData(form);
+      const result = await api("login", { method: "POST", body: JSON.stringify({ username: data.get("username"), password: data.get("password"), remember: data.has("remember") }) });
       state.csrfToken = result.csrfToken;
+      state.username = result.username ?? "";
       await loadContent();
+      state.tab = "books";
       renderShell();
-      state.tab = "overview";
       renderMain();
+      publishBar.refresh();
       $("#page-title")?.focus({ preventScroll: true });
     } catch (loginError) { errorElement.textContent = loginError.message; errorElement.hidden = false; }
     finally { if (button.isConnected) { button.disabled = false; button.textContent = "Giriş yap"; } }
@@ -151,7 +160,7 @@ function renderLogin(error = "") {
 function renderShell() {
   app.removeAttribute("aria-busy");
   const nav = TABS.map(([id, label]) => `<button type="button" class="nav-item" data-tab="${id}"><span>${label}</span>${COUNTED.includes(id) ? `<span class="nav-count" data-count="${id}"></span>` : ""}</button>`).join("");
-  app.innerHTML = `<a class="skip-link" href="#main">Ana içeriğe geç</a><div class="admin-shell"><header class="mobile-bar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><span class="mobile-title" data-mobile-title></span><button type="button" class="button button-small menu-toggle" data-action="menu" aria-expanded="false" aria-controls="sidebar">Menü</button></header><aside class="sidebar" id="sidebar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><p class="sidebar-caption">Yayın yönetimi</p><nav aria-label="Yönetim bölümleri">${nav}</nav><div class="sidebar-bottom"><button type="button" class="side-link" data-action="password">Şifre değiştir</button><a class="side-link" href="${route("/")}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a><button type="button" class="side-link" data-action="logout">Oturumu kapat</button></div></aside><main class="admin-main" id="main" tabindex="-1"></main></div>`;
+  app.innerHTML = `<a class="skip-link" href="#main">Ana içeriğe geç</a><div class="admin-shell"><header class="mobile-bar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><span class="mobile-title" data-mobile-title></span><button type="button" class="button button-small menu-toggle" data-action="menu" aria-expanded="false" aria-controls="sidebar">Menü</button></header><aside class="sidebar" id="sidebar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><p class="sidebar-caption">Yayın yönetimi</p><nav aria-label="Yönetim bölümleri">${nav}</nav><div class="sidebar-bottom"><button type="button" class="side-link" data-action="password">Hesap${state.username ? ` (${escape(state.username)})` : ""}</button><a class="side-link" href="${route("/")}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a><button type="button" class="side-link" data-action="logout">Oturumu kapat</button></div></aside><main class="admin-main" id="main" tabindex="-1"></main></div>`;
 }
 function closeMenu() {
   $("#sidebar")?.classList.remove("is-open");
@@ -163,7 +172,8 @@ function toggleMenu() {
   if (open) $("#sidebar .nav-item")?.focus();
 }
 function updateNav() {
-  app.querySelectorAll(".nav-item").forEach((b) => { if (b.dataset.tab === state.tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
+  const current = NAV_OF[state.tab] ?? state.tab;
+  app.querySelectorAll(".nav-item").forEach((b) => { if (b.dataset.tab === current) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
   for (const key of COUNTED) { const element = $(`[data-count="${key}"]`, app); if (element) element.textContent = list(key).length; }
   const title = $("[data-mobile-title]", app);
   if (title) title.textContent = TAB_LABEL[state.tab];
@@ -180,7 +190,8 @@ function showTab(tab, focusField = "") {
 }
 function renderMain() {
   const main = $("#main");
-  main.innerHTML = VIEWS[state.tab]();
+  main.innerHTML = `${publishBar.html()}${VIEWS[state.tab]()}`;
+  publishBar.paint();
   updateNav();
   updateCount();
   main.querySelectorAll("[data-checklist]").forEach(refreshChecklist);
@@ -193,31 +204,15 @@ const heading = (eyebrow, title, text, action = "") => `<div class="page-heading
 const viewSite = `<a class="button" href="${route("/")}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a>`;
 const notReady = (name) => `${heading("Bölüm hazır değil", name, "Bu bölümün bilgileri yönetim sunucusundan gelmedi.")}<div class="note"><h2>Ne yapmalı?</h2><p>Yönetim penceresini (siyah komut ekranı) kapatıp <code>npm run cms</code> ile yeniden başlatın, sonra bu sayfayı yenileyin. Sorun sürerse siteyi hazırlayan kişiye bildirin.</p></div>`;
 
-function overview() {
-  const c = state.content;
-  const drafts = c.books.filter((b) => !isPublished(b)).length;
-  const stats = [
-    ["books", "Kitap", c.books.length, `${c.books.length - drafts} yayında · ${drafts} taslak`],
-    ["authors", "Yazar", c.authors.length, "Biyografiler ve kitapları"],
-    ["campaigns", "Duyuru", c.campaigns.length, `${c.campaigns.filter((v) => v.active).length} aktif duyuru`],
-  ];
-  const shortcuts = [
-    ['data-add="books"', "Kitap ekle", "Yeni bir kitabı kapağı, açıklaması ve önizleme sayfalarıyla kataloğa ekleyin."],
-    ['data-add="campaigns"', "Duyuru ekle", "Ana sayfanın üstündeki tanıtım alanına yeni bir duyuru koyun."],
-    ['data-tab="site" data-focus="numara"', "Telefon / WhatsApp numarasını değiştir", "Sitedeki numara ve WhatsApp bağlantısı birlikte güncellenir."],
-    ['data-tab="pages"', "Sayfa metinlerini düzenle", "Hakkımızda, İletişim ve diğer sayfaların yazılarını değiştirin."],
-  ];
-  return `${heading("Yayınevinizin durumu", "Hoş geldiniz.", "Kitaplarınızı, ana sayfanızı ve iletişim bilgilerinizi buradan yönetirsiniz.", viewSite)}
-<div class="stats">${stats.map(([tab, label, number, info]) => `<button type="button" class="stat" data-tab="${tab}"><span class="stat-label">${label}</span><span class="stat-number">${number}</span><span class="stat-info">${info}</span></button>`).join("")}</div>
-<h2 class="section-title">Sık yapılan işler</h2>
-<div class="shortcuts">${shortcuts.map(([attrs, title, text]) => `<button type="button" class="shortcut" ${attrs}><span class="shortcut-title">${title}</span><span class="shortcut-text">${text}</span><span class="shortcut-go" aria-hidden="true">→</span></button>`).join("")}</div>
-<div class="note"><h2>Yayınlama hakkında</h2><p>Yaptığınız değişiklikler bu bilgisayardaki sitede anında görünür. İnternetteki siteyi güncellemek ayrı bir yayınlama adımıdır.</p></div>`;
+function moreView() {
+  const cards = MORE_TABS.map(([id, label, text]) => `<button type="button" class="shortcut" data-tab="${id}"><span class="shortcut-title">${label}</span><span class="shortcut-text">${text}</span><span class="shortcut-go" aria-hidden="true">→</span></button>`).join("");
+  return `${heading("Gelişmiş", "Diğer ayarlar", "Sık kullanılmayan bölümler. Kitap eklemek ya da çıkarmak için bunlara gerek yoktur.", viewSite)}<div class="shortcuts">${cards}</div>`;
 }
 
 /* ---------- Kitap, yazar, duyuru listeleri ---------- */
 function collection() {
   const tab = state.tab; const [eyebrow, text] = SECTIONS[tab];
-  const columns = { books: ["Kitap", "Yazar", "Durum"], authors: ["Yazar", "Kitap", "Durum"], campaigns: ["Duyuru", "Sıra", "Durum"] }[tab];
+  const columns = { authors: ["Yazar", "Kitap", "Durum"], campaigns: ["Duyuru", "Sıra", "Durum"] }[tab];
   const add = `<button type="button" class="button button-primary" data-add="${tab}">+ ${singular[tab]} ekle</button>`;
   return `${heading(eyebrow, TAB_LABEL[tab], text, add)}<div class="content-card"><div class="table-tools"><input class="search-input" data-search type="search" value="${escape(state.query)}" placeholder="${singular[tab]} ara…" aria-label="${singular[tab]} ara" autocomplete="off"><span class="table-count" data-table-count aria-live="polite"></span></div><div class="table-scroll"><table class="data-table"><caption class="visually-hidden">${TAB_LABEL[tab]} listesi</caption><thead><tr>${columns.map((c) => `<th scope="col">${c}</th>`).join("")}<th scope="col" class="align-right">İşlemler</th></tr></thead><tbody id="records">${rows()}</tbody></table></div></div>`;
 }
@@ -239,11 +234,10 @@ function rows() {
     const meta = campaign ? item.order : author ? `${bookCount} kitap` : item.author_display || item.authors?.join(", ") || "—";
     const sub = author ? item.slug : campaign ? oneLine(item.eyebrow) : item.isbn || item.id;
     const status = author ? "Kayıtlı" : active ? (campaign ? "Aktif" : "Yayında") : campaign ? "Pasif" : "Taslak";
-    const preview = tab === "books" && hasPreview(item) ? '<span class="badge badge-preview">Önizleme</span>' : "";
-    return `<tr><td class="cell-main"><div class="record-title">${thumb}<div><strong>${escape(title)}</strong><small>${escape(sub)}</small></div></div></td><td class="cell-meta">${escape(meta)}</td><td class="cell-status"><span class="badge${active ? "" : " badge-draft"}">${status}</span>${preview}</td><td class="cell-actions"><div class="row-actions"><button type="button" class="button button-small" data-edit="${escape(id)}" aria-label="${escape(title)} düzenle">Düzenle</button><button type="button" class="button button-small button-danger" data-delete="${escape(id)}" aria-label="${escape(title)} sil">Sil</button></div></td></tr>`;
+    return `<tr><td class="cell-main"><div class="record-title">${thumb}<div><strong>${escape(title)}</strong><small>${escape(sub)}</small></div></div></td><td class="cell-meta">${escape(meta)}</td><td class="cell-status"><span class="badge${active ? "" : " badge-draft"}">${status}</span></td><td class="cell-actions"><div class="row-actions"><button type="button" class="button button-small" data-edit="${escape(id)}" aria-label="${escape(title)} düzenle">Düzenle</button><button type="button" class="button button-small button-danger" data-delete="${escape(id)}" aria-label="${escape(title)} sil">Sil</button></div></td></tr>`;
   }).join("");
 }
-function renderRows() { $("#records").innerHTML = rows(); updateCount(); }
+function renderRows() { if (state.tab === "books") { library.renderGrid(); return; } $("#records").innerHTML = rows(); updateCount(); }
 function updateCount() { const element = $("[data-table-count]", app); if (element) element.textContent = `${filteredRecords().length} kayıt`; }
 
 /* ---------- Form parçaları ---------- */
@@ -255,7 +249,6 @@ function input(label, name, value = "", o = {}) {
 }
 const textarea = (label, name, value = "", o = {}) => `<label class="field field-wide"><span class="field-label">${label}${o.required ? ' <span class="req" aria-hidden="true">*</span>' : ""}</span><textarea name="${name}" rows="${o.rows ?? 5}"${o.required ? " required" : ""}${o.mono ? ' class="mono"' : ""}${o.maxlength ? ` maxlength="${o.maxlength}"` : ""}>\n${escape(value)}</textarea>${o.help ? `<small>${o.help}</small>` : ""}</label>`;
 const select = (label, name, value, values, o = {}) => `<label class="field${o.wide ? " field-wide" : ""}"><span class="field-label">${label}</span><select name="${name}">${values.map(([v, l]) => `<option value="${escape(v)}"${String(value ?? "") === String(v) ? " selected" : ""}>${escape(l)}</option>`).join("")}</select>${o.help ? `<small>${o.help}</small>` : ""}</label>`;
-const section = (title, text = "") => `<div class="form-section"><h3>${title}</h3>${text ? `<p class="section-help">${text}</p>` : ""}</div>`;
 
 function imageField({ label, name, value, kind = "", help, extra = "" }) {
   const url = safeImage(value);
@@ -282,11 +275,11 @@ function requestClose() {
   if (form?.dataset.dirty === "true" && !window.confirm("Kaydedilmemiş değişiklikleriniz var. Pencereyi kapatırsanız bu değişiklikler kaybolur. Kapatılsın mı?")) return;
   closeDialog();
 }
-function openDialog({ title, body, submit = "Kaydet", danger = false, size = "wide", plain = false, onSubmit }) {
+function openDialog({ title, body, submit = "Kaydet", secondary = null, danger = false, size = "wide", plain = false, onSubmit }) {
   dialog.dataset.size = size;
-  dialog.innerHTML = `<div class="dialog-heading"><h2 id="editor-title">${escape(title)}</h2><button type="button" class="close-dialog" data-close aria-label="Pencereyi kapat">×</button></div><form class="dialog-form" id="dialog-form"><fieldset class="form-fieldset"><div class="editor-body"><p class="form-error" role="alert" data-form-error hidden></p>${plain ? body : `<div class="editor-grid">${body}</div>`}</div></fieldset><div class="editor-footer form-actions"><span class="save-status" data-status aria-live="polite"></span><button class="button" type="button" data-close>Vazgeç</button><button class="button ${danger ? "button-danger-solid" : "button-primary"}" type="submit">${submit}</button></div></form>`;
+  dialog.innerHTML = `<div class="dialog-heading"><h2 id="editor-title">${escape(title)}</h2><button type="button" class="close-dialog" data-close aria-label="Pencereyi kapat">×</button></div><form class="dialog-form" id="dialog-form"><fieldset class="form-fieldset"><div class="editor-body"><p class="form-error" role="alert" data-form-error hidden></p>${plain ? body : `<div class="editor-grid">${body}</div>`}</div></fieldset><div class="editor-footer form-actions"><span class="save-status" data-status aria-live="polite"></span><button class="button" type="button" data-close>Vazgeç</button>${secondary ? `<button class="button" type="button" data-secondary-intent="${escape(secondary.intent)}">${escape(secondary.label)}</button>` : ""}<button class="button ${danger ? "button-danger-solid" : "button-primary"}" type="submit" name="intent" value="publish">${submit}</button></div></form>`;
   const form = $("#dialog-form");
-  form.addEventListener("submit", (event) => { event.preventDefault(); onSubmit(form, new FormData(form)); });
+  form.addEventListener("submit", (event) => { event.preventDefault(); onSubmit(form, new FormData(form), form.dataset.intent ?? event.submitter?.value ?? ""); });
   dialog.showModal();
   (form.querySelector("[autofocus]") ?? form.querySelector("input:not([type=hidden]):not([type=file]):not([readonly]), textarea"))?.focus();
   return form;
@@ -298,6 +291,7 @@ function applyResult(result) {
 async function syncContent(result) {
   // Sunucu kaydet/sil yanıtında güncel içeriğin tamamını döndürür; eksikse içeriği yeniden okuruz.
   applyResult(result);
+  publishBar.refresh();
   if (CONTENT_KEYS.every((key) => result?.[key] !== undefined)) return;
   // Kayıt tamamlandı: liste yenilenemezse yinelenen gönderime yol açmamak için yalnızca uyarı veririz.
   try { await loadContent(); } catch (error) { toast(`Kayıt tamamlandı; liste yenilenemedi. ${error.message}`, "error"); }
@@ -322,13 +316,6 @@ function previewSection(item) {
   const note = item.onizleme_var ? '<p class="inline-note">Bu kitabın sitede zaten bir önizlemesi var. İsterseniz buraya kendi sayfalarınızı da ekleyebilirsiniz.</p>' : "";
   return `<div class="form-section field-wide preview-section"><h3 id="preview-title">Önizleme sayfaları</h3><p class="section-help">Okurlar sitede bu sayfaları çevirerek kitaba göz atar. En fazla ${MAX_PREVIEW} sayfa; telif için ilk 8–10 sayfa önerilir. Seçtiğiniz dosyalar ada göre sıralanarak eklenir; sırayı sonradan ↑ ↓ ile değiştirebilirsiniz.</p>${note}<p class="preview-counter" data-preview-counter aria-live="polite"></p><ol class="preview-list" data-preview-list aria-labelledby="preview-title"></ol><label class="button file-button" data-preview-picker>Sayfa görselleri ekle<input class="visually-hidden" type="file" multiple accept="${IMAGE_TYPES.join(",")}" data-preview-upload aria-label="Önizleme sayfası görselleri seç"></label></div>`;
 }
-function bookFields(item, editing) {
-  return `${section("Temel bilgiler")}${input("Kitap adı", "title", item.title, { required: true, maxlength: 300, wide: true })}${input("Alt başlık", "subtitle", item.subtitle, { wide: true })}${input("Yazarlar", "authors", item.authors?.join(", "), { help: "Birden fazla yazarı virgülle ayırın." })}${input("Sitede görünen yazar adı", "author_display", item.author_display, { placeholder: "Örn. Prof. Dr. Ali Seyyar" })}${select("Yayın durumu", "status", item.status || "published", [["published", "Yayında"], ["draft", "Taslak (sitede görünmez)"]])}${input("Sayfa adresi", "id", item.id, { required: true, readonly: editing, help: editing ? "Yayınlanmış kitabın adresi değiştirilemez." : "Kitap adından kendiliğinden oluşur. Küçük harf, rakam ve tire kullanın." })}
-${section("Kapak ve tanıtım")}${imageField({ label: "Kitap kapağı", name: "cover_path", value: item.cover?.local_path, kind: "cover", help: "Dikey kitap kapağı önerilir.", extra: `<input type="hidden" name="cover_width" value="${escape(item.cover?.width ?? "")}"><input type="hidden" name="cover_height" value="${escape(item.cover?.height ?? "")}">` })}${textarea("Tanıtım metni", "description", item.description, { rows: 7 })}
-${section("Künye")}${input("ISBN", "isbn", item.isbn, { maxlength: 17 })}${input("Sayfa sayısı", "pages", item.pages, { type: "number", min: 1 })}${input("Liste fiyatı (₺)", "price_list_try", item.price_list_try, { type: "number", min: 1, attrs: 'step="any"', help: "Satış sitelerindeki liste (etiket) fiyatı. Boş bırakırsanız sitede fiyat gösterilmez." })}${input("Yayın tarihi", "publish_date", item.publish_date, { placeholder: "2026, 2026-10 veya 2026-10-14" })}${input("Boyutlar", "dimensions", item.dimensions, { placeholder: "13,5 × 21 cm" })}${input("Kapak / cilt türü", "binding", item.binding, { placeholder: "Karton Kapak" })}${input("Dizi / seri", "series", item.series)}<label class="checkbox-field field-wide"><input type="checkbox" name="is_set"${item.is_set ? " checked" : ""}>Set veya takım kitap</label>
-${section("Kategoriler")}${categoryField(item.categories ?? [])}${previewSection(item)}
-${section("Satış bağlantıları", "Kitabın satıldığı sayfaların adresleri (https:// ile başlar). Boş bırakılanlar sitede gösterilmez.")}${input("Kitapyurdu", "source_kitapyurdu", item.sources?.kitapyurdu, { type: "url" })}${input("Küresel Kitap", "source_kureselkitap", item.sources?.kureselkitap, { type: "url" })}${input("Nobel Kitap", "source_nobelkitap", item.sources?.nobelkitap, { type: "url", wide: true })}`;
-}
 function authorFields(item, editing) {
   const items = [...list("books")].sort(byTitle).map((b) => ({ value: b.id, label: b.title, sub: b.author_display ?? "" }));
   return `${input("Yazar adı", "name", item.name, { required: true, maxlength: 200 })}${input("Sayfa adresi", "slug", item.slug, { required: true, readonly: editing, help: editing ? "Yayınlanmış yazarın adresi değiştirilemez." : "Yazar adından kendiliğinden oluşur." })}${input("Sitede görünen adı", "display", item.display, { wide: true, help: "Unvan eklemek için kullanabilirsiniz." })}${imageField({ label: "Yazar portresi", name: "photo_url", value: item.photo_url, help: "Kare ve yüzün ortada olduğu bir fotoğraf önerilir." })}${textarea("Biyografi", "bio", item.bio, { rows: 7 })}<div class="field field-wide"><span class="field-label">İlişkili kitaplar</span>${checklist({ name: "book_ids", items, selected: item.book_ids ?? [], label: "Kitap ara…", empty: "Henüz katalogda kitap yok." })}<small>Kitabın yazar alanına bu ismi yazarsanız ilişki kendiliğinden kurulur.</small></div>`;
@@ -339,28 +326,20 @@ function campaignFields(item, editing) {
 }
 function buildBody(resource, item, data) {
   const value = (name) => String(data.get(name) ?? "").replace(/\r\n?/g, "\n").trim();
-  if (resource === "books") {
-    const { onizleme_var: _readOnly, ...rest } = item;
-    const authors = split(value("authors"));
-    const body = { ...rest, id: value("id"), title: value("title"), subtitle: value("subtitle") || null, authors, author_display: value("author_display") || authors.join(", ") || null, isbn: value("isbn") || null, pages: value("pages") ? Number(value("pages")) : null, price_list_try: numberOrNull(value("price_list_try")), publish_date: value("publish_date") || null, categories: chosenCategories(item, data), description: value("description"), status: value("status"), dimensions: value("dimensions") || null, binding: value("binding") || null, series: value("series") || null, is_set: data.has("is_set"), cover: { ...item.cover, local_path: value("cover_path") || null, width: numberOrNull(value("cover_width")), height: numberOrNull(value("cover_height")) }, sources: { ...item.sources, kitapyurdu: value("source_kitapyurdu") || null, kureselkitap: value("source_kureselkitap") || null, nobelkitap: value("source_nobelkitap") || null } };
-    const pages = dialogContext?.previewPages ?? [];
-    if (pages.length || Array.isArray(item.preview_pages)) body.preview_pages = pages.map(({ local_path, width, height }) => ({ local_path, width, height }));
-    return body;
-  }
   if (resource === "authors") return { ...item, name: value("name"), slug: value("slug"), display: value("display") || value("name"), bio: value("bio") || null, photo_url: value("photo_url") || null, book_ids: data.getAll("book_ids") };
   return { ...item, id: value("id"), title: value("title"), eyebrow: value("eyebrow"), description: value("description"), image_url: value("image_url") || null, book_id: value("book_id") || null, link_url: value("link_url") || null, button_label: value("button_label"), order: Number(value("order")), theme: value("theme"), active: data.has("active") };
 }
 function openRecordEditor(resource, item = {}) {
+  if (resource === "books") { library.openEditor(item); return; }
   const editing = Boolean(item.id || item.slug);
-  dialogContext = { previewPages: resource === "books" ? (item.preview_pages ?? []).map((p) => ({ ...p })) : [] };
-  const body = { books: bookFields, authors: authorFields, campaigns: campaignFields }[resource](item, editing);
+  dialogContext = { previewPages: [] };
+  const body = { authors: authorFields, campaigns: campaignFields }[resource](item, editing);
   const form = openDialog({ title: `${singular[resource]} ${editing ? "düzenle" : "ekle"}`, body, submit: editing ? "Değişiklikleri kaydet" : "Kaydet", onSubmit: (f, data) => submitRecord(f, resource, item, editing, data) });
   if (!editing) {
     const source = form.elements.namedItem(resource === "authors" ? "name" : "title"); const target = form.elements.namedItem(resource === "authors" ? "slug" : "id"); let custom = false;
     target.addEventListener("input", () => { custom = Boolean(target.value); });
     source.addEventListener("input", () => { if (!custom) target.value = slug(source.value); });
   }
-  if (resource === "books") renderPreviewList();
   dialog.querySelectorAll("[data-checklist]").forEach(refreshChecklist);
 }
 async function submitRecord(form, resource, item, editing, data) {
@@ -375,7 +354,7 @@ async function submitRecord(form, resource, item, editing, data) {
       state.tab = resource;
       renderMain();
       $("#page-title")?.focus({ preventScroll: true });
-      toast(`${singular[resource]} kaydedildi. Site güncellendi.`);
+      toast(`${singular[resource]} kaydedildi. Siteye çıkarmak için “Yayınla”ya basın.`);
     } catch (error) { showError(form, error.message); }
   });
 }
@@ -385,14 +364,14 @@ function confirmDelete(id) {
   const consequence = { books: "Kitap katalogdan, ana sayfa vitrininden ve duyurulardan kaldırılacak. Kitabı saklamak isterseniz silmek yerine yayın durumunu Taslak yapın.", authors: "Yazar profili kaldırılacak. Kitaplar katalogda kalacak.", campaigns: "Duyuru ana sayfadan ve yönetim listesinden kaldırılacak." }[resource];
   openDialog({ title: `${singular[resource]} silinsin mi?`, size: "narrow", plain: true, danger: true, submit: "Evet, sil",
     body: `<div class="confirmation-body"><h3>${escape(oneLine(item.title ?? item.display ?? item.name))}</h3><p>${consequence}</p><p>Bu işlem geri alınamaz.</p></div>`,
-    onSubmit: (form) => guarded(form, "Siliniyor ve site güncelleniyor…", async () => {
+    onSubmit: (form) => guarded(form, "Siliniyor ve site hazırlanıyor…", async () => {
       try {
         const result = await api(`${resource}/${encodeURIComponent(id)}`, { method: "DELETE" });
         await syncContent(result);
         closeDialog();
         renderMain();
         $("#page-title")?.focus({ preventScroll: true });
-        toast(`${singular[resource]} kaldırıldı. Site güncellendi.`);
+        toast(`${singular[resource]} kaldırıldı. Siteye çıkarmak için “Yayınla”ya basın.`);
       } catch (error) { showError(form, error.message); }
     }) });
   $("button[type=submit]", dialog).focus();
@@ -417,9 +396,9 @@ async function uploadFile(file, kind) {
   if (kind) body.kind = kind;
   return api("upload", { method: "POST", body: JSON.stringify(body) });
 }
+const uploadBase64 = (filename, data, kind) => api("upload", { method: "POST", body: JSON.stringify({ filename, data, kind }) });
 function setImage(form, name, value, result) {
   form.elements.namedItem(name).value = value ?? "";
-  if (name === "cover_path") { form.elements.namedItem("cover_width").value = result?.width ?? ""; form.elements.namedItem("cover_height").value = result?.height ?? ""; }
   const box = $(`[data-image-field="${name}"]`, form); const url = safeImage(value);
   const preview = $(".image-preview", box);
   preview.hidden = !url; if (url) preview.src = url; else preview.removeAttribute("src");
@@ -436,7 +415,7 @@ async function uploadImageField(fileInput) {
   if (problem) { showError(form, problem); fileInput.value = ""; return; }
   const name = fileInput.dataset.upload;
   await guarded(form, "Görsel yükleniyor…", async () => {
-    try { const result = await uploadFile(file, fileInput.dataset.kind); setImage(form, name, name === "cover_path" ? result.local_path : result.url, result); }
+    try { const result = await uploadFile(file, fileInput.dataset.kind); setImage(form, name, result.url, result); }
     catch (error) { showError(form, error.message); }
   });
   fileInput.value = "";
@@ -495,7 +474,7 @@ function vitrinView() {
   return `${heading(eyebrow, TAB_LABEL.vitrin, text, viewSite)}
 <form id="vitrin-form" class="panel-form"><fieldset class="form-fieldset">
 <section class="form-card"><h2>Öne çıkan kitap</h2><p class="card-help">Ana sayfanın en üstünde büyük gösterilen kitap. Yalnızca yayındaki kitaplar seçilebilir.</p>${select("Öne çıkan kitap", "one_cikan", v.one_cikan ?? "", featured, { wide: true })}</section>
-<section class="form-card"><h2>“Sayfalarına göz atın” rafı</h2><p class="card-help">Ana sayfadaki bu rafta, önizlemesi olan hangi kitapların gösterileceğini işaretleyin. Önizlemesi olmayan kitaplar rafta gösterilemez; bir kitaba önizleme eklemek için Kitaplar bölümünde o kitabı düzenleyin.</p>${checklist({ name: "onizleme_vitrini", items: shelf, selected: shelfSaved, label: "Raf için kitap ara…", empty: "Henüz önizlemesi olan yayında kitap yok. Kitaplar bölümünde bir kitabı düzenleyip “Önizleme sayfaları” bölümüne görsel ekleyin." })}</section>
+<section class="form-card"><h2>“Sayfalarına göz atın” rafı</h2><p class="card-help">Ana sayfadaki bu rafta, önizlemesi olan hangi kitapların gösterileceğini işaretleyin. Önizlemesi olmayan kitaplar rafta gösterilemez; bir kitaba önizleme eklemek için Kitaplar bölümünde o kitabı düzenleyip “Daha fazla bilgi”yi açın.</p>${checklist({ name: "onizleme_vitrini", items: shelf, selected: shelfSaved, label: "Raf için kitap ara…", empty: "Henüz önizlemesi olan yayında kitap yok. Kitaplar bölümünde bir kitabı düzenleyip “Daha fazla bilgi” altındaki “Önizleme sayfaları”na görsel ekleyin." })}</section>
 <section class="form-card"><h2>Ana sayfada gösterilmeyecek kitaplar</h2><p class="card-help">İşaretlediğiniz kitaplar katalogda ve kendi sayfalarında görünmeye devam eder; yalnızca ana sayfadaki vitrin alanlarında gösterilmez.</p>${checklist({ name: "vitrin_haric", items: excluded, selected: hidden, label: "Gizlenecek kitabı ara…", empty: "Henüz katalogda kitap yok." })}</section>
 <section class="form-card"><h2>Kaç öğe gösterilsin?</h2><div class="form-row">${input("“Yeni çıkanlar” sayısı", "yeni_cikanlar_adet", v.yeni_cikanlar_adet ?? 8, { type: "number", min: 1, max: 12, required: true, help: "1 ile 12 arasında." })}${input("“Yazarlar” sayısı", "yazar_seridi_adet", v.yazar_seridi_adet ?? 8, { type: "number", min: 1, max: 12, required: true, help: "1 ile 12 arasında." })}</div></section>
 </fieldset>${formBar("Vitrini kaydet")}</form>`;
@@ -508,7 +487,7 @@ async function saveVitrin(form, data) {
     clearError(form);
     try {
       await syncContent(await api("vitrin", { method: "PUT", body: JSON.stringify(body) }));
-      renderMain(); $("#page-title")?.focus({ preventScroll: true }); toast("Ana sayfa vitrini kaydedildi. Site güncellendi.");
+      renderMain(); $("#page-title")?.focus({ preventScroll: true }); toast("Ana sayfa vitrini kaydedildi. Siteye çıkarmak için “Yayınla”ya basın.");
     } catch (error) { showError(form, error.message); }
   });
 }
@@ -552,7 +531,7 @@ async function savePage(form, page, data) {
       if (result.page && !result.pages) state.content.pages = list("pages").map((p) => (p.slug === page.slug ? { ...p, ...result.page } : p));
       await syncContent(result);
       form.dataset.dirty = "false"; closeDialog(); renderMain(); $("#page-title")?.focus({ preventScroll: true });
-      toast("Sayfa metni kaydedildi. Site güncellendi.");
+      toast("Sayfa metni kaydedildi. Siteye çıkarmak için “Yayınla”ya basın.");
     } catch (error) { showError(form, error.message); }
   });
 }
@@ -604,22 +583,27 @@ async function saveSite(form, data) {
     clearError(form);
     try {
       await syncContent(await api("site", { method: "PUT", body: JSON.stringify(body) }));
-      renderMain(); $("#page-title")?.focus({ preventScroll: true }); toast("Site ayarları kaydedildi. Site güncellendi.");
+      renderMain(); $("#page-title")?.focus({ preventScroll: true }); toast("Site ayarları kaydedildi. Siteye çıkarmak için “Yayınla”ya basın.");
     } catch (error) { showError(form, error.message); }
   });
 }
 
-/* ---------- Şifre değiştirme ---------- */
+/* ---------- Hesap: kullanıcı adı ve şifre ---------- */
 function openPasswordDialog() {
   const attrs = (autocomplete) => `data-pw autocomplete="${autocomplete}"`;
-  const body = `${input("Şu anki şifre", "current", "", { type: "password", required: true, wide: true, attrs: attrs("current-password") })}${input("Yeni şifre", "next", "", { type: "password", required: true, attrs: `${attrs("new-password")} minlength="8"`, help: "En az 8 karakter." })}${input("Yeni şifre (tekrar)", "again", "", { type: "password", required: true, attrs: `${attrs("new-password")} minlength="8"` })}<label class="checkbox-field field-wide"><input type="checkbox" data-show-password>Şifreleri göster</label>`;
-  openDialog({ title: "Şifre değiştir", size: "narrow", submit: "Şifreyi değiştir", body, onSubmit: (form, data) => guarded(form, "Şifre değiştiriliyor…", async () => {
+  const body = `${input("Kullanıcı adı", "username", state.username, { required: true, wide: true, maxlength: 32, attrs: 'autocomplete="username" autocapitalize="none" spellcheck="false"' })}${input("Şu anki şifre", "current", "", { type: "password", required: true, wide: true, attrs: attrs("current-password") })}<div class="field field-wide"><span class="section-help">Şifreyi değiştirmek istemiyorsanız aşağıdaki iki kutuyu boş bırakın.</span></div>${input("Yeni şifre", "next", "", { type: "password", attrs: `${attrs("new-password")} minlength="8"`, help: "En az 8 karakter." })}${input("Yeni şifre (tekrar)", "again", "", { type: "password", attrs: attrs("new-password") })}<label class="checkbox-field field-wide"><input type="checkbox" data-show-password>Şifreleri göster</label>`;
+  openDialog({ title: "Hesap bilgileri", size: "narrow", submit: "Kaydet", body, onSubmit: (form, data) => guarded(form, "Kaydediliyor…", async () => {
     clearError(form);
-    const next = String(data.get("next")); const current = String(data.get("current"));
-    if (next !== String(data.get("again"))) { showError(form, "Yeni şifre iki kutuda aynı değil. Lütfen aynısını yazın."); return; }
-    if (next === current) { showError(form, "Yeni şifre eskisiyle aynı. Farklı bir şifre seçin."); return; }
-    try { await api("password", { method: "POST", body: JSON.stringify({ current, next }) }); form.dataset.dirty = "false"; closeDialog(); toast("Şifreniz değiştirildi. Bir sonraki girişte yeni şifrenizi kullanın."); }
-    catch (error) { showError(form, error.message); }
+    const next = String(data.get("next")); const current = String(data.get("current")); const username = String(data.get("username")).trim();
+    if (next && next !== String(data.get("again"))) { showError(form, "Yeni şifre iki kutuda aynı değil. Lütfen aynısını yazın."); return; }
+    if (next && next === current) { showError(form, "Yeni şifre eskisiyle aynı. Farklı bir şifre seçin."); return; }
+    if (!next && username === state.username) { showError(form, "Değiştirilecek bir bilgi girmediniz."); return; }
+    try {
+      const result = await api("password", { method: "POST", body: JSON.stringify({ current, next: next || undefined, username }) });
+      state.username = result.username ?? username;
+      form.dataset.dirty = "false"; closeDialog(); renderShell(); renderMain();
+      toast(next ? "Hesap bilgileriniz değiştirildi. Bir sonraki girişte yenilerini kullanın." : "Kullanıcı adınız değiştirildi.");
+    } catch (error) { showError(form, error.message); }
   }) });
 }
 function togglePasswords(checkbox) {
@@ -627,7 +611,19 @@ function togglePasswords(checkbox) {
 }
 
 /* ---------- Olaylar ---------- */
-const VIEWS = { overview, books: collection, authors: collection, campaigns: collection, vitrin: vitrinView, pages: pagesView, site: siteView };
+const host = {
+  state, list, escape, route, safeImage, heading, input, textarea, select, api, toast, split, numberOrNull, slug, oneLine, byTitle, hasPreview, BUILD_MESSAGE,
+  openDialog, closeDialog, guarded, showError, clearError, markDirty, syncContent, renderMain, uploadFile, uploadBase64, imageProblem,
+  categoryField, chosenCategories, previewSection, renderPreviewList, refreshChecklist, updateCharCount,
+  setContext: (value) => { dialogContext = value; },
+  setBusy: (busy) => lockApp(busy),
+  setBusyText: (text) => { busyText = text; const form = $("form", dialog); if (form) paintStatus(form); },
+  focusTitle: () => $("#page-title")?.focus({ preventScroll: true }),
+};
+const publishBar = createPublishBar(host);
+host.publish = publishBar;
+const library = createLibrary(host);
+const VIEWS = { books: library.view, more: moreView, authors: collection, campaigns: collection, vitrin: vitrinView, pages: pagesView, site: siteView };
 
 async function logout() {
   try { await api("logout", { method: "POST", body: "{}" }); state.csrfToken = ""; state.content = emptyContent(); renderLogin(); }
@@ -650,11 +646,15 @@ function movePreview(index, direction) {
 app.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button) return;
+  if (publishBar.onClick(event)) return;
   const d = button.dataset;
-  if (d.tab) showTab(d.tab, d.focus);
+  if (d.libraryFilter) library.setFilter(d.libraryFilter);
+  else if (d.toggleDraft) { button.closest("details")?.removeAttribute("open"); library.toggleDraft(d.toggleDraft); }
+  else if (d.mockup) { button.closest("details")?.removeAttribute("open"); library.downloadMockup(d.mockup); }
+  else if (d.tab) showTab(d.tab, d.focus);
   else if (d.add) openRecordEditor(d.add);
   else if (d.edit) { const item = list(state.tab).find((v) => (v.id ?? v.slug) === d.edit); if (item) openRecordEditor(state.tab, item); }
-  else if (d.delete) confirmDelete(d.delete);
+  else if (d.delete) { button.closest("details")?.removeAttribute("open"); confirmDelete(d.delete); }
   else if (d.editPage) openPageEditor(d.editPage);
   else if (d.action === "menu") toggleMenu();
   else if (d.action === "password") { closeMenu(); openPasswordDialog(); }
@@ -663,6 +663,9 @@ app.addEventListener("click", (event) => {
   else if (d.action === "channel-remove") { button.closest("[data-channel]").remove(); renumberChannels(); markDirty(button.form); $("[data-action=channel-add]", app).focus(); }
   else if (d.action === "channel-up") moveChannel(button, -1);
   else if (d.action === "channel-down") moveChannel(button, 1);
+});
+document.addEventListener("click", (event) => {
+  document.querySelectorAll("details.card-menu[open]").forEach((menu) => { if (!menu.contains(event.target)) menu.removeAttribute("open"); });
 });
 app.addEventListener("input", (event) => {
   const target = event.target;
@@ -693,7 +696,12 @@ dialog.addEventListener("click", (event) => {
   const target = event.target.closest("button");
   if (!target) return;
   if (target.matches("[data-close]")) requestClose();
-  else if (target.dataset.imageRemove) setImage(target.form, target.dataset.imageRemove, "", null);
+  else if (target.dataset.secondaryIntent) {
+    // Taslak gibi ikinci eylemler zorunlu alan denetimi olmadan gönderilir (sunucu yine doğrular).
+    const form = target.form;
+    form.noValidate = true; form.dataset.intent = target.dataset.secondaryIntent;
+    try { form.requestSubmit(); } finally { form.noValidate = false; delete form.dataset.intent; }
+  } else if (target.dataset.imageRemove) setImage(target.form, target.dataset.imageRemove, "", null);
   else if (target.dataset.previewMove !== undefined) movePreview(Number(target.dataset.previewMove), Number(target.dataset.dir));
   else if (target.dataset.previewRemove !== undefined) {
     const index = Number(target.dataset.previewRemove);
@@ -729,6 +737,6 @@ dialog.addEventListener("cancel", (event) => { event.preventDefault(); requestCl
 /* ---------- Başlangıç ---------- */
 try {
   const session = await api("session");
-  if (session.authenticated) { state.csrfToken = session.csrfToken; await loadContent(); renderShell(); renderMain(); }
+  if (session.authenticated) { state.csrfToken = session.csrfToken; state.username = session.username ?? ""; await loadContent(); renderShell(); renderMain(); publishBar.refresh(); }
   else renderLogin();
 } catch (error) { renderLogin(error.message); }

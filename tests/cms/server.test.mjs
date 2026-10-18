@@ -3,9 +3,11 @@ import assert from "node:assert/strict";
 import { mkdtemp, mkdir, readFile, writeFile, rm } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
+import sharp from "sharp";
 import { createCmsServer } from "../../scripts/cms/server.mjs";
 
 const PASSWORD = "cms-fixture-password-12345";
+const USER = "yayinevi";
 const PNG = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aR4sAAAAASUVORK5CYII=";
 const book = { id: "ilk-kitap", title: "İlk Kitap", authors: ["İlk Yazar"], author_display: "İlk Yazar", cover: { local_path: null }, sources: { kitapyurdu: "https://www.kitapyurdu.com/kitap/ilk-kitap/1.html" }, field_sources: { title: "archive" } };
 const SITE = { ad: "Deneme Yayınları", slogan: "Deneme sloganı", telefon: "+90 505 000 00 00", telefon_gosterim: "0505 000 00 00", whatsapp_url_sablonu: "https://wa.me/905050000000?text={kitap_adi}", whatsapp_url: "https://wa.me/905050000000", eposta: "info@example.com", adres: "Fatih, İstanbul", sosyal: { x: "https://x.com/deneme" }, satis_kanallari: [{ ad: "Mağaza", url: "https://example.com/magaza", not: null }], menu: [{ etiket: "Kitaplar", url: "/kitaplar/" }], dil: "tr" };
@@ -48,17 +50,17 @@ async function fixture(t, options = {}) {
     return { response, value };
   }
   async function login() {
-    const result = await request("/api/admin/login", "POST", { password: PASSWORD });
+    const result = await request("/api/admin/login", "POST", { username: USER, password: PASSWORD });
     assert.equal(result.response.status, 200);
     csrf = result.value.csrfToken;
     return result;
   }
-  async function restart() {
+  async function restart(keepSession = false, serverOptions = {}) {
     await app.close();
-    app = await createCmsServer({ root, build, logger: () => {} });
+    app = await createCmsServer({ root, build, logger: () => {}, ...serverOptions });
     await new Promise((done) => app.server.listen(0, "127.0.0.1", done));
     base = `http://127.0.0.1:${app.server.address().port}`;
-    cookie = csrf = "";
+    if (!keepSession) cookie = csrf = "";
   }
   t.after(async () => { await app.close(); await rm(root, { recursive: true, force: true }); });
   return { root, request, login, restart, builds: () => builds, base: () => base };
@@ -68,7 +70,7 @@ test("giriş, HttpOnly cookie, CSRF ve çıkış gerçek sunucuda doğrulanır",
   const f = await fixture(t);
   assert.equal((await f.request("/api/admin/session")).value.authenticated, false);
   assert.equal((await f.request("/api/admin/content")).response.status, 401);
-  assert.equal((await f.request("/api/admin/login", "POST", { password: "yanlis" })).response.status, 401);
+  assert.equal((await f.request("/api/admin/login", "POST", { username: USER, password: "yanlis" })).response.status, 401);
   const result = await f.login();
   assert.match(result.response.headers.get("set-cookie"), /HttpOnly; SameSite=Strict/);
   assert.ok(result.value.csrfToken);
@@ -290,8 +292,8 @@ test("şifre değiştirme: eski şifre doğrulanır, yeni şifre kalıcıdır, d
   const credential = await readFile(join(f.root, ".local/cms-auth.json"), "utf8");
   assert.equal(credential.includes("yeni-parola-1234"), false);
   await f.restart();
-  assert.equal((await f.request("/api/admin/login", "POST", { password: PASSWORD })).response.status, 401);
-  assert.equal((await f.request("/api/admin/login", "POST", { password: "yeni-parola-1234" })).response.status, 200);
+  assert.equal((await f.request("/api/admin/login", "POST", { username: USER, password: PASSWORD })).response.status, 401);
+  assert.equal((await f.request("/api/admin/login", "POST", { username: USER, password: "yeni-parola-1234" })).response.status, 200);
 });
 
 test("yükleme türleri: boyut bilgisi döner, geçersiz tür reddedilir, önizleme sayfaları kitapta saklanır", async (t) => {
@@ -325,4 +327,100 @@ test("büyük kapak 1200 piksele küçültülür (sharp varsa)", async (t) => {
   assert.deepEqual([cover.value.width, cover.value.height], [1200, 800]);
   const preview = await f.request("/api/admin/upload", "POST", { filename: "buyuk.png", data: big.toString("base64"), kind: "preview" });
   assert.equal(preview.value.width, 1400);
+});
+
+test("giriş kullanıcı adı ister; yanlış kullanıcı adı da şifre gibi reddedilir, hata hangisinin yanlış olduğunu söylemez", async (t) => {
+  const f = await fixture(t);
+  const wrongUser = await f.request("/api/admin/login", "POST", { username: "baska", password: PASSWORD });
+  const wrongPass = await f.request("/api/admin/login", "POST", { username: USER, password: "yanlis" });
+  assert.equal(wrongUser.response.status, 401);
+  assert.equal(wrongUser.value.error, wrongPass.value.error);
+  assert.equal((await f.request("/api/admin/login", "POST", { password: PASSWORD })).response.status, 422, "kullanıcı adı olmadan giriş yok");
+  const ok = await f.request("/api/admin/login", "POST", { username: "YAYINEVİ", password: PASSWORD });
+  assert.equal(ok.response.status, 200, "büyük/küçük harf ve Türkçe aksan farkı sorun olmaz");
+  assert.equal(ok.value.username, USER);
+});
+
+test("beni hatırla: çerez 30 gün yaşar ve sunucu yeniden başlasa da oturum sürer; hatırlamayan 12 saatlik", async (t) => {
+  const f = await fixture(t);
+  const short = await f.request("/api/admin/login", "POST", { username: USER, password: PASSWORD });
+  assert.match(short.response.headers.get("set-cookie"), /Max-Age=43200/);
+  const long = await f.request("/api/admin/login", "POST", { username: USER, password: PASSWORD, remember: true });
+  assert.match(long.response.headers.get("set-cookie"), /Max-Age=2592000/);
+  await f.restart(true);
+  const session = await f.request("/api/admin/session");
+  assert.equal(session.value.authenticated, true, "yeniden başlatma sonrası oturum sürer");
+  assert.equal(session.value.username, USER);
+});
+
+test("hesap: kullanıcı adı ve şifre birlikte ya da ayrı değiştirilir; boş istek reddedilir", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  assert.equal((await f.request("/api/admin/password", "POST", { current: PASSWORD })).response.status, 422);
+  assert.equal((await f.request("/api/admin/password", "POST", { current: PASSWORD, username: "x" })).response.status, 422, "çok kısa kullanıcı adı");
+  const renamed = await f.request("/api/admin/password", "POST", { current: PASSWORD, username: "kutuphane" });
+  assert.equal(renamed.response.status, 200);
+  assert.equal(renamed.value.username, "kutuphane");
+  await f.restart();
+  assert.equal((await f.request("/api/admin/login", "POST", { username: USER, password: PASSWORD })).response.status, 401);
+  assert.equal((await f.request("/api/admin/login", "POST", { username: "kutuphane", password: PASSWORD })).response.status, 200);
+});
+
+test("arka kapak: yükleme JPEG + WebP eşi verir, kitaba kaydedilir, kötü yol reddedilir, null kaldırır", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const up = await f.request("/api/admin/upload", "POST", { filename: "arka.png", data: PNG, kind: "back" });
+  assert.equal(up.response.status, 201);
+  assert.match(up.value.local_path, /^public\/uploads\/[0-9a-f-]{36}\.png$/);
+  assert.match(up.value.webp_path ?? "", /^public\/uploads\/[0-9a-f-]{36}\.webp$/);
+  assert.ok((await readFile(join(f.root, up.value.webp_path))).length > 0);
+  const saved = await f.request("/api/admin/books/ilk-kitap", "PUT", { back_cover: { local_path: up.value.local_path, webp_path: up.value.webp_path, width: up.value.width, height: up.value.height } });
+  assert.equal(saved.response.status, 200);
+  assert.equal(saved.value.item.back_cover.local_path, up.value.local_path);
+  for (const bad of [{ local_path: "../gizli.png" }, { local_path: "baska/yol.png" }, { local_path: up.value.local_path, webp_path: "../x.webp" }, "metin"]) {
+    assert.equal((await f.request("/api/admin/books/ilk-kitap", "PUT", { back_cover: bad })).response.status, 422, JSON.stringify(bad));
+  }
+  const cleared = await f.request("/api/admin/books/ilk-kitap", "PUT", { back_cover: null });
+  assert.equal(cleared.value.item.back_cover, null);
+});
+
+test("yayınla uç noktaları: oturum ister; git deposu olmayan klasörde 'kurulu değil' döner, geri al reddedilir", async (t) => {
+  const f = await fixture(t);
+  assert.equal((await f.request("/api/admin/publish")).response.status, 401);
+  await f.login();
+  const state = await f.request("/api/admin/publish");
+  assert.equal(state.response.status, 200);
+  assert.equal(state.value.configured, false);
+  assert.equal(state.value.pending, false);
+  assert.equal((await f.request("/api/admin/publish", "POST", {}, { "x-csrf-token": "" })).response.status, 403, "CSRF jetonu şart");
+  assert.equal((await f.request("/api/admin/publish/discard", "POST", {})).response.status, 409);
+});
+
+test("paralel hatalı giriş denemeleri sınırı aşamaz: 8 hakkın ötesi 429 alır", async (t) => {
+  const f = await fixture(t);
+  const results = await Promise.all(Array.from({ length: 40 }, () => f.request("/api/admin/login", "POST", { username: USER, password: "yanlis-sifre" })));
+  const unauthorized = results.filter((r) => r.response.status === 401).length;
+  const limited = results.filter((r) => r.response.status === 429).length;
+  assert.ok(unauthorized <= 8, `en çok 8 yanlış deneme işlenir (işlenen: ${unauthorized})`);
+  assert.ok(limited >= 32, `kalanı 429 alır (429: ${limited})`);
+  assert.equal((await f.request("/api/admin/login", "POST", { username: USER, password: PASSWORD })).response.status, 429, "kilit sürerken doğru şifre de bekler");
+});
+
+test("şifre sıfırlama (--reset-password) eski oturumları, 'beni hatırla' dahil, kapatır", async (t) => {
+  const f = await fixture(t);
+  await f.request("/api/admin/login", "POST", { username: USER, password: PASSWORD, remember: true });
+  assert.equal((await f.request("/api/admin/session")).value.authenticated, true);
+  await f.restart(true, { resetPassword: true, initialPassword: "yepyeni-sifre-12345" });
+  assert.equal((await f.request("/api/admin/session")).value.authenticated, false, "eski çerez artık geçersiz");
+  assert.equal((await f.request("/api/admin/login", "POST", { username: USER, password: "yepyeni-sifre-12345" })).response.status, 200);
+});
+
+test("arka kapak zaten WebP ise üzerine yeniden kodlanmaz: webp_path kendisidir", async (t) => {
+  const f = await fixture(t);
+  await f.login();
+  const webp = await sharp({ create: { width: 40, height: 60, channels: 3, background: "#336699" } }).webp().toBuffer();
+  const up = await f.request("/api/admin/upload", "POST", { filename: "arka.webp", data: webp.toString("base64"), kind: "back" });
+  assert.equal(up.response.status, 201);
+  assert.equal(up.value.webp_path, up.value.local_path);
+  assert.equal((await readFile(join(f.root, up.value.local_path))).equals(webp), true, "dosya değişmeden saklandı");
 });

@@ -1,52 +1,23 @@
 import { createServer } from "node:http";
 import { spawn } from "node:child_process";
 import { readFile, realpath, stat } from "node:fs/promises";
-import { randomBytes, randomUUID, scrypt, timingSafeEqual } from "node:crypto";
-import { promisify } from "node:util";
+import { randomUUID } from "node:crypto";
 import { dirname, extname, isAbsolute, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { atomicWrite, containedPath, createStore } from "./store.mjs";
 import { CmsError } from "./content.mjs";
-import { MAX_UPLOAD, prepareImage } from "./images.mjs";
+import { MAX_UPLOAD, prepareImage, toWebp } from "./images.mjs";
 import { rebuildSite } from "./build.mjs";
+import { MAX_PASSWORD, MIN_PASSWORD, checkUsername, createSessionStore, credentialFor, matchesCredential, matchesPassword, saveCredential } from "./auth.mjs";
+import { createPublisher } from "./publish.mjs";
 
-const deriveKey = promisify(scrypt);
-const SESSION_AGE = 8 * 60 * 60 * 1000;
-const MIN_PASSWORD = 8;
-const MAX_PASSWORD = 512;
+const VENDOR = join(dirname(fileURLToPath(import.meta.url)), "vendor");
+const VENDOR_FILES = { "/yonetim-lib/pdfjs/pdf.min.js": "pdfjs/pdf.min.js", "/yonetim-lib/pdfjs/pdf.worker.min.js": "pdfjs/pdf.worker.min.js" };
 const FIRST_PORT = 8090;
 const PORT_ATTEMPTS = 20;
 const MIME = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".mjs": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".xml": "application/xml; charset=utf-8", ".txt": "text/plain; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".avif": "image/avif", ".svg": "image/svg+xml", ".ico": "image/x-icon", ".woff2": "font/woff2", ".woff": "font/woff", ".webmanifest": "application/manifest+json" };
 const COOKIE = "islambol_cms";
-const CSP = "default-src 'self'; img-src 'self' data: https:; script-src 'self'; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'";
-
-const credentialPath = (root) => containedPath(root, ".local/cms-auth.json");
-
-async function saveCredential(root, password) {
-  const salt = randomBytes(16).toString("hex");
-  const hash = (await deriveKey(password, salt, 64)).toString("hex");
-  const credential = { version: 1, salt, hash };
-  await atomicWrite(credentialPath(root), JSON.stringify(credential, null, 2) + "\n");
-  return credential;
-}
-
-async function credentialFor(root, { initialPassword, resetPassword, logger }) {
-  if (!resetPassword) {
-    try {
-      const credential = JSON.parse(await readFile(credentialPath(root), "utf8"));
-      if (credential.version !== 1 || !/^[a-f0-9]{32}$/.test(credential.salt) || !/^[a-f0-9]{128}$/.test(credential.hash)) throw new Error("CMS giriş kaydı bozuk; --reset-password ile sıfırlayın.");
-      return credential;
-    } catch (error) { if (error.code !== "ENOENT") throw error; }
-  }
-  const password = initialPassword || randomBytes(18).toString("base64url");
-  const credential = await saveCredential(root, password);
-  logger(`Yönetici şifresi (yalnızca bu kez gösterilir): ${password}`);
-  return credential;
-}
-
-async function matchesPassword(credential, password) {
-  return timingSafeEqual(await deriveKey(password, credential.salt, 64), Buffer.from(credential.hash, "hex"));
-}
+const CSP = "default-src 'self'; img-src 'self' data: https:; script-src 'self'; worker-src 'self'; style-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'";
 
 async function readJson(request, limit = 256 * 1024) {
   if (!String(request.headers["content-type"] ?? "").toLowerCase().startsWith("application/json")) throw new CmsError(415, "İstek application/json biçiminde olmalıdır.");
@@ -77,12 +48,9 @@ function checkOrigin(request, allowedHosts) {
   if (["cross-site", "same-site"].includes(request.headers["sec-fetch-site"])) throw new CmsError(403, "İstek aynı site üzerinden yapılmalıdır.");
 }
 
-function findSession(request, sessions) {
+function cookieToken(request) {
   const match = String(request.headers.cookie ?? "").split(";").map((part) => part.trim()).find((part) => part.startsWith(`${COOKIE}=`));
-  const token = match ? match.slice(COOKIE.length + 1) : "";
-  const now = Date.now();
-  for (const [id, session] of sessions) if (session.expires <= now) sessions.delete(id);
-  return { token, session: sessions.get(token) ?? null };
+  return match ? match.slice(COOKIE.length + 1) : "";
 }
 
 function requireCsrf(request, session) {
@@ -108,14 +76,25 @@ async function staticFile(root, pathname) {
 }
 
 /** Creates a local CMS without listening; tests can provide a disposable root and build callback. */
-export async function createCmsServer({ root = resolve(dirname(fileURLToPath(import.meta.url)), "../.."), build, logger = console.log, initialPassword, resetPassword = false } = {}) {
+export async function createCmsServer({ root = resolve(dirname(fileURLToPath(import.meta.url)), "../.."), build, logger = console.log, initialPassword, initialUsername, resetPassword = false, publisher } = {}) {
   root = resolve(root);
   build ??= () => rebuildSite(root);
-  let credential = await credentialFor(root, { initialPassword, resetPassword, logger });
+  let credential = await credentialFor(root, { initialPassword, initialUsername, resetPassword, logger });
   const store = await createStore(root, build, logger);
+  publisher ??= createPublisher({ root, logger, exclusive: (task) => store.exclusive(task) });
   await build();
-  const sessions = new Map();
+  const sessions = await createSessionStore(root);
+  if (resetPassword) await sessions.removeOthers("");   // eski şifreyle açılmış (30 günlük "beni hatırla" dahil) tüm oturumlar kapanır
   const attempts = new Map();
+  /** Hatalı deneme sınırı: sayaç eşzamanlı artırılır; her istek başarılı olsa da önce bir hak harcar, başarıyla biterse iade edilir. */
+  const takeAttempt = (address) => {
+    const now = Date.now();
+    const slot = attempts.get(address);
+    const live = slot && slot.reset > now ? slot : { count: 0, reset: now + 900000 };
+    if (live.count >= 8) throw new CmsError(429, "Çok fazla hatalı deneme. 15 dakika sonra yeniden deneyin.");
+    live.count += 1;
+    attempts.set(address, live);
+  };
   const server = createServer(async (request, response) => {
     response.setHeader("x-content-type-options", "nosniff");
     response.setHeader("x-frame-options", "DENY");
@@ -135,6 +114,12 @@ export async function createCmsServer({ root = resolve(dirname(fileURLToPath(imp
         return;
       }
       if (!["GET", "HEAD"].includes(request.method)) throw new CmsError(405, "Bu yöntem desteklenmiyor.");
+      if (Object.hasOwn(VENDOR_FILES, pathname)) {
+        const data = await readFile(join(VENDOR, VENDOR_FILES[pathname]));
+        response.writeHead(200, { "content-type": MIME[".js"], "cache-control": "no-store" });
+        response.end(request.method === "HEAD" ? undefined : data);
+        return;
+      }
       let file = await staticFile(root, pathname);
       let status = 200;
       if (!file) { file = await staticFile(root, "/404.html"); status = 404; }
@@ -152,44 +137,47 @@ export async function createCmsServer({ root = resolve(dirname(fileURLToPath(imp
   server.headersTimeout = 10000;
 
   async function api(request, response, pathname) {
-    const { token, session } = findSession(request, sessions);
+    const token = cookieToken(request);
+    const session = sessions.find(token);
     if (pathname === "/api/admin/session" && request.method === "GET") {
-      sendJson(response, 200, { authenticated: Boolean(session), csrfToken: session?.csrfToken ?? null });
+      sendJson(response, 200, { authenticated: Boolean(session), csrfToken: session?.csrfToken ?? null, username: session ? credential.username : null });
       return;
     }
     if (pathname === "/api/admin/login" && request.method === "POST") {
       const address = request.socket.remoteAddress;
-      const current = attempts.get(address);
-      if (current && current.reset > Date.now() && current.count >= 8) throw new CmsError(429, "Çok fazla hatalı giriş. 15 dakika sonra yeniden deneyin.");
-      const { password } = await readJson(request, 2048);
-      if (typeof password !== "string" || password.length > 512) throw new CmsError(422, "Şifre geçersiz.");
-      if (!(await matchesPassword(credential, password))) {
-        attempts.set(address, { count: (current?.reset > Date.now() ? current.count : 0) + 1, reset: current?.reset > Date.now() ? current.reset : Date.now() + 900000 });
-        throw new CmsError(401, "Şifre yanlış.");
-      }
+      takeAttempt(address);
+      const { username, password, remember } = await readJson(request, 2048);
+      if (typeof password !== "string" || password.length > MAX_PASSWORD || typeof username !== "string" || username.length > 100) throw new CmsError(422, "Kullanıcı adı veya şifre geçersiz.");
+      if (!(await matchesCredential(credential, username, password))) throw new CmsError(401, "Kullanıcı adı veya şifre yanlış.");
       attempts.delete(address);
-      if (token) sessions.delete(token);
-      const sessionToken = randomBytes(32).toString("hex");
-      const csrfToken = randomBytes(32).toString("hex");
-      sessions.set(sessionToken, { csrfToken, expires: Date.now() + SESSION_AGE });
-      sendJson(response, 200, { authenticated: true, csrfToken }, { "set-cookie": `${COOKIE}=${sessionToken}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${SESSION_AGE / 1000}` });
+      if (token) await sessions.remove(token);
+      const created = await sessions.create(remember === true);
+      sendJson(response, 200, { authenticated: true, csrfToken: created.csrfToken, username: credential.username }, { "set-cookie": `${COOKIE}=${created.token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${Math.floor(created.maxAge / 1000)}` });
       return;
     }
     if (!session) throw new CmsError(401, "Yönetici girişi gereklidir.");
     if (request.method !== "GET") requireCsrf(request, session);
     if (pathname === "/api/admin/logout" && request.method === "POST") {
-      sessions.delete(token);
+      await sessions.remove(token);
       sendJson(response, 200, { authenticated: false }, { "set-cookie": `${COOKIE}=; Path=/; HttpOnly; SameSite=Strict; Max-Age=0` });
       return;
     }
     if (pathname === "/api/admin/content" && request.method === "GET") { sendJson(response, 200, await store.read()); return; }
     if (pathname === "/api/admin/upload" && request.method === "POST") {
-      const { bytes, extension, width, height } = await prepareImage(await readJson(request, Math.ceil(MAX_UPLOAD * 4 / 3) + 4096));
-      const filename = randomUUID() + extension;
+      const body = await readJson(request, Math.ceil(MAX_UPLOAD * 4 / 3) + 4096);
+      const { bytes, extension, width, height } = await prepareImage(body);
+      const id = randomUUID();
+      const filename = id + extension;
       const local_path = `public/uploads/${filename}`;
       // Ignore user filenames completely; upload paths are immutable random identifiers.
       await atomicWrite(containedPath(root, local_path), bytes);
-      sendJson(response, 201, { url: `/uploads/${filename}`, local_path, width, height });
+      const result = { url: `/uploads/${filename}`, local_path, width, height };
+      if (body.kind === "back" && extension === ".webp") result.webp_path = local_path;
+      else if (body.kind === "back") {
+        const webp = await toWebp(bytes);
+        if (webp) { await atomicWrite(containedPath(root, `public/uploads/${id}.webp`), webp); result.webp_path = `public/uploads/${id}.webp`; }
+      }
+      sendJson(response, 201, result);
       return;
     }
     if (pathname === "/api/admin/site" && request.method === "PUT") { sendJson(response, 200, await store.updateSite(await readJson(request))); return; }
@@ -197,22 +185,38 @@ export async function createCmsServer({ root = resolve(dirname(fileURLToPath(imp
     const page = pathname.match(/^\/api\/admin\/pages\/([a-z0-9]+(?:-[a-z0-9]+)*)$/);
     if (page && request.method === "PUT") { sendJson(response, 200, await store.updatePage(page[1], await readJson(request))); return; }
     if (pathname === "/api/admin/password" && request.method === "POST") {
-      const { current, next } = await readJson(request, 4096);
-      if (typeof current !== "string" || typeof next !== "string" || current.length > MAX_PASSWORD || next.length > MAX_PASSWORD) throw new CmsError(422, "Şifre bilgileri geçersiz.");
+      const { current, next, username } = await readJson(request, 4096);
+      if (typeof current !== "string" || current.length > MAX_PASSWORD) throw new CmsError(422, "Şifre bilgileri geçersiz.");
+      const wantsPassword = typeof next === "string" && next.length > 0;
+      if (next !== undefined && next !== null && next !== "" && (typeof next !== "string" || next.length > MAX_PASSWORD)) throw new CmsError(422, "Şifre bilgileri geçersiz.");
+      const newName = username === undefined || username === null || username === "" ? credential.username : checkUsername(username);
+      if (!wantsPassword && newName === credential.username) throw new CmsError(422, "Değiştirilecek bir bilgi girilmedi.");
       const address = request.socket.remoteAddress;
-      const failures = attempts.get(address);
-      if (failures && failures.reset > Date.now() && failures.count >= 8) throw new CmsError(429, "Çok fazla hatalı deneme. 15 dakika sonra yeniden deneyin.");
-      if (!(await matchesPassword(credential, current))) {
-        attempts.set(address, { count: (failures?.reset > Date.now() ? failures.count : 0) + 1, reset: failures?.reset > Date.now() ? failures.reset : Date.now() + 900000 });
-        throw new CmsError(401, "Şimdiki şifre yanlış.");
+      takeAttempt(address);
+      if (!(await matchesPassword(credential, current))) throw new CmsError(401, "Şimdiki şifre yanlış.");
+      if (wantsPassword) {
+        if ([...next].length < MIN_PASSWORD) throw new CmsError(422, `Yeni şifre en az ${MIN_PASSWORD} karakter olmalıdır.`);
+        if (next === current) throw new CmsError(422, "Yeni şifre şimdikinden farklı olmalıdır.");
       }
-      if ([...next].length < MIN_PASSWORD) throw new CmsError(422, `Yeni şifre en az ${MIN_PASSWORD} karakter olmalıdır.`);
-      if (next === current) throw new CmsError(422, "Yeni şifre şimdikinden farklı olmalıdır.");
       attempts.delete(address);
-      credential = await saveCredential(root, next);
-      // Other signed-in browsers must sign in again with the new password.
-      for (const id of sessions.keys()) if (id !== token) sessions.delete(id);
-      sendJson(response, 200, { ok: true });
+      credential = await saveCredential(root, wantsPassword ? next : current, newName);
+      // Diğer açık tarayıcılar yeni bilgilerle yeniden giriş yapar.
+      await sessions.removeOthers(token);
+      sendJson(response, 200, { ok: true, username: credential.username });
+      return;
+    }
+    if (pathname === "/api/admin/publish" && request.method === "GET") { sendJson(response, 200, await publisher.changes()); return; }
+    if (pathname === "/api/admin/publish" && request.method === "POST") {
+      const body = await readJson(request, 1024);
+      const started = await publisher.start({ confirmForeign: body.confirmForeign === true, confirmHead: typeof body.confirmHead === "string" ? body.confirmHead : undefined });
+      const status = started.started ? 202 : started.needsConfirm ? 200 : 409;
+      sendJson(response, status, { ...started, ...(status === 409 ? { error: started.reason } : {}), ...(await publisher.changes()) });
+      return;
+    }
+    if (pathname === "/api/admin/publish/discard" && request.method === "POST") {
+      try { await store.exclusive(async () => { await publisher.discard(); await build(); }); }
+      catch (error) { throw new CmsError(error.friendly ? 409 : 500, error.friendly ?? "Değişiklikler geri alınamadı."); }
+      sendJson(response, 200, { ok: true, ...(await store.read()), ...(await publisher.changes()) });
       return;
     }
     const match = pathname.match(/^\/api\/admin\/(books|authors|campaigns)(?:\/([a-z0-9]+(?:-[a-z0-9]+)*))?$/);
@@ -261,7 +265,8 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
   const port = Number(index >= 0 ? process.argv[index + 1] : process.env.CMS_PORT || FIRST_PORT);
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error("CMS portu geçersiz.");
   console.log("Yönetim paneli ve site hazırlanıyor; ilk açılış birkaç on saniye sürebilir...");
-  const app = await createCmsServer({ resetPassword: process.argv.includes("--reset-password") });
+  const nameIndex = process.argv.indexOf("--username");
+  const app = await createCmsServer({ resetPassword: process.argv.includes("--reset-password"), initialUsername: nameIndex >= 0 ? process.argv[nameIndex + 1] : undefined });
   const actual = await listen(app.server, port, explicit ? 1 : PORT_ATTEMPTS);
   const address = `http://127.0.0.1:${actual}/yonetim/`;
   console.log(`\nYönetim paneli hazır: ${address}\nKapatmak için bu pencereyi kapatın (Ctrl+C).`);

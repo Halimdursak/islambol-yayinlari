@@ -8,7 +8,7 @@
 
 ## Özet
 
-- Kontrol grubu: 27; tekil denetim: 12260; **kalan (KALDI): 7**; doğrulanamadı: 9; uyarı (elle teyit): 3; uygulanamadı (N/A): 13.
+- Kontrol grubu: 27; tekil denetim: 12260; **kalan (KALDI): 7**; doğrulanamadı: 4; uyarı (elle teyit): 3; uygulanamadı (N/A): 13.
 - Hata sayılmayan sonuçlar: DOĞRULANAMADI (403/Cloudflare/ağ) ve UYARI. Çıkış kodu yalnızca KALDI için 1 olur.
 
 ## Kontrol tablosu
@@ -35,7 +35,7 @@
 | 5.1 | Her HTML katı UTF-8 olarak çözülüyor | GEÇTİ | 139 | 0 | 0 | 0 | 0 | — |
 | 5.2 | <html lang="tr"> | GEÇTİ | 139 | 0 | 0 | 0 | 0 | — |
 | 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8768 | 0 | 0 | 0 | 0 | — |
-| 7.1 | Dış kaynak bağlantıları (rastgele örneklem) | DOĞRULANAMADI | 15 | 0 | 9 | 0 | 0 | — |
+| 7.1 | Dış kaynak bağlantıları (rastgele örneklem) | DOĞRULANAMADI | 15 | 0 | 4 | 0 | 0 | — |
 | 8.1 | Site metinlerinde [[SORU işareti dist'te yok | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 8.2 | Sayfalar: ilk paragraf dist'te geçiyor | GEÇTİ | 6 | 0 | 0 | 0 | 0 | — |
 | 8.3 | Sayfalar: SORU ayıklamasından öksüz kalıntı adayları (elle teyit) | UYARI | 14 | 0 | 0 | 3 | 0 | — |
@@ -61,15 +61,10 @@ Toplam 7 kayıt, 7 tekil uyumsuzluk (aynı değerli kayıtlar gruplandı).
 
 | Kimlik | Sonuç | Varlık | Alan | Beklenen | Bulunan | Not |
 |---|---|---|---|---|---|---|
-| 7.1 | DOĞRULANAMADI | https://www.kureselkitap.com/urun/566898/kitap/islambol-yayinlari/cevat-rifat-atilhan/yeryuzunun-hakiki-canileri-israil/ | HTTP | 200-399 | - ağ hatası: TimeoutError |  |
 | 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/sen-neden-kor-edildin/742052.html | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
-| 7.1 | DOĞRULANAMADI | https://www.kureselkitap.com/urun/570282/kitap/islambol-yayinlari/abdusselam-tutal/mizac-dersleri/ | HTTP | 200-399 | - ağ hatası: TimeoutError |  |
 | 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/rabbimizi-taniyalim-2-kuranimiz-ve-resuli-ekrem-asm-efendimiz-bize-rabbimizi-tarif-edi… | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
 | 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/filistinsuriye-cephesinde-kahramanlar-ve-hainler/731657.html | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
 | 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/son-sultan-vahideddinin-hatiralari-ve-beyannamesi/713022.html | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
-| 7.1 | DOĞRULANAMADI | https://www.kureselkitap.com/urun/561326/kitap/islambol-yayinlari/manavoglu-nevres-bey/son-halifenin-drami-sansursuz-ba… | HTTP | 200-399 | - ağ hatası: TimeoutError |  |
-| 7.1 | DOĞRULANAMADI | https://www.kureselkitap.com/urun/596669/kitap/islambol-yayinlari/halid-el-huseynan/allah-a-dogru-yuruyenlerin-derecesi… | HTTP | 200-399 | - ağ hatası: TimeoutError |  |
-| 7.1 | DOĞRULANAMADI | https://www.kureselkitap.com/urun/594789/kitap/islambol-yayinlari/bilal-adali/uzgunum-viyana-da-dogdum/ | HTTP | 200-399 | - ağ hatası: TimeoutError |  |
 | 8.3 | UYARI | hakkimizda.md | SORU ayıklama: içerik kaybı | SORU dışı içerik korunmalı | Yayınevi tarihinden bu yana faaliyet göstermektedir | cümlenin SORU dışındaki kısmı yayından düşüyor (elle karar) |
 | 8.3 | UYARI | hakkimizda.md | SORU ayıklama: içerik kaybı | SORU dışı içerik korunmalı | Toplam kitap sayısı için şimdilik katalogdaki kayıtlar esas alınmıştır yayınevinin resmî sayısı olarak teyit edilecektir | cümlenin SORU dışındaki kısmı yayından düşüyor (elle karar) |
 | 8.3 | UYARI | kvkk-ve-cerezler.md | SORU ayıklama | akıcı cümle | ## Toplanan kişisel veriler | cümle sonu işareti yok |
@@ -80,21 +75,21 @@ Kaynak havuzu: 177 tekil URL. Örneklem tohumu 20261011, sayı 15.
 
 | URL | Sonuç | HTTP | Not |
 |---|---|---|---|
-| https://www.kureselkitap.com/urun/566898/kitap/islambol-yayinlari/cevat-rifat-atilhan/yeryuzunun-hakiki-canileri-israil/ | DOĞRULANAMADI | - | ağ hatası: TimeoutError |
+| https://www.kureselkitap.com/urun/566898/kitap/islambol-yayinlari/cevat-rifat-atilhan/yeryuzunun-hakiki-canileri-israil/ | TAMAM | 200 |  |
 | https://www.kitapyurdu.com/kitap/sen-neden-kor-edildin/742052.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
-| https://www.kureselkitap.com/urun/570282/kitap/islambol-yayinlari/abdusselam-tutal/mizac-dersleri/ | DOĞRULANAMADI | - | ağ hatası: TimeoutError |
+| https://www.kureselkitap.com/urun/570282/kitap/islambol-yayinlari/abdusselam-tutal/mizac-dersleri/ | TAMAM | 200 |  |
 | https://www.kitapyurdu.com/kitap/rabbimizi-taniyalim-2-kuranimiz-ve-resuli-ekrem-asm-efendimiz-bize-rabbimizi-tarif-ediyor/723740.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
 | https://www.kitapyurdu.com/kitap/filistinsuriye-cephesinde-kahramanlar-ve-hainler/731657.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
 | https://nobelkitap.com/kitap/din-yok-milliyet-var-1 | TAMAM | 200 |  |
 | https://nobelkitap.com/kitap/butun-yonleriyle-sah-ismail | TAMAM | 200 |  |
 | https://www.kitapyurdu.com/kitap/son-sultan-vahideddinin-hatiralari-ve-beyannamesi/713022.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
-| https://www.kureselkitap.com/urun/561326/kitap/islambol-yayinlari/manavoglu-nevres-bey/son-halifenin-drami-sansursuz-baski-osmanlica-asliyla-birlikte/ | DOĞRULANAMADI | - | ağ hatası: TimeoutError |
+| https://www.kureselkitap.com/urun/561326/kitap/islambol-yayinlari/manavoglu-nevres-bey/son-halifenin-drami-sansursuz-baski-osmanlica-asliyla-birlikte/ | TAMAM | 200 |  |
 | https://nobelkitap.com/kitap/butun-ciplakligiyla-31-mart-faciasi | TAMAM | 200 |  |
 | https://www.ravzakitap.com/rabbimizi-taniyalim-1-marifetullah-ilmi | TAMAM | 200 |  |
 | https://nobelkitap.com/kitap/allaha-dogru-yuruyenlerin-derecesine-nasil-yukseliriz-1 | TAMAM | 200 |  |
-| https://www.kureselkitap.com/urun/596669/kitap/islambol-yayinlari/halid-el-huseynan/allah-a-dogru-yuruyenlerin-derecesine-nasil-yukseliriz/ | DOĞRULANAMADI | - | ağ hatası: TimeoutError |
+| https://www.kureselkitap.com/urun/596669/kitap/islambol-yayinlari/halid-el-huseynan/allah-a-dogru-yuruyenlerin-derecesine-nasil-yukseliriz/ | TAMAM | 200 |  |
 | https://nobelkitap.com/kitap/vahsi-surgun | TAMAM | 200 |  |
-| https://www.kureselkitap.com/urun/594789/kitap/islambol-yayinlari/bilal-adali/uzgunum-viyana-da-dogdum/ | DOĞRULANAMADI | - | ağ hatası: TimeoutError |
+| https://www.kureselkitap.com/urun/594789/kitap/islambol-yayinlari/bilal-adali/uzgunum-viyana-da-dogdum/ | TAMAM | 200 |  |
 
 ## Öksüz kalıntı adayları (SORU ayıklaması)
 
