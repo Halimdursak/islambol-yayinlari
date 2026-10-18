@@ -53,6 +53,6 @@ Son çıktı (2026-10-11, B1/B2 içerik sayfaları henüz yokken yalnızca iskel
 
 - **Alt dizin:** GitHub Pages `/islambol-yayinlari/` altında. SEO bileşeni mutlak URL'leri `site.url` ile kurar, ancak `base.njk` ve favicon bağlantıları (`/favicon.svg`, `/assets/...`) kök-göreli; özel alan adı ya da `pathPrefix` kararı verilmeden alt dizinde bu varlıklar 404 verir. `robots.txt` ve `sitemap.xml` de alt dizinde alan adı köküne konmadığı için arama motorlarınca `robots.txt` olarak okunmaz (robots yalnızca alan adı kökünde geçerli); sitemap Search Console'dan elle gönderilir.
 - **OG görselleri B4'e bağlı:** `/og/<id>.png` ve `/og/site.png` üretilmezse paylaşım önizlemesi kırık görsel gösterir. `public/logo/islambol-logo.png` de şu an yok (yalnızca `islambol-x-profil.jpg`); `Organization.logo` bu dosyaya işaret eder.
-- **Fiyat yok:** ADR-001 gereği `offers` / `Product` basılmaz; kitap sonuçları ürün zengin sonucu almaz.
+- **`offers` / `Product` yok:** liste fiyatı yalnızca görünür metindir (ADR-018); fiyat/stok doğruluğu satış sitelerine aittir, bu yüzden yapılandırılmış veride teklif basılmaz ve kitap sonuçları ürün zengin sonucu almaz.
 - `ItemList` ve `CollectionPage` (dizin sayfaları), `ContactPoint` / `AboutPage` şemaları bu sürümde yok.
 - Veri kaynaklı: bir dizi adı katalogdan "(5 kitap)" ekiyle geliyor; `CreativeWorkSeries.name` aynen aktarır.

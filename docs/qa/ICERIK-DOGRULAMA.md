@@ -8,7 +8,7 @@
 
 ## Özet
 
-- Kontrol grubu: 27; tekil denetim: 11767; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
+- Kontrol grubu: 27; tekil denetim: 11779; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
 - Hata sayılmayan sonuçlar: DOĞRULANAMADI (403/Cloudflare/ağ) ve UYARI. Çıkış kodu yalnızca KALDI için 1 olur.
 
 ## Kontrol tablosu
@@ -21,7 +21,7 @@
 | 1.4 | ISBN (null değilse) sayfada | GEÇTİ | 73 | 0 | 0 | 0 | 5 | — |
 | 1.5 | Sayfa sayısı (null değilse) sayfada | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
 | 1.6 | Kapak img/source yolları dist'te var | GEÇTİ | 1875 | 0 | 0 | 0 | 0 | — |
-| 1.7 | sources dolu URL'ler sayfada bağlantı | GEÇTİ | 165 | 0 | 0 | 0 | 0 | — |
+| 1.7 | sources dolu URL'ler sayfada bağlantı | GEÇTİ | 177 | 0 | 0 | 0 | 0 | — |
 | 1.8 | WhatsApp bağlantısı (wa.me/905059808735) | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
 | 1.9 | is_set kitaplarda Takım rozeti/etiketi | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 2.1 | Yazar sayfası üretildi (dist/yazar/<slug>/index.html) | GEÇTİ | 36 | 0 | 0 | 0 | 0 | — |
@@ -68,7 +68,7 @@ Toplam 7 kayıt, 7 tekil uyumsuzluk (aynı değerli kayıtlar gruplandı).
 
 ## Dış bağlantı sonuçları (örneklem)
 
-Kaynak havuzu: 165 tekil URL. Örneklem tohumu 20261011, sayı 15.
+Kaynak havuzu: 177 tekil URL. Örneklem tohumu 20261011, sayı 15.
 
 Dış denetim yapılmadı.
 

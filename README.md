@@ -26,7 +26,7 @@
 
 ## Proje nedir
 
-Bu bir **tanıtım ve katalog sitesidir, mağaza değildir** (ADR-001). Sepet, ödeme, üyelik, çerez ve fiyat yoktur. Her kitap sayfasında kitabın künyesi, tanıtım metni, varsa ilk sayfaları (kapağa dokununca sayfa çevirme efektiyle açılan önizleme) ve "nereden alınır" bağlantıları (Küresel Kitap, Kitapyurdu, Hepsiburada, Trendyol) ile kitap adı önceden doldurulmuş bir WhatsApp sipariş bağlantısı bulunur. Satış, yayınevinin mevcut kanallarında gerçekleşir.
+Bu bir **tanıtım ve katalog sitesidir, mağaza değildir** (ADR-001). Sepet, ödeme, üyelik ve çerez yoktur; kitaplarda yalnızca **liste fiyatı** gösterilir; satın alma satış sitelerinde yapılır (ADR-018). Her kitap sayfasında kitabın künyesi, tanıtım metni, varsa ilk sayfaları (kapağa dokununca sayfa çevirme efektiyle açılan önizleme) ve "nereden alınır" bağlantıları (Küresel Kitap, Kitapyurdu, Hepsiburada, Trendyol) ile kitap adı önceden doldurulmuş bir WhatsApp sipariş bağlantısı bulunur. Satış, yayınevinin mevcut kanallarında gerçekleşir.
 
 Teknik olarak: **Eleventy 3** (Nunjucks şablonları), saf CSS (tasarım token'ları), sayfa çevirme için `page-flip` kütüphanesi. Tüm içerik JSON ve Markdown dosyalarından derlenir; sunucu tarafı kod yoktur. Çıktı `dist/` klasörüne yazılan düz HTML/CSS/JS'tir.
 
@@ -133,7 +133,7 @@ Kitap kayıtlarının dizisi; **tek doğruluk kaynağı** (ADR-005). Şema: `dat
 | `dimensions`, `binding`, `paper`, `language` | metin / null | hayır | Boyut, cilt, kâğıt, dil (`tr`). |
 | `categories` | metin dizisi | hayır | Kitapçı kategori yolları; `data/site/sozluk.json` ile sitenin 7 kategorisine eşlenir. |
 | `description` | metin / null | hayır | Yayınevinin tanıtım metni. Kampanya/fiyat/kargo satırları build'de otomatik ayıklanır. |
-| `price_list_try` | sayı / null | hayır | Liste fiyatı. **Sitede gösterilmez** (ADR-001); yalnızca arşiv verisidir. |
+| `price_list_try` | sayı / null | hayır | Liste (etiket) fiyatı, ₺. Doluysa kitap kartında ve kitap sayfasında "Liste fiyatı" olarak görünür (ADR-018); boşsa fiyat gösterilmez. Yalnızca en az iki satış sitesinde (Kitapyurdu / Nobel / Küresel) birbirini tutan fiyat yazılır. Yönetim panelinde "Liste fiyatı" alanından değişir. |
 | `is_set`, `set_items` | mantıksal, dizi | hayır | Set/paket kaydı mı; üyeleri. |
 | `series` | metin / null | hayır | Dizi/seri adı. |
 | `contributors` | metin / dizi / nesne | hayır | Çevirmen, editör vb. |
@@ -326,7 +326,7 @@ Listede olmayan bir `id` yazarsanız build "katalogda olmayan id'ler" hatasıyla
 - **Sayfa başlığı/açıklaması (SEO):** `data/site/meta.json`.
 - **Arayüz etiketleri:** `data/site/mikrometin.json`.
 - **Kategoriler:** `data/site/sozluk.json`.
-- Fiyat ya da kampanya yazmayın (ADR-001). Bilgi uydurmayın; bilmediğiniz yere `[[SORU: ...]]` koyun.
+- Metinlere fiyat ya da kampanya yazmayın; fiyat yalnızca `price_list_try` alanından gösterilir (ADR-018). Bilgi uydurmayın; bilmediğiniz yere `[[SORU: ...]]` koyun.
 
 ## Tasarım
 
@@ -421,6 +421,6 @@ Depo tarafı hazırdır (ADR-016): `deploy.yml`/`ci.yml` `SITE_URL=https://islam
 - **Bekleyen yayınevi bilgileri (`[[SORU]]`):** kuruluş yılı ve yayın kurulu, toplam kitap sayısı, açık adres ve çalışma saatleri, ödeme/kargo yöntemleri, toptan satış yolu, önizleme kullanım koşulları, barındırma ve analitik kararı. Tam liste: `docs/SITE-HARITASI.md` ("Direktöre sorular") ve `grep -rn "SORU" data/site`.
 - **Alt dizin yayını:** `robots.txt` alan adı kökünde olmadığı için projesayfası adresinde arama motorlarınca okunmaz; sitemap Search Console'dan elle bildirilir (özel alan adıyla çözülür).
 - **Önizleme kapsamı:** yalnızca Kitapyurdu'nda "iç sayfalara gözat" bulunan kitapların önizlemesi vardır; diğerleri "önizleme eklenmedi" der.
-- **Fiyat gösterilmez** (ADR-001); fiyat bilgisi `price_list_try` alanında arşiv amaçlı tutulur.
+- **Yalnızca liste fiyatı gösterilir** (ADR-018); kampanya/indirim fiyatı yazılmaz, `Book.offers` basılmaz.
 - **E2E testleri CI'da çalışmaz** (Edge kanalına bağlı); yerelde `npm run test:e2e` ile çalıştırılır.
 - **Native modül yasağı (geliştirme makinesi):** bkz. [Windows'ta native modül engeli](#windowsta-native-modül-engeli).

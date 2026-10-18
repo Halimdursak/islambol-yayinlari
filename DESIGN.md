@@ -158,7 +158,7 @@ Bant üstünde beyaz 28px karolar: ad 28px/600 (alt-sol), o kategoriden üç ger
 Ortalı slogan (`h2`), 30px/500 özet, üçüncül bağlantı. Altında dört sayı (kitap, yazar, önizlemeli kitap, set ve seri): 64px/600, üstte 1px çizgi, hepsi katalog verisinden hesaplanır.
 
 ### 4.13 Satış modülleri `.satis-vitrini`
-İki modül: sol beyaz karoda telefon (40px) + kırmızı WhatsApp düğmesi; sağ tek gruplu kanal listesi (ad, not, ↗), satırlar ince çizgili. Fiyat gösterilmez (ADR-001).
+İki modül: sol beyaz karoda telefon (40px) + kırmızı WhatsApp düğmesi; sağ tek gruplu kanal listesi (ad, not, ↗), satırlar ince çizgili. Satış fiyatı gösterilmez; yalnızca kitap kartı ve sayfasında liste fiyatı (ADR-018).
 
 ### 4.14 Katalog ve kitap detayı (`katalog.css`)
 **Liste sayfaları** (kitaplar, yazarlar, diziler, yazar): `.katalog` sarmalayıcısı tam genişlik `--c-band` zemindir; üstte etiket, `h1` (40→64px/600) ve gri sayı satırı. Kartlar beyazdır.
@@ -205,7 +205,7 @@ Yalnızca `transform`, `opacity`, renk. Süreler: 300ms (`--dur`), 600ms (`--dur
 
 - Kırmızıyı CTA ve "Önizle" rozeti dışında kullanmak; WhatsApp yeşilini üst bar logosu dışında kullanmak.
 - Başlık/etiketlerde büyük harf zorlaması, bölüm numaraları, emoji, gradyan, neon.
-- Fiyat, indirim, "çok satan" rozeti, sahte yorum/istatistik, doğrulanmamış marka bilgisi (kuruluş yılı, ekip).
+- İndirim/kampanya fiyatı ve üstü çizili fiyat (yalnız tek "Liste fiyatı" satırı, ADR-018), "çok satan" rozeti, sahte yorum/istatistik, doğrulanmamış marka bilgisi (kuruluş yılı, ekip).
 - Kapağı kırpmak, üstüne etiket bindirmek; `multiply`'ı yalıtılmış katmanın içinde kullanmak.
 - Yerleşim özelliği (`width`, `height`, `margin`, `padding`) animasyonu; kendiliğinden kayan karusel; zıplama/ölçek hover'ı.
 - Karanlık mod, ikinci font ailesi, üçüncü taraf font isteği (Google Fonts bağımlılığı yoktur).

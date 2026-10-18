@@ -526,10 +526,13 @@ def kontrol_yasakli_ve_dil():
                 bulgu = True
                 bag = norm(gorunur[max(0, eslesme.start() - 50): eslesme.end() + 50])
                 K41.kaldi(rel, ad, "yok", bag, sahip)
+        # ADR-018: tasarlanmış "Liste fiyatı" öğesi ([data-fiyat], notunda "indirimli" geçer) kampanya taramasının dışındadır;
+        # biçimi ve veriyle eşitliği tests/e2e/fiyat.spec.ts'te denetlenir. Metnin geri kalanında kampanya/fiyat dizgisi yine yasaktır.
+        ticari_gorunur = gorunur_html(re.sub(r'<p class="kitap-(?:detay|karti)__fiyat"[^>]*data-fiyat>.*?</p>', " ", belge["ham"], flags=re.S))
         for ad, desen, bayrak in YASAKLI_TICARI:
-            for eslesme in list(re.finditer(desen, gorunur, bayrak))[:2]:
+            for eslesme in list(re.finditer(desen, ticari_gorunur, bayrak))[:2]:
                 bulgu = True
-                bag = norm(gorunur[max(0, eslesme.start() - 50): eslesme.end() + 50])
+                bag = norm(ticari_gorunur[max(0, eslesme.start() - 50): eslesme.end() + 50])
                 K42.kaldi(rel, ad, "yok", bag, sahip)
         if not bulgu:
             K41.gecti()

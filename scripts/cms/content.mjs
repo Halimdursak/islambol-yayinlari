@@ -5,7 +5,7 @@ export class CmsError extends Error {
 }
 
 const ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
-const BOOK_FIELDS = ["id", "title", "subtitle", "authors", "author_display", "isbn", "pages", "publish_date", "categories", "description", "status", "is_set", "series", "dimensions", "binding", "paper", "language", "edition", "contributors", "preview_pages"];
+const BOOK_FIELDS = ["id", "title", "subtitle", "authors", "author_display", "isbn", "pages", "publish_date", "categories", "description", "status", "is_set", "series", "dimensions", "binding", "paper", "language", "edition", "contributors", "preview_pages", "price_list_try"];
 const MAX_PREVIEW_PAGES = 30;
 const MAX_IMAGE_SIDE = 20000;
 const AUTHOR_FIELDS = ["name", "slug", "display", "bio", "bio_source", "photo_url", "book_ids", "status", "kitapyurdu_author_url"];
@@ -61,6 +61,13 @@ function imageSide(value, name) {
   return value;
 }
 
+/** Liste fiyatı (₺): boş = sitede fiyat gösterilmez; en çok iki ondalık, 0 < fiyat ≤ 100000. */
+function listPrice(value) {
+  if (value === null || value === undefined || value === "") return null;
+  if (typeof value !== "number" || !Number.isFinite(value) || value <= 0 || value > 100000 || Math.round(value * 100) !== value * 100) throw new CmsError(422, "Liste fiyatı 0'dan büyük, en çok iki ondalıklı bir sayı olmalıdır.");
+  return value;
+}
+
 /** Yüklenen önizleme sayfaları: sıra = gösterim sırası; yalnızca public/ altındaki yerel dosyalar. */
 function previewPages(value) {
   if (value === null || value === undefined) return [];
@@ -107,6 +114,7 @@ export function createValidators(bookSchema) {
         for (const side of ["width", "height"]) if (Object.hasOwn(input.cover, side)) record.cover[side] = imageSide(input.cover[side], `Kapak ${side === "width" ? "genişliği" : "yüksekliği"}`);
       }
       if (Object.hasOwn(record, "preview_pages")) record.preview_pages = previewPages(record.preview_pages);
+      if (Object.hasOwn(record, "price_list_try")) record.price_list_try = listPrice(record.price_list_try);
       if (record.cover.local_path) {
         const path = record.cover.local_path;
         if (typeof path !== "string" || !path.startsWith("public/")) throw new CmsError(422, "Kapak yolu public/ klasöründe olmalıdır.");

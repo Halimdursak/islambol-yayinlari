@@ -130,6 +130,9 @@ export default function () {
       site_kategorileri: siteKategorileri,                 // [{ad, slug}] — sözlükle eşlenmiş site kategorileri
       site_kategori_sluglari: siteKategorileri.map((x) => x.slug),
       url: `/kitap/${k.id}/`,
+      // Liste fiyatı (ADR-018): yalnız kayıtta varsa; "1.200 ₺" biçimi. JSON-LD'ye offers EKLENMEZ.
+      fiyat: k.price_list_try ?? null,
+      fiyat_gosterim: k.price_list_try ? `${Number(k.price_list_try).toLocaleString("tr-TR", { maximumFractionDigits: 2 })} ₺` : null,
       // Yazarsız kayıtlarda (derleme, set ilanı) gösterim: katkıda bulunan ya da null → şablon "Yazar belirtilmemiş" basar
       yazar_gosterim: k.author_display ?? (katkida.length ? katkida.join(", ") : null),
       kapak_url: publicUrl(k.cover?.local_path),

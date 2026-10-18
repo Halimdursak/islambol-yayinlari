@@ -17,3 +17,6 @@ __pycache__/
 docs/design/secenekler/*/*.png
 # e2e her koşuda yeniden üretir (68 MB); izlenirse her test koşusu git'i kirletir. Geri almak için: git add -f docs/qa/screenshots
 docs/qa/screenshots/
+
+# Yayınevinin gönderdiği ham kapak/iç sayfa dosyaları (baskı PDF'leri, zip): herkese açık depoya girmez
+/data/KITAPLAR/

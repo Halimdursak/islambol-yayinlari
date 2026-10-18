@@ -107,7 +107,7 @@
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/afet-inan-kemalist-ideolojinin-akademik-vitrini/763215.html",
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/afet-inan",
       "kureselkitap": "https://www.kureselkitap.com/urun/594774/kitap/islambol-yayinlari/prof-dr-ali-seyyar/afet-inan/",
       "other": []
     },
@@ -609,7 +609,7 @@
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/butun-acikligiyla-inonu-savaslari-ve-hakiki-kahramanlari/739995.html",
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/butun-acikligiyla-inonu-savaslari-ve-hakiki-kahramanlari",
       "kureselkitap": "https://www.kureselkitap.com/urun/570285/kitap/islambol-yayinlari/cevat-rifat-atilhan/butun-acikligiyla-inonu-savaslari-ve-hakiki-kahramanlari/",
       "other": []
     },
@@ -1358,7 +1358,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/gazi-ve-fikriye-1",
       "kureselkitap": "https://www.kureselkitap.com/urun/594619/kitap/islambol-yayinlari/prof-dr-ali-seyyar/gazi-ve-fikriye/",
       "other": []
     },
@@ -1531,7 +1531,7 @@
       ]
     },
     "description": "İmam Ebul Ferec İbnu’l Cevzî bu kitabında namazın terki, faiz alıp vermek, içki bağımlılığı, insanlara zulmetmek gibi günahlara değiniyor; bu günahlardan sakınmaya ve mümkün olduğunca uzak durmaya davet ediyor. Böylece insan, bu günahların zıddıyla yani salih amellerle süslenerek Allah’ın istediği şekilde günahlardan arınmış ve şeytanın saptırmasına karşı uyanık davranarak hak yolda yürümeyi başarmış olur.\n\nAyrıca İbnu’l Cevzî, kitabın sayfaları arasına günahkârların tövbelerini, pişmanlıklarını anlatan hikâyeleri serpiştirmiş ve işledikleri mâsiyetler sebebiyle gözlerinden akan yaşların oluşturduğu gözyaşı denizini bize tasvir etmiş. Ama ne gözyaşı! Yerin ve göğün Rabbiyle karşılaşacakları günün korkusu sebebiyle olan ağlamalarını ve inildemelerini kitaba dökmüş.",
-    "price_list_try": 400.0,
+    "price_list_try": null,
     "is_set": false,
     "set_info": null,
     "set_items": [],
@@ -2336,7 +2336,7 @@
       ]
     },
     "description": "Asrının şahidi bir alim olan Şeyhülislam Mustafa Sabri Efendi farklı vesilelerle Kemalist diktanın din üzerinde yaptığı tasarrufları ifşa etmiş saray alimlerinin aksine etkileyici kalemiyle hakikati meydan yerine haykırmıştı. Elinizdeki bu kitap da merhum müellif tarafından çıkarılan Yarın gazetesinde tefrika edilen ve 16 Eylül 1927-11 Mayıs 1928 tarihli sayılar arasında yayınlanan yazıların biraraya getirilmesiyle oluşturulmuş bir eserdir. Eserin sonuna Yarın gazetesinin 60 sayısında neşredilen aralarında müellifin de bulunduğu 3 alimin fetvasını koymayı münasip gördük. Kemalistlerin din düşmanlıklarını ortaya bütün gerçekliğiyle koyan bu eser konunun meraklılarına önemli bilgiler sunuyor.",
-    "price_list_try": 200.0,
+    "price_list_try": 250.0,
     "is_set": false,
     "set_info": null,
     "set_items": [],
@@ -2351,7 +2351,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/kemalistlerin-din-dusmanligi",
       "kureselkitap": "https://www.kureselkitap.com/urun/556159/kitap/islambol-yayinlari/seyhulislam-mustafa-sabri-efendi/kemalistlerin-din-dusmanligi/",
       "other": []
     },
@@ -2469,7 +2469,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/kufrun-karsisinda-muslumanlik",
       "kureselkitap": "https://www.kureselkitap.com/urun/573328/kitap/islambol-yayinlari/cevat-rifat-atilhan/kufrun-karsisinda-muslumanlik/",
       "other": []
     },
@@ -2591,7 +2591,7 @@
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/medeniyetin-batisi/729763.html",
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/medeniyetin-batisi",
       "kureselkitap": "https://www.kureselkitap.com/urun/559624/kitap/islambol-yayinlari/cevat-rifat-atilhan/medeniyetin-batisi/",
       "other": []
     },
@@ -2972,7 +2972,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/mustafa-kemal-icki-ve-kadinlar",
       "kureselkitap": "https://www.kureselkitap.com/urun/583510/kitap/islambol-yayinlari/omer-faruk-altay/mustafa-kemal-icki-ve-kadinlar/",
       "other": []
     },
@@ -3153,7 +3153,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/nebile-sait-irdelp-unutulan-bir-hayatin-kronolojisi",
       "kureselkitap": "https://www.kureselkitap.com/urun/585466/kitap/islambol-yayinlari/ali-seyyar/nebile-sait-irdelp-unutulan-bir-hayatin-kronolojisi/",
       "other": []
     },
@@ -3330,7 +3330,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/rabbimizi-taniyalim-marifetullah-ilmi",
       "kureselkitap": null,
       "other": [
         {
@@ -3770,7 +3770,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/sirr-i-inna-atayna-risalesi",
       "kureselkitap": "https://www.kureselkitap.com/urun/601478/kitap/islambol-yayinlari/bediuzzaman-said-nursi/sirr-i-inn-a-tayn-ris-lesi/",
       "other": []
     },
@@ -4145,7 +4145,7 @@
     },
     "sources": {
       "kitapyurdu": null,
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/turk-basininda-tartismalarin-odaginda-ataturk-ve-ataturkculuk-1",
       "kureselkitap": "https://www.kureselkitap.com/urun/585464/kitap/islambol-yayinlari/ali-seyyar/turk-basininda-tartismalarin-odaginda-ataturk-ve-ataturkculuk/",
       "other": []
     },
@@ -4516,7 +4516,7 @@
     },
     "sources": {
       "kitapyurdu": "https://www.kitapyurdu.com/kitap/yahudi-casusu-suzy-liberman/739996.html",
-      "nobelkitap": null,
+      "nobelkitap": "https://nobelkitap.com/kitap/yahudi-casusu-suzy-liberman",
       "kureselkitap": "https://www.kureselkitap.com/urun/570284/kitap/islambol-yayinlari/cevat-rifat-atilhan/yahudi-casusu-suzy-liberman/",
       "other": []
     },

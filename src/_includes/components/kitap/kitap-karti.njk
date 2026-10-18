@@ -26,6 +26,9 @@
     {%- if kitap.pages or kitap.publish_date %}
     <p class="kitap-karti__kunye">{% if kitap.pages %}{{ kitap.pages }} sayfa{% endif %}{% if kitap.pages and kitap.publish_date %} · {% endif %}{{ tarih(kitap.publish_date) }}</p>
     {%- endif %}
+    {%- if kitap.fiyat_gosterim %}
+    <p class="kitap-karti__fiyat" data-fiyat><span class="sr-only">{{ site.mikrometin.fiyat_etiket }} </span><span class="rakam">{{ kitap.fiyat_gosterim }}</span></p>
+    {%- endif %}
   </div>
   {%- if kitap.onizleme %}
   {%- set _ikon -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5c3-1 6-1 9 1 3-2 6-2 9-1v13c-3-1-6-1-9 1-3-2-6-2-9-1z"/><path d="M12 6.5v13"/></svg>{%- endset %}

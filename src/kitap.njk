@@ -62,6 +62,9 @@ ekstra_css:
           {%- if kitap.authors.length or kitap.yazar_gosterim %}
           <p class="kitap-detay__yazar">{{ yazarlar(kitap, true, "") }}</p>
           {%- endif %}
+          {%- if kitap.fiyat_gosterim %}
+          <p class="kitap-detay__fiyat" data-fiyat><span class="kitap-detay__fiyat-etiket">{{ m.fiyat_etiket }}</span> <strong class="rakam">{{ kitap.fiyat_gosterim }}</strong><span class="kitap-detay__fiyat-not">{{ m.fiyat_notu }}</span></p>
+          {%- endif %}
 
           {%- if kitap_paragraflar.length %}
           <div class="kitap-detay__metin">
