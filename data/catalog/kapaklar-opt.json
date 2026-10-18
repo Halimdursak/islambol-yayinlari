@@ -583,6 +583,43 @@
       ]
     }
   },
+  "devlet-i-osmaniye-ve-siyonistler": {
+    "orijinal": "/kapaklar/devlet-i-osmaniye-ve-siyonistler.jpg",
+    "genislik": 1200,
+    "yukseklik": 1734,
+    "oran": 0.692,
+    "lqip": "data:image/jpeg;base64,/9j/2wBDABQUFBQVFBcZGRcfIh4iHy4rJycrLkYyNjI2MkZqQk5CQk5Cal5yXVZdcl6phXZ2hanDpJukw+zT0+z/////////2wBDARQUFBQVFBcZGRcfIh4iHy4rJycrLkYyNjI2MkZqQk5CQk5Cal5yXVZdcl6phXZ2hanDpJukw+zT0+z/////////wgARCAAXABADASIAAhEBAxEB/8QAGAAAAgMAAAAAAAAAAAAAAAAAAAQCAwX/xAAWAQEBAQAAAAAAAAAAAAAAAAAEAgP/2gAMAwEAAhADEAAAANGxKeC3gKP/AP/EAB8QAAEEAgIDAAAAAAAAAAAAAAMBAgQRABJBUhMiM//aAAgBAQABPwCTJKN6Mb1vI53EVW8ZPcxpU32+fCZCcLyUza1Ha2mFiCN7vS111wcMYF3b1rP/xAAWEQADAAAAAAAAAAAAAAAAAAAQESL/2gAIAQIBAT8Apj//xAAYEQACAwAAAAAAAAAAAAAAAAADERATYv/aAAgBAwEBPwBhq0o//9k=",
+    "kaynaklar": {
+      "webp": [
+        {
+          "w": 320,
+          "url": "/kapaklar-opt/devlet-i-osmaniye-ve-siyonistler-320.webp"
+        },
+        {
+          "w": 640,
+          "url": "/kapaklar-opt/devlet-i-osmaniye-ve-siyonistler-640.webp"
+        },
+        {
+          "w": 960,
+          "url": "/kapaklar-opt/devlet-i-osmaniye-ve-siyonistler-960.webp"
+        }
+      ],
+      "jpg": [
+        {
+          "w": 320,
+          "url": "/kapaklar-opt/devlet-i-osmaniye-ve-siyonistler-320.jpg"
+        },
+        {
+          "w": 640,
+          "url": "/kapaklar-opt/devlet-i-osmaniye-ve-siyonistler-640.jpg"
+        },
+        {
+          "w": 960,
+          "url": "/kapaklar-opt/devlet-i-osmaniye-ve-siyonistler-960.jpg"
+        }
+      ]
+    }
+  },
   "din-yok-milliyet-var": {
     "orijinal": "/kapaklar/din-yok-milliyet-var.jpg",
     "genislik": 955,
@@ -1455,6 +1492,43 @@
       ]
     }
   },
+  "kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri": {
+    "orijinal": "/kapaklar/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri.jpg",
+    "genislik": 1200,
+    "yukseklik": 1866,
+    "oran": 0.6431,
+    "lqip": "data:image/jpeg;base64,/9j/2wBDABQUFBQVFBcZGRcfIh4iHy4rJycrLkYyNjI2MkZqQk5CQk5Cal5yXVZdcl6phXZ2hanDpJukw+zT0+z/////////2wBDARQUFBQVFBcZGRcfIh4iHy4rJycrLkYyNjI2MkZqQk5CQk5Cal5yXVZdcl6phXZ2hanDpJukw+zT0+z/////////wgARCAAZABADASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAEDBv/EABQBAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhADEAAAANCoIuqh/8QAIRAAAgIABQUAAAAAAAAAAAAAAQIAEQMQEiFRIjEyQYH/2gAIAQEAAT8AsA2zVwLlht1a/sxtn7iYHn6h0G9Si+Z0LQVFvP8A/8QAFBEBAAAAAAAAAAAAAAAAAAAAEP/aAAgBAgEBPwA//8QAFREBAQAAAAAAAAAAAAAAAAAAECH/2gAIAQMBAT8Ap//Z",
+    "kaynaklar": {
+      "webp": [
+        {
+          "w": 320,
+          "url": "/kapaklar-opt/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri-320.webp"
+        },
+        {
+          "w": 640,
+          "url": "/kapaklar-opt/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri-640.webp"
+        },
+        {
+          "w": 960,
+          "url": "/kapaklar-opt/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri-960.webp"
+        }
+      ],
+      "jpg": [
+        {
+          "w": 320,
+          "url": "/kapaklar-opt/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri-320.jpg"
+        },
+        {
+          "w": 640,
+          "url": "/kapaklar-opt/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri-640.jpg"
+        },
+        {
+          "w": 960,
+          "url": "/kapaklar-opt/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri-960.jpg"
+        }
+      ]
+    }
+  },
   "kurtulus-savasinin-sansursuz-tarihi": {
     "orijinal": "/kapaklar/kurtulus-savasinin-sansursuz-tarihi.jpg",
     "genislik": 2000,
@@ -1599,6 +1673,43 @@
         {
           "w": 960,
           "url": "/kapaklar-opt/mevkiful-akl-akil-ilim-ve-alemin-alemlerin-rabbi-ve-rasulleri-karsisindaki-konumu-960.jpg"
+        }
+      ]
+    }
+  },
+  "milli-din-duygusu-ve-oz-turk-dini": {
+    "orijinal": "/kapaklar/milli-din-duygusu-ve-oz-turk-dini.jpg",
+    "genislik": 1200,
+    "yukseklik": 1734,
+    "oran": 0.692,
+    "lqip": "data:image/jpeg;base64,/9j/2wBDABQUFBQVFBcZGRcfIh4iHy4rJycrLkYyNjI2MkZqQk5CQk5Cal5yXVZdcl6phXZ2hanDpJukw+zT0+z/////////2wBDARQUFBQVFBcZGRcfIh4iHy4rJycrLkYyNjI2MkZqQk5CQk5Cal5yXVZdcl6phXZ2hanDpJukw+zT0+z/////////wgARCAAXABADASIAAhEBAxEB/8QAGAAAAwEBAAAAAAAAAAAAAAAAAAEGAgP/xAAVAQEBAAAAAAAAAAAAAAAAAAABBP/aAAwDAQACEAMQAAAAqcckM+gno//EACEQAAEEAAYDAAAAAAAAAAAAAAEAAgMEBRESE2GBITFB/9oACAEBAAE/ADl9OXSIBB859KtM+eDccxg4VqZ8EG4GM9qviVitGY26SOVaxOexFtv0gcL/xAAXEQEAAwAAAAAAAAAAAAAAAAAAAhJR/9oACAECAQE/AFpa/8QAFxEBAAMAAAAAAAAAAAAAAAAAAAISUf/aAAgBAwEBPwBWOP/Z",
+    "kaynaklar": {
+      "webp": [
+        {
+          "w": 320,
+          "url": "/kapaklar-opt/milli-din-duygusu-ve-oz-turk-dini-320.webp"
+        },
+        {
+          "w": 640,
+          "url": "/kapaklar-opt/milli-din-duygusu-ve-oz-turk-dini-640.webp"
+        },
+        {
+          "w": 960,
+          "url": "/kapaklar-opt/milli-din-duygusu-ve-oz-turk-dini-960.webp"
+        }
+      ],
+      "jpg": [
+        {
+          "w": 320,
+          "url": "/kapaklar-opt/milli-din-duygusu-ve-oz-turk-dini-320.jpg"
+        },
+        {
+          "w": 640,
+          "url": "/kapaklar-opt/milli-din-duygusu-ve-oz-turk-dini-640.jpg"
+        },
+        {
+          "w": 960,
+          "url": "/kapaklar-opt/milli-din-duygusu-ve-oz-turk-dini-960.jpg"
         }
       ]
     }

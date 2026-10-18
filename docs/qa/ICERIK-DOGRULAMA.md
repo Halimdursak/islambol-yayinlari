@@ -1,47 +1,47 @@
 # Q4 İçerik Doğrulama Raporu
 
 - Tarih: 2026-10-18
-- Kapsam: `dist/` (npm run build çıktısı, 133 HTML), `data/catalog/books.json` (78 kitap), `data/catalog/authors.json` (36 yazar), `data/catalog/onsoz/INDEX.json` (yalnızca bilgi, doğrudan kontrol yok), `data/site/vitrin.json`, `data/site/site.json`, `data/site/sayfalar/*.md`.
+- Kapsam: `dist/` (npm run build çıktısı, 139 HTML), `data/catalog/books.json` (81 kitap), `data/catalog/authors.json` (39 yazar), `data/catalog/onsoz/INDEX.json` (yalnızca bilgi, doğrudan kontrol yok), `data/site/vitrin.json`, `data/site/site.json`, `data/site/sayfalar/*.md`.
 - Betik: `python -I -X utf8 scripts/qa/dogrula.py` (dış örneklem: `--dis-ornek 15`; `--dis-yok` ile atlanır)
 - Denetlenen dizin: `C:\Users\LENOVO\Desktop\islambol_yayinlari\dist` (çalışma öncesi/sonrası dizin imzası aynı kaldıysa geçerli)
 - Çıkış kodu: **1** (hata var)
 
 ## Özet
 
-- Kontrol grubu: 27; tekil denetim: 11779; **kalan (KALDI): 7**; doğrulanamadı: 1; uyarı (elle teyit): 3; uygulanamadı (N/A): 7.
+- Kontrol grubu: 27; tekil denetim: 12134; **kalan (KALDI): 7**; doğrulanamadı: 4; uyarı (elle teyit): 3; uygulanamadı (N/A): 13.
 - Hata sayılmayan sonuçlar: DOĞRULANAMADI (403/Cloudflare/ağ) ve UYARI. Çıkış kodu yalnızca KALDI için 1 olur.
 
 ## Kontrol tablosu
 
 | Kimlik | Kontrol | Sonuç | Denetim | Kalan | Doğrulanamadı | Uyarı | N/A | Sahip (kalan) |
 |---|---|---|---|---|---|---|---|---|
-| 1.1 | Kitap sayfası üretildi (dist/kitap/<id>/index.html) | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
-| 1.2 | Sayfa h1 = title | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
-| 1.3 | Yazar adlarının her biri sayfada | GEÇTİ | 76 | 0 | 0 | 0 | 2 | — |
-| 1.4 | ISBN (null değilse) sayfada | GEÇTİ | 73 | 0 | 0 | 0 | 5 | — |
-| 1.5 | Sayfa sayısı (null değilse) sayfada | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
-| 1.6 | Kapak img/source yolları dist'te var | GEÇTİ | 1875 | 0 | 0 | 0 | 0 | — |
-| 1.7 | sources dolu URL'ler sayfada bağlantı | GEÇTİ | 177 | 0 | 0 | 0 | 0 | — |
-| 1.8 | WhatsApp bağlantısı (wa.me/905059808735) | GEÇTİ | 78 | 0 | 0 | 0 | 0 | — |
+| 1.1 | Kitap sayfası üretildi (dist/kitap/<id>/index.html) | GEÇTİ | 81 | 0 | 0 | 0 | 0 | — |
+| 1.2 | Sayfa h1 = title | GEÇTİ | 81 | 0 | 0 | 0 | 0 | — |
+| 1.3 | Yazar adlarının her biri sayfada | GEÇTİ | 79 | 0 | 0 | 0 | 2 | — |
+| 1.4 | ISBN (null değilse) sayfada | GEÇTİ | 76 | 0 | 0 | 0 | 5 | — |
+| 1.5 | Sayfa sayısı (null değilse) sayfada | GEÇTİ | 78 | 0 | 0 | 0 | 3 | — |
+| 1.6 | Kapak img/source yolları dist'te var | GEÇTİ | 1888 | 0 | 0 | 0 | 0 | — |
+| 1.7 | sources dolu URL'ler sayfada bağlantı | GEÇTİ | 177 | 0 | 0 | 0 | 3 | — |
+| 1.8 | WhatsApp bağlantısı (wa.me/905059808735) | GEÇTİ | 81 | 0 | 0 | 0 | 0 | — |
 | 1.9 | is_set kitaplarda Takım rozeti/etiketi | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
-| 2.1 | Yazar sayfası üretildi (dist/yazar/<slug>/index.html) | GEÇTİ | 36 | 0 | 0 | 0 | 0 | — |
-| 2.2 | Yazar sayfası h1 = name | KALDI | 36 | 7 | 0 | 0 | 0 | B2 (yazar şablonu) |
-| 2.3 | Listelenen kitaplar = authors.json book_ids | GEÇTİ | 36 | 0 | 0 | 0 | 0 | — |
-| 2.4 | book_ids ↔ books.json authors eşleşmesi (veri tutarlılığı) | GEÇTİ | 36 | 0 | 0 | 0 | 0 | — |
+| 2.1 | Yazar sayfası üretildi (dist/yazar/<slug>/index.html) | GEÇTİ | 39 | 0 | 0 | 0 | 0 | — |
+| 2.2 | Yazar sayfası h1 = name | KALDI | 39 | 7 | 0 | 0 | 0 | B2 (yazar şablonu) |
+| 2.3 | Listelenen kitaplar = authors.json book_ids | GEÇTİ | 39 | 0 | 0 | 0 | 0 | — |
+| 2.4 | book_ids ↔ books.json authors eşleşmesi (veri tutarlılığı) | GEÇTİ | 39 | 0 | 0 | 0 | 0 | — |
 | 3.1 | Önizleme vitrini ve öne çıkan kitaplar ana sayfada | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 3.2 | vitrin_haric kitapları ana sayfada yok | GEÇTİ | 3 | 0 | 0 | 0 | 0 | — |
-| 4.1 | Yasaklı teknik dizgi yok (null, undefined, [[SORU, NaN, mojibake, TODO vb.) | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
-| 4.2 | Fiyat/kampanya dizgisi yok (TL, kargo ücretsiz, indirim, kampanya) | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
-| 5.1 | Her HTML katı UTF-8 olarak çözülüyor | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
-| 5.2 | <html lang="tr"> | GEÇTİ | 133 | 0 | 0 | 0 | 0 | — |
-| 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8413 | 0 | 0 | 0 | 0 | — |
-| 7.1 | Dış kaynak bağlantıları (rastgele örneklem) | DOĞRULANAMADI | 1 | 0 | 1 | 0 | 0 | — |
+| 4.1 | Yasaklı teknik dizgi yok (null, undefined, [[SORU, NaN, mojibake, TODO vb.) | GEÇTİ | 139 | 0 | 0 | 0 | 0 | — |
+| 4.2 | Fiyat/kampanya dizgisi yok (TL, kargo ücretsiz, indirim, kampanya) | GEÇTİ | 139 | 0 | 0 | 0 | 0 | — |
+| 5.1 | Her HTML katı UTF-8 olarak çözülüyor | GEÇTİ | 139 | 0 | 0 | 0 | 0 | — |
+| 5.2 | <html lang="tr"> | GEÇTİ | 139 | 0 | 0 | 0 | 0 | — |
+| 6.1 | İç bağlantı ve kaynaklar dist'te karşılık buluyor | GEÇTİ | 8684 | 0 | 0 | 0 | 0 | — |
+| 7.1 | Dış kaynak bağlantıları (rastgele örneklem) | DOĞRULANAMADI | 15 | 0 | 4 | 0 | 0 | — |
 | 8.1 | Site metinlerinde [[SORU işareti dist'te yok | GEÇTİ | 7 | 0 | 0 | 0 | 0 | — |
 | 8.2 | Sayfalar: ilk paragraf dist'te geçiyor | GEÇTİ | 6 | 0 | 0 | 0 | 0 | — |
 | 8.3 | Sayfalar: SORU ayıklamasından öksüz kalıntı adayları (elle teyit) | UYARI | 14 | 0 | 0 | 3 | 0 | — |
 | 8.4 | Sayfalar: yönerge/editör notu sızıntısı yok | N/A | 0 | 0 | 0 | 0 | 0 | — |
 | 9.1 | Sitemap URL sayısı = HTML sayısı − 404 − _test − yönetim paneli | GEÇTİ | 1 | 0 | 0 | 0 | 0 | — |
-| 9.2 | Sitemap her URL dist'te karşılık buluyor | GEÇTİ | 131 | 0 | 0 | 0 | 0 | — |
+| 9.2 | Sitemap her URL dist'te karşılık buluyor | GEÇTİ | 137 | 0 | 0 | 0 | 0 | — |
 
 ## Uyumsuzluklar (tam liste)
 
@@ -61,7 +61,10 @@ Toplam 7 kayıt, 7 tekil uyumsuzluk (aynı değerli kayıtlar gruplandı).
 
 | Kimlik | Sonuç | Varlık | Alan | Beklenen | Bulunan | Not |
 |---|---|---|---|---|---|---|
-| 7.1 | DOĞRULANAMADI | tüm dış bağlantılar | dış denetim | — | --dis-yok ile atlandı |  |
+| 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/sen-neden-kor-edildin/742052.html | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
+| 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/rabbimizi-taniyalim-2-kuranimiz-ve-resuli-ekrem-asm-efendimiz-bize-rabbimizi-tarif-edi… | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
+| 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/filistinsuriye-cephesinde-kahramanlar-ve-hainler/731657.html | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
+| 7.1 | DOĞRULANAMADI | https://www.kitapyurdu.com/kitap/son-sultan-vahideddinin-hatiralari-ve-beyannamesi/713022.html | HTTP | 200-399 | 403 403/Cloudflare: doğrulanamadı |  |
 | 8.3 | UYARI | hakkimizda.md | SORU ayıklama: içerik kaybı | SORU dışı içerik korunmalı | Yayınevi tarihinden bu yana faaliyet göstermektedir | cümlenin SORU dışındaki kısmı yayından düşüyor (elle karar) |
 | 8.3 | UYARI | hakkimizda.md | SORU ayıklama: içerik kaybı | SORU dışı içerik korunmalı | Toplam kitap sayısı için şimdilik katalogdaki kayıtlar esas alınmıştır yayınevinin resmî sayısı olarak teyit edilecektir | cümlenin SORU dışındaki kısmı yayından düşüyor (elle karar) |
 | 8.3 | UYARI | kvkk-ve-cerezler.md | SORU ayıklama | akıcı cümle | ## Toplanan kişisel veriler | cümle sonu işareti yok |
@@ -70,7 +73,23 @@ Toplam 7 kayıt, 7 tekil uyumsuzluk (aynı değerli kayıtlar gruplandı).
 
 Kaynak havuzu: 177 tekil URL. Örneklem tohumu 20261011, sayı 15.
 
-Dış denetim yapılmadı.
+| URL | Sonuç | HTTP | Not |
+|---|---|---|---|
+| https://www.kureselkitap.com/urun/566898/kitap/islambol-yayinlari/cevat-rifat-atilhan/yeryuzunun-hakiki-canileri-israil/ | TAMAM | 200 |  |
+| https://www.kitapyurdu.com/kitap/sen-neden-kor-edildin/742052.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
+| https://www.kureselkitap.com/urun/570282/kitap/islambol-yayinlari/abdusselam-tutal/mizac-dersleri/ | TAMAM | 200 |  |
+| https://www.kitapyurdu.com/kitap/rabbimizi-taniyalim-2-kuranimiz-ve-resuli-ekrem-asm-efendimiz-bize-rabbimizi-tarif-ediyor/723740.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
+| https://www.kitapyurdu.com/kitap/filistinsuriye-cephesinde-kahramanlar-ve-hainler/731657.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
+| https://nobelkitap.com/kitap/din-yok-milliyet-var-1 | TAMAM | 200 |  |
+| https://nobelkitap.com/kitap/butun-yonleriyle-sah-ismail | TAMAM | 200 |  |
+| https://www.kitapyurdu.com/kitap/son-sultan-vahideddinin-hatiralari-ve-beyannamesi/713022.html | DOĞRULANAMADI | 403 | 403/Cloudflare: doğrulanamadı |
+| https://www.kureselkitap.com/urun/561326/kitap/islambol-yayinlari/manavoglu-nevres-bey/son-halifenin-drami-sansursuz-baski-osmanlica-asliyla-birlikte/ | TAMAM | 200 |  |
+| https://nobelkitap.com/kitap/butun-ciplakligiyla-31-mart-faciasi | TAMAM | 200 |  |
+| https://www.ravzakitap.com/rabbimizi-taniyalim-1-marifetullah-ilmi | TAMAM | 200 |  |
+| https://nobelkitap.com/kitap/allaha-dogru-yuruyenlerin-derecesine-nasil-yukseliriz-1 | TAMAM | 200 |  |
+| https://www.kureselkitap.com/urun/596669/kitap/islambol-yayinlari/halid-el-huseynan/allah-a-dogru-yuruyenlerin-derecesine-nasil-yukseliriz/ | TAMAM | 200 |  |
+| https://nobelkitap.com/kitap/vahsi-surgun | TAMAM | 200 |  |
+| https://www.kureselkitap.com/urun/594789/kitap/islambol-yayinlari/bilal-adali/uzgunum-viyana-da-dogdum/ | TAMAM | 200 |  |
 
 ## Öksüz kalıntı adayları (SORU ayıklaması)
 
@@ -104,7 +123,7 @@ Yöntem: her `[[SORU: …]]` işaretinin bulunduğu cümle `sorulariAyikla` ile 
 
 ## Sitemap
 
-- sitemap `<loc>` sayısı: 131; dist HTML sayısı: 133; hariç tutulan (404, _test ve yönetim paneli): 2; beklenen: 131.
+- sitemap `<loc>` sayısı: 137; dist HTML sayısı: 139; hariç tutulan (404, _test ve yönetim paneli): 2; beklenen: 137.
 - Not: betik taban adresi `https://islambol.org` (alan adı kökünde yayın, yol öneki yok). Varsayılan build ve dağıtım iş akışı `PATH_PREFIX=/` ile çalışır; sitemap adresleri bu tabana göre üretilir.
 
 ## Betik ve yöntem notları

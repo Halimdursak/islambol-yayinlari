@@ -1001,6 +1001,56 @@
     }
   },
   {
+    "subtitle": "Türkiye'yi Yıkan Yahudiler",
+    "alt_titles": [
+      "Devlet-i Osmâniyye ve Siyonistler"
+    ],
+    "edition": null,
+    "isbn": "9786259066097",
+    "pages": null,
+    "publish_date": "2026-10",
+    "dimensions": null,
+    "binding": null,
+    "paper": null,
+    "language": "tr",
+    "category_sources": {},
+    "price_list_try": null,
+    "is_set": false,
+    "set_info": null,
+    "set_items": [],
+    "series": null,
+    "contributors": null,
+    "sources": {
+      "kitapyurdu": null,
+      "nobelkitap": null,
+      "kureselkitap": null,
+      "other": []
+    },
+    "id": "devlet-i-osmaniye-ve-siyonistler",
+    "title": "Devlet-i Osmaniye ve Siyonistler",
+    "authors": [
+      "Mevlânzâde Rıfat Bey"
+    ],
+    "author_display": "Mevlânzâde Rıfat Bey",
+    "categories": [
+      "Kitap > Tarih > Türk-Osmanlı",
+      "Kitap > Siyaset > Araştırma-İnceleme"
+    ],
+    "description": "Mevlanzade Rıfat Bey'in Devlet-i Osmâniyye ve Siyonistler: Türkiye'yi Yıkan Yahudiler (Dobruca Tuna Matbaası, Köstence 1923) başlıklı risalesinin zamanlaması da çok ilginçtir.\n\nBüyük Taarruz kazanılmış, Saltanat kaldırılmış, hilafet kolu kanadı kesik bir şekilde akıbetini beklemededir.\n\nMevlanzade bu gidişin sonucunu görmüş ve Siyonist-Yahudilerin hedefinin Osmanlı Devleti'ni sadece siyasî organizasyon olarak yıkmakla kalmayıp aynı zamanda onun elindeki Hilafet'ten gelen gücü de alacaklarını öngörmüştür.",
+    "cover": {
+      "source_url": null,
+      "source": "yayinevi",
+      "local_path": "public/kapaklar/devlet-i-osmaniye-ve-siyonistler.jpg",
+      "width": 1200,
+      "height": 1734
+    },
+    "field_sources": {
+      "isbn": "yayinevi-arka-kapak",
+      "description": "yayinevi-arka-kapak",
+      "subtitle": "yayinevi-kapak"
+    }
+  },
+  {
     "id": "din-yok-milliyet-var",
     "title": "Din Yok Milliyet Var",
     "subtitle": null,
@@ -2486,6 +2536,54 @@
     }
   },
   {
+    "subtitle": null,
+    "alt_titles": [
+      "Peygamberlerin Sunumu ve Mucizeleri"
+    ],
+    "edition": null,
+    "isbn": "9786259147932",
+    "pages": null,
+    "publish_date": "2026-10",
+    "dimensions": null,
+    "binding": null,
+    "paper": null,
+    "language": "tr",
+    "category_sources": {},
+    "price_list_try": null,
+    "is_set": false,
+    "set_info": null,
+    "set_items": [],
+    "series": null,
+    "contributors": null,
+    "sources": {
+      "kitapyurdu": null,
+      "nobelkitap": null,
+      "kureselkitap": null,
+      "other": []
+    },
+    "id": "kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri",
+    "title": "Kur'an-ı Kerim'de İnsanlara Yol Gösteren Peygamberlerin Sırasıyla, İsim, Sûre, Ayet Numaraları ile Sunumu ve Mucizeleri",
+    "authors": [
+      "Ali Altunsoy"
+    ],
+    "author_display": "Ali Altunsoy",
+    "categories": [
+      "Kitap > İslam > Araştırma-İnceleme"
+    ],
+    "description": "Kur'an-ı Kerim'de isimleri değişik surelerde birçok kez geçen peygamberleri alfabetik sıraya göre, sure ve ayet numaralarıyla bir araya getiren; her peygamberin davet metodunu, kavmi arasındaki yerini, mücadelesini ve kendisine verilen mucizeleri ele alan bir başvuru eseridir. Tertip ve tasnif eden: Ali Altunsoy.\n\nYazar arka kapakta eserin amacını şöyle anlatıyor: \"Bu mütevazı eseri yazmamdaki gayem, Kur'an-ı Kerim'de isimleri değişik surelerde müteaddit defa zikredilen peygamberlerin isimlerini alfabetik sıraya göre, ilk sure Bakara'dan başlamak üzere, sıra ile sure ve ayet numaralarına göre alfabetik bir şekilde, ayetleri numaralarına göre bir araya getirerek, öğretmen, öğrenci, dini hizmet yapan arkadaşlara ve bu hususta bilgi sahibi olmak isteyen okuyuculara yardımcı olmaktır. Bu hususta eksiklik ve bilgi aktarımı tam olmamış olabilir. Bu hususta beni bilgilendirirseniz ikinci baskı nasip olursa düzeltme benim için görev olur ve bundan memnun olurum. Peygamberlerin isimlerini alfabetik bir şekilde, Kur'an-ı Kerim'deki sureleri yazılış sırasına göre takip ettikten sonra, bu peygamberlerin Kur'an-ı Kerim'deki davet metodlarını, kavimleri arasındaki yerlerini, mücadelelerini ve kendilerine verilen mucizeleri yazmaya gayret ettim ve uydurma bilgilerden uzak kaldım. Umulurki faydalı olur.\"",
+    "cover": {
+      "source_url": null,
+      "source": "yayinevi",
+      "local_path": "public/kapaklar/kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri.jpg",
+      "width": 1200,
+      "height": 1866
+    },
+    "field_sources": {
+      "isbn": "yayinevi-arka-kapak",
+      "description": "yayinevi-arka-kapak"
+    }
+  },
+  {
     "id": "kurtulus-savasinin-sansursuz-tarihi",
     "title": "Kurtuluş Savaşı'nın Sansürsüz Tarihi",
     "subtitle": null,
@@ -2738,6 +2836,55 @@
       "price_list_try": "kitapyurdu",
       "description": "kitapyurdu",
       "subtitle": null
+    }
+  },
+  {
+    "subtitle": null,
+    "alt_titles": [
+      "Milli Din Duygusu ve Öz Türk Dini"
+    ],
+    "edition": null,
+    "isbn": "9786259147901",
+    "pages": null,
+    "publish_date": "2026-10",
+    "dimensions": null,
+    "binding": null,
+    "paper": null,
+    "language": "tr",
+    "category_sources": {},
+    "price_list_try": null,
+    "is_set": false,
+    "set_info": null,
+    "set_items": [],
+    "series": null,
+    "contributors": null,
+    "sources": {
+      "kitapyurdu": null,
+      "nobelkitap": null,
+      "kureselkitap": null,
+      "other": []
+    },
+    "id": "milli-din-duygusu-ve-oz-turk-dini",
+    "title": "Millî Din Duygusu ve Öz Türk Dini",
+    "authors": [
+      "A. İbrahim"
+    ],
+    "author_display": "A. İbrahim",
+    "categories": [
+      "Kitap > Tarih > Türkiye",
+      "Kitap > İslam > Araştırma-İnceleme"
+    ],
+    "description": "Birazdan okumaya başlayacağınız \"Her Türk okusun!\" mottosuyla 1934 yılında basılan ama yazımının bitiş tarihi kitabın sonunda 13 Ağustos 1931 olarak belirtilen Millî Din Duygusu ve Öz Türk Dini adlı kitabın özelliği ise bugüne göre epeyce ılımlı kalan bu çizgiyi aşarak cepheden \"çağdaş (asrî) bir din\" arayışına yöneliyor olması.\n\n20. yüzyılda dinlerin milliyete göre belirleneceğini savunan A. İbrahim adlı muhtemelen müstear (takma) bir isimle yazan yazar, ahireti, Allah'ın \"Hâlik\" (Yaratıcı) vasfını inkâr etmekte, medeniyetin ilerlemesiyle insanların \"insanlara tapacağı\"nı öngörmekte ve dinimizin \"akıllı olmadığı\" iddiasını dile getirme cüretinde bulunmaktadır.",
+    "cover": {
+      "source_url": null,
+      "source": "yayinevi",
+      "local_path": "public/kapaklar/milli-din-duygusu-ve-oz-turk-dini.jpg",
+      "width": 1200,
+      "height": 1734
+    },
+    "field_sources": {
+      "isbn": "yayinevi-arka-kapak",
+      "description": "yayinevi-arka-kapak"
     }
   },
   {
@@ -3795,9 +3942,9 @@
     ],
     "edition": null,
     "authors": [
-      "Cevat Rıfat Atilhan"
+      "Manavoğlu Nevres Bey"
     ],
-    "author_display": "Cevat Rıfat Atilhan",
+    "author_display": "Manavoğlu Nevres Bey",
     "isbn": "9786255529183",
     "pages": 80,
     "publish_date": "2025-09-24",

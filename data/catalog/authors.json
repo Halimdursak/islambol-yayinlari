@@ -1,5 +1,17 @@
 [
   {
+    "name": "A. İbrahim",
+    "slug": "a-ibrahim",
+    "display": "A. İbrahim",
+    "bio": null,
+    "bio_source": null,
+    "book_ids": [
+      "milli-din-duygusu-ve-oz-turk-dini"
+    ],
+    "photo_url": null,
+    "kitapyurdu_author_url": null
+  },
+  {
     "name": "Abdüsselam Tutal",
     "slug": "abdusselam-tutal",
     "display": "Abdüsselam Tutal",
@@ -31,6 +43,18 @@
     "bio_source": null,
     "book_ids": [
       "gargat-1-2"
+    ],
+    "photo_url": null,
+    "kitapyurdu_author_url": null
+  },
+  {
+    "name": "Ali Altunsoy",
+    "slug": "ali-altunsoy",
+    "display": "Ali Altunsoy",
+    "bio": null,
+    "bio_source": null,
+    "book_ids": [
+      "kuran-i-kerimde-peygamberlerin-sunumu-ve-mucizeleri"
     ],
     "photo_url": null,
     "kitapyurdu_author_url": null
@@ -144,7 +168,6 @@
       "medeniyetin-batisi",
       "menemen-hadisesinin-icyuzu",
       "musa-dagi",
-      "son-halifenin-drami",
       "sultan-abdulhamid-ve-ittihatcilarin-cinayetleri",
       "turk-oglu-dusmanini-tani-masonlugun-ic-yuzu",
       "yahudi-casusu-suzy-liberman",
@@ -319,7 +342,20 @@
     "bio": null,
     "bio_source": null,
     "book_ids": [
-      "kemalizmin-ic-yuzu"
+      "kemalizmin-ic-yuzu",
+      "son-halifenin-drami"
+    ],
+    "photo_url": null,
+    "kitapyurdu_author_url": null
+  },
+  {
+    "name": "Mevlânzâde Rıfat Bey",
+    "slug": "mevlanzade-rifat-bey",
+    "display": "Mevlânzâde Rıfat Bey",
+    "bio": "Mevlânzâde Rıfat Bey (1869, İstanbul – 1930, Halep), son dönem Osmanlı gazetecisi ve yazarıdır. Serbesti gazetesini çıkarmış; siyasî risaleleri ve hatıratıyla bilinir.",
+    "bio_source": "https://tr.wikipedia.org/wiki/Mevl%C3%A2nz%C3%A2de_Rifat",
+    "book_ids": [
+      "devlet-i-osmaniye-ve-siyonistler"
     ],
     "photo_url": null,
     "kitapyurdu_author_url": null
