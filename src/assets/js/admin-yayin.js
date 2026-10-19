@@ -22,11 +22,14 @@ export function createPublishBar(host) {
     if (!info.configured) {
       message = `<span class="dot dot-off" aria-hidden="true"></span><span><strong>Yayınlama bu bilgisayarda kurulu değil.</strong> Değişiklikler yalnız yerel sitede görünür. <small>${escape(info.reason ?? "")}</small></span>`;
     } else if (info.running) {
-      message = `<span class="spinner" aria-hidden="true"></span><span><strong>${escape(job.message || "Yayınlanıyor…")}</strong> <small>Bu pencereyi kapatmayın.</small></span>`;
+      message = `<span class="spinner" aria-hidden="true"></span><span><strong>${escape(job.message || "Yayınlanıyor…")}</strong> <small>${host.state.mode === "cloud" ? "Birkaç dakika sürebilir." : "Bu pencereyi kapatmayın."}</small></span>`;
       buttons = '<button type="button" class="button button-primary" disabled>Yayınlanıyor…</button>';
     } else if (job.phase === "error") {
       message = `<span class="dot dot-error" aria-hidden="true"></span><span><strong>Yayınlanamadı.</strong> ${escape(job.message)}${job.detail ? `<details class="publish-detail"><summary>Teknik ayrıntı</summary><pre>${escape(job.detail)}</pre></details>` : ""}</span>`;
       buttons = '<button type="button" class="button button-primary" data-publish-start>Tekrar dene</button>';
+    } else if (info.conflicts?.length) {
+      message = `<span class="dot dot-error" aria-hidden="true"></span><span><strong>Yayınlanamıyor: içerik başka yerden değişmiş.</strong> GitHub'daki dosyalar siz çalışırken değiştirilmiş ve değişikliklerinizle çakışıyor. “Geri al”a basıp son yayınlanan halden yeniden başlayın. <small>Bekleyen: ${escape(info.text || "güncelleme")}.</small></span>`;
+      buttons = '<button type="button" class="button button-primary" data-publish-discard>Geri al</button>';
     } else if (info.pending) {
       message = `<span class="dot dot-pending" aria-hidden="true"></span><span><strong>Yayınlanmayı bekleyen değişiklik var:</strong> ${escape(info.text || "güncelleme")}. <small>Henüz internetteki sitede görünmüyor.</small></span>`;
       buttons = `${info.files > 0 ? '<button type="button" class="button button-small" data-publish-discard>Geri al</button>' : ""}<button type="button" class="button button-primary" data-publish-start>Yayınla</button>`;
@@ -62,9 +65,12 @@ export function createPublishBar(host) {
   async function start(confirmForeign = false, confirmHead) {
     if (info?.running) return;
     let result;
+    const before = info;
+    info = { ...(info ?? {}), configured: true, running: true, job: { phase: "working", message: "Yayınlama başlıyor…" } };
+    paint();
     try {
       result = await host.api("publish", { method: "POST", body: JSON.stringify({ confirmForeign, confirmHead }) });
-    } catch (error) { host.toast(error.message, "error"); return; }
+    } catch (error) { info = before; paint(); host.toast(error.message, "error"); return; }
     info = result;
     if (result.needsConfirm) { paint(); confirmForeignDialog(result); return; }
     paint();

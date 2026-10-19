@@ -2,6 +2,7 @@
    CSP: script-src 'self'; style-src 'self' -> satır içi stil/betik yok; görünüm yalnız sınıflarla kurulur. */
 import { createLibrary } from "./admin-kitaplik.js";
 import { createPublishBar } from "./admin-yayin.js";
+import { shrinkImage, webpCompanion } from "./image-shrink.js";
 
 const app = document.getElementById("admin-app");
 const dialog = document.getElementById("editor");
@@ -33,7 +34,10 @@ const SECTIONS = {
 };
 
 const emptyContent = () => ({ books: [], authors: [], campaigns: [], site: null, vitrin: null, pages: null, categories: [] });
-const state = { csrfToken: "", username: "", content: emptyContent(), tab: "books", query: "", saving: false };
+const state = { csrfToken: "", username: "", mode: "local", maxUploadBytes: 0, minPassword: 8, content: emptyContent(), tab: "books", query: "", saving: false };
+const SITE_URL = "https://islambol.org/";
+/** Bulut panelinde site ayrı bir adrestedir; yerelde panelin kendi sunucusu siteyi de sunar. */
+const siteHome = () => (state.mode === "cloud" ? SITE_URL : route("/"));
 let dialogContext = null;
 let toastTimer;
 let busyTimer;
@@ -69,9 +73,9 @@ async function api(path, options = {}) {
   let response;
   try {
     response = await fetch(route(`/api/admin/${path}`), { credentials: "same-origin", ...options, headers: { "Content-Type": "application/json", "X-CSRF-Token": state.csrfToken, ...options.headers } });
-  } catch { throw new Error("Yönetim sunucusuna ulaşılamadı. Yönetim penceresinin (siyah komut ekranı) açık olduğundan emin olun."); }
+  } catch { throw new Error(state.mode === "cloud" ? "Yönetim sunucusuna ulaşılamadı. İnternet bağlantınızı kontrol edip yeniden deneyin." : "Yönetim sunucusuna ulaşılamadı. Yönetim penceresinin (siyah komut ekranı) açık olduğundan emin olun."); }
   const type = response.headers.get("content-type") ?? "";
-  if (!type.includes("application/json")) throw new Error("Bu adres yönetim sunucusuna ait değil. Yönetim penceresini (npm run cms) başlatıp oradaki adresten açın.");
+  if (!type.includes("application/json")) throw new Error(state.mode === "cloud" ? "Yönetim sunucusundan beklenmeyen bir yanıt geldi. Sayfayı yenileyip yeniden deneyin." : "Bu adres yönetim sunucusuna ait değil. Yönetim penceresini (npm run cms) başlatıp oradaki adresten açın.");
   const result = await response.json();
   if (!response.ok) {
     // 401 yalnızca oturum bittiğinde girişe döndürür; "şimdiki şifre yanlış" gibi iş hatalarında oturum sürer.
@@ -135,7 +139,7 @@ const markDirty = (form) => { if (form) form.dataset.dirty = "true"; };
 /* ---------- Giriş ekranı ---------- */
 function renderLogin(error = "") {
   app.removeAttribute("aria-busy");
-  app.innerHTML = `<main class="login-shell" id="main"><section class="login-intro"><a class="login-brand" href="${route("/")}">isl<span>am</span>bol <small>yayınları</small></a><p class="eyebrow">Yayınevi yönetimi</p><h1>Kitaplarınızın<br>yeni hikâyesi<br>burada başlıyor.</h1><p>Kitaplarınızı, ana sayfanızı ve site bilgilerinizi tek yerden yönetin.</p></section><section class="login-panel"><div class="login-card"><p class="eyebrow">İslambol Yayınları</p><h2>Yönetici girişi</h2><p class="muted">Sitenizi düzenlemek için giriş yapın.</p><form id="login-form"><label class="field"><span class="field-label">Kullanıcı adı</span><input name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus></label><label class="field"><span class="field-label">Şifre</span><input name="password" data-pw aria-describedby="login-error" type="password" autocomplete="current-password" required minlength="8"></label><label class="checkbox-field"><input type="checkbox" data-show-password>Şifreyi göster</label><label class="checkbox-field"><input type="checkbox" name="remember" checked>Bu bilgisayarda beni hatırla (30 gün)</label><p class="form-error" role="alert" id="login-error" ${error ? "" : "hidden"}>${escape(error)}</p><button class="button button-primary" type="submit">Giriş yap</button></form><p class="local-note">Kullanıcı adı ve şifre size ayrıca verilmiştir. Unutursanız klasördeki “yonetim-sifre-sifirla” dosyasına çift tıklayın; panelde “Hesap” bölümünden de değiştirebilirsiniz.</p><p class="login-return"><a href="${route("/")}">← Siteye dön</a></p></div></section></main>`;
+  app.innerHTML = `<main class="login-shell" id="main"><section class="login-intro"><a class="login-brand" href="${siteHome()}">isl<span>am</span>bol <small>yayınları</small></a><p class="eyebrow">Yayınevi yönetimi</p><h1>Kitaplarınızın<br>yeni hikâyesi<br>burada başlıyor.</h1><p>Kitaplarınızı, ana sayfanızı ve site bilgilerinizi tek yerden yönetin.</p></section><section class="login-panel"><div class="login-card"><p class="eyebrow">İslambol Yayınları</p><h2>Yönetici girişi</h2><p class="muted">Sitenizi düzenlemek için giriş yapın.</p><form id="login-form"><label class="field"><span class="field-label">Kullanıcı adı</span><input name="username" autocomplete="username" autocapitalize="none" spellcheck="false" required autofocus></label><label class="field"><span class="field-label">Şifre</span><input name="password" data-pw aria-describedby="login-error" type="password" autocomplete="current-password" required minlength="8"></label><label class="checkbox-field"><input type="checkbox" data-show-password>Şifreyi göster</label><label class="checkbox-field"><input type="checkbox" name="remember" checked>Bu bilgisayarda beni hatırla (30 gün)</label><p class="form-error" role="alert" id="login-error" ${error ? "" : "hidden"}>${escape(error)}</p><button class="button button-primary" type="submit">Giriş yap</button></form><p class="local-note">${state.mode === "cloud" ? "Kullanıcı adı ve şifre size ayrıca verilmiştir. Panele internet olan her yerden girebilirsiniz. Şifrenizi panelde “Hesap” bölümünden değiştirebilirsiniz; unutursanız siteyi hazırlayan kişiye bildirin." : "Kullanıcı adı ve şifre size ayrıca verilmiştir. Unutursanız klasördeki “yonetim-sifre-sifirla” dosyasına çift tıklayın; panelde “Hesap” bölümünden de değiştirebilirsiniz."}</p><p class="login-return"><a href="${siteHome()}">← Siteye dön</a></p></div></section></main>`;
   $("#login-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const form = event.currentTarget; const button = $("button[type=submit]", form); const errorElement = $("#login-error");
@@ -145,6 +149,7 @@ function renderLogin(error = "") {
       const result = await api("login", { method: "POST", body: JSON.stringify({ username: data.get("username"), password: data.get("password"), remember: data.has("remember") }) });
       state.csrfToken = result.csrfToken;
       state.username = result.username ?? "";
+      applyMode(result);
       await loadContent();
       state.tab = "books";
       renderShell();
@@ -160,7 +165,7 @@ function renderLogin(error = "") {
 function renderShell() {
   app.removeAttribute("aria-busy");
   const nav = TABS.map(([id, label]) => `<button type="button" class="nav-item" data-tab="${id}"><span>${label}</span>${COUNTED.includes(id) ? `<span class="nav-count" data-count="${id}"></span>` : ""}</button>`).join("");
-  app.innerHTML = `<a class="skip-link" href="#main">Ana içeriğe geç</a><div class="admin-shell"><header class="mobile-bar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><span class="mobile-title" data-mobile-title></span><button type="button" class="button button-small menu-toggle" data-action="menu" aria-expanded="false" aria-controls="sidebar">Menü</button></header><aside class="sidebar" id="sidebar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><p class="sidebar-caption">Yayın yönetimi</p><nav aria-label="Yönetim bölümleri">${nav}</nav><div class="sidebar-bottom"><button type="button" class="side-link" data-action="password">Hesap${state.username ? ` (${escape(state.username)})` : ""}</button><a class="side-link" href="${route("/")}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a><button type="button" class="side-link" data-action="logout">Oturumu kapat</button></div></aside><main class="admin-main" id="main" tabindex="-1"></main></div>`;
+  app.innerHTML = `<a class="skip-link" href="#main">Ana içeriğe geç</a><div class="admin-shell"><header class="mobile-bar"><a class="sidebar-brand" href="${siteHome()}">isl<span>am</span>bol</a><span class="mobile-title" data-mobile-title></span><button type="button" class="button button-small menu-toggle" data-action="menu" aria-expanded="false" aria-controls="sidebar">Menü</button></header><aside class="sidebar" id="sidebar"><a class="sidebar-brand" href="${route("/")}">isl<span>am</span>bol</a><p class="sidebar-caption">Yayın yönetimi</p><nav aria-label="Yönetim bölümleri">${nav}</nav><div class="sidebar-bottom"><button type="button" class="side-link" data-action="password">Hesap${state.username ? ` (${escape(state.username)})` : ""}</button><a class="side-link" href="${route("/")}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a><button type="button" class="side-link" data-action="logout">Oturumu kapat</button></div></aside><main class="admin-main" id="main" tabindex="-1"></main></div>`;
 }
 function closeMenu() {
   $("#sidebar")?.classList.remove("is-open");
@@ -201,12 +206,12 @@ function renderMain() {
 
 /* ---------- Ortak görünüm parçaları ---------- */
 const heading = (eyebrow, title, text, action = "") => `<div class="page-heading"><div><p class="eyebrow">${eyebrow}</p><h1 id="page-title" tabindex="-1">${title}</h1><p class="lead">${text}</p></div>${action}</div>`;
-const viewSite = `<a class="button" href="${route("/")}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a>`;
-const notReady = (name) => `${heading("Bölüm hazır değil", name, "Bu bölümün bilgileri yönetim sunucusundan gelmedi.")}<div class="note"><h2>Ne yapmalı?</h2><p>Yönetim penceresini (siyah komut ekranı) kapatıp <code>npm run cms</code> ile yeniden başlatın, sonra bu sayfayı yenileyin. Sorun sürerse siteyi hazırlayan kişiye bildirin.</p></div>`;
+const viewSite = () => `<a class="button" href="${siteHome()}" target="_blank" rel="noopener">Siteyi görüntüle ↗</a>`;
+const notReady = (name) => `${heading("Bölüm hazır değil", name, "Bu bölümün bilgileri yönetim sunucusundan gelmedi.")}<div class="note"><h2>Ne yapmalı?</h2><p>${state.mode === "cloud" ? "Sayfayı yenileyin. Sorun sürerse siteyi hazırlayan kişiye bildirin." : "Yönetim penceresini (siyah komut ekranı) kapatıp <code>npm run cms</code> ile yeniden başlatın, sonra bu sayfayı yenileyin. Sorun sürerse siteyi hazırlayan kişiye bildirin."}</p></div>`;
 
 function moreView() {
   const cards = MORE_TABS.map(([id, label, text]) => `<button type="button" class="shortcut" data-tab="${id}"><span class="shortcut-title">${label}</span><span class="shortcut-text">${text}</span><span class="shortcut-go" aria-hidden="true">→</span></button>`).join("");
-  return `${heading("Gelişmiş", "Diğer ayarlar", "Sık kullanılmayan bölümler. Kitap eklemek ya da çıkarmak için bunlara gerek yoktur.", viewSite)}<div class="shortcuts">${cards}</div>`;
+  return `${heading("Gelişmiş", "Diğer ayarlar", "Sık kullanılmayan bölümler. Kitap eklemek ya da çıkarmak için bunlara gerek yoktur.", viewSite())}<div class="shortcuts">${cards}</div>`;
 }
 
 /* ---------- Kitap, yazar, duyuru listeleri ---------- */
@@ -391,12 +396,33 @@ function imageProblem(file) {
   if (file.size > MAX_UPLOAD) return `Görsel 8 MB’dan küçük olmalıdır (bu dosya ${formatSize(file.size)}).`;
   return "";
 }
-async function uploadFile(file, kind) {
-  const body = { filename: file.name, data: await readBase64(file) };
+const baseName = (name) => String(name).replace(/\.[^.]*$/, "") || "gorsel";
+async function sendImage(blob, filename, kind) {
+  const body = { filename, data: await readBase64(blob) };
   if (kind) body.kind = kind;
   return api("upload", { method: "POST", body: JSON.stringify(body) });
 }
-const uploadBase64 = (filename, data, kind) => api("upload", { method: "POST", body: JSON.stringify({ filename, data, kind }) });
+/** Bulut panelinde resim sunucuya gitmeden küçültülür; yerelde sunucu kendisi küçültür. Arka kapakta WebP eşi de yüklenir. */
+async function uploadFile(file, kind) {
+  const cloud = state.mode === "cloud";
+  const blob = cloud ? await shrinkImage(file, kind, state.maxUploadBytes) : file;
+  const filename = blob === file ? file.name : `${baseName(file.name)}.jpg`;
+  const result = await sendImage(blob, filename, kind);
+  if (cloud && kind === "back" && !result.webp_path) {
+    const webp = await webpCompanion(blob);
+    if (webp) { try { result.webp_path = (await sendImage(webp, `${baseName(file.name)}.webp`, "back")).local_path; } catch { /* WebP eşi yoksa site JPEG ile çalışır */ } }
+  }
+  return result;
+}
+function uploadBase64(filename, data, kind) {
+  const bytes = Uint8Array.from(atob(data), (char) => char.charCodeAt(0));
+  return uploadFile(new File([bytes], filename, { type: /\.png$/i.test(filename) ? "image/png" : "image/jpeg" }), kind);
+}
+function applyMode(session) {
+  state.mode = session.mode ?? "local";
+  state.maxUploadBytes = session.maxUploadBytes ?? 0;
+  state.minPassword = session.minPassword ?? 8;
+}
 function setImage(form, name, value, result) {
   form.elements.namedItem(name).value = value ?? "";
   const box = $(`[data-image-field="${name}"]`, form); const url = safeImage(value);
@@ -471,7 +497,7 @@ function vitrinView() {
   const hidden = v.vitrin_haric ?? [];
   const excluded = [...books].sort((a, b) => Number(hidden.includes(b.id)) === Number(hidden.includes(a.id)) ? byTitle(a, b) : Number(hidden.includes(b.id)) - Number(hidden.includes(a.id)))
     .map((b) => ({ value: b.id, label: b.title, sub: b.author_display ?? "", badge: isPublished(b) ? "" : '<span class="badge badge-draft">Taslak</span>' }));
-  return `${heading(eyebrow, TAB_LABEL.vitrin, text, viewSite)}
+  return `${heading(eyebrow, TAB_LABEL.vitrin, text, viewSite())}
 <form id="vitrin-form" class="panel-form"><fieldset class="form-fieldset">
 <section class="form-card"><h2>Öne çıkan kitap</h2><p class="card-help">Ana sayfanın en üstünde büyük gösterilen kitap. Yalnızca yayındaki kitaplar seçilebilir.</p>${select("Öne çıkan kitap", "one_cikan", v.one_cikan ?? "", featured, { wide: true })}</section>
 <section class="form-card"><h2>“Sayfalarına göz atın” rafı</h2><p class="card-help">Ana sayfadaki bu rafta, önizlemesi olan hangi kitapların gösterileceğini işaretleyin. Önizlemesi olmayan kitaplar rafta gösterilemez; bir kitaba önizleme eklemek için Kitaplar bölümünde o kitabı düzenleyip “Daha fazla bilgi”yi açın.</p>${checklist({ name: "onizleme_vitrini", items: shelf, selected: shelfSaved, label: "Raf için kitap ara…", empty: "Henüz önizlemesi olan yayında kitap yok. Kitaplar bölümünde bir kitabı düzenleyip “Daha fazla bilgi” altındaki “Önizleme sayfaları”na görsel ekleyin." })}</section>
@@ -497,7 +523,7 @@ function pagesView() {
   if (state.content.pages === null) return notReady("Sayfa metinleri");
   const [eyebrow, text] = SECTIONS.pages; const pages = list("pages");
   const rowsHtml = pages.length ? pages.map((p) => `<tr><td class="cell-main"><div class="record-title"><div><strong>${escape(p.title)}</strong><small>${escape(p.slug === "404" ? "/404.html" : `/${p.slug}/`)}</small></div></div></td><td class="cell-meta cell-wide">${escape(oneLine(p.description).slice(0, 130))}</td><td class="cell-actions"><div class="row-actions"><button type="button" class="button button-small" data-edit-page="${escape(p.slug)}" aria-label="Metni düzenle: ${escape(p.title)}">Metni düzenle</button></div></td></tr>`).join("") : '<tr><td colspan="3" class="empty">Düzenlenebilir sayfa bulunamadı.</td></tr>';
-  return `${heading(eyebrow, TAB_LABEL.pages, text, viewSite)}<div class="content-card"><div class="table-scroll"><table class="data-table"><caption class="visually-hidden">Düzenlenebilir sayfalar</caption><thead><tr><th scope="col">Sayfa</th><th scope="col">Açıklama (arama motorları için)</th><th scope="col" class="align-right">İşlemler</th></tr></thead><tbody>${rowsHtml}</tbody></table></div></div>`;
+  return `${heading(eyebrow, TAB_LABEL.pages, text, viewSite())}<div class="content-card"><div class="table-scroll"><table class="data-table"><caption class="visually-hidden">Düzenlenebilir sayfalar</caption><thead><tr><th scope="col">Sayfa</th><th scope="col">Açıklama (arama motorları için)</th><th scope="col" class="align-right">İşlemler</th></tr></thead><tbody>${rowsHtml}</tbody></table></div></div>`;
 }
 function openPageEditor(pageSlug) {
   const page = list("pages").find((p) => p.slug === pageSlug);
@@ -567,7 +593,7 @@ function siteView() {
   const s = state.content.site;
   if (!s) return notReady("Site ayarları");
   const [eyebrow, text] = SECTIONS.site; const social = s.sosyal ?? {};
-  return `${heading(eyebrow, TAB_LABEL.site, text, viewSite)}
+  return `${heading(eyebrow, TAB_LABEL.site, text, viewSite())}
 <form id="site-form" class="panel-form"><fieldset class="form-fieldset">
 <section class="form-card"><h2>Telefon ve WhatsApp</h2><p class="card-help">Ziyaretçiler WhatsApp ikonuna basınca bu numaraya yazar. Aynı numara sitede telefon olarak da gösterilir.</p>${input("Telefon ve WhatsApp numarası", "numara", s.numara ?? s.telefon_gosterim ?? "", { required: true, type: "tel", wide: true, maxlength: 30, placeholder: "0505 980 87 35", attrs: 'inputmode="tel" autocomplete="off" data-wa-field', help: "Başında 0 ya da +90 yazabilirsiniz." })}<div class="link-preview"><span class="link-preview-label">WhatsApp bağlantısı (kaydedince oluşur)</span><code data-wa-preview aria-live="polite"></code></div></section>
 <section class="form-card"><h2>İletişim bilgileri</h2><div class="form-row">${input("E-posta", "eposta", s.eposta, { type: "email", maxlength: 200, attrs: 'autocomplete="off"' })}${input("Adres", "adres", s.adres, { maxlength: 300 })}${input("Slogan", "slogan", s.slogan, { wide: true, maxlength: 200, help: "Sitenin üst kısmında görünen kısa söz." })}</div></section>
@@ -591,7 +617,7 @@ async function saveSite(form, data) {
 /* ---------- Hesap: kullanıcı adı ve şifre ---------- */
 function openPasswordDialog() {
   const attrs = (autocomplete) => `data-pw autocomplete="${autocomplete}"`;
-  const body = `${input("Kullanıcı adı", "username", state.username, { required: true, wide: true, maxlength: 32, attrs: 'autocomplete="username" autocapitalize="none" spellcheck="false"' })}${input("Şu anki şifre", "current", "", { type: "password", required: true, wide: true, attrs: attrs("current-password") })}<div class="field field-wide"><span class="section-help">Şifreyi değiştirmek istemiyorsanız aşağıdaki iki kutuyu boş bırakın.</span></div>${input("Yeni şifre", "next", "", { type: "password", attrs: `${attrs("new-password")} minlength="8"`, help: "En az 8 karakter." })}${input("Yeni şifre (tekrar)", "again", "", { type: "password", attrs: attrs("new-password") })}<label class="checkbox-field field-wide"><input type="checkbox" data-show-password>Şifreleri göster</label>`;
+  const body = `${input("Kullanıcı adı", "username", state.username, { required: true, wide: true, maxlength: 32, attrs: 'autocomplete="username" autocapitalize="none" spellcheck="false"' })}${input("Şu anki şifre", "current", "", { type: "password", required: true, wide: true, attrs: attrs("current-password") })}<div class="field field-wide"><span class="section-help">Şifreyi değiştirmek istemiyorsanız aşağıdaki iki kutuyu boş bırakın.</span></div>${input("Yeni şifre", "next", "", { type: "password", attrs: `${attrs("new-password")} minlength="${state.minPassword}"`, help: `En az ${state.minPassword} karakter.` })}${input("Yeni şifre (tekrar)", "again", "", { type: "password", attrs: attrs("new-password") })}<label class="checkbox-field field-wide"><input type="checkbox" data-show-password>Şifreleri göster</label>`;
   openDialog({ title: "Hesap bilgileri", size: "narrow", submit: "Kaydet", body, onSubmit: (form, data) => guarded(form, "Kaydediliyor…", async () => {
     clearError(form);
     const next = String(data.get("next")); const current = String(data.get("current")); const username = String(data.get("username")).trim();
@@ -737,6 +763,7 @@ dialog.addEventListener("cancel", (event) => { event.preventDefault(); requestCl
 /* ---------- Başlangıç ---------- */
 try {
   const session = await api("session");
+  applyMode(session);
   if (session.authenticated) { state.csrfToken = session.csrfToken; state.username = session.username ?? ""; await loadContent(); renderShell(); renderMain(); publishBar.refresh(); }
   else renderLogin();
 } catch (error) { renderLogin(error.message); }

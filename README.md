@@ -163,6 +163,15 @@ Yazar kayıtları: `name`, `slug`, `display`, `bio`, `bio_source`, `book_ids` (k
 | `vitrin.json` | Ana sayfa vitrin kararı (bkz. [Vitrin düzenleme](#vitrin-düzenleme)). |
 | `sayfalar/*.md` | Statik sayfa metinleri: hakkimizda, iletisim, nereden-alinir, yayin-cizgisi, onizleme-hakkinda, kvkk-ve-cerezler, 404. |
 
+## Bulut yönetim paneli (her yerden, bilgisayar kapalıyken)
+
+Aynı panel `https://panel.islambol.org/` adresinde, ücretsiz Cloudflare Worker olarak da çalışır (ADR-021). Kullanıcı adı + şifre ile girilir; kitaplar, resimler, site ayarları aynıdır; **Yayınla** değişiklikleri doğrudan GitHub'a gönderir ve site güncellenir. Taslaklar yayınlanana kadar yalnız panelde durur.
+
+- **Kurulum / güncelleme (siteyi hazırlayan kişi):** önce `panel-anahtarlari-gir.bat` (Cloudflare ve GitHub anahtarlarını gizli girişle alır, şifreli saklar), sonra `npm run worker:deploy`. Yeni şifre için `npm run worker:deploy -- --reset-password` (şifre ekranda bir kez görünür, açık oturumlar kapanır).
+- **Geliştirme:** `npm run worker:build` (paketler), `npm run test:worker` (birim testleri). Üretilen `worker/generated` ve `worker/dist` git'e girmez.
+- **Yerel panel** (`npm run cms`) olduğu gibi çalışır; ikisi aynı kodu paylaşır.
+- Gerekenler: Cloudflare API anahtarı ("Edit Cloudflare Workers" şablonu + Zone/DNS/Edit + Zone/Zone/Read, islambol.org), GitHub ince ayarlı anahtar (yalnız bu depo; Contents: Read and write, Actions: Read-only).
+
 ## Yönetim paneli (önerilen yol)
 
 Kitap eklemek, çıkarmak ve siteyi güncellemek için tek yer. Teknik bilgi gerekmez. Panelin arkasındaki JSON dosyaları (aşağıdaki akış) panelin güvenle yazdığı dosyalardır.
