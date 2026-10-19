@@ -23,3 +23,7 @@ docs/qa/screenshots/
 
 # Üretilen reklam videoları (24 MB/adet): herkese açık depoya girmez; kaynak (reklam/*/reel.html, build.mjs) izlenir
 /reklam/*/out/
+
+# Bulut paneli derleme çıktıları (worker/scripts/build.mjs üretir)
+/worker/generated/
+/worker/dist/

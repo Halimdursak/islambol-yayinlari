@@ -14,7 +14,10 @@
     "test:e2e": "playwright test",
     "serve": "node scripts/qa/sunucu.mjs --dir dist --port 8090",
     "dogrula:seo": "node scripts/seo/dogrula.mjs",
-    "dogrula:icerik": "python -I -X utf8 scripts/qa/dogrula.py"
+    "dogrula:icerik": "python -I -X utf8 scripts/qa/dogrula.py",
+    "test:worker": "node --test worker/tests/*.test.mjs",
+    "worker:build": "node worker/scripts/build.mjs",
+    "worker:deploy": "node worker/scripts/deploy.mjs"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.6",
@@ -25,6 +28,7 @@
   "devDependencies": {
     "@playwright/test": "^1.64.0",
     "axe-core": "^4.14.0",
+    "esbuild-wasm": "^0.28.2",
     "sharp": "^0.35.5"
   }
 }
