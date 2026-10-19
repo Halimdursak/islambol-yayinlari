@@ -1,5 +1,3 @@
-import Ajv from "ajv";
-
 export class CmsError extends Error {
   constructor(status, message) { super(message); this.name = "CmsError"; this.status = status; }
 }
@@ -105,8 +103,8 @@ function publicationStatus(value) {
   return value;
 }
 
-export function createValidators(bookSchema) {
-  const validateBook = new Ajv({ allErrors: true, strict: false }).compile(bookSchema.items);
+/** `validateBook`: derlenmiş kitap doğrulayıcısı (Node: book-validator.mjs, Worker: derleme zamanında üretilmiş). */
+export function createValidators(validateBook) {
   return {
     books(input, original = {}) {
       const record = mergeFields({ subtitle: null, authors: [], author_display: null, isbn: null, pages: null, publish_date: null, categories: [], description: null, cover: { local_path: null, source_url: null, width: null, height: null }, sources: { kitapyurdu: null, nobelkitap: null, kureselkitap: null, other: [] }, is_set: false, series: null, status: "published", ...original }, input, BOOK_FIELDS);
@@ -115,7 +113,7 @@ export function createValidators(bookSchema) {
       record.authors = texts(record.authors, "Yazarlar");
       record.categories = texts(record.categories, "Kategoriler");
       record.status = publicationStatus(record.status);
-      for (const field of ["subtitle", "author_display", "isbn", "publish_date", "description", "series", "dimensions", "binding", "paper", "language", "edition"]) if (Object.hasOwn(record, field)) record[field] = text(record[field], field);
+      for (const field of ["subtitle", "author_display", "isbn", "publish_date", "description", "series", "dimensions", "binding", "paper", "language", "edition", "contributors"]) if (Object.hasOwn(record, field)) record[field] = text(record[field], field);
       if (typeof record.is_set !== "boolean") throw new CmsError(422, "Set bilgisi doğru veya yanlış olmalıdır.");
       if (input.cover !== undefined) {
         if (!input.cover || typeof input.cover !== "object" || Array.isArray(input.cover)) throw new CmsError(422, "Kapak bilgisi geçersiz.");

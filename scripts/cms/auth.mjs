@@ -4,28 +4,15 @@ import { readFile } from "node:fs/promises";
 import { promisify } from "node:util";
 import { atomicWrite } from "./store.mjs";
 import { containedPath } from "./paths.mjs";
-import { CmsError } from "./content.mjs";
+import { DEFAULT_USERNAME, MAX_PASSWORD, MIN_PASSWORD, REMEMBER_AGE, SESSION_AGE, checkUsername, normalizeName } from "./auth-rules.mjs";
+
+export { DEFAULT_USERNAME, MAX_PASSWORD, MIN_PASSWORD, REMEMBER_AGE, SESSION_AGE, checkUsername };
 
 const deriveKey = promisify(scrypt);
-
-export const DEFAULT_USERNAME = "yayinevi";
-export const MIN_PASSWORD = 8;
-export const MAX_PASSWORD = 512;
-export const SESSION_AGE = 12 * 60 * 60 * 1000;
-export const REMEMBER_AGE = 30 * 24 * 60 * 60 * 1000;
 
 const credentialPath = (root) => containedPath(root, ".local/cms-auth.json");
 const sessionsPath = (root) => containedPath(root, ".local/cms-sessions.json");
 const digest = (value) => createHash("sha256").update(String(value)).digest();
-/** Büyük/küçük harf ve Türkçe aksan (ı/İ, ş, ü…) farkı giriş denemesini bozmasın: "Yayınevi" ile "yayinevi" aynı kullanıcıdır. */
-const normalizeName = (value) => String(value ?? "").trim().normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/ı/g, "i");
-
-/** 3–32 karakter: harf, rakam, nokta, tire, alt çizgi. */
-export function checkUsername(value) {
-  const name = String(value ?? "").trim();
-  if (!/^[\p{L}\p{N}._-]{3,32}$/u.test(name)) throw new CmsError(422, "Kullanıcı adı 3–32 karakter olmalı; yalnız harf, rakam, nokta, tire ve alt çizgi içerebilir.");
-  return name;
-}
 
 export async function saveCredential(root, password, username = DEFAULT_USERNAME) {
   const salt = randomBytes(16).toString("hex");

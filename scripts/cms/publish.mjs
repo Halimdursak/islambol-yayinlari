@@ -6,15 +6,11 @@ import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { setTimeout as delay } from "node:timers/promises";
 import { containedPath } from "./paths.mjs";
+import { CONTENT_PATHS, PANEL_PREFIX, PANEL_UPLOAD, UPLOADS_DIR, describeChanges, diffBooks, uploadRefs } from "./publish-core.mjs";
 
-/** Panelin yazdığı sabit yollar. Kod, şablon ve test dosyaları (başkasının yarım işi) yayınlamaya hiç karışmaz. */
-export const CONTENT_PATHS = ["data/catalog/books.json", "data/catalog/authors.json", "data/catalog/kapaklar-opt.json", "data/catalog/og.json", "data/site"];
-/** Yüklemeler klasörü: yalnız içerik dosyalarında adı geçen dosyalar yayınlanır (terk edilmiş yüklemeler genel depoya gitmez). */
-export const UPLOADS_DIR = "public/uploads";
-const UPLOAD_REF = /\/uploads\/([A-Za-z0-9][A-Za-z0-9._-]*\.(?:jpe?g|png|webp))/gi;
-const PANEL_UPLOAD = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.(?:jpe?g|png|webp)$/i;   // panelin yüklediği dosyalar; elle konan adlı dosyalara dokunulmaz
+export { CONTENT_PATHS, UPLOADS_DIR, describeChanges, diffBooks, uploadRefs };
+
 const BRANCH = "main";
-const PANEL_PREFIX = "içerik: panelden güncelleme";
 const GH_HELPER = ["-c", "credential.helper=", "-c", "credential.helper=!gh auth git-credential"];
 const MAX_OUTPUT = 50_000_000;
 
@@ -43,36 +39,6 @@ export function friendlyError(text) {
   if (/could not resolve host|unable to access|network is unreachable|timed out|zaman aşımı/i.test(t)) return "İnternet bağlantısı kurulamadı. Bağlantınızı kontrol edip yeniden deneyin.";
   if (/conflict|rebase|non-fast-forward|rejected|fetch first/i.test(t)) return "GitHub'daki sürümle çakışma oldu; hiçbir şey kaybolmadı. Siteyi hazırlayan kişiye bildirin.";
   return "Yayınlama tamamlanamadı. Değişiklikleriniz bu bilgisayarda duruyor; tekrar deneyebilir ya da siteyi hazırlayan kişiye bildirebilirsiniz.";
-}
-
-const titleOf = (book) => String(book?.title ?? book?.id ?? "?").replace(/\s+/g, " ").trim();
-const sameJson = (a, b) => JSON.stringify(a) === JSON.stringify(b);
-
-/** Yayında (HEAD) olan kitap listesi ile çalışma klasöründekini karşılaştırır: eklenen / değişen / silinen başlıklar. */
-export function diffBooks(before, after) {
-  const was = new Map(before.map((b) => [b.id, b]));
-  const now = new Map(after.map((b) => [b.id, b]));
-  const added = after.filter((b) => !was.has(b.id)).map(titleOf);
-  const removed = before.filter((b) => !now.has(b.id)).map(titleOf);
-  const changed = after.filter((b) => was.has(b.id) && !sameJson(was.get(b.id), b)).map(titleOf);
-  return { added, changed, removed };
-}
-
-/** "2 yeni kitap, 1 düzenlenen kitap, site bilgileri" gibi tek satırlık özet. */
-export function describeChanges({ added, changed, removed, other }) {
-  const parts = [];
-  if (added.length) parts.push(`${added.length} yeni kitap`);
-  if (changed.length) parts.push(`${changed.length} düzenlenen kitap`);
-  if (removed.length) parts.push(`${removed.length} silinen kitap`);
-  if (other) parts.push("site bilgileri");
-  return parts.join(", ");
-}
-
-/** İçerik dosyalarının metninden "public/uploads/<ad>" yollarını toplar. */
-export function uploadRefs(texts) {
-  const found = new Set();
-  for (const text of texts) for (const match of String(text).matchAll(UPLOAD_REF)) found.add(`${UPLOADS_DIR}/${match[1]}`);
-  return found;
 }
 
 async function walk(directory) {

@@ -1,47 +1,11 @@
 // Yüklenen resimlerin doğrulanması ve boyutlandırılması. sharp yoksa/çalışmazsa özgün bayt değişmeden saklanır.
 import { extname } from "node:path";
 import { CmsError } from "./content.mjs";
+import { MAX_PIXELS, MAX_WIDTH, UPLOAD_KINDS, detectExtension, imageSize } from "./image-info.mjs";
+
+export { UPLOAD_KINDS, imageSize };
 
 export const MAX_UPLOAD = 8 * 1024 * 1024;
-const MAX_PIXELS = 40000000;
-// Kitap kapakları liste/detay için, önizleme sayfaları okunabilirlik için bu genişliğin üstüne çıkmaz.
-const MAX_WIDTH = { cover: 1200, back: 800, preview: 1400, image: 1600 };
-export const UPLOAD_KINDS = Object.keys(MAX_WIDTH);
-
-function detectExtension(bytes) {
-  if (bytes.length >= 33 && bytes.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) && bytes.toString("ascii", 12, 16) === "IHDR") return ".png";
-  if (bytes.length >= 12 && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255 && bytes[bytes.length - 2] === 255 && bytes[bytes.length - 1] === 217) return ".jpg";
-  if (bytes.length >= 20 && bytes.toString("ascii", 0, 4) === "RIFF" && bytes.toString("ascii", 8, 12) === "WEBP" && bytes.readUInt32LE(4) + 8 === bytes.length && ["VP8 ", "VP8L", "VP8X"].includes(bytes.toString("ascii", 12, 16))) return ".webp";
-  return null;
-}
-
-function jpegSize(bytes) {
-  let offset = 2;
-  while (offset + 9 < bytes.length) {
-    if (bytes[offset] !== 255) { offset++; continue; }
-    const marker = bytes[offset + 1];
-    if (marker === 255) { offset++; continue; }
-    if (marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker)) return { height: bytes.readUInt16BE(offset + 5), width: bytes.readUInt16BE(offset + 7) };
-    offset += 2 + bytes.readUInt16BE(offset + 2);
-  }
-  return null;
-}
-
-function webpSize(bytes) {
-  const kind = bytes.toString("ascii", 12, 16);
-  if (kind === "VP8X") return { width: 1 + bytes.readUIntLE(24, 3), height: 1 + bytes.readUIntLE(27, 3) };
-  if (kind === "VP8L") { const bits = bytes.readUInt32LE(21); return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 }; }
-  return { width: bytes.readUInt16LE(26) & 0x3fff, height: bytes.readUInt16LE(28) & 0x3fff };
-}
-
-/** Başlıktan genişlik/yükseklik; resim bozuksa null. */
-export function imageSize(bytes, extension) {
-  try {
-    if (extension === ".png") return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
-    if (extension === ".jpg") return jpegSize(bytes);
-    return webpSize(bytes);
-  } catch { return null; }
-}
 
 async function optimize(bytes, extension, limit) {
   let sharp;

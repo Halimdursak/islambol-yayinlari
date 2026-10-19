@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { publishedBooks, resolveAuthors, resolveVitrin, resolveCampaigns } from "../../scripts/cms/resolvers.mjs";
+import { compileBookValidator } from "../../scripts/cms/book-validator.mjs";
 import { createValidators, safeUrl } from "../../scripts/cms/content.mjs";
 import { readFile } from "node:fs/promises";
 
@@ -36,7 +37,7 @@ test("duyurular görünürlük, sıra, kitap durumu ve güvenli URL ile çözül
 });
 
 test("liste fiyatı: boş gösterilmez demektir, geçerli sayı korunur, saçma değer reddedilir (ADR-018)", async () => {
-  const validator = createValidators(JSON.parse(await readFile(new URL("../../data/catalog/books.schema.json", import.meta.url), "utf8")));
+  const validator = createValidators(compileBookValidator(JSON.parse(await readFile(new URL("../../data/catalog/books.schema.json", import.meta.url), "utf8"))));
   assert.equal(validator.books({ title: "Kitap", price_list_try: 250 }).price_list_try, 250);
   assert.equal(validator.books({ title: "Kitap", price_list_try: 12.5 }).price_list_try, 12.5);
   assert.equal(validator.books({ title: "Kitap", price_list_try: null }).price_list_try, null);
@@ -47,7 +48,7 @@ test("liste fiyatı: boş gösterilmez demektir, geçerli sayı korunur, saçma 
 });
 
 test("doğrulama yanlış türleri ve şablonlara girebilecek güvensiz adresleri reddeder", async () => {
-  const validator = createValidators(JSON.parse(await readFile(new URL("../../data/catalog/books.schema.json", import.meta.url), "utf8")));
+  const validator = createValidators(compileBookValidator(JSON.parse(await readFile(new URL("../../data/catalog/books.schema.json", import.meta.url), "utf8"))));
   for (const value of ["javascript:alert(1)", "//evil.example", "/%2f/evil.example", "/../private", "/bad\\path", "https://user:password@example.com", "http://example.com", "https://example.com/a b"]) assert.throws(() => safeUrl(value));
   assert.equal(safeUrl("https://example.com/book"), "https://example.com/book");
   assert.equal(safeUrl(null), null);

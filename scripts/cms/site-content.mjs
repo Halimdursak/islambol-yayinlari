@@ -1,7 +1,6 @@
-// Site ayarları, ana sayfa vitrini ve sayfa metinleri: doğrulama ve dosya biçimi. Saf işlevler + salt okunur dosya yardımcıları.
-import { readFile, readdir } from "node:fs/promises";
+// Site ayarları, ana sayfa vitrini ve sayfa metinleri: doğrulama ve dosya biçimi. Yalnız saf işlevler (Node ve Cloudflare Worker ortak kullanır);
+// diskten okuyan yardımcılar site-fs.mjs'te.
 import { CmsError, identity, safeUrl, text } from "./content.mjs";
-import { containedPath } from "./paths.mjs";
 import { TOKEN_NAMES } from "./tokens.mjs";
 
 const EMAIL = /^[^\s@<>()[\]\\,;:"]+@[^\s@<>()[\]\\,;:"]+\.[^\s@<>()[\]\\,;:"]+$/;
@@ -130,38 +129,19 @@ export function validatePage(input, source, today) {
   return { page: { slug: fields.get("slug") ?? null, title, description, body }, file: `---\n${lines.join("\n")}\n---\n\n# ${title}\n\n${body.replace(/\r\n/g, "\n")}\n` };
 }
 
-export async function listPages(root) {
-  const directory = containedPath(root, PAGE_DIRECTORY);
-  let names;
-  try { names = (await readdir(directory)).filter((name) => /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/.test(name)).sort(); } catch (error) { if (error.code === "ENOENT") return []; throw error; }
-  return Promise.all(names.map(async (name) => readablePage(name.slice(0, -3), await readFile(containedPath(directory, name), "utf8"))));
-}
-
 export const pageFile = (slug) => `${PAGE_DIRECTORY}/${identity(slug, "Sayfa kimliği")}.md`;
 
 // ---- Katalog bilgisi ------------------------------------------------------------------------------------------
 
-async function optionalJson(root, file, fallback) {
-  try { return JSON.parse(await readFile(containedPath(root, file), "utf8")); } catch (error) { if (error.code === "ENOENT") return fallback; throw error; }
-}
-
 const kitapyurduSlug = (url) => String(url ?? "").match(/\/kitap\/([^/]+)\/\d+\.html/)?.[1] ?? null;
 
-/** Yayınevinin (kitapyurdu kaynaklı) önizleme sayfası olan kitap kimlikleri. */
-export async function publisherPreviewIds(root, books) {
-  const index = await optionalJson(root, "data/catalog/onsoz/INDEX.json", []);
-  const list = Array.isArray(index) ? index : index.kitaplar ?? index.items ?? [];
-  const slugs = new Set();
-  for (const entry of list) {
-    const slug = entry.slug ?? entry.kitapyurdu_slug;
-    if (!slug || !/^[a-z0-9-]+$/.test(slug)) continue;
-    const detail = await optionalJson(root, `data/catalog/onsoz/${slug}.json`, null);
-    if (detail && Array.isArray(detail.pages) && detail.pages.length) slugs.add(slug);
-  }
-  return new Set(books.filter((book) => slugs.has(kitapyurduSlug(book.sources?.kitapyurdu))).map((book) => book.id));
+/** Önizleme sayfası olan kitapyurdu kısa adlarından, panelde "önizleme var" görünecek kitap kimliklerini çıkarır. */
+export function previewIdsFrom(slugs, books) {
+  const set = slugs instanceof Set ? slugs : new Set(slugs);
+  return new Set(books.filter((book) => set.has(kitapyurduSlug(book.sources?.kitapyurdu))).map((book) => book.id));
 }
 
-export async function listCategories(root) {
-  const dictionary = await optionalJson(root, "data/site/sozluk.json", { kategoriler: [] });
-  return (dictionary.kategoriler ?? []).map(({ ad, slug }) => ({ ad, slug }));
+/** Sözlük dosyasından kategori seçenekleri. */
+export function categoriesFrom(dictionary) {
+  return (dictionary?.kategoriler ?? []).map(({ ad, slug }) => ({ ad, slug }));
 }
